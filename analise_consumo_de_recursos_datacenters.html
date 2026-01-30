@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: IA, Capitalismo e Alocação de Recursos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding: 3rem 0;
+        }
+        
+        .section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .section-number {
+            background-color: var(--secondary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .text-content {
+            line-height: 1.7;
+        }
+        
+        .text-content p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+        
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .data-card {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .data-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .big-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin: 1rem 0;
+        }
+        
+        .unit {
+            font-size: 1.5rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-card i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .comparison-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .toggle-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--light);
+            border: 2px solid var(--secondary);
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .toggle-btn.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .toggle-btn:hover:not(.active) {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, var(--primary), #1a252f);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .conclusion h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .conclusion p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .final-question {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            border: 3px solid var(--accent);
+            border-radius: var(--border-radius);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+        
+        .info-text {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .big-number {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>IA, Capitalismo e Alocação de Recursos</h1>
+            <p class="subtitle">Quando a eficiência produtiva não significa valor social: um exame do gasto energético de data centers de IA</p>
+        </div>
+    </header>
+    
+    <main class="container dashboard-container">
+        <!-- Seção 1: Introdução -->
+        <section id="section1" class="section">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2 class="section-title">O Paradoxo do Capitalismo</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>O capitalismo é indiscutivelmente o sistema econômico mais produtivo da história humana. Em apenas dois séculos, gerou um aumento exponencial na riqueza global, inovação tecnológica e qualidade de vida média. A lógica de mercado orientada pela busca de lucro criou uma máquina de eficiência produtiva sem precedentes.</p>
+                    
+                    <p>No entanto, este mesmo sistema apresenta um <span class="highlight">paradoxo fundamental</span>: eficiência produtiva não se traduz automaticamente em eficiência social. Enquanto o mercado é brilhante em alocar recursos para maximizar retornos financeiros, frequentemente falha em priorizar necessidades humanas básicas, sustentabilidade ambiental e bem-estar coletivo.</p>
+                    
+                    <p>A Inteligência Artificial, como a mais recente fronteira da inovação capitalista, ilustra perfeitamente esta contradição. A IA promete revolucionar indústrias e resolver problemas complexos, mas sua implementação atual levanta questões profundas sobre a alocação de recursos escassos.</p>
+                    
+                    <div class="data-card">
+                        <h3>O Crescimento da Produtividade vs. Bem-Estar Social</h3>
+                        <p>Desde a Revolução Industrial, a produtividade global aumentou mais de 20 vezes, mas a desigualdade de renda também cresceu substancialmente nas últimas décadas, com o 1% mais rico capturando 38% do crescimento da riqueza global desde 1995.</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productivityChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 2: Consumo Energético Global de IA -->
+        <section id="section2" class="section">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2 class="section-title">Consumo Energético Global de IA em 2025</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>O crescimento exponencial da Inteligência Artificial tem um custo energético monumental. Em 2025, estima-se que os data centers dedicados à IA consumirão entre <span class="highlight">80 e 180 TWh (terawatt-hora) anualmente</span>. Para contextualizar, isso representa entre 1% e 2.5% do consumo global de eletricidade.</p>
+                    
+                    <p>Este consumo é apenas uma fração do total de data centers (que incluem servidores para internet, nuvem e outras aplicações), mas sua taxa de crescimento é alarmante. Enquanto a eficiência energética dos chips de IA melhora constantemente, a demanda por modelos maiores e mais complexos supera esses ganhos, resultando em um <span class="highlight">crescimento líquido do consumo energético</span>.</p>
+                    
+                    <p>Vale notar a incerteza nos dados: estimativas variam significativamente dependendo de como definimos "consumo de IA", da taxa de adoção de novas tecnologias e da eficiência energética futura. Contudo, mesmo os cenários mais conservadores indicam um impacto energético substancial.</p>
+                    
+                    <div class="big-number">
+                        80-180 <span class="unit">TWh/ano</span>
+                    </div>
+                    <p>Estimativa de consumo energético global da IA em 2025</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="energyConsumptionChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 3: Estratificação do Consumo de IA -->
+        <section id="section3" class="section">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2 class="section-title">Como a IA Consome Energia</h2>
+            </div>
+            
+            <div class="toggle-container">
+                <button class="toggle-btn active" id="toggleEnergy">Visualizar por Energia</button>
+                <button class="toggle-btn" id="toggleValue">Visualizar por Valor Social</button>
+            </div>
+            
+            <div class="content">
+                <div class="text-content">
+                    <p>Nem toda aplicação de IA consome energia da mesma forma. Podemos estratificar o consumo em três categorias principais, cada uma com diferentes intensidades energéticas e, crucialmente, diferentes valores sociais.</p>
+                    
+                    <div class="comparison-cards">
+                        <div class="comparison-card">
+                            <i class="fas fa-comment-alt"></i>
+                            <h4>Inferência de Texto & Apps Leves</h4>
+                            <p><strong>45% do consumo</strong><br>Aplicações como chatbots, tradução automática, busca semântica. Consumo moderado com alto potencial de valor social e produtivo.</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-brain"></i>
+                            <h4>Treinamento de Modelos</h4>
+                            <p><strong>25% do consumo</strong><br>Fase inicial de desenvolvimento de modelos de IA. Consumo intensivo mas pontual, necessário para inovação futura.</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-video"></i>
+                            <h4>Geração de Vídeo por IA</h4>
+                            <p><strong>30% do consumo</strong><br>Criação de vídeos sintéticos, deepfakes, conteúdo visual gerado. Extremamente intensivo em energia, com valor social frequentemente questionável.</p>
+                        </div>
+                    </div>
+                    
+                    <p>O caso da <span class="highlight">geração de vídeo por IA</span> é particularmente revelador: consome quase um terço de toda a energia destinada à IA, frequentemente para produzir conteúdo de entretenimento, publicidade ou mesmo desinformação. Enquanto há usos legítimos (como em filmes ou educação), a maior parte serve a finalidades com retorno social marginal.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="iaBreakdownChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 4: Comparação com São Paulo -->
+        <section id="section4" class="section">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <h2 class="section-title">IA vs. Um Estado Inteiro</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>Para compreender a escala do consumo energético da IA, comparemos com uma unidade geográfica significativa: o Estado de São Paulo, a maior economia do Brasil, com 46 milhões de habitantes e um PIB equivalente ao de muitos países.</p>
+                    
+                    <p><span class="highlight">A IA global consome aproximadamente a mesma quantidade de energia que todo o Estado de São Paulo</span>. Em 2025, estima-se que São Paulo consumirá cerca de 146 TWh de eletricidade, valor que se sobrepõe à faixa de consumo projetada para a IA (80-180 TWh).</p>
+                    
+                    <p>Esta comparação revela uma realidade perturbadora: os recursos energéticos dedicados a criar vídeos sintéticos, treinar modelos para otimizar anúncios e alimentar chatbots poderiam, em teoria, sustentar as necessidades básicas de uma das regiões mais populosas e produtivas da América Latina.</p>
+                    
+                    <div class="big-number">
+                        146 <span class="unit">TWh/ano</span>
+                    </div>
+                    <p>Consumo energético anual do Estado de São Paulo</p>
+                    <p class="info-text">Fonte: Empresa de Pesquisa Energética (EPE), Projeções 2025</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 5: Dinheiro Gasto com Energia -->
+        <section id="section5" class="section">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <h2 class="section-title">O Custo Financeiro da Energia da IA</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>Para traduzir o consumo energético em termos financeiros, utilizamos uma <span class="highlight">hipótese extrema mas ilustrativa</span>: considerar que 1 kWh de energia custa 1 dólar. Na realidade, os preços variam globalmente (de US$ 0,05 a US$ 0,30 por kWh), mas esta simplificação permite visualizar a magnitude econômica.</p>
+                    
+                    <p>Sob esta premissa, o custo energético anual da IA varia entre <span class="highlight">US$ 80 e 180 bilhões</span>. Apenas a geração de vídeo por IA consumiria entre US$ 20 e 45 bilhões anualmente em energia.</p>
+                    
+                    <p>Esta quantia é comparável ao orçamento anual de países inteiros ou a programas sociais de grande escala. O fato de que recursos desta magnitude são alocados para atividades de valor social questionável revela como o mecanismo de preços do capitalismo, embora eficiente na alocação produtiva, é cego a considerações de bem-estar coletivo.</p>
+                    
+                    <div class="comparison-cards">
+                        <div class="comparison-card">
+                            <i class="fas fa-bolt"></i>
+                            <h4>IA Total (80-180 TWh)</h4>
+                            <p><strong>US$ 80-180 bilhões</strong><br>Custo energético anual estimado</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-film"></i>
+                            <h4>Apenas IA de Vídeo</h4>
+                            <p><strong>US$ 20-45 bilhões</strong><br>Energia para geração de conteúdo visual</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-city"></i>
+                            <h4>Estado de São Paulo</h4>
+                            <p><strong>~US$ 146 bilhões</strong><br>Valor energético do consumo anual</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 6: O que poderia ser feito com essa energia? -->
+        <section id="section6" class="section">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <h2 class="section-title">Oportunidades Perdidas em Energia</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>A energia consumida pela IA representa um <span class="highlight">custo de oportunidade colossal</span>. Os mesmos recursos poderiam atender necessidades humanas fundamentais ou enfrentar desafios globais prementes.</p>
+                    
+                    <div class="comparison-cards">
+                        <div class="comparison-card">
+                            <i class="fas fa-home"></i>
+                            <h4>Eletrificação Residencial</h4>
+                            <p><strong>50-110 milhões de residências</strong><br>Energia anual para eletrificar casas em países em desenvolvimento</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-tint"></i>
+                            <h4>Dessalinização de Água</h4>
+                            <p><strong>3-7 bilhões de m³ de água potável</strong><br>Produção anual via dessalinização (suficiente para 20-45 milhões de pessoas)</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-hospital"></i>
+                            <h4>Hospitais Regionais</h4>
+                            <p><strong>8.000-18.000 hospitais</strong><br>Energia anual para operação completa</p>
+                        </div>
+                    </div>
+                    
+                    <p>Considere o contraste: a energia gasta anualmente para gerar vídeos sintéticos de gatos falantes ou filtros de rede social poderia fornecer água potável para dezenas de milhões de pessoas ou manter milhares de hospitais funcionando.</p>
+                    
+                    <p>Esta não é uma crítica à IA em si — a tecnologia tem potencial transformador em medicina, ciência e educação — mas sim uma crítica à <span class="highlight">priorização automática determinada pelo mercado</span>, que aloca recursos para aplicações de alto retorno financeiro independentemente de seu valor social.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="opportunityChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 7: O que poderia ser feito com esse dinheiro? -->
+        <section id="section7" class="section">
+            <div class="section-header">
+                <div class="section-number">7</div>
+                <h2 class="section-title">Oportunidades Perdidas em Capital</h2>
+            </div>
+            <div class="content">
+                <div class="text-content">
+                    <p>Traduzindo os custos energéticos em valores monetários reais (considerando um preço médio de US$ 0,15 por kWh), os recursos financeiros alocados à energia da IA poderiam financiar:</p>
+                    
+                    <div class="comparison-cards">
+                        <div class="comparison-card">
+                            <i class="fas fa-house-user"></i>
+                            <h4>Moradias Sociais</h4>
+                            <p><strong>800.000 - 1.800.000 unidades</strong><br>Considerando US$ 50.000 por moradia social</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-school"></i>
+                            <h4>Escolas Públicas</h4>
+                            <p><strong>8.000 - 18.000 escolas</strong><br>Considerando US$ 1 milhão por escola</p>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <i class="fas fa-clinic-medical"></i>
+                            <h4>Hospitais Regionais</h4>
+                            <p><strong>800 - 1.800 hospitais</strong><br>Considerando US$ 10 milhões por hospital</p>
+                        </div>
+                    </div>
+                    
+                    <p>Apenas o subsetor de geração de vídeo por IA consome recursos que poderiam construir <span class="highlight">200.000 a 450.000 moradias sociais</span> — suficientes para abrigar populações inteiras de cidades médias.</p>
+                    
+                    <p>Este exercício não sugere que devemos parar de desenvolver IA, mas sim questiona a <span class="highlight">lógica de alocação automática de recursos</span> do capitalismo desregulado. Quando o mercado prioriza a criação de vídeos sintéticos sobre moradia digna, revela-se uma falha sistêmica na tradução entre eficiência produtiva e valor social.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="moneyOpportunityChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 8: Conclusão -->
+        <section id="section8" class="section conclusion">
+            <h2>Conclusão: Quando o Mercado Decide Sozinho</h2>
+            
+            <p>O capitalismo funciona exatamente como foi projetado: otimiza a alocação de recursos para maximizar retornos financeiros. Na busca por eficiência produtiva, gerou inovações extraordinárias e crescimento econômico sem precedentes. A própria IA é um testemunho deste poder inovador.</p>
+            
+            <p>No entanto, este dashboard revela o outro lado da moeda: <span class="highlight">eficiência produtiva não é sinônimo de valor social</span>. O caso do consumo energético da IA — especialmente na geração de vídeo — ilustra vividamente como recursos escassos (energia, capital, talento) são alocados para finalidades de retorno social marginal, enquanto necessidades humanas fundamentais permanecem subatendidas.</p>
+            
+            <p>A IA de vídeo não é intrinsecamente má, mas representa um exemplo claro de como o mecanismo de preços, desacompanhado de considerações éticas ou planejamento coletivo, pode levar a resultados socialmente subótimos. O mercado é excelente em responder à pergunta "o que é mais lucrativo?", mas incapaz de responder "o que é mais importante para a sociedade?".</p>
+            
+            <p>Isto não é um defeito de operação, mas uma característica de design. O capitalismo não foi concebido para maximizar bem-estar coletivo, sustentabilidade ou justiça intergeracional. Foi concebido para maximizar produção e lucro.</p>
+            
+            <div class="final-question">
+                "Isso é a melhor coisa que a humanidade pode fazer com esses recursos?"
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>Dashboard Analítico: IA, Capitalismo e Alocação de Recursos</p>
+            <p>Dados baseados em projeções para 2025 • Criado para análise crítica e reflexão</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Nota: Este dashboard utiliza estimativas e simplificações para fins ilustrativos. Os números reais podem variar.</p>
+        </div>
+    </footer>
+    
+    <div class="scroll-indicator" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Dados globais para os gráficos
+        const iaEnergyData = {
+            min: 80,
+            max: 180,
+            current: 130 // valor médio para visualização
+        };
+        
+        const saoPauloEnergy = 146;
+        
+        // Inicialização dos gráficos quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            setupInteractions();
+            setupScrollIndicator();
+        });
+        
+        // Configuração dos gráficos
+        function initCharts() {
+            // Gráfico 1: Produtividade histórica
+            const productivityCtx = document.getElementById('productivityChart').getContext('2d');
+            new Chart(productivityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1900', '1925', '1950', '1975', '2000', '2025'],
+                    datasets: [{
+                        label: 'Produtividade Global (Índice)',
+                        data: [10, 25, 45, 70, 150, 280],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Desigualdade (Coeficiente Gini, invertido)',
+                        data: [35, 42, 38, 32, 45, 52],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Índice / Coeficiente'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 2: Consumo energético de IA vs data centers totais
+            const energyCtx = document.getElementById('energyConsumptionChart').getContext('2d');
+            new Chart(energyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Data Centers Totais (2025)', 'Fração Atribuída à IA'],
+                    datasets: [{
+                        label: 'Consumo Energético (TWh/ano)',
+                        data: [450, iaEnergyData.current],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.7)',
+                            'rgba(231, 76, 60, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(52, 152, 219)',
+                            'rgb(231, 76, 60)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    label += context.parsed.y + ' TWh/ano';
+                                    if (context.dataIndex === 0) {
+                                        label += ' (total global estimado)';
+                                    } else {
+                                        label += ` (${((iaEnergyData.current/450)*100).toFixed(1)}% do total)`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'TWh/ano'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 3: Estratificação do consumo de IA
+            const iaBreakdownCtx = document.getElementById('iaBreakdownChart').getContext('2d');
+            window.iaBreakdownChart = new Chart(iaBreakdownCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Inferência de Texto & Apps Leves', 'Treinamento de Modelos', 'Geração de Vídeo por IA'],
+                    datasets: [{
+                        data: [45, 25, 30],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(243, 156, 18, 0.8)',
+                            'rgba(231, 76, 60, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgb(52, 152, 219)',
+                            'rgb(243, 156, 18)',
+                            'rgb(231, 76, 60)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    return `${label}: ${value}% do consumo energético`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 4: Comparação IA vs São Paulo
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(comparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['IA Global (2025)', 'Estado de São Paulo'],
+                    datasets: [{
+                        label: 'Consumo Energético Anual (TWh)',
+                        data: [iaEnergyData.current, saoPauloEnergy],
+                        backgroundColor: [
+                            'rgba(231, 76, 60, 0.7)',
+                            'rgba(46, 204, 113, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(231, 76, 60)',
+                            'rgb(46, 204, 113)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'TWh/ano'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 5: Custo financeiro
+            const costCtx = document.getElementById('costChart').getContext('2d');
+            new Chart(costCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['IA Total', 'Apenas IA de Vídeo', 'Estado de São Paulo'],
+                    datasets: [{
+                        label: 'Valor Energético (US$ bilhões)',
+                        data: [
+                            iaEnergyData.current, 
+                            iaEnergyData.current * 0.3, 
+                            saoPauloEnergy
+                        ],
+                        backgroundColor: [
+                            'rgba(231, 76, 60, 0.7)',
+                            'rgba(155, 89, 182, 0.7)',
+                            'rgba(46, 204, 113, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(231, 76, 60)',
+                            'rgb(155, 89, 182)',
+                            'rgb(46, 204, 113)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Valor energético: US$ ${context.parsed.y} bilhões`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'US$ Bilhões (hipótese: 1 kWh = US$ 1)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 6: Oportunidades em energia
+            const opportunityCtx = document.getElementById('opportunityChart').getContext('2d');
+            new Chart(opportunityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Eletrificação Residencial (milhões)', 'Dessalinização (bilhões m³)', 'Hospitais Regionais (milhares)'],
+                    datasets: [{
+                        label: 'IA de Vídeo (30% do total)',
+                        data: [35, 2.1, 6],
+                        backgroundColor: 'rgba(155, 89, 182, 0.7)',
+                        borderColor: 'rgb(155, 89, 182)',
+                        borderWidth: 2
+                    }, {
+                        label: 'IA Total',
+                        data: [110, 7, 18],
+                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                        borderColor: 'rgb(231, 76, 60)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    label += context.parsed.y;
+                                    if (context.dataIndex === 0) {
+                                        label += ' milhões de residências';
+                                    } else if (context.dataIndex === 1) {
+                                        label += ' bilhões de m³ de água';
+                                    } else {
+                                        label += ' milhares de hospitais';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico 7: Oportunidades em capital
+            const moneyOpportunityCtx = document.getElementById('moneyOpportunityChart').getContext('2d');
+            new Chart(moneyOpportunityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Moradias Sociais (milhares)', 'Escolas Públicas', 'Hospitais Regionais'],
+                    datasets: [{
+                        label: 'IA de Vídeo (30% do total)',
+                        data: [270, 2700, 270],
+                        backgroundColor: 'rgba(155, 89, 182, 0.7)',
+                        borderColor: 'rgb(155, 89, 182)',
+                        borderWidth: 2
+                    }, {
+                        label: 'IA Total',
+                        data: [900, 9000, 900],
+                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                        borderColor: 'rgb(231, 76, 60)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    label += context.parsed.y;
+                                    if (context.dataIndex === 0) {
+                                        label += ' milhares de moradias';
+                                    } else if (context.dataIndex === 1) {
+                                        label += ' escolas';
+                                    } else {
+                                        label += ' hospitais';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Configuração das interações
+        function setupInteractions() {
+            // Toggle entre visualizações de energia e valor social
+            const toggleEnergyBtn = document.getElementById('toggleEnergy');
+            const toggleValueBtn = document.getElementById('toggleValue');
+            
+            toggleEnergyBtn.addEventListener('click', function() {
+                toggleEnergyBtn.classList.add('active');
+                toggleValueBtn.classList.remove('active');
+                
+                // Atualizar o gráfico de doughnut para mostrar distribuição energética
+                if (window.iaBreakdownChart) {
+                    window.iaBreakdownChart.data.datasets[0].data = [45, 25, 30];
+                    window.iaBreakdownChart.data.labels = [
+                        'Inferência de Texto & Apps Leves', 
+                        'Treinamento de Modelos', 
+                        'Geração de Vídeo por IA'
+                    ];
+                    window.iaBreakdownChart.update();
+                }
+                
+                // Atualizar texto explicativo
+                document.querySelector('#section3 .comparison-cards').innerHTML = `
+                    <div class="comparison-card">
+                        <i class="fas fa-comment-alt"></i>
+                        <h4>Inferência de Texto & Apps Leves</h4>
+                        <p><strong>45% do consumo</strong><br>Aplicações como chatbots, tradução automática, busca semântica. Consumo moderado com alto potencial de valor social e produtivo.</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <i class="fas fa-brain"></i>
+                        <h4>Treinamento de Modelos</h4>
+                        <p><strong>25% do consumo</strong><br>Fase inicial de desenvolvimento de modelos de IA. Consumo intensivo mas pontual, necessário para inovação futura.</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <i class="fas fa-video"></i>
+                        <h4>Geração de Vídeo por IA</h4>
+                        <p><strong>30% do consumo</strong><br>Criação de vídeos sintéticos, deepfakes, conteúdo visual gerado. Extremamente intensivo em energia, com valor social frequentemente questionável.</p>
+                    </div>
+                `;
+            });
+            
+            toggleValueBtn.addEventListener('click', function() {
+                toggleValueBtn.classList.add('active');
+                toggleEnergyBtn.classList.remove('active');
+                
+                // Atualizar o gráfico de doughnut para mostrar avaliação de valor social
+                if (window.iaBreakdownChart) {
+                    window.iaBreakdownChart.data.datasets[0].data = [70, 20, 10];
+                    window.iaBreakdownChart.data.labels = [
+                        'Alto Valor Social/Pprodutivo', 
+                        'Valor Médio/Incerto', 
+                        'Baixo Valor Social'
+                    ];
+                    window.iaBreakdownChart.update();
+                }
+                
+                // Atualizar texto explicativo
+                document.querySelector('#section3 .comparison-cards').innerHTML = `
+                    <div class="comparison-card">
+                        <i class="fas fa-stethoscope"></i>
+                        <h4>Alto Valor Social/Produtivo</h4>
+                        <p><strong>70% do potencial</strong><br>IA médica, pesquisa científica, educação, eficiência energética, automação de tarefas perigosas.</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Valor Médio/Incerto</h4>
+                        <p><strong>20% do potencial</strong><br>Otimização de anúncios, recomendações personalizadas, assistentes pessoais, entretenimento básico.</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <i class="fas fa-gamepad"></i>
+                        <h4>Baixo Valor Social</h4>
+                        <p><strong>10% do potencial</strong><br>Vídeos virais sintéticos, deepfakes maliciosos, conteúdo gerado puramente para engajamento.</p>
+                    </div>
+                `;
+            });
+            
+            // Animações ao rolar a página
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Aplicar animação às seções
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(section);
+            });
+        }
+        
+        // Configuração do indicador de scroll
+        function setupScrollIndicator() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            
+            // Mostrar/ocultar botão baseado na posição de rolagem
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            // Rolagem suave para o topo
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Rolagem suave para seções ao clicar em links (se houver)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
