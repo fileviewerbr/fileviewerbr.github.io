@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Migração de Relatórios TASY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #1abc9c;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --success-color: #27ae60;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gray-color: #95a5a6;
+    --border-color: #ddd;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabeçalho */
+.header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-container i {
+    font-size: 2.2rem;
+    color: var(--accent-color);
+}
+
+.logo-container h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+}
+
+.status-summary {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.pending { background-color: rgba(243, 156, 18, 0.8); }
+.exported { background-color: rgba(52, 152, 219, 0.8); }
+.imported { background-color: rgba(155, 89, 182, 0.8); }
+.tested { background-color: rgba(46, 204, 113, 0.8); }
+.finalized { background-color: rgba(39, 174, 96, 0.8); }
+
+/* Layout principal */
+.main-content {
+    display: flex;
+    flex: 1;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 320px;
+    background-color: white;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-section {
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    padding: 1.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-group {
+    margin-bottom: 1rem;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.filter-select, .search-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.filter-select:focus, .search-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.chart-container {
+    height: 200px;
+    position: relative;
+}
+
+/* Conteúdo principal */
+.content {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.content-header h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-sort {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.btn-sort:hover, .btn-sort.active {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+/* Cards de relatórios */
+.reports-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.report-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 5px solid var(--warning-color);
+}
+
+.report-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.report-card.pending { border-left-color: var(--warning-color); }
+.report-card.exported { border-left-color: var(--secondary-color); }
+.report-card.imported { border-left-color: #9b59b6; }
+.report-card.tested { border-left-color: #2ecc71; }
+.report-card.finalized { border-left-color: var(--success-color); }
+
+.report-header {
+    padding: 1.2rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.report-code {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.report-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.report-classif {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+.report-body {
+    padding: 1.2rem;
+}
+
+.report-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--gray-color);
+}
+
+.report-usage {
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.usage-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.usage-label {
+    font-weight: 500;
+}
+
+.report-footer {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+}
+
+.report-status.pending { background-color: var(--warning-color); }
+.report-status.exported { background-color: var(--secondary-color); }
+.report-status.imported { background-color: #9b59b6; }
+.report-status.tested { background-color: #2ecc71; }
+.report-status.finalized { background-color: var(--success-color); }
+
+.btn-details {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.btn-details:hover {
+    background-color: #1a252f;
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray-color);
+    font-size: 1.1rem;
+}
+
+.loading i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    width: 95%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.close-btn:hover {
+    color: var(--accent-color);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.modal-section {
+    margin-bottom: 2rem;
+}
+
+.modal-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.modal-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.report-basic-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+}
+
+.status-select {
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    font-family: 'Poppins', sans-serif;
+    margin-left: 10px;
+}
+
+.details-table-container {
+    overflow-x: auto;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.details-table th, .details-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.details-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.details-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.xml-management {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.xml-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.xml-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.logs-container {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
+
+.logs-container ul {
+    list-style-type: none;
+}
+
+.logs-container li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.logs-container li:last-child {
+    border-bottom: none;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        order: 2;
+    }
+    
+    .content {
+        order: 1;
+    }
+    
+    .reports-container {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .status-summary {
+        justify-content: center;
+    }
+    
+    .content-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .modal-content {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        max-height: 100vh;
+    }
+    
+    .xml-management {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .xml-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+}
+
+
+/* Indicadores de prioridade */
+.priority-indicator {
+    margin-left: 8px;
+    font-size: 1rem;
+}
+
+.priority-high {
+    color: #e74c3c;
+}
+
+.priority-medium {
+    color: #f39c12;
+}
+
+.priority-low {
+    color: #27ae60;
+}
+
+/* Bordas de prioridade nos cards */
+.report-card.priority-high {
+    border-top: 3px solid #e74c3c;
+}
+
+.report-card.priority-medium {
+    border-top: 3px solid #f39c12;
+}
+
+.report-card.priority-low {
+    border-top: 3px solid #27ae60;
+}
+
+/* Estatística extra nos cards */
+.report-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+/* Área de XML no modal */
+.xml-textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+.xml-textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Controles de ordenação adicionais */
+.btn-sort {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.btn-sort:hover, .btn-sort.active {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+/* Mensagem quando não há dados */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--gray-color);
+    font-size: 1.1rem;
+}
+</style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header class="header" style="position: fixed; width: 100%; z-index: 100;">
+            <div class="logo-container">
+                <i class="fas fa-chart-line"></i>
+                <h1>Migração de Relatórios TASY</h1>
+            </div>
+            <div class="header-info">
+                <div class="status-summary">
+                    <span class="status-badge pending">Pendente: <span id="count-pending">0</span></span>
+                    <span class="status-badge exported">Exportado: <span id="count-exported">0</span></span>
+                    <span class="status-badge imported">Importado: <span id="count-imported">0</span></span>
+                    <span class="status-badge tested">Testado: <span id="count-tested">0</span></span>
+                    <span class="status-badge finalized">Finalizado: <span id="count-finalized">0</span></span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content" style="margin-top: 50px;">
+            <!-- Barra lateral de filtros e gráficos -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-filter"></i> Filtros</h3>
+                    
+                    <div class="filter-group">
+                        <label for="filter-type">Filtrar por:</label>
+                        <select id="filter-type" class="filter-select">
+                            <option value="all">Todos os relatórios</option>
+                            <option value="function">Função que mais imprimiu</option>
+                            <option value="profile">Perfil que mais imprimiu</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-status">Status:</label>
+                        <select id="filter-status" class="filter-select">
+                            <option value="all">Todos os status</option>
+                            <option value="pending">Pendente</option>
+                            <option value="exported">Exportado</option>
+                            <option value="imported">Importado</option>
+                            <option value="tested">Testado</option>
+                            <option value="finalized">Finalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="search">Buscar relatório:</label>
+                        <input type="text" id="search" class="search-input" placeholder="Código ou nome...">
+                    </div>
+                    
+                    <button id="clear-filters" class="btn-secondary">
+                        <i class="fas fa-times"></i> Limpar Filtros
+                    </button>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-chart-pie"></i> Progresso da Migração</h3>
+                    <div class="chart-container">
+                        <canvas id="progress-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-chart-bar"></i> Top 5 Relatórios</h3>
+                    <div class="chart-container">
+                        <canvas id="top5-chart"></canvas>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Conteúdo principal - Cards de relatórios -->
+            <main class="content" style="margin-top: 60px;">
+                <div class="content-header">
+                    
+                    <h2>Relatórios para Migração</h2>
+
+ <div class="sort-controls">
+                            <span>Ordenar por:</span>
+                            <button id="sort-priority" class="btn-sort active">
+                                <i class="fas fa-flag"></i> Prioridade
+                            </button>
+                            <button id="sort-impressions" class="btn-sort">
+                                <i class="fas fa-sort-amount-down"></i> Impressões
+                            </button>
+                            <button id="sort-code" class="btn-sort">
+                                <i class="fas fa-sort-numeric-down"></i> Código
+                            </button>
+                        </div>   
+
+                </div>
+                            
+                
+                <div id="reports-container" class="reports-container">
+                    <!-- Cards de relatórios serão inseridos aqui pelo JavaScript -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Carregando relatórios...
+                    </div>
+                </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+    
+    <!-- Modal para detalhes do relatório -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalhes do Relatório</h2>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3 id="modal-report-title">Prescrição de Quimioterapia - PEP</h3>
+                    <div class="report-basic-info">
+                        <div class="info-item">
+                            <strong>Código:</strong> <span id="modal-report-code">23</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Classificação:</strong> <span id="modal-report-classif">CATE</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Total de Impressões:</strong> <span id="modal-report-total">70</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Status:</strong> 
+                            <select id="modal-report-status" class="status-select">
+                                <option value="pending">Pendente</option>
+                                <option value="exported">Exportado</option>
+                                <option value="imported">Importado</option>
+                                <option value="tested">Testado</option>
+                                <option value="finalized">Finalizado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h4>Detalhes de Uso</h4>
+                    <div class="details-table-container">
+                        <table class="details-table">
+                            <thead>
+                                <tr>
+                                    <th>Perfil (Código)</th>
+                                    <th>Perfil (Descrição)</th>
+                                    <th>Função (Código)</th>
+                                    <th>Função (Descrição)</th>
+                                    <th>Quantidade de Impressões</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-report-details">
+                                <!-- Detalhes serão inseridos aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+               <div class="modal-section">
+    <h4>XML do Relatório</h4>
+    <div class="xml-management">
+        <div class="xml-info">
+            <div>
+                <strong>Versão:</strong> <span id="xml-version">-</span>
+            </div>
+            <div>
+                <strong>Última atualização:</strong> <span id="xml-date">-</span>
+            </div>
+            <div>
+                <strong>Relação com média:</strong> <span id="modal-report-average">-</span>
+            </div>
+        </div>
+        <div class="xml-actions">
+            <button id="btn-import-xml" class="btn-secondary">
+                <i class="fas fa-file-import"></i> Colar XML
+            </button>
+            <button id="btn-export-xml" class="btn-secondary">
+                <i class="fas fa-file-export"></i> Exportar XML
+            </button>
+            <button id="btn-view-xml" class="btn-secondary">
+                <i class="fas fa-eye"></i> Visualizar
+            </button>
+        </div>
+    </div>
+    <textarea id="xml-content" class="xml-textarea" placeholder="Cole o XML do relatório aqui..."></textarea>
+    <small class="xml-hint">O XML é o código fonte do relatório extraído do sistema antigo do TASY.</small>
+</div>
+                
+                <div class="modal-section">
+                    <h4>Log de Alterações</h4>
+                    <div class="logs-container">
+                        <ul id="modal-report-logs">
+                            <!-- Logs serão inseridos aqui -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-save-changes" class="btn-primary">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+                <button id="btn-close-modal" class="btn-secondary">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+
+// Configuração do Firebase
+const FIREBASE_URL = "https://appatividades-7450d-default-rtdb.firebaseio.com/reports.json";
+
+// Status do processo de migração
+const MIGRATION_STATUS = {
+    PENDING: 'pending',      // Aguardando exportação do sistema antigo
+    EXPORTED: 'exported',    // XML exportado do sistema antigo
+    IMPORTED: 'imported',    // XML importado para nova versão do TASY
+    TESTED: 'tested',        // Relatório testado na nova versão
+    FINALIZED: 'finalized'   // Migração concluída
+};
+
+// Estado da aplicação
+const appState = {
+    reports: [],
+    filteredReports: [],
+    currentSort: 'priority',
+    currentFilters: {
+        type: 'all',
+        status: 'all',
+        search: ''
+    },
+    selectedReport: null,
+    charts: {},
+    averageImpressions: 0
+};
+
+// Inicialização da aplicação
+document.addEventListener('DOMContentLoaded', function() {
+    initApp();
+});
+
+async function initApp() {
+    // Configurar event listeners
+    setupEventListeners();
+    
+    // Carregar dados do Firebase
+    await loadReports();
+    
+    // Calcular média de impressões para determinar prioridades
+    calculateAverageImpressions();
+    
+    // Determinar prioridade para cada relatório
+    determineReportPriorities();
+    
+    // Inicializar gráficos
+    initCharts();
+    
+    // Atualizar interface
+    updateUI();
+}
+
+// Configurar event listeners
+function setupEventListeners() {
+    // Filtros
+    document.getElementById('filter-type').addEventListener('change', function() {
+        appState.currentFilters.type = this.value;
+        applyFilters();
+        updateUI();
+    });
+    
+    document.getElementById('filter-status').addEventListener('change', function() {
+        appState.currentFilters.status = this.value;
+        applyFilters();
+        updateUI();
+    });
+    
+    document.getElementById('search').addEventListener('input', function() {
+        appState.currentFilters.search = this.value.toLowerCase();
+        applyFilters();
+        updateUI();
+    });
+    
+    document.getElementById('clear-filters').addEventListener('click', function() {
+        document.getElementById('filter-type').value = 'all';
+        document.getElementById('filter-status').value = 'all';
+        document.getElementById('search').value = '';
+        
+        appState.currentFilters = {
+            type: 'all',
+            status: 'all',
+            search: ''
+        };
+        
+        applyFilters();
+        updateUI();
+    });
+    
+    // Ordenação
+    document.getElementById('sort-priority').addEventListener('click', function() {
+        if (appState.currentSort !== 'priority') {
+            appState.currentSort = 'priority';
+            document.getElementById('sort-priority').classList.add('active');
+            document.getElementById('sort-impressions').classList.remove('active');
+            document.getElementById('sort-code').classList.remove('active');
+            sortReports();
+            updateReportsDisplay();
+        }
+    });
+    
+    document.getElementById('sort-impressions').addEventListener('click', function() {
+        if (appState.currentSort !== 'impressions') {
+            appState.currentSort = 'impressions';
+            document.getElementById('sort-impressions').classList.add('active');
+            document.getElementById('sort-priority').classList.remove('active');
+            document.getElementById('sort-code').classList.remove('active');
+            sortReports();
+            updateReportsDisplay();
+        }
+    });
+    
+    document.getElementById('sort-code').addEventListener('click', function() {
+        if (appState.currentSort !== 'code') {
+            appState.currentSort = 'code';
+            document.getElementById('sort-code').classList.add('active');
+            document.getElementById('sort-priority').classList.remove('active');
+            document.getElementById('sort-impressions').classList.remove('active');
+            sortReports();
+            updateReportsDisplay();
+        }
+    });
+    
+    // Modal
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+    
+    // Salvar alterações no modal
+    document.getElementById('btn-save-changes').addEventListener('click', saveReportChanges);
+    
+    // Gerenciamento de XML
+    document.getElementById('btn-import-xml').addEventListener('click', importXML);
+    document.getElementById('btn-export-xml').addEventListener('click', exportXML);
+    document.getElementById('btn-view-xml').addEventListener('click', viewXML);
+    
+    // Fechar modal ao clicar fora
+    document.getElementById('report-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+}
+
+// Carregar relatórios do Firebase
+async function loadReports() {
+    try {
+        const response = await fetch(FIREBASE_URL);
+        
+        if (!response.ok) {
+            throw new Error(`Erro ao carregar dados: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Se não houver dados no Firebase
+        if (!data) {
+            appState.reports = [];
+            appState.filteredReports = [];
+            return;
+        }
+        
+        // Converter dados do Firebase para o formato da aplicação
+        appState.reports = processFirebaseData(data);
+        
+        // Ordenar relatórios
+        sortReports();
+        
+        // Aplicar filtros iniciais
+        applyFilters();
+        
+    } catch (error) {
+        console.error("Erro ao carregar relatórios:", error);
+        alert("Erro ao carregar dados do Firebase. Verifique a conexão.");
+        appState.reports = [];
+        appState.filteredReports = [];
+    }
+}
+
+// Processar dados do Firebase para o formato da aplicação
+function processFirebaseData(firebaseData) {
+    const reportsMap = new Map();
+    
+    // Se os dados já estiverem no formato processado
+    if (Array.isArray(firebaseData) && firebaseData.length > 0 && firebaseData[0].code) {
+        return firebaseData;
+    }
+    
+    // Processar cada entrada do Firebase (formato bruto da planilha)
+    for (const key in firebaseData) {
+        const item = firebaseData[key];
+        
+        const reportCode = item.CD_RELATORIO || item.cd_relatorio;
+        const reportName = item.DS_RELATORIO || item.ds_relatorio;
+        const classification = item.CD_CLASSIF_RELAT || item.cd_classif_relat;
+        
+        if (!reportCode) continue;
+        
+        // Se o relatório ainda não existe no mapa, criar
+        if (!reportsMap.has(reportCode)) {
+            reportsMap.set(reportCode, {
+                code: reportCode,
+                name: reportName,
+                classification: classification,
+                details: [],
+                totalImpressions: 0,
+                topFunction: { code: null, name: null, impressions: 0 },
+                topProfile: { code: null, name: null, impressions: 0 },
+                status: MIGRATION_STATUS.PENDING,
+                xml: null,
+                xmlVersion: null,
+                xmlLastUpdated: null,
+                logs: [{
+                    date: new Date().toISOString(),
+                    action: 'Relatório adicionado ao sistema',
+                    user: 'Sistema'
+                }],
+                priority: 'medium' // Será calculado depois
+            });
+        }
+        
+        const report = reportsMap.get(reportCode);
+        
+        // Adicionar detalhe de uso
+        const detail = {
+            profileCode: item.CD_PERFIL || item.cd_perfil,
+            profileName: item.DS_PERFIL || item.ds_perfil,
+            functionCode: item.CD_FUNCAO || item.cd_funcao,
+            functionName: item.DS_FUNCAO || item.ds_funcao,
+            impressions: parseInt(item.QUANTIDADE_IMPRESSOES || item.quantidade_impressoes || 0)
+        };
+        
+        report.details.push(detail);
+        
+        // Atualizar total de impressões
+        report.totalImpressions += detail.impressions;
+        
+        // Atualizar função mais utilizada
+        if (detail.impressions > report.topFunction.impressions) {
+            report.topFunction = {
+                code: detail.functionCode,
+                name: detail.functionName,
+                impressions: detail.impressions
+            };
+        }
+        
+        // Atualizar perfil mais utilizado
+        if (detail.impressions > report.topProfile.impressions) {
+            report.topProfile = {
+                code: detail.profileCode,
+                name: detail.profileName,
+                impressions: detail.impressions
+            };
+        }
+    }
+    
+    // Converter mapa para array
+    return Array.from(reportsMap.values());
+}
+
+// Calcular média de impressões
+function calculateAverageImpressions() {
+    if (appState.reports.length === 0) {
+        appState.averageImpressions = 0;
+        return;
+    }
+    
+    const total = appState.reports.reduce((sum, report) => sum + report.totalImpressions, 0);
+    appState.averageImpressions = total / appState.reports.length;
+}
+
+// Determinar prioridades baseado na média de impressões
+function determineReportPriorities() {
+    if (appState.averageImpressions === 0) return;
+    
+    appState.reports.forEach(report => {
+        const ratio = report.totalImpressions / appState.averageImpressions;
+        
+        if (ratio >= 2.0) {
+            report.priority = 'high';    // Vermelho - Muito acima da média
+        } else if (ratio >= 1.5) {
+            report.priority = 'medium';  // Amarelo - Acima da média
+        } else {
+            report.priority = 'low';     // Verde - Na média ou abaixo
+        }
+    });
+}
+
+// Aplicar filtros
+function applyFilters() {
+    let filtered = [...appState.reports];
+    
+    // Filtrar por tipo
+    if (appState.currentFilters.type === 'function') {
+        // Ordenar por função que mais imprimiu
+        filtered.sort((a, b) => b.topFunction.impressions - a.topFunction.impressions);
+    } else if (appState.currentFilters.type === 'profile') {
+        // Ordenar por perfil que mais imprimiu
+        filtered.sort((a, b) => b.topProfile.impressions - a.topProfile.impressions);
+    }
+    
+    // Filtrar por status
+    if (appState.currentFilters.status !== 'all') {
+        filtered = filtered.filter(report => report.status === appState.currentFilters.status);
+    }
+    
+    // Filtrar por busca
+    if (appState.currentFilters.search) {
+        const searchTerm = appState.currentFilters.search.toLowerCase();
+        filtered = filtered.filter(report => 
+            report.code.toString().includes(searchTerm) ||
+            report.name.toLowerCase().includes(searchTerm) ||
+            report.classification.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    appState.filteredReports = filtered;
+    sortReports();
+}
+
+// Ordenar relatórios
+function sortReports() {
+    if (appState.currentSort === 'priority') {
+        // Ordenar por prioridade (high > medium > low) e depois por impressões
+        const priorityOrder = { high: 3, medium: 2, low: 1 };
+        appState.filteredReports.sort((a, b) => {
+            if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+                return priorityOrder[b.priority] - priorityOrder[a.priority];
+            }
+            return b.totalImpressions - a.totalImpressions;
+        });
+    } else if (appState.currentSort === 'impressions') {
+        appState.filteredReports.sort((a, b) => b.totalImpressions - a.totalImpressions);
+    } else if (appState.currentSort === 'code') {
+        appState.filteredReports.sort((a, b) => parseInt(a.code) - parseInt(b.code));
+    }
+}
+
+// Atualizar toda a interface
+function updateUI() {
+    updateReportsDisplay();
+    updateStatusSummary();
+    updateCharts();
+}
+
+// Atualizar exibição dos cards de relatórios
+function updateReportsDisplay() {
+    const container = document.getElementById('reports-container');
+    
+    if (appState.filteredReports.length === 0) {
+        container.innerHTML = '<div class="no-results">Nenhum relatório encontrado no Firebase.</div>';
+        return;
+    }
+    
+    container.innerHTML = '';
+    
+    appState.filteredReports.forEach(report => {
+        const card = createReportCard(report);
+        container.appendChild(card);
+    });
+}
+
+// Criar card de relatório com indicador de prioridade
+function createReportCard(report) {
+    const card = document.createElement('div');
+    card.className = `report-card ${report.status} priority-${report.priority}`;
+    
+    // Determinar cor do status
+    const statusColors = {
+        pending: 'warning',
+        exported: 'secondary',
+        imported: 'imported',
+        tested: 'tested',
+        finalized: 'success'
+    };
+    
+    const statusText = {
+        pending: 'Pendente',
+        exported: 'Exportado',
+        imported: 'Importado',
+        tested: 'Testado',
+        finalized: 'Finalizado'
+    };
+    
+    // Determinar ícone de prioridade
+    let priorityIcon = '';
+    let priorityTitle = '';
+    
+    switch(report.priority) {
+        case 'high':
+            priorityIcon = '<i class="fas fa-exclamation-circle priority-high"></i>';
+            priorityTitle = 'Alta Prioridade';
+            break;
+        case 'medium':
+            priorityIcon = '<i class="fas fa-exclamation-triangle priority-medium"></i>';
+            priorityTitle = 'Média Prioridade';
+            break;
+        case 'low':
+            priorityIcon = '<i class="fas fa-check-circle priority-low"></i>';
+            priorityTitle = 'Baixa Prioridade';
+            break;
+    }
+    
+    card.innerHTML = `
+        <div class="report-header">
+            <div class="report-code">
+                ${report.code}
+                <span class="priority-indicator" title="${priorityTitle}">
+                    ${priorityIcon}
+                </span>
+            </div>
+            <h3 class="report-title">${report.name}</h3>
+            <div class="report-classif">${report.classification}</div>
+        </div>
+        <div class="report-body">
+            <div class="report-stats">
+                <div class="stat-item">
+                    <div class="stat-value">${report.totalImpressions}</div>
+                    <div class="stat-label">Impressões</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${report.details.length}</div>
+                    <div class="stat-label">Combinações</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${appState.averageImpressions.toFixed(0)}</div>
+                    <div class="stat-label">Média Geral</div>
+                </div>
+            </div>
+            <div class="report-usage">
+                <div class="usage-item">
+                    <span class="usage-label">Função principal:</span>
+                    <span>${report.topFunction.name || 'N/A'}</span>
+                </div>
+                <div class="usage-item">
+                    <span class="usage-label">Perfil principal:</span>
+                    <span>${report.topProfile.name || 'N/A'}</span>
+                </div>
+            </div>
+        </div>
+        <div class="report-footer">
+            <span class="report-status ${report.status}">${statusText[report.status]}</span>
+            <button class="btn-details" data-code="${report.code}">
+                <i class="fas fa-info-circle"></i> Detalhes
+            </button>
+        </div>
+    `;
+    
+    // Adicionar evento de clique no botão de detalhes
+    card.querySelector('.btn-details').addEventListener('click', function() {
+        const reportCode = this.getAttribute('data-code');
+        showReportDetails(reportCode);
+    });
+    
+    return card;
+}
+
+// Atualizar resumo de status
+function updateStatusSummary() {
+    const counts = {
+        pending: 0,
+        exported: 0,
+        imported: 0,
+        tested: 0,
+        finalized: 0
+    };
+    
+    appState.reports.forEach(report => {
+        counts[report.status]++;
+    });
+    
+    document.getElementById('count-pending').textContent = counts.pending;
+    document.getElementById('count-exported').textContent = counts.exported;
+    document.getElementById('count-imported').textContent = counts.imported;
+    document.getElementById('count-tested').textContent = counts.tested;
+    document.getElementById('count-finalized').textContent = counts.finalized;
+}
+
+// Inicializar gráficos
+function initCharts() {
+    const progressCtx = document.getElementById('progress-chart').getContext('2d');
+    const top5Ctx = document.getElementById('top5-chart').getContext('2d');
+    
+    appState.charts.progress = new Chart(progressCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pendente', 'Exportado', 'Importado', 'Testado', 'Finalizado'],
+            datasets: [{
+                data: [0, 0, 0, 0, 0],
+                backgroundColor: [
+                    '#f39c12',
+                    '#3498db',
+                    '#9b59b6',
+                    '#2ecc71',
+                    '#27ae60'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 15
+                    }
+                }
+            }
+        }
+    });
+    
+    appState.charts.top5 = new Chart(top5Ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Total de Impressões',
+                data: [],
+                backgroundColor: '#2c3e50',
+                borderColor: '#1a252f',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Atualizar gráficos
+function updateCharts() {
+    // Atualizar gráfico de progresso
+    const counts = {
+        pending: 0,
+        exported: 0,
+        imported: 0,
+        tested: 0,
+        finalized: 0
+    };
+    
+    appState.reports.forEach(report => {
+        counts[report.status]++;
+    });
+    
+    appState.charts.progress.data.datasets[0].data = [
+        counts.pending,
+        counts.exported,
+        counts.imported,
+        counts.tested,
+        counts.finalized
+    ];
+    appState.charts.progress.update();
+    
+    // Atualizar gráfico dos top 5 relatórios
+    const topReports = [...appState.reports]
+        .sort((a, b) => b.totalImpressions - a.totalImpressions)
+        .slice(0, 5);
+    
+    appState.charts.top5.data.labels = topReports.map(r => `Relatório ${r.code}`);
+    appState.charts.top5.data.datasets[0].data = topReports.map(r => r.totalImpressions);
+    appState.charts.top5.update();
+}
+
+// Mostrar detalhes do relatório no modal
+function showReportDetails(reportCode) {
+    // Converter para string para comparação consistente
+    const codeToFind = reportCode.toString();
+    
+    // Encontrar o relatório (comparando como strings)
+    const report = appState.reports.find(r => r.code.toString() === codeToFind);
+    
+    if (!report) {
+        alert('Relatório não encontrado! Código: ' + reportCode);
+        console.log('Tentando encontrar código:', reportCode);
+        console.log('Códigos disponíveis:', appState.reports.map(r => r.code));
+        return;
+    }
+    
+    appState.selectedReport = report;
+    
+    // Preencher informações básicas
+    document.getElementById('modal-report-title').textContent = report.name;
+    document.getElementById('modal-report-code').textContent = report.code;
+    document.getElementById('modal-report-classif').textContent = report.classification;
+    document.getElementById('modal-report-total').textContent = report.totalImpressions;
+    document.getElementById('modal-report-status').value = report.status;
+    
+    // Mostrar média geral e relação
+    const ratio = appState.averageImpressions > 0 ? (report.totalImpressions / appState.averageImpressions).toFixed(2) : '0';
+    document.getElementById('modal-report-average').textContent = `${appState.averageImpressions.toFixed(0)} (${ratio}x média)`;
+    
+    // Preencher detalhes de uso
+    const detailsBody = document.getElementById('modal-report-details');
+    detailsBody.innerHTML = '';
+    
+    // Ordenar detalhes por quantidade de impressões (maior primeiro)
+    const sortedDetails = [...report.details].sort((a, b) => b.impressions - a.impressions);
+    
+    sortedDetails.forEach(detail => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${detail.profileCode || 'N/A'}</td>
+            <td>${detail.profileName || 'N/A'}</td>
+            <td>${detail.functionCode || 'N/A'}</td>
+            <td>${detail.functionName || 'N/A'}</td>
+            <td>${detail.impressions || 0}</td>
+        `;
+        detailsBody.appendChild(row);
+    });
+    
+    // Preencher informações do XML
+    const xmlContentElement = document.getElementById('xml-content');
+    const xmlVersionElement = document.getElementById('xml-version');
+    const xmlDateElement = document.getElementById('xml-date');
+    
+    if (report.xml) {
+        xmlContentElement.value = report.xml;
+        xmlVersionElement.textContent = report.xmlVersion || '1.0';
+        xmlDateElement.textContent = report.xmlLastUpdated ? 
+            new Date(report.xmlLastUpdated).toLocaleDateString('pt-BR') : '-';
+    } else {
+        xmlContentElement.value = '';
+        xmlVersionElement.textContent = '-';
+        xmlDateElement.textContent = '-';
+    }
+    
+    // Preencher logs
+    const logsList = document.getElementById('modal-report-logs');
+    logsList.innerHTML = '';
+    
+    // Ordenar logs do mais recente para o mais antigo
+    const sortedLogs = [...report.logs].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    sortedLogs.forEach(log => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${new Date(log.date).toLocaleString('pt-BR')}</strong> - ${log.action} (${log.user})`;
+        logsList.appendChild(li);
+    });
+    
+    // Mostrar modal
+    document.getElementById('report-modal').style.display = 'block';
+}
+
+// Fechar modal
+function closeModal() {
+    document.getElementById('report-modal').style.display = 'none';
+    appState.selectedReport = null;
+}
+
+// Salvar alterações do relatório
+async function saveReportChanges() {
+    if (!appState.selectedReport) return;
+    
+    const newStatus = document.getElementById('modal-report-status').value;
+    const oldStatus = appState.selectedReport.status;
+    const xmlContent = document.getElementById('xml-content').value;
+    
+    // Atualizar XML se foi modificado
+    if (xmlContent !== appState.selectedReport.xml && xmlContent.trim() !== '') {
+        appState.selectedReport.xml = xmlContent;
+        appState.selectedReport.xmlVersion = incrementVersion(appState.selectedReport.xmlVersion);
+        appState.selectedReport.xmlLastUpdated = new Date().toISOString();
+        
+        appState.selectedReport.logs.push({
+            date: new Date().toISOString(),
+            action: 'XML atualizado',
+            user: 'Usuário do Sistema'
+        });
+    }
+    
+    // Se o status mudou, adicionar log
+    if (newStatus !== oldStatus) {
+        const statusText = {
+            pending: 'Pendente',
+            exported: 'Exportado',
+            imported: 'Importado',
+            tested: 'Testado',
+            finalized: 'Finalizado'
+        };
+        
+        let actionText = '';
+        
+        // Ações específicas baseadas no novo status
+        switch(newStatus) {
+            case MIGRATION_STATUS.EXPORTED:
+                actionText = 'XML exportado do sistema antigo do TASY';
+                break;
+            case MIGRATION_STATUS.IMPORTED:
+                actionText = 'XML importado para nova versão do TASY';
+                break;
+            case MIGRATION_STATUS.TESTED:
+                actionText = 'Relatório testado na nova versão';
+                break;
+            case MIGRATION_STATUS.FINALIZED:
+                actionText = 'Migração do relatório finalizada';
+                break;
+            default:
+                actionText = `Status alterado de ${statusText[oldStatus]} para ${statusText[newStatus]}`;
+        }
+        
+        appState.selectedReport.logs.push({
+            date: new Date().toISOString(),
+            action: actionText,
+            user: 'Usuário do Sistema'
+        });
+        
+        appState.selectedReport.status = newStatus;
+        
+        // Atualizar no Firebase
+        await updateReportInFirebase(appState.selectedReport);
+        
+        // Atualizar interface
+        updateUI();
+        
+        // Atualizar detalhes no modal
+        showReportDetails(appState.selectedReport.code);
+        
+        alert('Alterações salvas com sucesso!');
+    } else if (xmlContent !== appState.selectedReport.xml) {
+        // Se apenas o XML mudou
+        await updateReportInFirebase(appState.selectedReport);
+        alert('XML atualizado com sucesso!');
+    }
+}
+
+// Incrementar versão do XML
+function incrementVersion(currentVersion) {
+    if (!currentVersion) return '1.0';
+    
+    const parts = currentVersion.split('.');
+    if (parts.length === 2) {
+        const minor = parseInt(parts[1]) + 1;
+        return `${parts[0]}.${minor}`;
+    }
+    
+    return '1.1';
+}
+
+// Atualizar relatório no Firebase
+async function updateReportInFirebase(report) {
+    try {
+        // Criar URL específica para o relatório
+        const reportUrl = `https://appatividades-7450d-default-rtdb.firebaseio.com/reports/${report.code}.json`;
+        
+        // Preparar dados para enviar
+        const reportData = {
+            ...report,
+            // Garantir que os detalhes sejam preservados
+            details: report.details
+        };
+        
+        const response = await fetch(reportUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reportData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Erro ao atualizar relatório: ${response.status}`);
+        }
+        
+        console.log(`Relatório ${report.code} atualizado no Firebase`);
+        
+    } catch (error) {
+        console.error("Erro ao atualizar no Firebase:", error);
+        alert("Erro ao salvar no Firebase. Verifique a conexão.");
+    }
+}
+
+// Importar XML - agora apenas texto/string
+function importXML() {
+    if (!appState.selectedReport) return;
+    
+    const xmlText = prompt('Cole o código XML do relatório:');
+    
+    if (xmlText && xmlText.trim() !== '') {
+        document.getElementById('xml-content').value = xmlText;
+        
+        // Sugerir mudança de status para exportado
+        if (appState.selectedReport.status === MIGRATION_STATUS.PENDING) {
+            if (confirm('Deseja alterar o status para "Exportado" (XML extraído do sistema antigo)?')) {
+                document.getElementById('modal-report-status').value = MIGRATION_STATUS.EXPORTED;
+            }
+        }
+    }
+}
+
+// Exportar XML
+function exportXML() {
+    if (!appState.selectedReport) return;
+    
+    const xmlContent = document.getElementById('xml-content').value;
+    
+    if (!xmlContent || xmlContent.trim() === '') {
+        alert('Nenhum XML para exportar!');
+        return;
+    }
+    
+    // Criar arquivo para download
+    const blob = new Blob([xmlContent], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relatorio_${appState.selectedReport.code}_${new Date().toISOString().slice(0,10)}.xml`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    alert('XML exportado com sucesso!');
+}
+
+// Visualizar XML
+function viewXML() {
+    if (!appState.selectedReport) return;
+    
+    const xmlContent = document.getElementById('xml-content').value;
+    
+    if (!xmlContent || xmlContent.trim() === '') {
+        alert('Nenhum XML para visualizar!');
+        return;
+    }
+    
+    // Abrir em nova janela
+    const newWindow = window.open();
+    newWindow.document.write(`<pre>${xmlContent}</pre>`);
+    newWindow.document.title = `XML Relatório ${appState.selectedReport.code}`;
+}
+
+    </script>
+</body>
+</html>
