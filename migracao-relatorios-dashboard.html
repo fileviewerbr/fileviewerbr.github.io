@@ -102,6 +102,7 @@
         .imported { background-color: rgba(155, 89, 182, 0.8); }
         .tested { background-color: rgba(46, 204, 113, 0.8); }
         .finalized { background-color: rgba(39, 174, 96, 0.8); }
+        .error { background-color: rgba(231, 76, 60, 0.8); }
 
         /* Layout principal */
         .main-content {
@@ -260,6 +261,7 @@
         .report-card.imported { border-left-color: #9b59b6; }
         .report-card.tested { border-left-color: #2ecc71; }
         .report-card.finalized { border-left-color: var(--success-color); }
+        .report-card.error { border-left-color: var(--danger-color); }
 
         .report-header {
             padding: 1.2rem;
@@ -355,6 +357,7 @@
         .report-status.imported { background-color: #9b59b6; }
         .report-status.tested { background-color: #2ecc71; }
         .report-status.finalized { background-color: var(--success-color); }
+        .report-status.error { background-color: var(--danger-color); }
 
         .btn-details {
             background-color: var(--primary-color);
@@ -484,6 +487,37 @@
             margin-left: 10px;
         }
 
+        .error-description-container {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff5f5;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .error-description-container h5 {
+            color: var(--danger-color);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .error-description-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ffcccc;
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .error-description-textarea:focus {
+            outline: none;
+            border-color: var(--danger-color);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
         .details-table-container {
             overflow-x: auto;
         }
@@ -547,6 +581,24 @@
 
         .btn-primary:hover {
             background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
         }
 
         .logs-container {
@@ -701,6 +753,10 @@
                 width: 100%;
                 flex-direction: column;
             }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -720,6 +776,7 @@
                     <span class="status-badge imported">Importado: <span id="count-imported">0</span></span>
                     <span class="status-badge tested">Testado: <span id="count-tested">0</span></span>
                     <span class="status-badge finalized">Finalizado: <span id="count-finalized">0</span></span>
+                    <span class="status-badge error">Com Erro: <span id="count-error">0</span></span>
                 </div>
             </div>
         </header>
@@ -748,6 +805,7 @@
                             <option value="imported">Importado</option>
                             <option value="tested">Testado</option>
                             <option value="finalized">Finalizado</option>
+                            <option value="error">Com Erro</option>
                         </select>
                     </div>
                     
@@ -831,8 +889,16 @@
                                 <option value="imported">Importado</option>
                                 <option value="tested">Testado</option>
                                 <option value="finalized">Finalizado</option>
+                                <option value="error">Com Erro</option>
                             </select>
                         </div>
+                    </div>
+                    
+                    <!-- Área de descrição do erro (aparece só quando status = error) -->
+                    <div id="error-description-container" class="error-description-container" style="display: none;">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Descrição do Erro</h5>
+                        <textarea id="error-description" class="error-description-textarea" 
+                                  placeholder="Descreva o problema encontrado (opcional)..."></textarea>
                     </div>
                 </div>
                 
@@ -896,6 +962,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button id="btn-marcar-erro" class="btn-danger" style="display: none;">
+                    <i class="fas fa-exclamation-circle"></i> Marcar com Erro
+                </button>
                 <button id="btn-save-changes" class="btn-primary">
                     <i class="fas fa-save"></i> Salvar Alterações
                 </button>
@@ -918,7 +987,8 @@
             EXPORTED: 'exported',
             IMPORTED: 'imported',
             TESTED: 'tested',
-            FINALIZED: 'finalized'
+            FINALIZED: 'finalized',
+            ERROR: 'error'
         };
         
         // Estado da aplicação
@@ -1046,6 +1116,29 @@
             // Salvar alterações no modal
             document.getElementById('btn-save-changes').addEventListener('click', saveReportChanges);
             
+            // Botão para marcar com erro
+            document.getElementById('btn-marcar-erro').addEventListener('click', function() {
+                document.getElementById('modal-report-status').value = MIGRATION_STATUS.ERROR;
+                document.getElementById('error-description-container').style.display = 'block';
+                document.getElementById('error-description').focus();
+            });
+            
+            // Monitorar mudanças no status para mostrar/ocultar área de erro
+            document.getElementById('modal-report-status').addEventListener('change', function() {
+                if (this.value === MIGRATION_STATUS.ERROR) {
+                    document.getElementById('error-description-container').style.display = 'block';
+                    document.getElementById('btn-marcar-erro').style.display = 'none';
+                } else {
+                    document.getElementById('error-description-container').style.display = 'none';
+                    // Mostrar botão "Marcar com Erro" se não estiver em erro
+                    if (appState.selectedReport && appState.selectedReport.status !== MIGRATION_STATUS.ERROR) {
+                        document.getElementById('btn-marcar-erro').style.display = 'inline-flex';
+                    } else {
+                        document.getElementById('btn-marcar-erro').style.display = 'none';
+                    }
+                }
+            });
+            
             // Gerenciamento de XML
             document.getElementById('btn-import-xml').addEventListener('click', importXML);
             document.getElementById('btn-export-xml').addEventListener('click', exportXML);
@@ -1087,7 +1180,9 @@
                         code: report.code ? report.code.toString() : '',
                         // Garantir arrays existentes
                         details: report.details || [],
-                        logs: report.logs || []
+                        logs: report.logs || [],
+                        // Garantir que tenha campo errorDescription
+                        errorDescription: report.errorDescription || ''
                     }));
                 } else {
                     // Se for um objeto, converter para array
@@ -1095,7 +1190,8 @@
                         ...report,
                         code: report.code ? report.code.toString() : '',
                         details: report.details || [],
-                        logs: report.logs || []
+                        logs: report.logs || [],
+                        errorDescription: report.errorDescription || ''
                     }));
                 }
                 
@@ -1192,7 +1288,8 @@
                             action: 'Relatório adicionado ao sistema',
                             user: 'Sistema'
                         }],
-                        priority: item.priority || 'medium'
+                        priority: item.priority || 'medium',
+                        errorDescription: item.errorDescription || ''
                     });
                 }
                 
@@ -1402,7 +1499,8 @@
                 exported: 'Exportado',
                 imported: 'Importado',
                 tested: 'Testado',
-                finalized: 'Finalizado'
+                finalized: 'Finalizado',
+                error: 'Com Erro'
             };
             
             // Determinar ícone de prioridade
@@ -1425,6 +1523,12 @@
                 default:
                     priorityIcon = '<i class="fas fa-exclamation-triangle priority-medium"></i>';
                     priorityTitle = 'Média Prioridade';
+            }
+            
+            // Adicionar ícone de erro se necessário
+            if (report.status === MIGRATION_STATUS.ERROR) {
+                priorityIcon = '<i class="fas fa-exclamation-triangle priority-high"></i>' + priorityIcon;
+                priorityTitle = 'COM ERRO - ' + priorityTitle;
             }
             
             card.innerHTML = `
@@ -1490,7 +1594,8 @@
                 exported: 0,
                 imported: 0,
                 tested: 0,
-                finalized: 0
+                finalized: 0,
+                error: 0
             };
             
             appState.reports.forEach(report => {
@@ -1505,6 +1610,7 @@
             document.getElementById('count-imported').textContent = counts.imported;
             document.getElementById('count-tested').textContent = counts.tested;
             document.getElementById('count-finalized').textContent = counts.finalized;
+            document.getElementById('count-error').textContent = counts.error;
         }
         
         // Inicializar gráficos
@@ -1515,15 +1621,16 @@
             appState.charts.progress = new Chart(progressCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Pendente', 'Exportado', 'Importado', 'Testado', 'Finalizado'],
+                    labels: ['Pendente', 'Exportado', 'Importado', 'Testado', 'Finalizado', 'Com Erro'],
                     datasets: [{
-                        data: [0, 0, 0, 0, 0],
+                        data: [0, 0, 0, 0, 0, 0],
                         backgroundColor: [
                             '#f39c12',
                             '#3498db',
                             '#9b59b6',
                             '#2ecc71',
-                            '#27ae60'
+                            '#27ae60',
+                            '#e74c3c'
                         ],
                         borderWidth: 1
                     }]
@@ -1583,7 +1690,8 @@
                 exported: 0,
                 imported: 0,
                 tested: 0,
-                finalized: 0
+                finalized: 0,
+                error: 0
             };
             
             appState.reports.forEach(report => {
@@ -1598,7 +1706,8 @@
                 counts.exported,
                 counts.imported,
                 counts.tested,
-                counts.finalized
+                counts.finalized,
+                counts.error
             ];
             appState.charts.progress.update();
             
@@ -1642,6 +1751,21 @@
             document.getElementById('modal-report-classif').textContent = report.classification || 'N/A';
             document.getElementById('modal-report-total').textContent = report.totalImpressions || 0;
             document.getElementById('modal-report-status').value = report.status || 'pending';
+            
+            // Mostrar ou ocultar área de descrição do erro
+            const errorDescContainer = document.getElementById('error-description-container');
+            const errorDescTextarea = document.getElementById('error-description');
+            const marcarErroBtn = document.getElementById('btn-marcar-erro');
+            
+            if (report.status === MIGRATION_STATUS.ERROR) {
+                errorDescContainer.style.display = 'block';
+                errorDescTextarea.value = report.errorDescription || '';
+                marcarErroBtn.style.display = 'none';
+            } else {
+                errorDescContainer.style.display = 'none';
+                errorDescTextarea.value = '';
+                marcarErroBtn.style.display = 'inline-flex';
+            }
             
             // Mostrar média geral e relação
             const ratio = appState.averageImpressions > 0 ? ((report.totalImpressions || 0) / appState.averageImpressions).toFixed(2) : '0';
@@ -1726,6 +1850,7 @@
             const newStatus = document.getElementById('modal-report-status').value;
             const oldStatus = appState.selectedReport.status || 'pending';
             const xmlContent = document.getElementById('xml-content').value.trim();
+            const errorDescription = document.getElementById('error-description').value.trim();
             
             let hasChanges = false;
             
@@ -1744,6 +1869,16 @@
                 hasChanges = true;
             }
             
+            // Atualizar descrição do erro se foi modificada
+            if (newStatus === MIGRATION_STATUS.ERROR && errorDescription !== (appState.selectedReport.errorDescription || '')) {
+                appState.selectedReport.errorDescription = errorDescription;
+                hasChanges = true;
+            } else if (newStatus !== MIGRATION_STATUS.ERROR && appState.selectedReport.errorDescription) {
+                // Limpar descrição do erro se não está mais com erro
+                appState.selectedReport.errorDescription = '';
+                hasChanges = true;
+            }
+            
             // Se o status mudou, adicionar log
             if (newStatus !== oldStatus) {
                 const statusText = {
@@ -1751,7 +1886,8 @@
                     exported: 'Exportado',
                     imported: 'Importado',
                     tested: 'Testado',
-                    finalized: 'Finalizado'
+                    finalized: 'Finalizado',
+                    error: 'Com Erro'
                 };
                 
                 let actionText = '';
@@ -1769,6 +1905,12 @@
                         break;
                     case MIGRATION_STATUS.FINALIZED:
                         actionText = 'Migração do relatório finalizada';
+                        break;
+                    case MIGRATION_STATUS.ERROR:
+                        actionText = 'Relatório marcado com ERRO';
+                        if (errorDescription) {
+                            actionText += `: ${errorDescription}`;
+                        }
                         break;
                     default:
                         actionText = `Status alterado de ${statusText[oldStatus]} para ${statusText[newStatus]}`;
