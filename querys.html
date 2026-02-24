@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeSnippet Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0f4c75;
+            --light-accent: #00b4d8;
+            --text-color: #e6e6e6;
+            --border-color: #2d4059;
+            --success-color: #4CAF50;
+            --sql-color: #00758f;
+            --js-color: #f0db4f;
+            --html-color: #e34c26;
+            --css-color: #264de4;
+            --text-type-color: #6c757d;
+        }
+        
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background-color: var(--secondary-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo i {
+            color: var(--light-accent);
+            font-size: 24px;
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+        }
+        
+        .projects-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--light-accent);
+        }
+        
+        .project-list {
+            list-style: none;
+            margin-bottom: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .project-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .project-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-item.active {
+            background-color: var(--accent-color);
+            border-left: 4px solid var(--light-accent);
+        }
+        
+        .project-name {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .project-count {
+            background-color: var(--light-accent);
+            color: var(--primary-color);
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .btn {
+            padding: 12px 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--light-accent);
+        }
+        
+        .btn-new-project {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        /* Área principal */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .top-bar {
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-section {
+            display: flex;
+            gap: 10px;
+            flex-grow: 1;
+            max-width: 600px;
+        }
+        
+        .search-box, .filter-select, .sort-select {
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+        
+        .search-box {
+            flex-grow: 1;
+        }
+        
+        .btn-new-entry {
+            padding: 12px 20px;
+        }
+        
+        /* Lista de registros */
+        .entries-container {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .entries-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .entries-header h2 {
+            font-size: 18px;
+        }
+        
+        .entries-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .entry-card {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
+        }
+        
+        .entry-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .entry-title {
+            font-size: 18px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 70%;
+        }
+        
+        .entry-type {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .entry-type.sql {
+            background-color: var(--sql-color);
+        }
+        
+        .entry-type.js {
+            background-color: var(--js-color);
+            color: #333;
+        }
+        
+        .entry-type.html {
+            background-color: var(--html-color);
+        }
+        
+        .entry-type.css {
+            background-color: var(--css-color);
+        }
+        
+        .entry-type.text {
+            background-color: var(--text-type-color);
+        }
+        
+        .entry-content {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .entry-content pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            max-height: 120px;
+            overflow: hidden;
+            color: #ccc;
+        }
+        
+        .entry-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .entry-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .action-btn:hover {
+            color: var(--light-accent);
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: var(--secondary-color);
+            width: 90%;
+            max-width: 800px;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background-color: var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+        
+        textarea.form-control {
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn-cancel {
+            background-color: #6c757d;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Status e mensagens */
+        .status-message {
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .status-message.success {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid var(--success-color);
+            display: block;
+        }
+        
+        .status-message.error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border-left: 4px solid #dc3545;
+            display: block;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--border-color);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1100px) {
+            .entries-list {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .project-list {
+                max-height: 200px;
+            }
+            
+            .top-bar {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .search-section {
+                max-width: 100%;
+                order: 2;
+            }
+            
+            .btn-new-entry {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .entries-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar com projetos -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <h1>CodeSnippet Manager</h1>
+        </div>
+        
+        <button class="btn btn-new-project" id="newProjectBtn">
+            <i class="fas fa-plus"></i> Novo Projeto
+        </button>
+        
+        <div class="projects-section">
+            <h2>Projetos</h2>
+            <ul class="project-list" id="projectList">
+                <!-- Projetos serão carregados aqui -->
+            </ul>
+        </div>
+        
+        <div class="status-message" id="sidebarStatus"></div>
+    </aside>
+    
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+        <!-- Barra superior com busca e filtros -->
+        <div class="top-bar">
+            <div class="search-section">
+                <input type="text" class="search-box" id="searchBox" placeholder="Buscar por título ou conteúdo...">
+                <select class="filter-select" id="projectFilter">
+                    <option value="all">Todos os projetos</option>
+                </select>
+                <select class="sort-select" id="sortSelect">
+                    <option value="newest">Mais recentes</option>
+                    <option value="oldest">Mais antigos</option>
+                    <option value="title">A-Z (título)</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-new-entry" id="newEntryBtn">
+                <i class="fas fa-plus"></i> Nova Query
+            </button>
+        </div>
+        
+        <!-- Container de registros -->
+        <div class="entries-container">
+            <div class="entries-header">
+                <h2 id="entriesTitle">Todas as queries</h2>
+                <span id="entriesCount">0 registros</span>
+            </div>
+            
+            <div class="status-message" id="entriesStatus"></div>
+            
+            <div class="entries-list" id="entriesList">
+                <!-- Registros serão carregados aqui -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal para criar/editar projetos -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="projectModalTitle">Novo Projeto</h2>
+                <button class="close-modal" id="closeProjectModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="projectName">Nome do Projeto</label>
+                    <input type="text" class="form-control" id="projectName" placeholder="Digite o nome do projeto">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelProjectBtn">Cancelar</button>
+                <button class="btn" id="saveProjectBtn">Salvar Projeto</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para criar/editar queries -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="entryModalTitle">Nova Query</h2>
+                <button class="close-modal" id="closeEntryModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="entryTitle">Título</label>
+                    <input type="text" class="form-control" id="entryTitle" placeholder="Digite o título da query">
+                </div>
+                
+                <div class="form-group">
+                    <label for="entryType">Tipo de Conteúdo</label>
+                    <select class="form-control" id="entryType">
+                        <option value="SQL">SQL</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="Texto">Texto</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entryProject">Projeto</label>
+                    <select class="form-control" id="entryProject">
+                        <!-- Projetos serão carregados aqui -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entryContent">Conteúdo</label>
+                    <textarea class="form-control" id="entryContent" placeholder="Cole ou digite seu código aqui..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelEntryBtn">Cancelar</button>
+                <button class="btn" id="saveEntryBtn">Salvar Query</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configurações do Firebase
+        const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/';
+        const API_KEY = 'AIzaSyAmrZslE-wFzXWq5ed0u2c28vTHT2MCL_M'; // Apenas para referência, não usada diretamente em fetch
+        
+        // Estado da aplicação
+        let state = {
+            projects: {},
+            entries: {},
+            selectedProject: 'all',
+            searchTerm: '',
+            sortBy: 'newest',
+            editingProjectId: null,
+            editingEntryId: null
+        };
+        
+        // Elementos do DOM
+        const projectList = document.getElementById('projectList');
+        const entriesList = document.getElementById('entriesList');
+        const entriesTitle = document.getElementById('entriesTitle');
+        const entriesCount = document.getElementById('entriesCount');
+        const searchBox = document.getElementById('searchBox');
+        const projectFilter = document.getElementById('projectFilter');
+        const sortSelect = document.getElementById('sortSelect');
+        const newProjectBtn = document.getElementById('newProjectBtn');
+        const newEntryBtn = document.getElementById('newEntryBtn');
+        
+        // Elementos do modal de projeto
+        const projectModal = document.getElementById('projectModal');
+        const projectModalTitle = document.getElementById('projectModalTitle');
+        const projectNameInput = document.getElementById('projectName');
+        const closeProjectModal = document.getElementById('closeProjectModal');
+        const cancelProjectBtn = document.getElementById('cancelProjectBtn');
+        const saveProjectBtn = document.getElementById('saveProjectBtn');
+        
+        // Elementos do modal de query
+        const entryModal = document.getElementById('entryModal');
+        const entryModalTitle = document.getElementById('entryModalTitle');
+        const entryTitleInput = document.getElementById('entryTitle');
+        const entryTypeSelect = document.getElementById('entryType');
+        const entryProjectSelect = document.getElementById('entryProject');
+        const entryContentTextarea = document.getElementById('entryContent');
+        const closeEntryModal = document.getElementById('closeEntryModal');
+        const cancelEntryBtn = document.getElementById('cancelEntryBtn');
+        const saveEntryBtn = document.getElementById('saveEntryBtn');
+        
+        // Elementos de status
+        const sidebarStatus = document.getElementById('sidebarStatus');
+        const entriesStatus = document.getElementById('entriesStatus');
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar dados do Firebase
+            loadProjects();
+            loadEntries();
+            
+            // Configurar event listeners
+            setupEventListeners();
+            
+            // Configurar realtime updates
+            setupRealtimeUpdates();
+        });
+        
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Busca
+            searchBox.addEventListener('input', (e) => {
+                state.searchTerm = e.target.value.toLowerCase();
+                renderEntries();
+            });
+            
+            // Filtro por projeto
+            projectFilter.addEventListener('change', (e) => {
+                state.selectedProject = e.target.value;
+                updateEntriesTitle();
+                renderEntries();
+            });
+            
+            // Ordenação
+            sortSelect.addEventListener('change', (e) => {
+                state.sortBy = e.target.value;
+                renderEntries();
+            });
+            
+            // Botão novo projeto
+            newProjectBtn.addEventListener('click', () => {
+                openProjectModal();
+            });
+            
+            // Botão nova query
+            newEntryBtn.addEventListener('click', () => {
+                openEntryModal();
+            });
+            
+            // Modal de projeto
+            closeProjectModal.addEventListener('click', closeProjectModalHandler);
+            cancelProjectBtn.addEventListener('click', closeProjectModalHandler);
+            saveProjectBtn.addEventListener('click', saveProject);
+            
+            // Modal de query
+            closeEntryModal.addEventListener('click', closeEntryModalHandler);
+            cancelEntryBtn.addEventListener('click', closeEntryModalHandler);
+            saveEntryBtn.addEventListener('click', saveEntry);
+            
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', (e) => {
+                if (e.target === projectModal) {
+                    closeProjectModalHandler();
+                }
+                if (e.target === entryModal) {
+                    closeEntryModalHandler();
+                }
+            });
+        }
+        
+        // Configurar atualizações em tempo real
+        function setupRealtimeUpdates() {
+            // Ouvir mudanças nos projetos
+            fetch(`${FIREBASE_URL}/projects.json`)
+                .then(response => response.json())
+                .then(data => {
+                    // Configurar listener para mudanças (simulado com polling devido a limitações do fetch)
+                    setInterval(() => {
+                        loadProjects();
+                        loadEntries();
+                    }, 5000); // Atualizar a cada 5 segundos
+                });
+        }
+        
+        // Carregar projetos do Firebase
+        async function loadProjects() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/projects.json`);
+                const data = await response.json();
+                
+                if (data) {
+                    state.projects = data;
+                    renderProjects();
+                    updateProjectFilter();
+                    updateEntryProjectSelect();
+                } else {
+                    state.projects = {};
+                    renderProjects();
+                }
+                
+                // Criar um projeto padrão se não existir nenhum
+                if (Object.keys(state.projects).length === 0) {
+                    await createDefaultProject();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar projetos:', error);
+                showStatus(sidebarStatus, 'Erro ao carregar projetos', 'error');
+            }
+        }
+        
+        // Carregar queries do Firebase
+        async function loadEntries() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/entries.json`);
+                const data = await response.json();
+                
+                if (data) {
+                    state.entries = data;
+                } else {
+                    state.entries = {};
+                }
+                
+                renderEntries();
+            } catch (error) {
+                console.error('Erro ao carregar queries:', error);
+                showStatus(entriesStatus, 'Erro ao carregar queries', 'error');
+            }
+        }
+        
+        // Criar um projeto padrão
+        async function createDefaultProject() {
+            const defaultProject = {
+                name: "Projeto Principal",
+                createdAt: Date.now()
+            };
+            
+            try {
+                const response = await fetch(`${FIREBASE_URL}/projects.json`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(defaultProject)
+                });
+                
+                const data = await response.json();
+                
+                // Recarregar projetos após criar o padrão
+                await loadProjects();
+                
+                showStatus(sidebarStatus, 'Projeto padrão criado com sucesso', 'success');
+            } catch (error) {
+                console.error('Erro ao criar projeto padrão:', error);
+            }
+        }
+        
+        // Renderizar lista de projetos
+        function renderProjects() {
+            projectList.innerHTML = '';
+            
+            // Adicionar item "Todos os projetos"
+            const allProjectsItem = document.createElement('li');
+            allProjectsItem.className = `project-item ${state.selectedProject === 'all' ? 'active' : ''}`;
+            allProjectsItem.dataset.projectId = 'all';
+            allProjectsItem.innerHTML = `
+                <span class="project-name">Todos os projetos</span>
+                <span class="project-count">${Object.keys(state.entries).length}</span>
+            `;
+            allProjectsItem.addEventListener('click', () => {
+                selectProject('all');
+            });
+            projectList.appendChild(allProjectsItem);
+            
+            // Adicionar cada projeto
+            Object.entries(state.projects).forEach(([projectId, project]) => {
+                // Contar entradas para este projeto
+                const entryCount = Object.values(state.entries).filter(entry => entry.projectId === projectId).length;
+                
+                const projectItem = document.createElement('li');
+                projectItem.className = `project-item ${state.selectedProject === projectId ? 'active' : ''}`;
+                projectItem.dataset.projectId = projectId;
+                projectItem.innerHTML = `
+                    <span class="project-name">${project.name}</span>
+                    <span class="project-count">${entryCount}</span>
+                `;
+                
+                // Adicionar evento de clique
+                projectItem.addEventListener('click', () => {
+                    selectProject(projectId);
+                });
+                
+                // Adicionar evento de clique duplo para editar
+                projectItem.addEventListener('dblclick', () => {
+                    editProject(projectId);
+                });
+                
+                projectList.appendChild(projectItem);
+            });
+            
+            updateEntriesTitle();
+        }
+        
+        // Selecionar projeto
+        function selectProject(projectId) {
+            state.selectedProject = projectId;
+            
+            // Atualizar filtro
+            projectFilter.value = projectId;
+            
+            // Atualizar interface
+            renderProjects();
+            renderEntries();
+        }
+        
+        // Atualizar título das entradas
+        function updateEntriesTitle() {
+            if (state.selectedProject === 'all') {
+                entriesTitle.textContent = 'Todas as queries';
+            } else {
+                const project = state.projects[state.selectedProject];
+                entriesTitle.textContent = project ? `Queries: ${project.name}` : 'Queries';
+            }
+        }
+        
+        // Renderizar lista de queries
+        function renderEntries() {
+            entriesList.innerHTML = '';
+            
+            // Filtrar entradas
+            let filteredEntries = Object.entries(state.entries);
+            
+            // Filtrar por projeto selecionado
+            if (state.selectedProject !== 'all') {
+                filteredEntries = filteredEntries.filter(([_, entry]) => entry.projectId === state.selectedProject);
+            }
+            
+            // Filtrar por termo de busca
+            if (state.searchTerm) {
+                filteredEntries = filteredEntries.filter(([_, entry]) => {
+                    return entry.title.toLowerCase().includes(state.searchTerm) || 
+                           entry.content.toLowerCase().includes(state.searchTerm);
+                });
+            }
+            
+            // Ordenar entradas
+            filteredEntries.sort((a, b) => {
+                const entryA = a[1];
+                const entryB = b[1];
+                
+                switch (state.sortBy) {
+                    case 'newest':
+                        return entryB.createdAt - entryA.createdAt;
+                    case 'oldest':
+                        return entryA.createdAt - entryB.createdAt;
+                    case 'title':
+                        return entryA.title.localeCompare(entryB.title);
+                    default:
+                        return entryB.createdAt - entryA.createdAt;
+                }
+            });
+            
+            // Atualizar contador
+            entriesCount.textContent = `${filteredEntries.length} registro${filteredEntries.length !== 1 ? 's' : ''}`;
+            
+            // Mostrar mensagem se não houver resultados
+            if (filteredEntries.length === 0) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                
+                if (state.searchTerm || state.selectedProject !== 'all') {
+                    emptyState.innerHTML = `
+                        <i class="fas fa-search"></i>
+                        <h3>Nenhum resultado encontrado</h3>
+                        <p>Tente ajustar sua busca ou filtro</p>
+                    `;
+                } else {
+                    emptyState.innerHTML = `
+                        <i class="fas fa-code"></i>
+                        <h3>Nenhuma query salva ainda</h3>
+                        <p>Clique em "Nova Query" para adicionar sua primeira query</p>
+                    `;
+                }
+                
+                entriesList.appendChild(emptyState);
+                return;
+            }
+            
+            // Renderizar cada entrada
+            filteredEntries.forEach(([entryId, entry]) => {
+                const entryCard = document.createElement('div');
+                entryCard.className = 'entry-card';
+                
+                // Formatar data
+                const createdAt = new Date(entry.createdAt);
+                const formattedDate = createdAt.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Formatar conteúdo para exibição (limitar tamanho)
+                let previewContent = entry.content;
+                if (previewContent.length > 200) {
+                    previewContent = previewContent.substring(0, 200) + '...';
+                }
+                
+                // Adicionar destaque de sintaxe básico
+                let formattedContent = previewContent;
+                if (entry.type === 'SQL') {
+                    // Destacar palavras-chave SQL
+                    const sqlKeywords = ['SELECT', 'FROM', 'WHERE', 'INSERT', 'UPDATE', 'DELETE', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'GROUP BY', 'ORDER BY', 'HAVING'];
+                    sqlKeywords.forEach(keyword => {
+                        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+                        formattedContent = formattedContent.replace(regex, `<span style="color: #4dabf7;">${keyword}</span>`);
+                    });
+                }
+                
+                entryCard.innerHTML = `
+                    <div class="entry-header">
+                        <div class="entry-title" title="${entry.title}">${entry.title}</div>
+                        <div class="entry-type ${entry.type.toLowerCase()}">${entry.type}</div>
+                    </div>
+                    <div class="entry-content">
+                        <pre>${formattedContent}</pre>
+                    </div>
+                    <div class="entry-footer">
+                        <div class="entry-date">${formattedDate}</div>
+                        <div class="entry-actions">
+                            <button class="action-btn" title="Copiar" data-action="copy" data-entry-id="${entryId}">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="action-btn" title="Editar" data-action="edit" data-entry-id="${entryId}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" title="Excluir" data-action="delete" data-entry-id="${entryId}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                entriesList.appendChild(entryCard);
+            });
+            
+            // Adicionar eventos aos botões de ação
+            document.querySelectorAll('[data-action="copy"]').forEach(btn => {
+                btn.addEventListener('click', copyEntryContent);
+            });
+            
+            document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', editEntry);
+            });
+            
+            document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', deleteEntry);
+            });
+        }
+        
+        // Atualizar filtro de projetos
+        function updateProjectFilter() {
+            // Salvar valor atual
+            const currentValue = projectFilter.value;
+            
+            // Limpar opções (exceto "Todos os projetos")
+            projectFilter.innerHTML = '<option value="all">Todos os projetos</option>';
+            
+            // Adicionar cada projeto
+            Object.entries(state.projects).forEach(([projectId, project]) => {
+                const option = document.createElement('option');
+                option.value = projectId;
+                option.textContent = project.name;
+                projectFilter.appendChild(option);
+            });
+            
+            // Restaurar valor selecionado
+            projectFilter.value = currentValue;
+        }
+        
+        // Atualizar select de projetos no modal de query
+        function updateEntryProjectSelect() {
+            // Salvar valor atual
+            const currentValue = entryProjectSelect.value;
+            
+            // Limpar opções
+            entryProjectSelect.innerHTML = '';
+            
+            // Adicionar cada projeto
+            Object.entries(state.projects).forEach(([projectId, project]) => {
+                const option = document.createElement('option');
+                option.value = projectId;
+                option.textContent = project.name;
+                entryProjectSelect.appendChild(option);
+            });
+            
+            // Restaurar valor selecionado
+            if (currentValue && state.projects[currentValue]) {
+                entryProjectSelect.value = currentValue;
+            } else if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
+                entryProjectSelect.value = state.selectedProject;
+            }
+        }
+        
+        // Abrir modal de projeto
+        function openProjectModal(projectId = null) {
+            state.editingProjectId = projectId;
+            
+            if (projectId) {
+                // Modo edição
+                projectModalTitle.textContent = 'Editar Projeto';
+                const project = state.projects[projectId];
+                projectNameInput.value = project.name;
+            } else {
+                // Modo criação
+                projectModalTitle.textContent = 'Novo Projeto';
+                projectNameInput.value = '';
+            }
+            
+            projectModal.classList.add('active');
+            projectNameInput.focus();
+        }
+        
+        // Fechar modal de projeto
+        function closeProjectModalHandler() {
+            projectModal.classList.remove('active');
+            state.editingProjectId = null;
+            projectNameInput.value = '';
+        }
+        
+        // Salvar projeto
+        async function saveProject() {
+            const projectName = projectNameInput.value.trim();
+            
+            if (!projectName) {
+                alert('Por favor, digite um nome para o projeto');
+                projectNameInput.focus();
+                return;
+            }
+            
+            const projectData = {
+                name: projectName,
+                createdAt: state.editingProjectId ? state.projects[state.editingProjectId].createdAt : Date.now()
+            };
+            
+            try {
+                let response;
+                
+                if (state.editingProjectId) {
+                    // Atualizar projeto existente
+                    response = await fetch(`${FIREBASE_URL}/projects/${state.editingProjectId}.json`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(projectData)
+                    });
+                    
+                    showStatus(sidebarStatus, 'Projeto atualizado com sucesso', 'success');
+                } else {
+                    // Criar novo projeto
+                    response = await fetch(`${FIREBASE_URL}/projects.json`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(projectData)
+                    });
+                    
+                    showStatus(sidebarStatus, 'Projeto criado com sucesso', 'success');
+                }
+                
+                // Fechar modal e recarregar projetos
+                closeProjectModalHandler();
+                await loadProjects();
+                
+            } catch (error) {
+                console.error('Erro ao salvar projeto:', error);
+                showStatus(sidebarStatus, 'Erro ao salvar projeto', 'error');
+            }
+        }
+        
+        // Editar projeto (com duplo clique)
+        function editProject(projectId) {
+            openProjectModal(projectId);
+        }
+        
+        // Abrir modal de query
+        function openEntryModal(entryId = null) {
+            state.editingEntryId = entryId;
+            
+            // Atualizar lista de projetos no select
+            updateEntryProjectSelect();
+            
+            if (entryId) {
+                // Modo edição
+                entryModalTitle.textContent = 'Editar Query';
+                const entry = state.entries[entryId];
+                entryTitleInput.value = entry.title;
+                entryTypeSelect.value = entry.type;
+                entryProjectSelect.value = entry.projectId;
+                entryContentTextarea.value = entry.content;
+            } else {
+                // Modo criação
+                entryModalTitle.textContent = 'Nova Query';
+                entryTitleInput.value = '';
+                entryTypeSelect.value = 'SQL';
+                entryContentTextarea.value = '';
+                
+                // Selecionar o projeto atual no modal
+                if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
+                    entryProjectSelect.value = state.selectedProject;
+                }
+            }
+            
+            entryModal.classList.add('active');
+            entryTitleInput.focus();
+        }
+        
+        // Fechar modal de query
+        function closeEntryModalHandler() {
+            entryModal.classList.remove('active');
+            state.editingEntryId = null;
+            entryTitleInput.value = '';
+            entryContentTextarea.value = '';
+        }
+        
+        // Salvar query
+        async function saveEntry() {
+            const title = entryTitleInput.value.trim();
+            const type = entryTypeSelect.value;
+            const projectId = entryProjectSelect.value;
+            const content = entryContentTextarea.value.trim();
+            
+            if (!title) {
+                alert('Por favor, digite um título para a query');
+                entryTitleInput.focus();
+                return;
+            }
+            
+            if (!projectId) {
+                alert('Por favor, selecione um projeto');
+                return;
+            }
+            
+            if (!content) {
+                alert('Por favor, digite o conteúdo da query');
+                entryContentTextarea.focus();
+                return;
+            }
+            
+            const entryData = {
+                title,
+                type,
+                projectId,
+                content,
+                createdAt: state.editingEntryId ? state.entries[state.editingEntryId].createdAt : Date.now()
+            };
+            
+            try {
+                let response;
+                
+                if (state.editingEntryId) {
+                    // Atualizar entrada existente
+                    response = await fetch(`${FIREBASE_URL}/entries/${state.editingEntryId}.json`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(entryData)
+                    });
+                    
+                    showStatus(entriesStatus, 'Query atualizada com sucesso', 'success');
+                } else {
+                    // Criar nova entrada
+                    response = await fetch(`${FIREBASE_URL}/entries.json`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(entryData)
+                    });
+                    
+                    showStatus(entriesStatus, 'Query criada com sucesso', 'success');
+                }
+                
+                // Fechar modal e recarregar entradas
+                closeEntryModalHandler();
+                await loadEntries();
+                await loadProjects(); // Para atualizar contadores
+                
+            } catch (error) {
+                console.error('Erro ao salvar query:', error);
+                showStatus(entriesStatus, 'Erro ao salvar query', 'error');
+            }
+        }
+        
+        // Copiar conteúdo da query
+        function copyEntryContent(e) {
+            const entryId = e.currentTarget.dataset.entryId;
+            const entry = state.entries[entryId];
+            
+            navigator.clipboard.writeText(entry.content)
+                .then(() => {
+                    // Feedback visual
+                    const btn = e.currentTarget;
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.style.color = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.style.color = '';
+                    }, 1000);
+                })
+                .catch(err => {
+                    console.error('Erro ao copiar:', err);
+                    alert('Erro ao copiar para a área de transferência');
+                });
+        }
+        
+        // Editar query
+        function editEntry(e) {
+            const entryId = e.currentTarget.dataset.entryId;
+            openEntryModal(entryId);
+        }
+        
+        // Excluir query
+        async function deleteEntry(e) {
+            const entryId = e.currentTarget.dataset.entryId;
+            const entry = state.entries[entryId];
+            
+            if (!confirm(`Tem certeza que deseja excluir a query "${entry.title}"?`)) {
+                return;
+            }
+            
+            try {
+                await fetch(`${FIREBASE_URL}/entries/${entryId}.json`, {
+                    method: 'DELETE'
+                });
+                
+                showStatus(entriesStatus, 'Query excluída com sucesso', 'success');
+                
+                // Recarregar dados
+                await loadEntries();
+                await loadProjects(); // Para atualizar contadores
+                
+            } catch (error) {
+                console.error('Erro ao excluir query:', error);
+                showStatus(entriesStatus, 'Erro ao excluir query', 'error');
+            }
+        }
+        
+        // Mostrar mensagem de status
+        function showStatus(element, message, type) {
+            element.textContent = message;
+            element.className = `status-message ${type}`;
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                element.className = 'status-message';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
