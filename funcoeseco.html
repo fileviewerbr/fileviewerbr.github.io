@@ -572,24 +572,23 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="top-funcoes">
-                    <div class="chart-title">🔥 Top 10 Funções Mais Acessadas</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Função</th>
-                                <th>Aplicação</th>
-                                <th>Total Acessos</th>
-                                <th>Usuários</th>
-                            </tr>
-                        </thead>
-                        <tbody id="top-funcoes-body">
-                            <!-- Top funções -->
-                        </tbody>
-                    </table>
-                </div>
+<div class="top-funcoes"  style="max-height: 400px; overflow-y: auto;">
+    <div class="chart-title"  style="max-height: 400px; overflow-y: auto;">📋 Todas as Funções (${totalFuncoesUnicas})</div>
+    <table style="width: 100%; border-collapse: collapse;" >
+        <thead  style="max-height: 400px; overflow-y: auto;">
+            <tr>
+                <th style="padding: 12px 10px; text-align: left; border-bottom: 2px solid #e9ecf0;">Função</th>
+                <th style="padding: 12px 10px; text-align: left; border-bottom: 2px solid #e9ecf0;">Aplicação</th>
+                <th style="padding: 12px 10px; text-align: right; border-bottom: 2px solid #e9ecf0;">Total Acessos</th>
+                <th style="padding: 12px 10px; text-align: right; border-bottom: 2px solid #e9ecf0;">Usuários</th>
+                <th style="padding: 12px 10px; text-align: center; border-bottom: 2px solid #e9ecf0;">Média</th>
+            </tr>
+        </thead>
+        <tbody id="todas-funcoes-body">
+            <!-- Todas as funções -->
+        </tbody>
+    </table>
+</div>
 
                 <div class="grid-2">
                     <div class="chart-container">
@@ -72144,48 +72143,67 @@
                 `;
             }).join('');
 
-            // Top funções
-            const funcaoAcessos = {};
-            dados.forEach(d => {
-                const chave = `${d.cd_funcao}-${d.ds_funcao}`;
-                if (!funcaoAcessos[chave]) {
-                    funcaoAcessos[chave] = {
-                        nome: d.ds_funcao,
-                        aplicacao: d.ds_aplicacao,
-                        total: 0,
-                        usuarios: new Set()
-                    };
-                }
-                funcaoAcessos[chave].total += d.qt_acessos;
-                funcaoAcessos[chave].usuarios.add(d.nm_usuario);
-            });
+           // Todas as funções (em vez de só top 10)
+const funcaoAcessos = {};
+dados.forEach(d => {
+    const chave = `${d.cd_funcao}-${d.ds_funcao}`;
+    if (!funcaoAcessos[chave]) {
+        funcaoAcessos[chave] = {
+            cd_funcao: d.cd_funcao,
+            nome: d.ds_funcao,
+            aplicacao: d.ds_aplicacao,
+            total: 0,
+            usuarios: new Set(),
+            acessosPorUsuario: []
+        };
+    }
+    funcaoAcessos[chave].total += d.qt_acessos;
+    funcaoAcessos[chave].usuarios.add(d.nm_usuario);
+});
 
-            const topFuncoes = Object.entries(funcaoAcessos)
-                .map(([_, dados]) => dados)
-                .sort((a, b) => b.total - a.total)
-                .slice(0, 10);
+// Converter para array e ordenar por total de acessos (decrescente)
+const todasFuncoes = Object.values(funcaoAcessos)
+    .sort((a, b) => b.total - a.total);
 
-            const maxFuncaoAcessos = topFuncoes[0]?.total || 1;
+const totalFuncoesUnicas = todasFuncoes.length;
+const maxFuncaoAcessos = todasFuncoes[0]?.total || 1;
 
-            document.getElementById('top-funcoes-body').innerHTML = topFuncoes.map((f, idx) => {
-                const percent = Math.round((f.total / maxFuncaoAcessos) * 100);
-                const rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : '';
-                return `
-                    <tr>
-                        <td><span class="${rankClass}">#${idx + 1}</span></td>
-                        <td>${f.nome}</td>
-                        <td>${f.aplicacao}</td>
-                        <td>
-                            <strong>${f.total.toLocaleString()}</strong>
-                            <div class="acessos-bar">
-                                <div class="acessos-fill" style="width: ${percent}%"></div>
-                            </div>
-                        </td>
-                        <td>${f.usuarios.size} usuários</td>
-                    </tr>
-                `;
-            }).join('');
+// Atualizar o título com o total
+document.querySelector('.top-funcoes .chart-title').innerHTML = `📋 Todas as Funções (${totalFuncoesUnicas})`;
 
+document.getElementById('todas-funcoes-body').innerHTML = todasFuncoes.map(f => {
+    const percent = Math.round((f.total / maxFuncaoAcessos) * 100);
+    const media = Math.round(f.total / f.usuarios.size) || 0;
+    
+    // Define cor baseada no volume de acessos
+    let corBarra = '#2f5b8c';
+    if (f.total > 1000) corBarra = '#10b981';
+    else if (f.total > 500) corBarra = '#f59e0b';
+    else if (f.total > 100) corBarra = '#3b82f6';
+    else corBarra = '#94a3b8';
+    
+    return `
+        <tr>
+            <td style="padding: 12px 10px; border-bottom: 1px solid #eef2f6;">
+                <div style="font-weight: 500;">${f.nome}</div>
+                <div style="font-size: 11px; color: #6b7280;">Cód: ${f.cd_funcao}</div>
+            </td>
+            <td style="padding: 12px 10px; border-bottom: 1px solid #eef2f6;">${f.aplicacao}</td>
+            <td style="padding: 12px 10px; border-bottom: 1px solid #eef2f6; text-align: right;">
+                <strong>${f.total.toLocaleString()}</strong>
+                <div style="width: 80px; height: 6px; background: #e9ecf0; border-radius: 3px; margin-top: 4px; margin-left: auto;">
+                    <div style="width: ${percent}%; height: 100%; background: ${corBarra}; border-radius: 3px;"></div>
+                </div>
+            </td>
+            <td style="padding: 12px 10px; border-bottom: 1px solid #eef2f6; text-align: right;">${f.usuarios.size}</td>
+            <td style="padding: 12px 10px; border-bottom: 1px solid #eef2f6; text-align: center;">
+                <span style="background: #f3f4f6; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                    ${media}/usuário
+                </span>
+            </td>
+        </tr>
+    `;
+}).join('');
             // Funções nunca acessadas
             const funcoesNunca = dados.filter(d => d.acessou === 'NÃO')
                 .reduce((acc, d) => {
