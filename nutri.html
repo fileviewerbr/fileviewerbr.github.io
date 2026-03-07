@@ -1,0 +1,3596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Nutricional · Gestão Inteligente de Dieta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --rosa-claro: #FFE4E9;
+            --rosa-medio: #FFB6C1;
+            --rosa-principal: #FF69B4;
+            --rosa-escuro: #DB7090;
+            --branco: #FFFFFF;
+            --cinza-suave: #F8F9FA;
+            --cinza-texto: #4A5568;
+            --sombra: 0 4px 20px rgba(255, 105, 180, 0.1);
+            --borda-raio: 16px;
+        }
+
+        body {
+            background-color: var(--rosa-claro);
+            color: var(--cinza-texto);
+            line-height: 1.6;
+        }
+
+        /* Layout Principal */
+        .app-container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--branco);
+            box-shadow: var(--sombra);
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            background-color: var(--branco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--rosa-medio);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--cinza-texto);
+        }
+
+        .logo span {
+            color: var(--rosa-principal);
+            font-weight: 600;
+        }
+
+        .motivational-message {
+            background-color: var(--rosa-claro);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-style: italic;
+            color: var(--rosa-escuro);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(255, 105, 180, 0.2);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--branco);
+            border-right: 2px solid var(--rosa-medio);
+            padding: 2rem 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            position: sticky;
+            top: 80px;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            color: var(--cinza-texto);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background-color: var(--rosa-claro);
+            border-left-color: var(--rosa-principal);
+            color: var(--rosa-escuro);
+        }
+
+        /* Main Content */
+        .main-content {
+            background-color: var(--cinza-suave);
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--branco);
+            border-radius: var(--borda-raio);
+            padding: 1.5rem;
+            box-shadow: var(--sombra);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--rosa-medio);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--rosa-claro);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-header h2 {
+            color: var(--rosa-escuro);
+            font-size: 1.3rem;
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--rosa-claro) 0%, var(--branco) 100%);
+            border-radius: var(--borda-raio);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+        }
+
+        .stat-info h3 {
+            font-size: 0.9rem;
+            color: var(--rosa-escuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--rosa-principal);
+        }
+
+        .chart-container {
+            background: var(--branco);
+            border-radius: var(--borda-raio);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Tabelas */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.75rem;
+            background-color: var(--rosa-claro);
+            color: var(--rosa-escuro);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--rosa-medio);
+        }
+
+        tr:hover {
+            background-color: var(--rosa-claro);
+        }
+
+        /* Botões */
+        .btn-primary {
+            background-color: var(--rosa-principal);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--rosa-escuro);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--rosa-principal);
+            border: 2px solid var(--rosa-principal);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--rosa-claro);
+        }
+
+        /* Calendário */
+        .week-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .day-column {
+            background: var(--branco);
+            border-radius: var(--borda-raio);
+            border: 1px solid var(--rosa-medio);
+            min-width: 0;
+        }
+
+        .day-header {
+            background-color: var(--rosa-principal);
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            border-radius: var(--borda-raio) var(--borda-raio) 0 0;
+        }
+
+        .meal-slot {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--rosa-claro);
+        }
+
+        .meal-slot:last-child {
+            border-bottom: none;
+        }
+
+        .meal-label {
+            font-size: 0.8rem;
+            color: var(--rosa-escuro);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .meal-content {
+            background-color: var(--cinza-suave);
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .meal-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-preparada { background-color: #C8E6C9; color: #2E7D32; }
+        .status-congelada { background-color: #B3E5FC; color: #0277BD; }
+        .status-consumida { background-color: #FFE0B2; color: #E65100; }
+
+        /* Lista de Compras */
+        .grocery-list {
+            list-style: none;
+        }
+
+        .grocery-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--rosa-claro);
+            gap: 1rem;
+        }
+
+        .grocery-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--rosa-principal);
+        }
+
+        .grocery-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .grocery-item .quantity {
+            background-color: var(--rosa-claro);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        /* Estoque */
+        .stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stock-item {
+            background: var(--branco);
+            border-radius: var(--borda-raio);
+            padding: 1rem;
+            border: 1px solid var(--rosa-medio);
+            position: relative;
+        }
+
+        .stock-item.expiring {
+            border-left: 4px solid #ff9800;
+        }
+
+        .stock-item.frozen {
+            background-color: #f0f8ff;
+        }
+
+        .expiry-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #ff9800;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: var(--branco);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--borda-raio);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--rosa-escuro);
+        }
+
+        /* Formulários */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--rosa-escuro);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--rosa-medio);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--rosa-principal);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox input {
+            width: auto;
+        }
+
+        /* Responsividade */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--rosa-principal);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 250px;
+                height: calc(100vh - 80px);
+                z-index: 99;
+            }
+
+            .sidebar.show {
+                display: block;
+            }
+
+            .week-calendar {
+                grid-template-columns: 1fr;
+            }
+
+            .day-column {
+                margin-bottom: 1rem;
+            }
+
+            .header {
+                flex-wrap: wrap;
+            }
+
+            .motivational-message {
+                order: 3;
+                width: 100%;
+                margin-top: 0.5rem;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utilidades */
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .p-2 { padding: 1rem; }
+        .flex { display: flex; }
+        .gap-2 { gap: 1rem; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+
+
+
+        .ingredientes {
+    background-color: #f9f9f9;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 8px;
+    border-left: 3px solid var(--rosa-medio);
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.ingredientes br {
+    margin-bottom: 3px;
+}
+
+/* Estilo para o card de refeição com altura fixa */
+.meal-slot {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--rosa-claro);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.meal-slot:hover {
+    background-color: var(--rosa-claro);
+}
+
+.meal-content {
+    background-color: var(--cinza-suave);
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    height: 80px; /* Altura fixa */
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.meal-content strong {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ingredientes-preview {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 2px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.2;
+    max-height: 2.4em;
+}
+
+.ingredientes-preview span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Efeito de fade no final do card */
+.meal-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, var(--cinza-suave));
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 0.2rem 0.4rem;
+    border-radius: 20px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+    </style>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header com mensagem motivacional -->
+        <header class="header">
+            <div class="logo">
+                <h1>🥗 controle<span>nutricional</span></h1>
+            </div>
+            <div class="motivational-message" id="motivationalMessage">
+                "Disciplina supera motivação."
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+        </header>
+
+        <!-- Navegação principal -->
+        <nav class="sidebar" id="sidebar">
+            <ul>
+                <li><a href="#dashboard" class="active" data-view="dashboard">📊 Dashboard</a></li>
+                <li><a href="#estoque" data-view="estoque">🧊 Estoque</a></li>
+                <li><a href="#calendario" data-view="calendario">📅 Calendário Semanal</a></li>
+                <li><a href="#compras" data-view="compras">🛒 Lista de Compras</a></li>
+                <li><a href="#catalogo" data-view="catalogo">📚 Catálogo de Alimentos</a></li>
+                <li><a href="#regras" data-view="regras">📋 Regras da Nutricionista</a></li>
+            </ul>
+        </nav>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content" id="mainContent">
+            <!-- O conteúdo será carregado dinamicamente via JS -->
+        </main>
+    </div>
+
+    <!-- Modal de Estoque -->
+    <div class="modal" id="foodModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🍗 Adicionar ao Estoque</h2>
+            <form id="foodForm">
+                <div class="form-group">
+                    <label>Selecione do Catálogo</label>
+                    <select id="foodSelect" required>
+                        <option value="">-- Selecione um alimento --</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="foodQuantity" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unidade</label>
+                        <input type="text" id="foodUnitDisplay" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Data de Validade</label>
+                    <input type="date" id="foodExpiry">
+                </div>
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" id="foodFrozen"> Está congelado?
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary">Adicionar ao Estoque</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Regras -->
+    <div class="modal" id="rulesModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📋 Importar Regras da Nutricionista</h2>
+            <p>Faça upload de um arquivo .txt com as regras (uma por linha)</p>
+            <input type="file" id="rulesFile" accept=".txt">
+            <button class="btn-primary" id="importRulesBtn">Importar Regras</button>
+            <div class="current-rules" id="currentRules"></div>
+        </div>
+    </div>
+
+    <!-- Modal do Catálogo -->
+    <div class="modal" id="catalogModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📚 Cadastrar Alimento no Catálogo</h2>
+            <form id="catalogForm">
+                <div class="form-group">
+                    <label>Nome do Alimento</label>
+                    <input type="text" id="catalogName" required>
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="catalogCategory" required>
+                        <option value="proteina">Proteína</option>
+                        <option value="carboidrato">Carboidrato</option>
+                        <option value="vegetal">Vegetal</option>
+                        <option value="fruta">Fruta</option>
+                        <option value="laticinio">Laticínio</option>
+                        <option value="bebida">Bebida</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Unidade Padrão</label>
+                        <select id="catalogUnit">
+                            <option value="g">gramas (g)</option>
+                            <option value="kg">quilos (kg)</option>
+                            <option value="ml">mililitros (ml)</option>
+                            <option value="l">litros (l)</option>
+                            <option value="un">unidade(s)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Calorias por unidade</label>
+                        <input type="number" id="catalogCalories" step="0.01" value="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Proteínas (g/un)</label>
+                        <input type="number" id="catalogProtein" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Carboidratos (g/un)</label>
+                        <input type="number" id="catalogCarbs" step="0.01" value="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Gorduras (g/un)</label>
+                        <input type="number" id="catalogFat" step="0.01" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Salvar no Catálogo</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Modal de Preço da Lista de Compras -->
+<div class="modal" id="priceModal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>💰 Registrar Preço do Item</h2>
+        <form id="priceForm">
+            <div class="form-group">
+                <label>Item</label>
+                <input type="text" id="priceItemName" readonly class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Quantidade</label>
+                <input type="text" id="priceItemQuantity" readonly class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Preço (R$)</label>
+                <input type="number" id="priceValue" step="0.01" min="0" required placeholder="0,00">
+            </div>
+            <div class="form-group">
+                <label>Local da Compra</label>
+                <input type="text" id="priceStore" placeholder="Ex: Supermercado X">
+            </div>
+            <button type="submit" class="btn-primary">Registrar Preço</button>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Modal de Detalhes da Refeição -->
+<div class="modal" id="mealDetailModal">
+    <div class="modal-content" style="max-width: 600px;">
+        <span class="close">&times;</span>
+        <div id="mealDetailContent">
+            <!-- Conteúdo será preenchido via JavaScript -->
+        </div>
+    </div>
+</div>
+
+    <script>
+        // ==================== CONFIGURAÇÕES ====================
+        const FIREBASE_CONFIG = {
+            databaseURL: "https://appatividades-7450d-default-rtdb.firebaseio.com/",
+        };
+
+        // ==================== FUNÇÕES FIREBASE ====================
+        async function firebaseRequest(path, method = 'GET', data = null) {
+            const url = `${FIREBASE_CONFIG.databaseURL}/${path}.json`;
+            
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            };
+
+            if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                options.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(url, options);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+                }
+                
+                if (method === 'DELETE') {
+                    return true;
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro na requisição ${method} para ${path}:`, error);
+                throw error;
+            }
+        }
+
+        // ==================== ALIMENTOS (ESTOQUE) ====================
+        async function getFoods() {
+            try {
+                const data = await firebaseRequest('foods');
+                return data ? Object.entries(data).map(([id, value]) => ({ id, ...value })) : [];
+            } catch (error) {
+                console.error('Erro ao buscar alimentos:', error);
+                return [];
+            }
+        }
+
+        async function addFood(food) {
+            const newFood = {
+                ...food,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                const result = await firebaseRequest('foods', 'POST', newFood);
+                return { ...newFood, id: result.name };
+            } catch (error) {
+                console.error('Erro ao adicionar alimento:', error);
+                throw error;
+            }
+        }
+
+        async function updateFood(id, food) {
+            const updatedFood = {
+                ...food,
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                await firebaseRequest(`foods/${id}`, 'PUT', updatedFood);
+                return { ...updatedFood, id };
+            } catch (error) {
+                console.error('Erro ao atualizar alimento:', error);
+                throw error;
+            }
+        }
+
+        async function deleteFood(id) {
+            try {
+                return await firebaseRequest(`foods/${id}`, 'DELETE');
+            } catch (error) {
+                console.error('Erro ao deletar alimento:', error);
+                throw error;
+            }
+        }
+
+        // ==================== MENU SEMANAL ====================
+        async function getWeeklyMenu() {
+            try {
+                const data = await firebaseRequest('weeklyMenu');
+                return data || {};
+            } catch (error) {
+                console.error('Erro ao buscar menu:', error);
+                return {};
+            }
+        }
+
+        async function saveWeeklyMenu(menu) {
+            try {
+                return await firebaseRequest('weeklyMenu', 'PUT', menu);
+            } catch (error) {
+                console.error('Erro ao salvar menu:', error);
+                throw error;
+            }
+        }
+
+        async function updateMealStatus(day, meal, status) {
+            try {
+                const menu = await getWeeklyMenu();
+                
+                if (!menu[day]) menu[day] = {};
+                if (!menu[day][meal]) menu[day][meal] = {};
+                
+                menu[day][meal].status = status;
+                
+                return await saveWeeklyMenu(menu);
+            } catch (error) {
+                console.error('Erro ao atualizar status da refeição:', error);
+                throw error;
+            }
+        }
+
+        // ==================== LISTA DE COMPRAS ====================
+        async function getGroceryList() {
+            try {
+                const data = await firebaseRequest('groceryList');
+                return data ? Object.entries(data).map(([id, value]) => ({ id, ...value })) : [];
+            } catch (error) {
+                console.error('Erro ao buscar lista de compras:', error);
+                return [];
+            }
+        }
+
+        async function addGroceryItem(item) {
+            const newItem = {
+                ...item,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            try {
+                const result = await firebaseRequest('groceryList', 'POST', newItem);
+                return { ...newItem, id: result.name };
+            } catch (error) {
+                console.error('Erro ao adicionar item à lista:', error);
+                throw error;
+            }
+        }
+
+        async function updateGroceryItem(id, updates) {
+            try {
+                return await firebaseRequest(`groceryList/${id}`, 'PATCH', updates);
+            } catch (error) {
+                console.error('Erro ao atualizar item da lista:', error);
+                throw error;
+            }
+        }
+
+        async function deleteGroceryItem(id) {
+            try {
+                return await firebaseRequest(`groceryList/${id}`, 'DELETE');
+            } catch (error) {
+                console.error('Erro ao deletar item da lista:', error);
+                throw error;
+            }
+        }
+
+        async function replaceGroceryList(items) {
+            try {
+                await firebaseRequest('groceryList', 'DELETE');
+                
+                const results = [];
+                for (const item of items) {
+                    const result = await addGroceryItem(item);
+                    results.push(result);
+                }
+                
+                return results;
+            } catch (error) {
+                console.error('Erro ao gerar nova lista de compras:', error);
+                throw error;
+            }
+        }
+
+        // ==================== REGRAS NUTRICIONAIS ====================
+        async function getNutritionRules() {
+            try {
+                const data = await firebaseRequest('nutritionRules');
+                return data || { rules: [], updatedAt: null };
+            } catch (error) {
+                console.error('Erro ao buscar regras:', error);
+                return { rules: [], updatedAt: null };
+            }
+        }
+
+        async function saveNutritionRules(rules) {
+            const data = {
+                rules: rules,
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                return await firebaseRequest('nutritionRules', 'PUT', data);
+            } catch (error) {
+                console.error('Erro ao salvar regras:', error);
+                throw error;
+            }
+        }
+
+        // ==================== ESTOQUE ====================
+        async function consumeFromStock(ingredientName, quantity = 1) {
+            try {
+                const foods = await getFoods();
+                const foodItem = foods.find(f => 
+                    ingredientName.toLowerCase().includes(f.name.toLowerCase()) ||
+                    f.name.toLowerCase().includes(ingredientName.toLowerCase())
+                );
+                
+                if (foodItem) {
+                    const newQuantity = Math.max(0, foodItem.quantity - (quantity * 100));
+                    
+                    if (newQuantity <= 0) {
+                        await deleteFood(foodItem.id);
+                        await addGroceryItem({
+                            name: foodItem.name,
+                            quantity: foodItem.quantity,
+                            unit: foodItem.unit,
+                            category: foodItem.category
+                        });
+                    } else {
+                        await updateFood(foodItem.id, {
+                            ...foodItem,
+                            quantity: newQuantity
+                        });
+                    }
+                    
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('Erro ao consumir do estoque:', error);
+                return false;
+            }
+        }
+
+        async function checkExpiringFoods(daysThreshold = 3) {
+            try {
+                const foods = await getFoods();
+                const today = new Date();
+                const expiringFoods = [];
+                
+                foods.forEach(food => {
+                    if (food.expiry) {
+                        const expiryDate = new Date(food.expiry);
+                        const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+                        
+                        if (daysUntilExpiry <= daysThreshold && daysUntilExpiry >= 0) {
+                            expiringFoods.push({
+                                ...food,
+                                daysUntilExpiry
+                            });
+                        }
+                    }
+                });
+                
+                return expiringFoods;
+            } catch (error) {
+                console.error('Erro ao verificar alimentos próximos ao vencimento:', error);
+                return [];
+            }
+        }
+
+        // ==================== CATÁLOGO DE ALIMENTOS ====================
+        async function getFoodCatalog() {
+            try {
+                const data = await firebaseRequest('foodCatalog');
+                return data ? Object.entries(data).map(([id, value]) => ({ id, ...value })) : [];
+            } catch (error) {
+                console.error('Erro ao buscar catálogo:', error);
+                return [];
+            }
+        }
+
+        async function addToCatalog(food) {
+            const newFood = {
+                ...food,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                const result = await firebaseRequest('foodCatalog', 'POST', newFood);
+                return { ...newFood, id: result.name };
+            } catch (error) {
+                console.error('Erro ao adicionar ao catálogo:', error);
+                throw error;
+            }
+        }
+
+        async function updateCatalog(id, food) {
+            const updatedFood = {
+                ...food,
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                await firebaseRequest(`foodCatalog/${id}`, 'PUT', updatedFood);
+                return { ...updatedFood, id };
+            } catch (error) {
+                console.error('Erro ao atualizar catálogo:', error);
+                throw error;
+            }
+        }
+
+        async function deleteFromCatalog(id) {
+            try {
+                return await firebaseRequest(`foodCatalog/${id}`, 'DELETE');
+            } catch (error) {
+                console.error('Erro ao deletar do catálogo:', error);
+                throw error;
+            }
+        }
+
+        // ==================== MÓDULO DE GERAÇÃO DE MENU ====================
+        const menuGenerator = {
+            motivationalPhrases: [
+                "Disciplina supera motivação.",
+                "Você está construindo sua melhor versão.",
+                "Consistência é mais importante que perfeição.",
+                "O resultado vem da repetição.",
+                "Seu futuro agradece cada escolha saudável de hoje.",
+                "Pequenas ações diárias criam grandes mudanças.",
+                "Você é mais forte do que suas desculpas.",
+                "Celebre cada refeição feita com consciência."
+            ],
+
+            getRandomPhrase() {
+                return this.motivationalPhrases[Math.floor(Math.random() * this.motivationalPhrases.length)];
+            },
+
+            updateMotivationalMessage() {
+                const messageElement = document.getElementById('motivationalMessage');
+                if (messageElement) {
+                    messageElement.textContent = `"${this.getRandomPhrase()}"`;
+                }
+            },
+
+          
+
+
+            // Enviar mensagem para API do DeepSeek (CORRIGIDO)
+async enviarMsgIA(prompt) {
+    const apiKey = 'sk-a6c273c073f9429fa012101e13a4edd1';
+    const apiUrl = 'https://api.deepseek.com/v1/chat/completions';
+    
+    try {
+        console.log('📤 Enviando requisição para DeepSeek...');
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                model: 'deepseek-chat',
+                messages: [
+                    { 
+                        role: 'system', 
+                        content: 'Você é um nutricionista especialista em planejamento alimentar. Crie menus saudáveis e equilibrados baseados nos alimentos disponíveis e nas regras fornecidas. Responda SEMPRE em formato JSON válido, sem texto adicional.' 
+                    },
+                    { role: 'user', content: prompt }
+                ],
+              
+                stream: false
+            }),
+        });
+        
+        console.log('📥 Resposta recebida:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Erro da API:', errorText);
+            throw new Error(`Erro na API: ${response.status} - ${errorText}`);
+        }
+        
+        const data = await response.json();
+        console.log('✅ Dados recebidos:', data);
+        
+        // Verificar estrutura da resposta
+        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+            console.error('Estrutura de resposta inesperada:', data);
+            throw new Error('Formato de resposta inválido');
+        }
+        
+        return data.choices[0].message.content;
+        
+    } catch (error) {
+        console.error('❌ Erro ao chamar API do DeepSeek:', error);
+        return null;
+    }
+},
+
+
+
+// Gerar menu usando IA (CORRIGIDO)
+async generateMenuWithAI() {
+    console.log('🎯 Gerando menu com IA...');
+    
+    try {
+        const catalog = await getFoodCatalog();
+        const rules = await getNutritionRules();
+        
+        console.log('Catálogo carregado:', catalog.length, 'itens');
+        console.log('Regras carregadas:', rules.rules);
+        
+        if (catalog.length === 0) {
+            alert('⚠️ Catálogo vazio! Adicione alimentos ao catálogo primeiro.');
+            return this.generateIntelligentFallback();
+        }
+        
+        const prompt = this.buildAIPrompt(catalog, rules.rules);
+        console.log('Prompt enviado:', prompt.substring(0, 200) + '...');
+        
+        const aiResponse = await this.enviarMsgIA(prompt);
+        
+        if (!aiResponse) {
+            console.log('⚠️ Resposta da IA vazia, usando fallback inteligente');
+            return this.generateIntelligentFallback(catalog);
+        }
+        
+        console.log('Resposta da IA recebida:', aiResponse.substring(0, 200) + '...');
+        
+        const menu = this.parseAIResponse(aiResponse);
+        
+        if (!menu) {
+            console.log('⚠️ Não foi possível parsear resposta, usando fallback');
+            return this.generateIntelligentFallback(catalog);
+        }
+        
+        await saveWeeklyMenu(menu);
+        this.updateMotivationalMessage();
+        
+        alert('✅ Menu gerado com sucesso!');
+        return menu;
+        
+    } catch (error) {
+        console.error('❌ Erro ao gerar menu com IA:', error);
+        alert('❌ Erro ao gerar menu. Usando menu automático.');
+        return this.generateIntelligentFallback();
+    }
+},
+
+// NOVA FUNÇÃO: Fallback inteligente
+generateIntelligentFallback(catalog = null) {
+    console.log('📋 Gerando menu fallback...');
+    
+    const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+    const menu = {};
+    
+    // Se tiver catálogo, usar alimentos reais
+    const foodNames = catalog && catalog.length > 0 
+        ? catalog.map(f => f.name) 
+        : ['Frango', 'Arroz', 'Brócolis', 'Ovo', 'Batata', 'Salada'];
+    
+    days.forEach(day => {
+        menu[day] = {};
+        meals.forEach(meal => {
+            // Selecionar alimentos aleatórios do catálogo
+            const numIngredients = meal === 'lanches' ? 1 : 2 + Math.floor(Math.random() * 2);
+            const ingredients = [];
+            
+            for (let i = 0; i < numIngredients; i++) {
+                const randomFood = foodNames[Math.floor(Math.random() * foodNames.length)];
+                const quantity = meal === 'cafe' ? 50 + Math.random() * 50 : 100 + Math.random() * 100;
+                ingredients.push(`${randomFood} - ${Math.round(quantity)}g`);
+            }
+            
+            menu[day][meal] = {
+                nome: this.getMealName(meal),
+                ingredientes: ingredients,
+                status: 'pendente'
+            };
+        });
+    });
+    
+    return menu;
+},
+
+// NOVA FUNÇÃO: Nome da refeição
+getMealName(meal) {
+    const names = {
+        cafe: ['Café da manhã nutritivo', 'Café da manhã energético', 'Começando o dia bem'],
+        almoco: ['Almoço balanceado', 'Refeição completa', 'Almoço nutritivo'],
+        jantar: ['Jantar leve', 'Ceia saudável', 'Refeição noturna'],
+        lanches: ['Lanche da manhã', 'Lanche da tarde', 'Pausa para energia']
+    };
+    const options = names[meal] || names.cafe;
+    return options[Math.floor(Math.random() * options.length)];
+},
+
+            buildAIPrompt(catalog, rules) {
+                const foodsList = catalog.map(f => 
+                    `- ${f.name} (${f.category}): ${f.calories || 0}cal, ${f.protein || 0}g proteína, ${f.carbs || 0}g carboidratos por ${f.unit || 'unidade'}`
+                ).join('\n');
+
+                const rulesText = rules && rules.length > 0 
+                    ? rules.map(r => `- ${r}`).join('\n')
+                    : 'Sem restrições específicas';
+
+                return `
+Crie um plano alimentar semanal (segunda a domingo) usando os alimentos do catálogo abaixo.
+
+REGRAS DA NUTRICIONISTA (OBRIGATÓRIO SEGUIR):
+${rulesText}
+
+CATÁLOGO DE ALIMENTOS DISPONÍVEIS (use apenas estes):
+${foodsList}
+
+INSTRUÇÕES:
+1. Crie refeições para: Café da Manhã, Almoço, Jantar e Lanches
+2. Distribua os alimentos de forma equilibrada durante a semana
+3. Considere porções adequadas (ex: 100-150g de proteína, 200g de carboidrato)
+4. Evite repetir o mesmo alimento em dias consecutivos
+5. Use as informações nutricionais para criar refeições balanceadas
+6. Para cada refeição, especifique os ingredientes com quantidades
+
+FORMATO DE RESPOSTA (JSON VÁLIDO - SOMENTE O JSON, SEM TEXTO EXTRA):
+{
+    "segunda": {
+        "cafe": { "nome": "Café da manhã", "ingredientes": ["item1 - 100g", "item2 - 2un"], "status": "pendente" },
+        "almoco": { "nome": "Almoço", "ingredientes": ["item3 - 150g"], "status": "pendente" },
+        "jantar": { "nome": "Jantar", "ingredientes": ["item4 - 200g"], "status": "pendente" },
+        "lanches": { "nome": "Lanches", "ingredientes": ["item5 - 50g"], "status": "pendente" }
+    },
+    "terca": {
+        "cafe": { "nome": "Café da manhã", "ingredientes": ["item6 - 100g"], "status": "pendente" },
+        "almoco": { "nome": "Almoço", "ingredientes": ["item7 - 150g"], "status": "pendente" },
+        "jantar": { "nome": "Jantar", "ingredientes": ["item8 - 200g"], "status": "pendente" },
+        "lanches": { "nome": "Lanches", "ingredientes": ["item9 - 50g"], "status": "pendente" }
+    }
+}`;
+            },
+
+          // Parse da resposta da IA (CORRIGIDO)
+parseAIResponse(response) {
+    try {
+        console.log('🔄 Parseando resposta:', response);
+        
+        // Remover markdown ```json e ``` do início e fim
+        let cleanResponse = response.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        // Tentar extrair JSON da resposta
+        const jsonMatch = cleanResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            const menu = JSON.parse(jsonMatch[0]);
+            console.log('✅ Menu parseado:', menu);
+            
+            const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+            const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+            
+            // Garantir que todos os dias e refeições existam
+            days.forEach(day => {
+                if (!menu[day]) menu[day] = {};
+                meals.forEach(meal => {
+                    if (!menu[day][meal]) {
+                        menu[day][meal] = {
+                            nome: 'Refeição padrão',
+                            ingredientes: ['Alimento padrão - 100g'],
+                            status: 'pendente'
+                        };
+                    } else {
+                        // Garantir que tenha status
+                        if (!menu[day][meal].status) {
+                            menu[day][meal].status = 'pendente';
+                        }
+                    }
+                });
+            });
+            
+            return menu;
+        }
+    } catch (e) {
+        console.error('❌ Erro ao parsear resposta da IA:', e);
+        console.log('Resposta bruta:', response);
+    }
+    
+    return null;
+},
+
+            generateFallbackMenu() {
+                const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+                const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+                const menu = {};
+                
+                days.forEach(day => {
+                    menu[day] = {};
+                    meals.forEach(meal => {
+                        menu[day][meal] = {
+                            nome: this.getFallbackMeal(meal),
+                            ingredientes: ['Alimento padrão - 100g'],
+                            status: 'pendente'
+                        };
+                    });
+                });
+                
+                return menu;
+            },
+
+            getFallbackMeal(meal) {
+                const options = {
+                    cafe: 'Café da manhã padrão',
+                    almoco: 'Almoço padrão',
+                    jantar: 'Jantar padrão',
+                    lanches: 'Lanche padrão'
+                };
+                return options[meal] || 'Refeição';
+            }
+        };
+
+
+
+
+
+        // ==================== MÓDULO DE GERENCIAMENTO DE ESTOQUE ====================
+        const stockManager = {
+            async checkExpiringFoods() {
+                try {
+                    const foods = await getFoods();
+                    const today = new Date();
+                    const expiringFoods = [];
+                    
+                    foods.forEach(food => {
+                        if (food.expiry) {
+                            const expiryDate = new Date(food.expiry);
+                            const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+                            
+                            if (daysUntilExpiry <= 3 && daysUntilExpiry >= 0) {
+                                expiringFoods.push({
+                                    ...food,
+                                    daysUntilExpiry
+                                });
+                            }
+                        }
+                    });
+                    
+                    return expiringFoods;
+                } catch (error) {
+                    console.error('Erro ao verificar alimentos próximos ao vencimento:', error);
+                    return [];
+                }
+            },
+
+            async consumeIngredient(ingredientName) {
+                try {
+                    const foods = await getFoods();
+                    const foodItem = foods.find(f => 
+                        ingredientName.toLowerCase().includes(f.name.toLowerCase())
+                    );
+                    
+                    if (foodItem) {
+                        const newQuantity = Math.max(0, foodItem.quantity - 100);
+                        
+                        if (newQuantity <= 0) {
+                            await deleteFood(foodItem.id);
+                            await this.addToShoppingList(foodItem);
+                        } else {
+                            await updateFood(foodItem.id, {
+                                ...foodItem,
+                                quantity: newQuantity
+                            });
+                        }
+                        
+                        return true;
+                    }
+                    
+                    return false;
+                } catch (error) {
+                    console.error('Erro ao consumir ingrediente:', error);
+                    return false;
+                }
+            },
+
+            async addToShoppingList(foodItem) {
+                try {
+                    const groceryList = await getGroceryList();
+                    const existingItem = groceryList.find(item => 
+                        item.name.toLowerCase() === foodItem.name.toLowerCase() && !item.completed
+                    );
+                    
+                    if (existingItem) {
+                        await updateGroceryItem(existingItem.id, {
+                            quantity: existingItem.quantity + foodItem.quantity
+                        });
+                    } else {
+                        await addGroceryItem({
+                            name: foodItem.name,
+                            quantity: foodItem.quantity,
+                            unit: foodItem.unit,
+                            category: foodItem.category
+                        });
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Erro ao adicionar à lista de compras:', error);
+                    return false;
+                }
+            },
+
+            async generateShoppingListFromMenu() {
+                try {
+                    const menu = await getWeeklyMenu();
+                    const neededItems = {};
+                    
+                    Object.values(menu).forEach(day => {
+                        Object.values(day).forEach(meal => {
+                            if (meal.ingredientes) {
+                                meal.ingredientes.forEach(ingredient => {
+                                    const name = ingredient.split('-')[0].trim();
+                                    neededItems[name] = (neededItems[name] || 0) + 1;
+                                });
+                            }
+                        });
+                    });
+                    
+                    const shoppingList = Object.entries(neededItems).map(([name, qty]) => ({
+                        name: name,
+                        quantity: qty,
+                        unit: 'un',
+                        category: 'outro',
+                        completed: false
+                    }));
+                    
+                    await replaceGroceryList(shoppingList);
+                    return shoppingList;
+                    
+                } catch (error) {
+                    console.error('Erro ao gerar lista de compras:', error);
+                    return [];
+                }
+            },
+
+            async getStockStats() {
+                try {
+                    const foods = await getFoods();
+                    const totalItems = foods.length;
+                    const expiringItems = await this.checkExpiringFoods();
+                    const frozenItems = foods.filter(f => f.frozen).length;
+                    
+                    return {
+                        totalItems,
+                        expiringCount: expiringItems.length,
+                        frozenCount: frozenItems,
+                        items: foods
+                    };
+                } catch (error) {
+                    console.error('Erro ao obter estatísticas:', error);
+                    return null;
+                }
+            }
+        };
+
+        // ==================== APLICAÇÃO PRINCIPAL ====================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Controle Nutricional iniciado...');
+            
+            const mainContent = document.getElementById('mainContent');
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const view = this.dataset.view;
+                    
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    loadView(view);
+                    
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('show');
+                    }
+                });
+            });
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
+                });
+            }
+            
+            await loadView('dashboard');
+            
+            async function loadView(view) {
+                mainContent.innerHTML = '<div class="text-center p-2">Carregando...</div>';
+                
+                try {
+                    switch(view) {
+                        case 'dashboard':
+                            await renderDashboard();
+                            break;
+                        case 'estoque':
+                            await renderEstoque();
+                            break;
+                        case 'calendario':
+                            await renderCalendario();
+                            break;
+                        case 'compras':
+                            await renderCompras();
+                            break;
+                        case 'regras':
+                            await renderRegras();
+                            break;
+                        case 'catalogo':
+                            await renderCatalogo();
+                            break;
+                        default:
+                            await renderDashboard();
+                    }
+                } catch (error) {
+                    console.error(`Erro ao renderizar view ${view}:`, error);
+                    mainContent.innerHTML = `
+                        <div class="card error-card">
+                            <h3>❌ Erro ao carregar</h3>
+                            <p>Não foi possível carregar esta seção. Tente novamente.</p>
+                            <button class="btn-primary" onclick="location.reload()">Recarregar</button>
+                        </div>
+                    `;
+                }
+            }
+            
+            // ==================== DASHBOARD ====================
+          // ==================== DASHBOARD (ATUALIZADO) ====================
+async function renderDashboard() {
+    try {
+        const foods = await getFoods();
+        const menu = await getWeeklyMenu();
+        const expiringFoods = await checkExpiringFoods();
+        const totalSpent = await getTotalSpent();
+        
+        // Calcular estatísticas do menu
+        const totalMeals = Object.values(menu).reduce((acc, day) => {
+            return acc + (day ? Object.keys(day).length : 0);
+        }, 0);
+        
+        const preparedMeals = Object.values(menu).reduce((acc, day) => {
+            if (!day) return acc;
+            return acc + Object.values(day).filter(m => m && m.status === 'consumida').length;
+        }, 0);
+        
+        const consistency = totalMeals > 0 ? Math.round((preparedMeals / totalMeals) * 100) : 0;
+        
+        // Calcular dias que falhou
+        const failedDays = Object.entries(menu).filter(([day, meals]) => {
+            if (!meals) return false;
+            const dayMeals = Object.values(meals);
+            const consumed = dayMeals.filter(m => m?.status === 'consumida').length;
+            return consumed < 2; // Menos de 2 refeições consumidas no dia
+        }).length;
+        
+        // Calcular nutrientes médios
+        let totalCalories = 0, totalProtein = 0, totalCarbs = 0, totalFat = 0;
+        let daysWithData = 0;
+        
+        const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+        for (const day of days) {
+            const nutrition = await calculateDailyNutrition(day, menu);
+            if (nutrition.calories > 0) {
+                totalCalories += nutrition.calories;
+                totalProtein += nutrition.protein;
+                totalCarbs += nutrition.carbs;
+                totalFat += nutrition.fat;
+                daysWithData++;
+            }
+        }
+        
+        const avgCalories = daysWithData > 0 ? Math.round(totalCalories / daysWithData) : 0;
+        const avgProtein = daysWithData > 0 ? Math.round(totalProtein / daysWithData) : 0;
+        const avgCarbs = daysWithData > 0 ? Math.round(totalCarbs / daysWithData) : 0;
+        const avgFat = daysWithData > 0 ? Math.round(totalFat / daysWithData) : 0;
+        
+        const totalItems = foods.length;
+        const frozenItems = foods.filter(f => f.frozen).length;
+        
+        const html = `
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <h3>Itens no estoque</h3>
+                        <div class="stat-number">${totalItems || 0}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <h3>Próximos ao vencimento</h3>
+                        <div class="stat-number">${expiringFoods.length || 0}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">❄️</div>
+                    <div class="stat-info">
+                        <h3>Itens congelados</h3>
+                        <div class="stat-number">${frozenItems || 0}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3>Consistência</h3>
+                        <div class="stat-number">${consistency}%</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3>Total gasto</h3>
+                        <div class="stat-number">R$ ${totalSpent.toFixed(2)}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-info">
+                        <h3>Dias com falha</h3>
+                        <div class="stat-number">${failedDays}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Médias Nutricionais Diárias</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div style="text-align: center;">
+                        <h3>🔥 Calorias</h3>
+                        <p style="font-size: 1.5rem; color: var(--rosa-principal);">${avgCalories} kcal</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3>🥩 Proteínas</h3>
+                        <p style="font-size: 1.5rem; color: var(--rosa-principal);">${avgProtein}g</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3>🍚 Carboidratos</h3>
+                        <p style="font-size: 1.5rem; color: var(--rosa-principal);">${avgCarbs}g</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3>🥑 Gorduras</h3>
+                        <p style="font-size: 1.5rem; color: var(--rosa-principal);">${avgFat}g</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>📈 Progresso Semanal</h2>
+                    <button class="btn-secondary" id="generateMenuBtn">🤖 Gerar Menu com IA</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+            
+            ${expiringFoods.length > 0 ? `
+            <div class="card">
+                <div class="card-header">
+                    <h2>⚠️ Alimentos Próximos ao Vencimento</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alimento</th>
+                                <th>Quantidade</th>
+                                <th>Validade</th>
+                                <th>Dias</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${expiringFoods.map(food => `
+                            <tr>
+                                <td>${food.name || 'N/A'}</td>
+                                <td>${food.quantity || 0}${food.unit || ''}</td>
+                                <td>${food.expiry ? new Date(food.expiry).toLocaleDateString() : 'N/A'}</td>
+                                <td>${food.daysUntilExpiry || 0} dias</td>
+                                <td>
+                                    <button class="btn-secondary" onclick="useFoodNow('${food.id}')">
+                                        Usar agora
+                                    </button>
+                                </td>
+                            </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            ` : ''}
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>💡 Dica do Dia</h2>
+                </div>
+                <p>${menuGenerator.getRandomPhrase()}</p>
+            </div>
+        `;
+        
+        mainContent.innerHTML = html;
+        
+        setTimeout(() => {
+            renderProgressChart(consistency);
+        }, 100);
+        
+        document.getElementById('generateMenuBtn')?.addEventListener('click', async function() {
+            this.textContent = 'Gerando...';
+            this.disabled = true;
+            
+            try {
+                const menu = await menuGenerator.generateMenuWithAI();
+                if (menu) {
+                    await renderDashboard();
+                }
+            } catch (error) {
+                console.error('Erro ao gerar menu:', error);
+                alert('Erro ao gerar menu.');
+            } finally {
+                this.textContent = '🤖 Gerar Menu com IA';
+                this.disabled = false;
+            }
+        });
+        
+    } catch (error) {
+        console.error('Erro ao renderizar dashboard:', error);
+        mainContent.innerHTML = `
+            <div class="card">
+                <h3>Erro de Conexão</h3>
+                <p>Não foi possível conectar ao Firebase. Verifique sua conexão.</p>
+                <button class="btn-primary" onclick="loadView('dashboard')">Tentar novamente</button>
+            </div>
+        `;
+    }
+}
+            
+            // ==================== ESTOQUE ====================
+            async function renderEstoque() {
+                try {
+                    const foods = await getFoods();
+                    
+                    function isExpiringSoon(expiryDate) {
+                        if (!expiryDate) return false;
+                        const today = new Date();
+                        const expiry = new Date(expiryDate);
+                        const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+                        return diffDays <= 3 && diffDays >= 0;
+                    }
+                    
+                    const html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>🧊 Controle de Estoque</h2>
+                                <button class="btn-primary" id="addFoodBtn">+ Novo Alimento</button>
+                            </div>
+                            
+                            <div class="stock-filters">
+                                <input type="text" id="searchFood" placeholder="🔍 Buscar alimento..." class="form-control">
+                            </div>
+                            
+                            ${foods.length === 0 ? `
+                            <div class="empty-state">
+                                <p>Nenhum alimento cadastrado</p>
+                                <button class="btn-primary" onclick="openFoodModal()">Adicionar primeiro alimento</button>
+                            </div>
+                            ` : `
+                            <div class="stock-grid" id="stockGrid">
+                                ${foods.map(food => `
+                                <div class="stock-item ${food.frozen ? 'frozen' : ''} ${isExpiringSoon(food.expiry) ? 'expiring' : ''}" data-id="${food.id}">
+                                    ${isExpiringSoon(food.expiry) ? '<span class="expiry-badge">⚠️ Vence logo</span>' : ''}
+                                    <h3>${food.name || 'Sem nome'}</h3>
+                                    <p><strong>Categoria:</strong> ${food.category || 'Outro'}</p>
+                                    <p><strong>Quantidade:</strong> ${food.quantity || 0} ${food.unit || 'un'}</p>
+                                    ${food.expiry ? `<p><strong>Validade:</strong> ${new Date(food.expiry).toLocaleDateString()}</p>` : ''}
+                                    <p><strong>Status:</strong> ${food.frozen ? '❄️ Congelado' : '🌡 Fresco'}</p>
+                                    <div class="flex gap-2 mt-2">
+                                        <button class="btn-secondary" onclick="editFood('${food.id}')">✏️ Editar</button>
+                                        <button class="btn-secondary" onclick="deleteFood('${food.id}')">🗑 Excluir</button>
+                                    </div>
+                                </div>
+                                `).join('')}
+                            </div>
+                            `}
+                        </div>
+                    `;
+                    
+                    mainContent.innerHTML = html;
+                    
+                    document.getElementById('addFoodBtn')?.addEventListener('click', function() {
+                        openFoodModal();
+                    });
+                    
+                    document.getElementById('searchFood')?.addEventListener('input', function(e) {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const items = document.querySelectorAll('.stock-item');
+                        
+                        items.forEach(item => {
+                            const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
+                            if (title.includes(searchTerm)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                    
+                } catch (error) {
+                    console.error('Erro ao renderizar estoque:', error);
+                    mainContent.innerHTML = '<div class="card">Erro ao carregar estoque</div>';
+                }
+            }
+            
+// 📅 CALENDÁRIO (VERSÃO COM RELACIONAMENTO CORRETO)
+async function renderCalendario() {
+    try {
+        // Estado da semana atual
+        if (!window.currentWeekDate) {
+            window.currentWeekDate = new Date();
+        }
+        
+        const weekRange = getWeekRange(window.currentWeekDate);
+        const weekId = getWeekId(window.currentWeekDate);
+        
+        // Buscar plano semanal
+        let plan = await getWeeklyPlan(weekId);
+        let menu = plan ? plan.menu : {};
+        
+        // Se não existir plano, menu vazio
+        if (!plan) {
+            menu = {};
+        }
+        
+        console.log('📅 Semana:', weekId);
+        console.log('📅 Menu carregado:', menu);
+        
+        const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+        const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+        const mealNames = {
+            cafe: '☕ Café da Manhã',
+            almoco: '🍲 Almoço',
+            jantar: '🍽 Jantar',
+            lanches: '🥪 Lanches'
+        };
+        
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+        
+        // Verificar se é semana atual
+        const today = new Date();
+        const todayWeekId = getWeekId(today);
+        const isCurrentWeek = weekId === todayWeekId;
+        
+        // Construir o calendário
+        let calendarHtml = `
+            <div class="card">
+                <div class="card-header">
+                    <h2>📅 Planejamento Semanal</h2>
+                    <div>
+                        <button class="btn-primary" id="generateWeeklyMenuBtn">🤖 Gerar Menu</button>
+                        ${!plan ? `
+                        <button class="btn-secondary" id="createEmptyWeekBtn">📝 Criar Semana Vazia</button>
+                        ` : ''}
+                    </div>
+                </div>
+                
+                <!-- Navegação entre semanas -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 1rem; padding: 1rem; background: var(--rosa-claro); border-radius: var(--borda-raio);">
+                    <button class="btn-secondary" id="prevWeekBtn">← Semana Anterior</button>
+                    <div style="text-align: center;">
+                        <strong>${formatDateBR(weekRange.start)} - ${formatDateBR(weekRange.end)}</strong>
+                        <div style="font-size: 0.8rem; color: #666;">
+                            Semana ${getWeekNumber(weekRange.start)} de ${weekRange.start.getFullYear()}
+                            ${isCurrentWeek ? ' (atual)' : ''}
+                        </div>
+                        ${plan ? `
+                        <div style="font-size: 0.7rem; margin-top: 5px; color: var(--rosa-principal);">
+                            ✅ Plano salvo em ${new Date(plan.createdAt).toLocaleDateString()}
+                        </div>
+                        ` : ''}
+                    </div>
+                    <button class="btn-secondary" id="nextWeekBtn">Próxima Semana →</button>
+                </div>
+                
+                ${plan ? `
+                <!-- Controles da semana -->
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin: 0 1rem 1rem;">
+                    <button class="btn-secondary" id="saveWeekBtn">💾 Salvar Alterações</button>
+                    <button class="btn-secondary" id="generateListBtn">🛒 Gerar Lista de Compras</button>
+                    ${!isCurrentWeek ? `
+                    <button class="btn-secondary" id="activateWeekBtn">📌 Ativar Esta Semana</button>
+                    ` : ''}
+                </div>
+                ` : ''}
+                
+                <div class="week-calendar">
+        `;
+        
+        // Para cada dia da semana
+        days.forEach(day => {
+            calendarHtml += `
+                <div class="day-column">
+                    <div class="day-header">${capitalize(day)}</div>
+            `;
+            
+            // Para cada refeição do dia
+            meals.forEach(meal => {
+                const mealData = menu[day]?.[meal];
+                const hasMeal = mealData?.nome && mealData.nome !== '---';
+                
+                // Criar preview dos ingredientes
+                let ingredientesPreview = '';
+                if (mealData?.ingredientes && mealData.ingredientes.length > 0) {
+                    const previewText = mealData.ingredientes.slice(0, 2).join(' • ');
+                    ingredientesPreview = `<div class="ingredientes-preview"><span>${previewText}</span></div>`;
+                }
+                
+                calendarHtml += `
+                    <div class="meal-slot" id="meal-${day}-${meal}" onclick="showMealDetails('${day}', '${meal}')">
+                        <div class="meal-label">${mealNames[meal]}</div>
+                        <div class="meal-content">
+                            <strong>${mealData?.nome || '---'}</strong>
+                            ${ingredientesPreview}
+                            ${mealData?.status ? `
+                                <span class="status-badge status-${mealData.status}">
+                                    ${mealData.status}
+                                </span>
+                            ` : ''}
+                        </div>
+                `;
+                
+                // Botões de ação
+                if (hasMeal) {
+                    calendarHtml += `
+                        <div class="meal-actions" style="margin-top: 5px;" onclick="event.stopPropagation()">
+                            <button class="btn-secondary" style="font-size: 0.7rem; padding: 0.2rem 0.4rem;" onclick="markMeal('${day}', '${meal}', 'preparada')">✔</button>
+                            <button class="btn-secondary" style="font-size: 0.7rem; padding: 0.2rem 0.4rem;" onclick="markMeal('${day}', '${meal}', 'congelada')">❄</button>
+                            <button class="btn-secondary" style="font-size: 0.7rem; padding: 0.2rem 0.4rem;" onclick="markMeal('${day}', '${meal}', 'consumida')">🍽</button>
+                        </div>
+                    `;
+                }
+                
+                calendarHtml += `</div>`;
+            });
+            
+            calendarHtml += `</div>`;
+        });
+        
+        calendarHtml += `
+                </div>
+            </div>
+        `;
+        
+        mainContent.innerHTML = calendarHtml;
+        
+        console.log('✅ Calendário renderizado');
+        
+        // Event listeners de navegação
+        document.getElementById('prevWeekBtn')?.addEventListener('click', function() {
+            window.currentWeekDate.setDate(window.currentWeekDate.getDate() - 7);
+            renderCalendario();
+        });
+        
+        document.getElementById('nextWeekBtn')?.addEventListener('click', function() {
+            window.currentWeekDate.setDate(window.currentWeekDate.getDate() + 7);
+            renderCalendario();
+        });
+        
+        // Botão gerar menu
+        document.getElementById('generateWeeklyMenuBtn')?.addEventListener('click', async function() {
+            if (!confirm(`Deseja gerar um novo menu para a semana de ${formatDateBR(weekRange.start)} a ${formatDateBR(weekRange.end)}?`)) {
+                return;
+            }
+            
+            this.textContent = 'Gerando...';
+            this.disabled = true;
+            
+            try {
+                const newMenu = await menuGenerator.generateMenuWithAI();
+                if (newMenu) {
+                    // Salvar como plano semanal
+                    await saveWeeklyPlan(weekId, newMenu, plan?.groceryListId);
+                    await renderCalendario();
+                }
+            } catch (error) {
+                console.error('Erro ao gerar menu:', error);
+                alert('Erro ao gerar menu.');
+            } finally {
+                this.textContent = '🤖 Gerar Menu';
+                this.disabled = false;
+            }
+        });
+        
+        // Botão criar semana vazia
+        document.getElementById('createEmptyWeekBtn')?.addEventListener('click', async function() {
+            if (!confirm(`Criar uma semana vazia para ${formatDateBR(weekRange.start)} a ${formatDateBR(weekRange.end)}?`)) {
+                return;
+            }
+            
+            const emptyMenu = {};
+            days.forEach(day => {
+                emptyMenu[day] = {};
+                meals.forEach(meal => {
+                    emptyMenu[day][meal] = {
+                        nome: '---',
+                        ingredientes: [],
+                        status: 'pendente'
+                    };
+                });
+            });
+            
+            await saveWeeklyPlan(weekId, emptyMenu);
+            await renderCalendario();
+        });
+        
+        if (plan) {
+            // Botão salvar alterações
+            document.getElementById('saveWeekBtn')?.addEventListener('click', async function() {
+                const currentMenu = await getWeeklyMenu();
+                await saveWeeklyPlan(weekId, currentMenu, plan.groceryListId);
+                alert('✅ Alterações salvas!');
+            });
+            
+            // Botão gerar lista de compras
+            document.getElementById('generateListBtn')?.addEventListener('click', async function() {
+                this.textContent = 'Gerando...';
+                this.disabled = true;
+                
+                try {
+                    const groceryList = await generateGroceryListFromWeeklyMenu(weekId);
+                    if (groceryList) {
+                        alert(`✅ Lista de compras gerada com ${groceryList.items.length} itens!`);
+                    }
+                } catch (error) {
+                    console.error('Erro ao gerar lista:', error);
+                    alert('Erro ao gerar lista de compras');
+                } finally {
+                    this.textContent = '🛒 Gerar Lista de Compras';
+                    this.disabled = false;
+                }
+            });
+            
+            // Botão ativar semana
+            document.getElementById('activateWeekBtn')?.addEventListener('click', async function() {
+                if (await activateWeeklyPlan(weekId)) {
+                    alert(`✅ Semana de ${formatDateBR(weekRange.start)} ativada!`);
+                }
+            });
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro ao renderizar calendário:', error);
+        mainContent.innerHTML = '<div class="card">Erro ao carregar calendário</div>';
+    }
+}
+
+// Função para mostrar detalhes da refeição em modal
+window.showMealDetails = async function(day, meal) {
+    const menu = await getWeeklyMenu();
+    const catalog = await getFoodCatalog();
+    const mealData = menu[day]?.[meal];
+    
+    if (!mealData || !mealData.nome || mealData.nome === '---') {
+        alert('Nenhuma refeição planejada para este horário');
+        return;
+    }
+    
+    // Calcular nutrientes da refeição
+    let totalCalories = 0, totalProtein = 0, totalCarbs = 0, totalFat = 0;
+    const ingredientesDetalhados = [];
+    
+    if (mealData.ingredientes) {
+        mealData.ingredientes.forEach(ingredient => {
+            const match = ingredient.match(/(.+?)\s*-\s*(\d+)([a-z]+)/i);
+            if (match) {
+                const [, name, quantity, unit] = match;
+                const foodInCatalog = catalog.find(f => 
+                    f.name.toLowerCase().includes(name.trim().toLowerCase())
+                );
+                
+                if (foodInCatalog) {
+                    const qty = parseFloat(quantity);
+                    const calories = (foodInCatalog.calories || 0) * qty;
+                    const protein = (foodInCatalog.protein || 0) * qty;
+                    const carbs = (foodInCatalog.carbs || 0) * qty;
+                    const fat = (foodInCatalog.fat || 0) * qty;
+                    
+                    totalCalories += calories;
+                    totalProtein += protein;
+                    totalCarbs += carbs;
+                    totalFat += fat;
+                    
+                    ingredientesDetalhados.push({
+                        nome: name.trim(),
+                        quantidade: qty,
+                        unidade: unit,
+                        calories: Math.round(calories),
+                        protein: Math.round(protein * 10) / 10,
+                        carbs: Math.round(carbs * 10) / 10,
+                        fat: Math.round(fat * 10) / 10
+                    });
+                } else {
+                    ingredientesDetalhados.push({
+                        nome: ingredient,
+                        quantidade: null,
+                        unidade: null,
+                        calories: 0,
+                        protein: 0,
+                        carbs: 0,
+                        fat: 0
+                    });
+                }
+            } else {
+                ingredientesDetalhados.push({
+                    nome: ingredient,
+                    quantidade: null,
+                    unidade: null,
+                    calories: 0,
+                    protein: 0,
+                    carbs: 0,
+                    fat: 0
+                });
+            }
+        });
+    }
+    
+    // Construir HTML do modal
+    const modalHtml = `
+        <div style="padding: 1rem;">
+            <h2 style="color: var(--rosa-escuro); margin-bottom: 1rem;">${mealData.nome}</h2>
+            
+            <div style="background: var(--rosa-claro); padding: 1rem; border-radius: var(--borda-raio); margin-bottom: 1rem;">
+                <h3>📊 Informações Nutricionais</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 0.5rem;">
+                    <div><strong>Calorias:</strong> ${Math.round(totalCalories)} kcal</div>
+                    <div><strong>Proteínas:</strong> ${Math.round(totalProtein * 10) / 10}g</div>
+                    <div><strong>Carboidratos:</strong> ${Math.round(totalCarbs * 10) / 10}g</div>
+                    <div><strong>Gorduras:</strong> ${Math.round(totalFat * 10) / 10}g</div>
+                </div>
+            </div>
+            
+            <h3>📝 Ingredientes</h3>
+            <table style="width: 100%; margin-top: 0.5rem;">
+                <thead>
+                    <tr>
+                        <th>Ingrediente</th>
+                        <th>Quantidade</th>
+                        <th>Calorias</th>
+                        <th>Prot</th>
+                        <th>Carb</th>
+                        <th>Gor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${ingredientesDetalhados.map(ing => `
+                    <tr>
+                        <td>${ing.nome}</td>
+                        <td>${ing.quantidade ? `${ing.quantidade}${ing.unidade}` : '-'}</td>
+                        <td>${ing.calories}</td>
+                        <td>${ing.protein}g</td>
+                        <td>${ing.carbs}g</td>
+                        <td>${ing.fat}g</td>
+                    </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                <button class="btn-secondary" onclick="markMeal('${day}', '${meal}', 'preparada')">✔ Preparar</button>
+                <button class="btn-secondary" onclick="markMeal('${day}', '${meal}', 'congelada')">❄ Congelar</button>
+                <button class="btn-secondary" onclick="markMeal('${day}', '${meal}', 'consumida')">🍽 Consumir</button>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('mealDetailContent').innerHTML = modalHtml;
+    document.getElementById('mealDetailModal').style.display = 'block';
+};
+
+
+// Funções auxiliares para navegação entre semanas
+
+
+function formatDateBR(date) {
+    return date.toLocaleDateString('pt-BR');
+}
+            
+            // ==================== LISTA DE COMPRAS ====================
+// ==================== LISTA DE COMPRAS (VERSÃO RELACIONAL) ====================
+async function renderCompras() {
+    try {
+        // Tentar buscar lista da semana atual primeiro
+        let groceryList = await getCurrentGroceryList();
+        
+        // Se não existir, buscar lista geral
+        if (!groceryList) {
+            const items = await getGroceryList();
+            if (items.length > 0) {
+                groceryList = {
+                    id: 'temp',
+                    items: items,
+                    totalSpent: 0
+                };
+            }
+        }
+        
+        // Buscar gastos do mês atual
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        const monthlySpending = await getSpendingByPeriod(firstDay, lastDay);
+        
+        // Buscar todas as semanas para seleção
+        const allWeeks = await getAllWeeklyPlans();
+        const sortedWeeks = allWeeks.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+        
+        const html = `
+            <div class="card">
+                <div class="card-header">
+                    <h2>🛒 Lista de Compras</h2>
+                    <div>
+                        <select id="weekSelector" class="form-control" style="width: 200px; margin-right: 10px;">
+                            <option value="">-- Selecionar Semana --</option>
+                            ${sortedWeeks.map(week => `
+                            <option value="${week.id}" ${week.id === groceryList?.weekId ? 'selected' : ''}>
+                                ${formatDateBR(new Date(week.startDate))} - ${formatDateBR(new Date(week.endDate))}
+                            </option>
+                            `).join('')}
+                        </select>
+                        <button class="btn-secondary" id="refreshListBtn">🔄 Atualizar</button>
+                        <button class="btn-primary" id="generateFromMenuBtn">📋 Gerar da Semana Atual</button>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                    <div class="card" style="padding: 1rem; background: linear-gradient(135deg, var(--rosa-claro), white);">
+                        <h3>💰 Gasto no Mês</h3>
+                        <p style="font-size: 1.5rem; color: var(--rosa-principal);">R$ ${monthlySpending.total.toFixed(2)}</p>
+                    </div>
+                    <div class="card" style="padding: 1rem; background: linear-gradient(135deg, var(--rosa-claro), white);">
+                        <h3>🛍️ Esta Semana</h3>
+                        <p style="font-size: 1.2rem;">${groceryList ? `R$ ${groceryList.totalSpent?.toFixed(2) || '0.00'}` : 'R$ 0,00'}</p>
+                    </div>
+                    <div class="card" style="padding: 1rem; background: linear-gradient(135deg, var(--rosa-claro), white);">
+                        <h3>📊 Itens</h3>
+                        <p style="font-size: 1.2rem;">${groceryList ? groceryList.items.length : 0} itens</p>
+                    </div>
+                </div>
+                
+                ${!groceryList ? `
+                <div class="empty-state">
+                    <p>Nenhuma lista de compras ativa</p>
+                    <button class="btn-primary" id="generateEmptyListBtn">📋 Gerar lista da semana atual</button>
+                </div>
+                ` : `
+                <div class="card">
+                    <h3>${groceryList.weekId ? `Semana de ${formatDateBR(new Date(groceryList.startDate))}` : 'Lista Atual'}</h3>
+                    <ul class="grocery-list">
+                        ${groceryList.items.map(item => `
+                        <li class="grocery-item ${item.purchased ? 'completed' : ''}" data-id="${item.id}">
+                            <input type="checkbox" ${item.purchased ? 'checked' : ''} onchange="toggleGroceryItemPurchased('${groceryList.id}', '${item.id}')">
+                            <div style="flex: 1;">
+                                <span>${item.name}</span>
+                                <span class="quantity">${item.quantity} ${item.unit}</span>
+                                ${item.price ? `<br><small style="color: #666;">R$ ${item.price.toFixed(2)} em ${item.store || '...'}</small>` : ''}
+                            </div>
+                            <button class="btn-secondary" onclick="openPriceModal('${groceryList.id}', '${item.id}', '${item.name}', ${item.quantity}, '${item.unit}')">
+                                ${item.price ? '💰 Editar' : '💰 Add Preço'}
+                            </button>
+                        </li>
+                        `).join('')}
+                    </ul>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+                        <button class="btn-secondary" id="saveListBtn">💾 Salvar Lista</button>
+                        <button class="btn-primary" id="clearPurchasedBtn">✓ Limpar Comprados</button>
+                    </div>
+                </div>
+                `}
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Resumo de Gastos por Loja</h2>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loja</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.entries(monthlySpending.byStore).map(([store, total]) => `
+                            <tr>
+                                <td>${store || 'Não especificado'}</td>
+                                <td>R$ ${total.toFixed(2)}</td>
+                            </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        
+        mainContent.innerHTML = html;
+        
+        // Event listeners
+        document.getElementById('weekSelector')?.addEventListener('change', async function(e) {
+            const weekId = e.target.value;
+            if (weekId) {
+                const plan = await getWeeklyPlan(weekId);
+                if (plan?.groceryListId) {
+                    const list = await getGroceryListById(plan.groceryListId);
+                    if (list) {
+                        // Salvar temporariamente para visualização
+                        window.tempGroceryList = list;
+                        await renderCompras();
+                    }
+                }
+            }
+        });
+        
+        document.getElementById('generateFromMenuBtn')?.addEventListener('click', async function() {
+            this.textContent = 'Gerando...';
+            this.disabled = true;
+            
+            try {
+                const weekId = getWeekId(new Date());
+                const list = await generateGroceryListFromWeeklyMenu(weekId);
+                if (list) {
+                    await renderCompras();
+                }
+            } catch (error) {
+                console.error('Erro ao gerar lista:', error);
+                alert('Erro ao gerar lista');
+            } finally {
+                this.textContent = '📋 Gerar da Semana Atual';
+                this.disabled = false;
+            }
+        });
+        
+        document.getElementById('generateEmptyListBtn')?.addEventListener('click', async function() {
+            const weekId = getWeekId(new Date());
+            const list = await generateGroceryListFromWeeklyMenu(weekId);
+            if (list) {
+                await renderCompras();
+            }
+        });
+        
+        document.getElementById('refreshListBtn')?.addEventListener('click', function() {
+            renderCompras();
+        });
+        
+        document.getElementById('saveListBtn')?.addEventListener('click', async function() {
+            if (groceryList?.id) {
+                await firebaseRequest(`groceryLists/${groceryList.id}`, 'PUT', groceryList);
+                alert('✅ Lista salva!');
+            }
+        });
+        
+        document.getElementById('clearPurchasedBtn')?.addEventListener('click', async function() {
+            if (groceryList?.id) {
+                groceryList.items = groceryList.items.filter(i => !i.purchased);
+                await firebaseRequest(`groceryLists/${groceryList.id}`, 'PUT', groceryList);
+                await renderCompras();
+            }
+        });
+        
+    } catch (error) {
+        console.error('Erro ao renderizar lista de compras:', error);
+        mainContent.innerHTML = '<div class="card">Erro ao carregar lista de compras</div>';
+    }
+}
+
+// Função para marcar item como comprado
+window.toggleGroceryItemPurchased = async function(listId, itemId) {
+    try {
+        const list = await getGroceryListById(listId);
+        if (!list) return;
+        
+        const item = list.items.find(i => i.id === itemId);
+        if (item) {
+            item.purchased = !item.purchased;
+            await firebaseRequest(`groceryLists/${listId}`, 'PUT', list);
+            
+            // Atualizar visual
+            const listItem = document.querySelector(`.grocery-item[data-id="${itemId}"]`);
+            if (listItem) {
+                listItem.classList.toggle('completed');
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar item:', error);
+    }
+};
+
+// Função para abrir modal de preço (atualizada)
+window.openPriceModal = function(listId, itemId, name, quantity, unit) {
+    const modal = document.getElementById('priceModal');
+    const form = document.getElementById('priceForm');
+    
+    document.getElementById('priceItemName').value = name;
+    document.getElementById('priceItemQuantity').value = `${quantity} ${unit}`;
+    form.dataset.listId = listId;
+    form.dataset.itemId = itemId;
+    
+    modal.style.display = 'block';
+};
+
+// Event listener do formulário de preço (atualizado)
+document.getElementById('priceForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const listId = this.dataset.listId;
+    const itemId = this.dataset.itemId;
+    const price = parseFloat(document.getElementById('priceValue').value);
+    const store = document.getElementById('priceStore').value;
+    
+    try {
+        await updateGroceryItemWithPrice(listId, itemId, price, store);
+        alert('✅ Preço registrado com sucesso!');
+        document.getElementById('priceModal').style.display = 'none';
+        this.reset();
+        renderCompras();
+    } catch (error) {
+        console.error('Erro ao registrar preço:', error);
+        alert('❌ Erro ao registrar preço');
+    }
+});
+
+
+
+// Função para abrir modal de preço
+window.openPriceModal = function(id, name, quantity, unit) {
+    const modal = document.getElementById('priceModal');
+    const form = document.getElementById('priceForm');
+    
+    document.getElementById('priceItemName').value = name;
+    document.getElementById('priceItemQuantity').value = `${quantity} ${unit}`;
+    form.dataset.itemId = id;
+    
+    modal.style.display = 'block';
+};
+
+// Event listener do formulário de preço
+document.getElementById('priceForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const itemId = this.dataset.itemId;
+    const price = parseFloat(document.getElementById('priceValue').value);
+    const store = document.getElementById('priceStore').value;
+    
+    try {
+        await addPurchase(itemId, price, store);
+        alert('✅ Preço registrado com sucesso!');
+        document.getElementById('priceModal').style.display = 'none';
+        this.reset();
+        renderCompras();
+    } catch (error) {
+        console.error('Erro ao registrar preço:', error);
+        alert('❌ Erro ao registrar preço');
+    }
+});
+            
+            // ==================== REGRAS ====================
+            async function renderRegras() {
+                try {
+                    const rules = await getNutritionRules();
+                    
+                    const html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>📋 Regras da Nutricionista</h2>
+                                <button class="btn-primary" id="importRulesBtn">📤 Importar .txt</button>
+                            </div>
+                            
+                            <div class="rules-container" id="rulesContainer">
+                                ${rules.rules && rules.rules.length > 0 ? `
+                                <ul class="rules-list">
+                                    ${rules.rules.map(rule => `<li>✓ ${rule}</li>`).join('')}
+                                </ul>
+                                ${rules.updatedAt ? `
+                                <p class="text-muted">Última atualização: ${new Date(rules.updatedAt).toLocaleString()}</p>
+                                ` : ''}
+                                ` : `
+                                <p class="empty-state">Nenhuma regra importada ainda.</p>
+                                `}
+                            </div>
+                            
+                            <div class="mt-2">
+                                <h3>📝 Exemplo de formato do arquivo:</h3>
+                                <pre class="example-rules">
+Sem lactose
+150g proteína por dia
+Low carb
+Evitar frituras
+Priorizar alimentos integrais
+Beber 2L de água por dia
+                                </pre>
+                            </div>
+                        </div>
+                    `;
+                    
+                    mainContent.innerHTML = html;
+                    
+                    document.getElementById('importRulesBtn')?.addEventListener('click', function() {
+                        const modal = document.getElementById('rulesModal');
+                        if (modal) {
+                            modal.style.display = 'block';
+                            const fileInput = document.getElementById('rulesFile');
+                            if (fileInput) fileInput.value = '';
+                        }
+                    });
+                    
+                } catch (error) {
+                    console.error('Erro ao renderizar regras:', error);
+                    mainContent.innerHTML = '<div class="card">Erro ao carregar regras</div>';
+                }
+            }
+            
+            // ==================== CATÁLOGO ====================
+            async function renderCatalogo() {
+                try {
+                    const catalog = await getFoodCatalog();
+                    
+                    const html = `
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>📚 Catálogo de Alimentos</h2>
+                                <button class="btn-primary" id="addToCatalogBtn">+ Novo Alimento</button>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="catalog-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Categoria</th>
+                                            <th>Unidade</th>
+                                            <th>Calorias</th>
+                                            <th>Proteínas</th>
+                                            <th>Carboidratos</th>
+                                            <th>Gorduras</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${catalog.length === 0 ? `
+                                        <tr>
+                                            <td colspan="8" class="text-center">Nenhum alimento cadastrado no catálogo</td>
+                                        </tr>
+                                        ` : catalog.map(food => `
+                                        <tr>
+                                            <td><strong>${food.name}</strong></td>
+                                            <td>${food.category}</td>
+                                            <td>${food.unit}</td>
+                                            <td>${food.calories || 0} cal</td>
+                                            <td>${food.protein || 0}g</td>
+                                            <td>${food.carbs || 0}g</td>
+                                            <td>${food.fat || 0}g</td>
+                                            <td>
+                                                <button class="btn-secondary" onclick="editCatalogItem('${food.id}')">✏️</button>
+                                                <button class="btn-secondary" onclick="deleteCatalogItem('${food.id}')">🗑️</button>
+                                            </td>
+                                        </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>ℹ️ Sobre o Catálogo</h2>
+                            </div>
+                            <p>
+                                <strong>Catálogo:</strong> Todos os alimentos que você pode consumir.<br>
+                                <strong>Estoque:</strong> Alimentos que você realmente tem em casa (selecione do catálogo).<br>
+                                <strong>IA:</strong> Usará o catálogo + regras da nutri para gerar menus.
+                            </p>
+                        </div>
+                    `;
+                    
+                    mainContent.innerHTML = html;
+                    
+                    document.getElementById('addToCatalogBtn')?.addEventListener('click', () => {
+                        openCatalogModal();
+                    });
+                    
+                } catch (error) {
+                    console.error('Erro ao renderizar catálogo:', error);
+                    mainContent.innerHTML = '<div class="card">Erro ao carregar catálogo</div>';
+                }
+            }
+            
+            // ==================== FUNÇÕES GLOBAIS ====================
+            window.markMeal = async function(day, meal, status) {
+                try {
+                    await updateMealStatus(day, meal, status);
+                    
+                    if ((status === 'preparada' || status === 'consumida')) {
+                        const menu = await getWeeklyMenu();
+                        const mealData = menu[day]?.[meal];
+                        
+                        if (mealData?.ingredientes) {
+                            for (const ingrediente of mealData.ingredientes) {
+                                await consumeFromStock(ingrediente);
+                            }
+                        }
+                    }
+                    
+                    menuGenerator.updateMotivationalMessage();
+                    alert(`✅ Refeição marcada como ${status}!`);
+                    renderCalendario();
+                    
+                } catch (error) {
+                    console.error('Erro ao marcar refeição:', error);
+                    alert('Erro ao atualizar status da refeição');
+                }
+            };
+            
+            window.editFood = async function(id) {
+                try {
+                    const foods = await getFoods();
+                    const food = foods.find(f => f.id === id);
+                    
+                    if (food) {
+                        openFoodModal(food);
+                    }
+                } catch (error) {
+                    console.error('Erro ao editar alimento:', error);
+                    alert('Erro ao carregar dados do alimento');
+                }
+            };
+            
+            window.deleteFood = async function(id) {
+                if (confirm('Tem certeza que deseja excluir este alimento?')) {
+                    try {
+                        await deleteFood(id);
+                        renderEstoque();
+                    } catch (error) {
+                        console.error('Erro ao deletar alimento:', error);
+                        alert('Erro ao excluir alimento');
+                    }
+                }
+            };
+            
+            window.toggleGroceryItem = async function(id) {
+                try {
+                    const items = await getGroceryList();
+                    const item = items.find(i => i.id === id);
+                    
+                    if (item) {
+                        await updateGroceryItem(id, { completed: !item.completed });
+                        
+                        const listItem = document.querySelector(`.grocery-item[data-id="${id}"]`);
+                        if (listItem) {
+                            listItem.classList.toggle('completed');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erro ao atualizar item:', error);
+                }
+            };
+            
+            window.removeGroceryItem = async function(id) {
+                if (confirm('Remover item da lista?')) {
+                    try {
+                        await deleteGroceryItem(id);
+                        renderCompras();
+                    } catch (error) {
+                        console.error('Erro ao remover item:', error);
+                        alert('Erro ao remover item');
+                    }
+                }
+            };
+            
+            window.useFoodNow = async function(id) {
+                try {
+                    const foods = await getFoods();
+                    const food = foods.find(f => f.id === id);
+                    
+                    if (food && confirm(`Usar ${food.name} agora?`)) {
+                        await consumeFromStock(food.name, 1);
+                        alert(`✅ ${food.name} consumido!`);
+                        renderDashboard();
+                    }
+                } catch (error) {
+                    console.error('Erro ao usar alimento:', error);
+                    alert('Erro ao consumir alimento');
+                }
+            };
+            
+            // ==================== MODAIS ====================
+            window.openFoodModal = async function(stockItem = null) {
+                const modal = document.getElementById('foodModal');
+                const form = document.getElementById('foodForm');
+                const title = modal.querySelector('h2');
+                const foodSelect = document.getElementById('foodSelect');
+                
+                if (!modal || !form) return;
+                
+                const catalog = await getFoodCatalog();
+                foodSelect.innerHTML = '<option value="">-- Selecione um alimento --</option>';
+                catalog.forEach(food => {
+                    foodSelect.innerHTML += `<option value="${food.id}" data-unit="${food.unit}">${food.name} (${food.category})</option>`;
+                });
+                
+                form.reset();
+                
+                if (stockItem) {
+                    title.textContent = '✏️ Editar Item do Estoque';
+                    
+                    const foodInCatalog = catalog.find(f => f.id === stockItem.foodId);
+                    if (foodInCatalog) {
+                        foodSelect.value = stockItem.foodId;
+                        document.getElementById('foodUnitDisplay').value = foodInCatalog.unit;
+                    }
+                    
+                    document.getElementById('foodQuantity').value = stockItem.quantity || '';
+                    document.getElementById('foodExpiry').value = stockItem.expiry || '';
+                    document.getElementById('foodFrozen').checked = stockItem.frozen || false;
+                    
+                    form.dataset.editId = stockItem.id;
+                } else {
+                    title.textContent = '🍗 Adicionar ao Estoque';
+                    delete form.dataset.editId;
+                    document.getElementById('foodQuantity').value = '100';
+                }
+                
+                modal.style.display = 'block';
+            };
+            
+            document.getElementById('foodSelect')?.addEventListener('change', async function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const unit = selectedOption.dataset.unit || 'g';
+                document.getElementById('foodUnitDisplay').value = unit;
+            });
+            
+            window.openCatalogModal = function(item = null) {
+                const modal = document.getElementById('catalogModal');
+                const form = document.getElementById('catalogForm');
+                const title = modal.querySelector('h2');
+                
+                if (!modal || !form) return;
+                
+                form.reset();
+                
+                if (item) {
+                    title.textContent = '✏️ Editar Alimento do Catálogo';
+                    document.getElementById('catalogName').value = item.name || '';
+                    document.getElementById('catalogCategory').value = item.category || 'proteina';
+                    document.getElementById('catalogUnit').value = item.unit || 'g';
+                    document.getElementById('catalogCalories').value = item.calories || 0;
+                    document.getElementById('catalogProtein').value = item.protein || 0;
+                    document.getElementById('catalogCarbs').value = item.carbs || 0;
+                    document.getElementById('catalogFat').value = item.fat || 0;
+                    
+                    form.dataset.editId = item.id;
+                } else {
+                    title.textContent = '📚 Cadastrar Alimento no Catálogo';
+                    delete form.dataset.editId;
+                }
+                
+                modal.style.display = 'block';
+            };
+            
+            document.getElementById('catalogForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const foodData = {
+                    name: document.getElementById('catalogName')?.value,
+                    category: document.getElementById('catalogCategory')?.value,
+                    unit: document.getElementById('catalogUnit')?.value,
+                    calories: parseFloat(document.getElementById('catalogCalories')?.value) || 0,
+                    protein: parseFloat(document.getElementById('catalogProtein')?.value) || 0,
+                    carbs: parseFloat(document.getElementById('catalogCarbs')?.value) || 0,
+                    fat: parseFloat(document.getElementById('catalogFat')?.value) || 0
+                };
+                
+                if (!foodData.name) {
+                    alert('Por favor, informe o nome do alimento');
+                    return;
+                }
+                
+                const editId = this.dataset.editId;
+                
+                try {
+                    if (editId) {
+                        await updateCatalog(editId, foodData);
+                        alert('✅ Alimento atualizado no catálogo!');
+                    } else {
+                        await addToCatalog(foodData);
+                        alert('✅ Alimento adicionado ao catálogo!');
+                    }
+                    
+                    document.getElementById('catalogModal').style.display = 'none';
+                    
+                    if (document.querySelector('[data-view="catalogo"].active')) {
+                        renderCatalogo();
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro ao salvar no catálogo:', error);
+                    alert('❌ Erro ao salvar. Tente novamente.');
+                }
+            });
+            
+            window.editCatalogItem = async function(id) {
+                try {
+                    const catalog = await getFoodCatalog();
+                    const item = catalog.find(i => i.id === id);
+                    if (item) {
+                        openCatalogModal(item);
+                    }
+                } catch (error) {
+                    console.error('Erro ao editar:', error);
+                }
+            };
+            
+            window.deleteCatalogItem = async function(id) {
+                if (confirm('Tem certeza que deseja excluir este alimento do catálogo?')) {
+                    try {
+                        await deleteFromCatalog(id);
+                        renderCatalogo();
+                    } catch (error) {
+                        console.error('Erro ao deletar:', error);
+                        alert('Erro ao excluir');
+                    }
+                }
+            };
+            
+            // ==================== FECHAR MODAIS ====================
+            document.querySelectorAll('.close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+            
+            // ==================== FORMULÁRIO DE ALIMENTOS ====================
+            document.getElementById('foodForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const foodSelect = document.getElementById('foodSelect');
+                const selectedOption = foodSelect.options[foodSelect.selectedIndex];
+                const foodId = foodSelect.value;
+                
+                if (!foodId) {
+                    alert('Selecione um alimento do catálogo');
+                    return;
+                }
+                
+                const catalog = await getFoodCatalog();
+                const selectedFood = catalog.find(f => f.id === foodId);
+                
+                const foodData = {
+                    name: selectedFood.name,
+                    category: selectedFood.category,
+                    foodId: foodId,
+                    quantity: parseFloat(document.getElementById('foodQuantity')?.value) || 0,
+                    unit: document.getElementById('foodUnitDisplay')?.value || 'g',
+                    expiry: document.getElementById('foodExpiry')?.value || null,
+                    frozen: document.getElementById('foodFrozen')?.checked || false
+                };
+                
+                const editId = this.dataset.editId;
+                
+                try {
+                    if (editId) {
+                        await updateFood(editId, foodData);
+                        alert('✅ Item do estoque atualizado!');
+                    } else {
+                        await addFood(foodData);
+                        alert('✅ Item adicionado ao estoque!');
+                    }
+                    
+                    document.getElementById('foodModal').style.display = 'none';
+                    
+                    if (document.querySelector('[data-view="estoque"].active')) {
+                        renderEstoque();
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro ao salvar no estoque:', error);
+                    alert('❌ Erro ao salvar. Tente novamente.');
+                }
+            });
+            
+            // ==================== IMPORTAR REGRAS ====================
+            document.getElementById('importRulesBtn')?.addEventListener('click', async function() {
+                const fileInput = document.getElementById('rulesFile');
+                const file = fileInput?.files[0];
+                
+                if (!file) {
+                    alert('Selecione um arquivo .txt');
+                    return;
+                }
+                
+                if (!file.name.endsWith('.txt')) {
+                    alert('Por favor, selecione um arquivo .txt válido');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const content = e.target.result;
+                        const lines = content.split('\n')
+                            .map(line => line.trim())
+                            .filter(line => line.length > 0);
+                        
+                        await saveNutritionRules(lines);
+                        alert('✅ Regras importadas com sucesso!');
+                        document.getElementById('rulesModal').style.display = 'none';
+                        renderRegras();
+                        
+                    } catch (error) {
+                        console.error('Erro ao importar regras:', error);
+                        alert('Erro ao importar regras');
+                    }
+                };
+                
+                reader.onerror = function() {
+                    alert('Erro ao ler o arquivo');
+                };
+                
+                reader.readAsText(file);
+            });
+            
+            // ==================== ATUALIZAR MENSAGEM MOTIVACIONAL ====================
+            setInterval(() => {
+                menuGenerator.updateMotivationalMessage();
+            }, 30000);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // ==================== CONTROLE DE SEMANAS ====================
+async function getWeeklyMenus() {
+    try {
+        const data = await firebaseRequest('weeklyMenus');
+        return data || {};
+    } catch (error) {
+        console.error('Erro ao buscar menus:', error);
+        return {};
+    }
+}
+
+async function saveWeeklyMenuWithDate(menu, startDate, endDate) {
+    const weekKey = `${startDate}_${endDate}`;
+    const weekData = {
+        menu: menu,
+        startDate: startDate,
+        endDate: endDate,
+        createdAt: new Date().toISOString(),
+        stats: calculateWeeklyStats(menu)
+    };
+    
+    try {
+        await firebaseRequest(`weeklyMenus/${weekKey}`, 'PUT', weekData);
+        return weekKey;
+    } catch (error) {
+        console.error('Erro ao salvar menu semanal:', error);
+        throw error;
+    }
+}
+
+function calculateWeeklyStats(menu) {
+    const stats = {
+        totalCalories: 0,
+        totalProtein: 0,
+        totalCarbs: 0,
+        totalFat: 0,
+        mealsPrepared: 0,
+        mealsTotal: 0
+    };
+    
+    const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+    
+    days.forEach(day => {
+        meals.forEach(meal => {
+            const mealData = menu[day]?.[meal];
+            if (mealData) {
+                stats.mealsTotal++;
+                if (mealData.status === 'consumida') {
+                    stats.mealsPrepared++;
+                }
+                
+                // Calcular nutrientes dos ingredientes
+                if (mealData.ingredientes) {
+                    mealData.ingredientes.forEach(ing => {
+                        // Aqui você pode implementar a lógica para extrair nutrientes
+                        // Por enquanto, valores aproximados
+                        stats.totalCalories += 300;
+                        stats.totalProtein += 20;
+                        stats.totalCarbs += 30;
+                        stats.totalFat += 10;
+                    });
+                }
+            }
+        });
+    });
+    
+    return stats;
+}
+
+// ==================== FUNÇÕES DE CÁLCULO NUTRICIONAL ====================
+async function calculateDailyNutrition(day, menu) {
+    const catalog = await getFoodCatalog();
+    const meals = ['cafe', 'almoco', 'jantar', 'lanches'];
+    const nutrition = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0
+    };
+    
+    meals.forEach(meal => {
+        const mealData = menu[day]?.[meal];
+        if (mealData?.ingredientes) {
+            mealData.ingredientes.forEach(ingredient => {
+                // Extrair nome e quantidade do ingrediente
+                const match = ingredient.match(/(.+?)\s*-\s*(\d+)([a-z]+)/i);
+                if (match) {
+                    const [, name, quantity, unit] = match;
+                    const foodInCatalog = catalog.find(f => 
+                        f.name.toLowerCase().includes(name.trim().toLowerCase())
+                    );
+                    
+                    if (foodInCatalog) {
+                        const qty = parseFloat(quantity);
+                        nutrition.calories += (foodInCatalog.calories || 0) * qty;
+                        nutrition.protein += (foodInCatalog.protein || 0) * qty;
+                        nutrition.carbs += (foodInCatalog.carbs || 0) * qty;
+                        nutrition.fat += (foodInCatalog.fat || 0) * qty;
+                    }
+                }
+            });
+        }
+    });
+    
+    return nutrition;
+}
+
+// ==================== FUNÇÕES DE GASTOS ====================
+async function addPurchase(itemId, price, store) {
+    try {
+        const item = await firebaseRequest(`groceryList/${itemId}`);
+        const purchaseData = {
+            itemId: itemId,
+            itemName: item.name,
+            quantity: item.quantity,
+            unit: item.unit,
+            price: price,
+            store: store,
+            date: new Date().toISOString()
+        };
+        
+        await firebaseRequest('purchases', 'POST', purchaseData);
+        
+        // Atualizar o item como comprado e com preço
+        await updateGroceryItem(itemId, { 
+            completed: true, 
+            price: price,
+            store: store,
+            purchasedAt: new Date().toISOString()
+        });
+        
+        return true;
+    } catch (error) {
+        console.error('Erro ao registrar compra:', error);
+        return false;
+    }
+}
+
+async function getTotalSpent(startDate, endDate) {
+    try {
+        const purchases = await firebaseRequest('purchases');
+        if (!purchases) return 0;
+        
+        const purchasesList = Object.entries(purchases).map(([id, value]) => ({ id, ...value }));
+        
+        const filtered = purchasesList.filter(p => {
+            const purchaseDate = new Date(p.date);
+            return (!startDate || purchaseDate >= new Date(startDate)) &&
+                   (!endDate || purchaseDate <= new Date(endDate));
+        });
+        
+        return filtered.reduce((sum, p) => sum + (p.price || 0), 0);
+    } catch (error) {
+        console.error('Erro ao calcular gastos:', error);
+        return 0;
+    }
+}
+
+
+
+// ==================== GERENCIAMENTO DE SEMANAS ====================
+
+// Função para obter o número da semana no ano
+function getWeekNumber(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+    const week1 = new Date(d.getFullYear(), 0, 4);
+    return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+// Gerar ID da semana no formato YYYY-MM-DD_YYYY-MM-DD
+function getWeekId(date) {
+    const range = getWeekRange(date);
+    return `${range.startStr}_${range.endStr}`;
+}
+
+// Buscar plano semanal
+async function getWeeklyPlan(weekId = null) {
+    try {
+        if (!weekId) {
+            // Se não especificado, pegar a semana atual
+            weekId = getWeekId(new Date());
+        }
+        const data = await firebaseRequest(`weeklyPlans/${weekId}`);
+        return data || null;
+    } catch (error) {
+        console.error('Erro ao buscar plano semanal:', error);
+        return null;
+    }
+}
+
+// Buscar todos os planos semanais (para histórico)
+async function getAllWeeklyPlans() {
+    try {
+        const data = await firebaseRequest('weeklyPlans');
+        return data ? Object.entries(data).map(([id, value]) => ({ id, ...value })) : [];
+    } catch (error) {
+        console.error('Erro ao buscar planos semanais:', error);
+        return [];
+    }
+}
+
+// Salvar plano semanal completo
+async function saveWeeklyPlan(weekId, menu, groceryListId = null) {
+    try {
+        const range = weekId.split('_');
+        const startDate = range[0];
+        const endDate = range[1];
+        const start = new Date(startDate);
+        
+        const weekData = {
+            id: weekId,
+            weekNumber: getWeekNumber(start),
+            year: start.getFullYear(),
+            startDate: startDate,
+            endDate: endDate,
+            menu: menu,
+            groceryListId: groceryListId,
+            stats: calculateWeeklyStats(menu),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isActive: true
+        };
+        
+        await firebaseRequest(`weeklyPlans/${weekId}`, 'PUT', weekData);
+        
+        // Também salvar no menu atual para compatibilidade
+        await saveWeeklyMenu(menu);
+        
+        return weekData;
+    } catch (error) {
+        console.error('Erro ao salvar plano semanal:', error);
+        throw error;
+    }
+}
+
+// Ativar um plano semanal (carregar no menu atual)
+async function activateWeeklyPlan(weekId) {
+    try {
+        const plan = await getWeeklyPlan(weekId);
+        if (plan && plan.menu) {
+            await saveWeeklyMenu(plan.menu);
+            
+            // Se tiver lista de compras, ativar também
+            if (plan.groceryListId) {
+                const groceryList = await getGroceryListById(plan.groceryListId);
+                if (groceryList) {
+                    await replaceGroceryList(groceryList.items);
+                }
+            }
+            
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Erro ao ativar plano semanal:', error);
+        return false;
+    }
+}
+
+// ==================== GERENCIAMENTO DE LISTAS DE COMPRAS ====================
+
+// Gerar ID da lista de compras
+function generateGroceryListId(weekId) {
+    return `list_${weekId.replace(/-/g, '').replace(/_/g, '')}`;
+}
+
+// Buscar lista de compras por ID
+async function getGroceryListById(listId) {
+    try {
+        const data = await firebaseRequest(`groceryLists/${listId}`);
+        return data || null;
+    } catch (error) {
+        console.error('Erro ao buscar lista de compras:', error);
+        return null;
+    }
+}
+
+// Buscar lista de compras da semana atual
+async function getCurrentGroceryList() {
+    try {
+        const weekId = getWeekId(new Date());
+        const plan = await getWeeklyPlan(weekId);
+        
+        if (plan && plan.groceryListId) {
+            return await getGroceryListById(plan.groceryListId);
+        }
+        return null;
+    } catch (error) {
+        console.error('Erro ao buscar lista atual:', error);
+        return null;
+    }
+}
+
+// Salvar lista de compras com vínculo semanal
+async function saveGroceryListWithWeek(weekId, items) {
+    try {
+        const listId = generateGroceryListId(weekId);
+        const range = weekId.split('_');
+        
+        const groceryList = {
+            id: listId,
+            weekId: weekId,
+            startDate: range[0],
+            endDate: range[1],
+            items: items.map(item => ({
+                ...item,
+                purchased: false,
+                price: null,
+                store: null
+            })),
+            totalSpent: 0,
+            purchases: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            status: 'active'
+        };
+        
+        await firebaseRequest(`groceryLists/${listId}`, 'PUT', groceryList);
+        
+        // Atualizar o plano semanal com a referência da lista
+        const plan = await getWeeklyPlan(weekId);
+        if (plan) {
+            plan.groceryListId = listId;
+            plan.updatedAt = new Date().toISOString();
+            await firebaseRequest(`weeklyPlans/${weekId}`, 'PUT', plan);
+        }
+        
+        // Também salvar na lista atual para compatibilidade
+        await replaceGroceryList(items);
+        
+        return groceryList;
+    } catch (error) {
+        console.error('Erro ao salvar lista de compras:', error);
+        throw error;
+    }
+}
+
+// Atualizar item da lista com preço
+async function updateGroceryItemWithPrice(listId, itemId, price, store) {
+    try {
+        const groceryList = await getGroceryListById(listId);
+        if (!groceryList) return false;
+        
+        const itemIndex = groceryList.items.findIndex(i => i.id === itemId);
+        if (itemIndex === -1) return false;
+        
+        // Atualizar item
+        groceryList.items[itemIndex].purchased = true;
+        groceryList.items[itemIndex].price = price;
+        groceryList.items[itemIndex].store = store;
+        groceryList.items[itemIndex].purchasedAt = new Date().toISOString();
+        
+        // Registrar compra
+        const purchase = {
+            id: `purchase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            groceryListId: listId,
+            weekId: groceryList.weekId,
+            itemName: groceryList.items[itemIndex].name,
+            quantity: groceryList.items[itemIndex].quantity,
+            unit: groceryList.items[itemIndex].unit,
+            price: price,
+            store: store,
+            date: new Date().toISOString()
+        };
+        
+        if (!groceryList.purchases) groceryList.purchases = [];
+        groceryList.purchases.push(purchase);
+        
+        // Recalcular total gasto
+        groceryList.totalSpent = groceryList.purchases.reduce((sum, p) => sum + (p.price || 0), 0);
+        groceryList.updatedAt = new Date().toISOString();
+        
+        // Salvar no Firebase
+        await firebaseRequest(`groceryLists/${listId}`, 'PUT', groceryList);
+        
+        // Salvar compra individual
+        await firebaseRequest(`purchases/${purchase.id}`, 'PUT', purchase);
+        
+        return true;
+    } catch (error) {
+        console.error('Erro ao atualizar item com preço:', error);
+        return false;
+    }
+}
+
+// Gerar lista de compras a partir do menu da semana
+async function generateGroceryListFromWeeklyMenu(weekId) {
+    try {
+        const plan = await getWeeklyPlan(weekId);
+        if (!plan || !plan.menu) {
+            throw new Error('Plano semanal não encontrado');
+        }
+        
+        const menu = plan.menu;
+        const neededItems = {};
+        const catalog = await getFoodCatalog();
+        
+        // Analisar todas as refeições da semana
+        Object.values(menu).forEach(day => {
+            Object.values(day).forEach(meal => {
+                if (meal.ingredientes) {
+                    meal.ingredientes.forEach(ingredient => {
+                        const match = ingredient.match(/(.+?)\s*-\s*(\d+)([a-z]+)/i);
+                        if (match) {
+                            const [, name, quantity] = match;
+                            const foodInCatalog = catalog.find(f => 
+                                f.name.toLowerCase().includes(name.trim().toLowerCase())
+                            );
+                            
+                            if (foodInCatalog) {
+                                const key = foodInCatalog.id;
+                                if (!neededItems[key]) {
+                                    neededItems[key] = {
+                                        name: foodInCatalog.name,
+                                        category: foodInCatalog.category,
+                                        unit: foodInCatalog.unit,
+                                        quantity: 0,
+                                        estimatedPrice: 0
+                                    };
+                                }
+                                neededItems[key].quantity += parseFloat(quantity);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Converter para array
+        const items = Object.values(neededItems).map((item, index) => ({
+            id: `item_${Date.now()}_${index}`,
+            ...item,
+            purchased: false,
+            price: null,
+            store: null
+        }));
+        
+        // Salvar lista
+        return await saveGroceryListWithWeek(weekId, items);
+        
+    } catch (error) {
+        console.error('Erro ao gerar lista de compras:', error);
+        return null;
+    }
+}
+
+// Buscar gastos por período
+async function getSpendingByPeriod(startDate, endDate) {
+    try {
+        const purchases = await firebaseRequest('purchases');
+        if (!purchases) return { total: 0, byStore: {}, byWeek: {} };
+        
+        const purchasesList = Object.entries(purchases).map(([id, value]) => ({ id, ...value }));
+        
+        const filtered = purchasesList.filter(p => {
+            const purchaseDate = new Date(p.date);
+            return (!startDate || purchaseDate >= new Date(startDate)) &&
+                   (!endDate || purchaseDate <= new Date(endDate));
+        });
+        
+        const total = filtered.reduce((sum, p) => sum + (p.price || 0), 0);
+        
+        // Agrupar por loja
+        const byStore = {};
+        filtered.forEach(p => {
+            if (!byStore[p.store]) byStore[p.store] = 0;
+            byStore[p.store] += p.price || 0;
+        });
+        
+        // Agrupar por semana
+        const byWeek = {};
+        filtered.forEach(p => {
+            if (!byWeek[p.weekId]) byWeek[p.weekId] = 0;
+            byWeek[p.weekId] += p.price || 0;
+        });
+        
+        return { total, byStore, byWeek, purchases: filtered };
+    } catch (error) {
+        console.error('Erro ao calcular gastos:', error);
+        return { total: 0, byStore: {}, byWeek: {} };
+    }
+}
+
+
+function getWeekRange(date) {
+    const currentDate = new Date(date);
+    const day = currentDate.getDay(); // 0 = domingo, 1 = segunda, etc.
+    
+    // Ajustar para segunda como primeiro dia
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    const monday = new Date(currentDate);
+    monday.setDate(currentDate.getDate() + diffToMonday);
+    
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    
+    return {
+        start: monday,
+        end: sunday,
+        startStr: monday.toISOString().split('T')[0],
+        endStr: sunday.toISOString().split('T')[0]
+    };
+}
+    </script>
+</body>
+</html>
