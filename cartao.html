@@ -731,6 +731,31 @@
             const empresaNome = cliente.empresaNome || cliente.nomeFantasia || 'Nome da Empresa';
             nameElement.textContent = empresaNome;
             nameElementG.textContent = empresaNome;
+
+
+             if (empresaNome.length > 25) {
+                // Nome muito longo - esconder os elementos de nome
+                nameElement.style.display = 'none';
+                nameElementG.style.display = 'none';
+                
+                // Ajustar posição dos outros elementos para ocupar o espaço
+                const emailElement = document.getElementById('emailElement');
+                const telElement = document.getElementById('telElement');
+                
+      
+                
+                console.log('⚠️ Nome da empresa excede 25 caracteres. Nome ocultado no cartão.');
+            } else {
+                // Nome dentro do limite - mostrar normalmente
+                nameElement.style.display = 'block';
+                nameElementG.style.display = 'block';
+                nameElement.textContent = empresaNome || 'Nome da Empresa';
+                nameElementG.textContent = empresaNome || 'Nome da Empresa';
+                
+            }
+
+
+
             emailElement.textContent = cliente.email || 'email@empresa.com';
             telElement.textContent = cliente.telefone || '(11) 99999-9999';
             
