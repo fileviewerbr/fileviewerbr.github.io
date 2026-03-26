@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+
     <title>Projeto Logomarca - Login</title>
     <style>
         * {
@@ -16,6 +22,7 @@
             text-align: center;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
      
         }
 
@@ -37,12 +44,16 @@
         }
 
         .header-left {
-            width: 80%;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             border-radius: 0 8px 8px 0;
+
+              font-family: "Allura", cursive;
+  font-weight: 400;
+  font-style: normal;
             
         }
 
@@ -196,6 +207,7 @@
     margin: 0 auto;
     width: 300px;
     text-align: center;
+    margin-top: 50px;
 }
 
 .logos{
@@ -220,7 +232,10 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-left">
-                <h1 style="font-weight: 400;">Projeto Logomarca</h1>
+                <h1 style=' font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;'>Projeto Logomarca</h1>
             </div>
          
         </header>
@@ -248,7 +263,7 @@
             <button class="btn-primary" onclick="buscarCliente()">
                 <span class="emoji">🙂</span>
                 <span>Ver Logo</span>
-                <span class="arrow">▶</span>
+<span class="arrow" style="transform: rotate(270deg);">▼</span>
             </button>
         </div>
 

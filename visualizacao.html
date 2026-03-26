@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto Logomarca - Visualização</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * {
@@ -264,7 +268,10 @@ margin: 0 auto;
         <div style="display: flex;"> 
         <header class="header">
             <div class="header-left">
-                <h1>Projeto Logomarca</h1>
+                <h1 style=' font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;'>Projeto Logomarca</h1>
 
                 <p id="nomeAlunoHeader">Carregando...</p>
             </div>
@@ -327,8 +334,10 @@ margin: 0 auto;
         <div class="cartao-btn-container">
             <button class="cartao-btn" onclick="irParaCartao()">
                 <span>Cartão de Visita</span>
-                <span class="arrow">▶</span>
-            </button>
+<span class="arrow" style="transform: rotate(270deg);">▼</span>
+
+
+</button>
         </div>
 
         
@@ -458,6 +467,10 @@ margin: 0 auto;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
+
+            window.location.href = 'baixada.html';
+
         }
 
         // Ir para tela do cartão
