@@ -132,6 +132,7 @@ margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 300px;
         }
         
         /* LOGO 2 - NO CENTRO (NORMAL) */
@@ -199,7 +200,7 @@ margin: 0 auto;
         
         .card-email {
             left: 280px;
-            bottom: 152px;
+            bottom: 155px;
             width: 160px;
             font-size: 7px;
             color: #000000;
@@ -210,8 +211,8 @@ margin: 0 auto;
         }
         
         .card-tel {
-            left: 125px;
-            bottom: 152px;
+            left: 120px;
+            bottom: 155px;
             width: 150px;
             font-size: 7px;
             color: #000000;
@@ -219,6 +220,23 @@ margin: 0 auto;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+
+                @media (max-width: 560px) {
+                   .card-tel {
+                        left: 80px;
+
+                   }
+
+
+            .card-email {
+                left: 200px;
+
+            }
+
+
+        
         }
 
         /* BOTÕES DE AÇÃO */
@@ -532,7 +550,7 @@ margin: 0 auto;
 
                 <!-- LOGO 1 - CANTO SUPERIOR ESQUERDO (NORMAL) -->
                 <div class="card-element logo-container1">
-                    <img src="" alt="Logo" class="card-logo" id="cardLogo1" style="display: none;">
+                    <img src="" alt="Logo" class="card-logo" id="cardLogo1" style="display: none; border-radius:100000px">
                 </div>
 
 
