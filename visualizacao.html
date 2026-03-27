@@ -132,7 +132,7 @@ margin: 0 auto;
         .preview-box img {
             width: 250px;
             height: 250px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .download-btn {
@@ -313,7 +313,7 @@ margin: 0 auto;
                     <img id="logoColoridaImg" src="" alt="Logo Colorida" style="display: none;">
                 </div>
                 <button class="download-btn" onclick="baixarLogo('colorida')">
-                    <span>Download Color</span>
+                    <span style="color: #807f7f">Download Color</span>
                     <span class="arrow">▼</span>
                 </button>
             </div>
@@ -324,7 +324,7 @@ margin: 0 auto;
                     <img id="logoPBImg" src="" alt="Logo PB" style="display: none;">
                 </div>
                 <button class="download-btn" onclick="baixarLogo('pb')">
-                    <span>Download PB</span>
+                    <span  style="color: #807f7f">Download PB</span>
                     <span class="arrow">▼</span>
                 </button>
             </div>
@@ -333,7 +333,7 @@ margin: 0 auto;
         <!-- BOTÃO CARTÃO DE VISITA -->
         <div class="cartao-btn-container">
             <button class="cartao-btn" onclick="irParaCartao()">
-                <span>Cartão de Visita</span>
+                <span style="color: #807f7f">Cartão de Visita</span>
 <span class="arrow" style="transform: rotate(270deg);">▼</span>
 
 
@@ -366,8 +366,7 @@ margin: 0 auto;
             clienteAtual = JSON.parse(clienteData);
             
             // Atualizar header
-            document.getElementById('nomeAlunoHeader').textContent = clienteAtual.nome || 'Cliente';
-            
+document.getElementById('nomeAlunoHeader').textContent = obterNomeExibicao(clienteAtual);            
             // Atualizar informações
             document.getElementById('clientName').textContent = clienteAtual.nome || 'Não informado';
             document.getElementById('clientCompany').textContent = clienteAtual.empresaNome || clienteAtual.nomeFantasia || 'Não informado';
@@ -477,6 +476,93 @@ margin: 0 auto;
         function irParaCartao() {
             window.location.href = 'cartao.html';
         }
+
+
+
+        // Função para limpar "sim," e "não," em qualquer variação
+function limparNomeEmpresa(nome) {
+    if (!nome) return '';
+    
+    let nomeLimpo = nome;
+    
+    // Padrões para remover "sim," e "não," em qualquer variação (case insensitive)
+    const padroesSim = [
+        /^sim,\s*/i,           // sim, no início
+        /\ssim,\s*/i,          // sim, no meio
+        /,\s*sim,\s*/i,        // ,sim,
+        /sim\s*$/i,            // sim no final
+        /sim\s*,\s*/i,         // sim ,
+        /^sim\s*$/i            // apenas sim
+    ];
+    
+    const padroesNao = [
+        /^não,\s*/i,           // não, no início
+        /^nao,\s*/i,           // nao, no início
+        /\snão,\s*/i,          // não, no meio
+        /\snao,\s*/i,          // nao, no meio
+        /,\s*não,\s*/i,        // ,não,
+        /,\s*nao,\s*/i,        // ,nao,
+        /não\s*$/i,            // não no final
+        /nao\s*$/i,            // nao no final
+        /não\s*,\s*/i,         // não ,
+        /nao\s*,\s*/i,         // nao ,
+        /^não\s*$/i,           // apenas não
+        /^nao\s*$/i,           // apenas nao
+        /\bnão\b/i,            // não como palavra isolada
+        /\bnao\b/i             // nao como palavra isolada
+    ];
+    
+    // Aplicar remoção de todos os padrões de "sim"
+    for (const padrao of padroesSim) {
+        nomeLimpo = nomeLimpo.replace(padrao, '');
+    }
+    
+    // Aplicar remoção de todos os padrões de "não"
+    for (const padrao of padroesNao) {
+        nomeLimpo = nomeLimpo.replace(padrao, '');
+    }
+    
+    // Limpar vírgulas extras, espaços duplicados e trim
+    nomeLimpo = nomeLimpo
+        .replace(/\s*,\s*/g, ',')
+        .replace(/,,+/g, ',')
+        .replace(/^\s*,\s*/, '')
+        .replace(/\s*,\s*$/, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    
+    if (nomeLimpo === '' || nomeLimpo === ',' || nomeLimpo === ' ') {
+        return '';
+    }
+    
+    return nomeLimpo;
+}
+
+// Função para obter o nome a ser exibido
+function obterNomeExibicao(cliente) {
+    let empresaNome = cliente.empresaNome || '';
+    let nomePessoa = cliente.nome || '';
+    
+    let empresaNomeLimpo = limparNomeEmpresa(empresaNome);
+    
+    if (empresaNomeLimpo && empresaNomeLimpo !== '' && empresaNomeLimpo.length <= 25) {
+        return empresaNomeLimpo;
+    }
+    
+    if (nomePessoa && nomePessoa !== '' && nomePessoa.length <= 25) {
+        return nomePessoa;
+    }
+    
+    if (empresaNomeLimpo && empresaNomeLimpo !== '') {
+        return empresaNomeLimpo.substring(0, 23);
+    }
+    
+    if (nomePessoa && nomePessoa !== '') {
+        return nomePessoa.substring(0, 23);
+    }
+    
+    return 'Nome da Empresa';
+}
     </script>
 </body>
 </html>
