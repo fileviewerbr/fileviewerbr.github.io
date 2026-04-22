@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Progresso Logomarcas</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -163,7 +165,7 @@
             font-size: 14px;
         }
         
-        .date-input {
+        .date-input, .filter-select, .search-box {
             padding: 10px 15px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
@@ -171,37 +173,18 @@
             background: white;
         }
         
-        .date-input:focus {
+        .date-input:focus, .filter-select:focus, .search-box:focus {
             outline: none;
             border-color: #667eea;
         }
         
         .filter-select {
-            padding: 10px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
             min-width: 180px;
-        }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: #667eea;
         }
         
         .search-box {
             flex: 1;
             min-width: 250px;
-            padding: 10px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
         }
         
         .btn {
@@ -230,7 +213,16 @@
             background: #cbd5e0;
         }
         
-        /* Completed List Section */
+        .btn-pdf {
+            background: #dc3545;
+            margin-left: auto;
+        }
+        
+        .btn-pdf:hover {
+            background: #c82333;
+        }
+        
+        /* Section Title */
         .section-title {
             display: flex;
             justify-content: space-between;
@@ -251,6 +243,51 @@
             font-size: 14px;
         }
         
+        .city-stats {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .city-stats h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .city-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .city-stat-item {
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .city-stat-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .city-stat-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .city-stat-completed {
+            font-size: 13px;
+            color: #48bb78;
+            margin-top: 5px;
+        }
+        
+        /* Table */
         .completed-table {
             background: white;
             border-radius: 12px;
@@ -305,8 +342,16 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+        }
+        
+        .status-completed {
             background: #c6f6d5;
             color: #2f855a;
+        }
+        
+        .status-pending {
+            background: #fed7d7;
+            color: #9b2c2c;
         }
         
         .logo-link {
@@ -431,11 +476,11 @@
             
             <div class="stat-card info">
                 <div class="stat-header">
-                    <span class="stat-icon">🌍</span>
+                    <span class="stat-icon">🏙️</span>
                 </div>
-                <div class="stat-value" id="originsCount">0</div>
-                <div class="stat-label">Origens Diferentes</div>
-                <div class="stat-trend">📍 Canais de captação</div>
+                <div class="stat-value" id="citiesCount">0</div>
+                <div class="stat-label">Cidades Diferentes</div>
+                <div class="stat-trend">📍 Localização dos clientes</div>
             </div>
         </div>
         
@@ -453,18 +498,25 @@
             
             <div class="chart-card">
                 <div class="chart-header">
-                    <h3>📅 Evolução Mensal</h3>
-                    <span style="color: #718096; font-size: 13px;">Últimos 6 meses</span>
+                    <h3>🏙️ Top 5 Cidades</h3>
+                    <span style="color: #718096; font-size: 13px;">Clientes por cidade</span>
                 </div>
                 <div class="chart-container">
-                    <canvas id="monthlyChart"></canvas>
+                    <canvas id="cityChart"></canvas>
                 </div>
             </div>
         </div>
         
         <!-- Filters -->
         <div class="filters-bar">
-            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar por nome, empresa ou cidade...">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar por nome, empresa ou email...">
+            
+            <div class="filter-group">
+                <span class="filter-label">Cidade:</span>
+                <select class="filter-select" id="cityFilter">
+                    <option value="all">Todas as Cidades</option>
+                </select>
+            </div>
             
             <div class="filter-group">
                 <span class="filter-label">Origem:</span>
@@ -474,26 +526,35 @@
             </div>
             
             <div class="filter-group">
-                <span class="filter-label">Data:</span>
-                <input type="date" class="date-input" id="dateStart" placeholder="Início">
-                <span>até</span>
-                <input type="date" class="date-input" id="dateEnd" placeholder="Fim">
+                <span class="filter-label">Status:</span>
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">Todos</option>
+                    <option value="completed">Concluídos</option>
+                    <option value="pending">Em Andamento</option>
+                </select>
             </div>
             
             <button class="btn" onclick="applyFilters()">🔍 Filtrar</button>
             <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Limpar</button>
+            <button class="btn btn-pdf" onclick="generatePDF()">📄 Gerar PDF</button>
         </div>
         
-        <!-- Completed Logos List -->
+        <!-- City Stats -->
+        <div class="city-stats" id="cityStats" style="display: none;">
+            <h3>📊 Estatísticas da Cidade Selecionada</h3>
+            <div class="city-stats-grid" id="cityStatsGrid"></div>
+        </div>
+        
+        <!-- Client List -->
         <div class="section-title">
-            <h2>🎨 Logos Concluídas</h2>
-            <span class="badge" id="completedCount">0 logos</span>
+            <h2>👥 Clientes Filtrados</h2>
+            <span class="badge" id="filteredCount">0 clientes</span>
         </div>
         
         <div class="completed-table">
-            <div id="completedContainer">
+            <div id="clientsContainer">
                 <div class="loading">
-                    <h3>Carregando logos concluídas...</h3>
+                    <h3>Carregando dados...</h3>
                 </div>
             </div>
         </div>
@@ -505,35 +566,31 @@
         
         // ============= VARIÁVEIS GLOBAIS =============
         let allClients = [];
-        let filteredCompletedClients = [];
+        let filteredClients = [];
+        let availableCities = new Set();
         let availableOrigins = new Set();
-        let progressChart, monthlyChart;
+        let progressChart, cityChart;
+        let cityData = {};
         
         // Elementos da interface
-        const completedContainer = document.getElementById('completedContainer');
+        const clientsContainer = document.getElementById('clientsContainer');
         const searchBox = document.getElementById('searchBox');
+        const cityFilter = document.getElementById('cityFilter');
         const originFilter = document.getElementById('originFilter');
-        const dateStart = document.getElementById('dateStart');
-        const dateEnd = document.getElementById('dateEnd');
+        const statusFilter = document.getElementById('statusFilter');
         
         // ============= EVENT LISTENERS =============
-        // Carregar dados ao iniciar
         document.addEventListener('DOMContentLoaded', loadData);
-        
-        // Atualizar a cada 5 minutos
         setInterval(loadData, 300000);
         
-        // Permitir pressionar Enter para buscar
         searchBox.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                applyFilters();
-            }
+            if (e.key === 'Enter') applyFilters();
         });
         
         // ============= FUNÇÕES PRINCIPAIS =============
         async function loadData() {
             try {
-                completedContainer.innerHTML = '<div class="loading"><h3>Carregando dados...</h3></div>';
+                clientsContainer.innerHTML = '<div class="loading"><h3>Carregando dados...</h3></div>';
                 
                 const response = await fetch(FIREBASE_URL + '.json');
                 const data = await response.json();
@@ -544,21 +601,47 @@
                 }
                 
                 // Processar clientes
-                allClients = Object.values(data).sort((a, b) => {
-                    // Ordenar por data de conclusão (mais recentes primeiro)
-                    const dateA = a.logoUploadDate ? new Date(a.logoUploadDate) : new Date(0);
-                    const dateB = b.logoUploadDate ? new Date(b.logoUploadDate) : new Date(0);
+                allClients = Object.entries(data).map(([id, client]) => ({
+                    id: id,
+                    ...client
+                })).sort((a, b) => {
+                    const dateA = a.timestampImportacao ? new Date(a.timestampImportacao) : new Date(0);
+                    const dateB = b.timestampImportacao ? new Date(b.timestampImportacao) : new Date(0);
                     return dateB - dateA;
                 });
                 
-                // Extrair origens únicas
+                // Extrair cidades e origens únicas
+                availableCities = new Set();
                 availableOrigins = new Set();
+                cityData = {};
+                
                 allClients.forEach(client => {
+                    const city = client.cidade || 'Não definida';
+                    if (city !== 'Não definida') {
+                        availableCities.add(city);
+                    }
+                    
                     if (client.origem) {
                         availableOrigins.add(client.origem);
                     }
+                    
+                    // Agrupar dados por cidade
+                    if (!cityData[city]) {
+                        cityData[city] = {
+                            total: 0,
+                            completed: 0,
+                            pending: 0
+                        };
+                    }
+                    cityData[city].total++;
+                    if (client.feito) {
+                        cityData[city].completed++;
+                    } else {
+                        cityData[city].pending++;
+                    }
                 });
                 
+                updateCityFilter();
                 updateOriginFilter();
                 updateStats();
                 updateCharts();
@@ -567,7 +650,7 @@
                 
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-                completedContainer.innerHTML = `
+                clientsContainer.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">⚠️</div>
                         <h3>Erro ao carregar dados</h3>
@@ -582,13 +665,13 @@
             const completed = allClients.filter(c => c.feito).length;
             const pending = total - completed;
             const completionRate = total > 0 ? ((completed / total) * 100).toFixed(1) : 0;
+            const citiesWithData = Object.keys(cityData).filter(c => c !== 'Não definida').length;
             
             document.getElementById('totalClients').textContent = total;
             document.getElementById('completedClients').textContent = completed;
             document.getElementById('pendingClients').textContent = pending;
-            document.getElementById('originsCount').textContent = availableOrigins.size;
+            document.getElementById('citiesCount').textContent = citiesWithData;
             document.getElementById('completionRate').textContent = `🎯 ${completionRate}% de conclusão`;
-            document.getElementById('completedCount').textContent = `${completed} logos`;
         }
         
         function updateLastUpdate() {
@@ -608,9 +691,7 @@
             const completed = allClients.filter(c => c.feito).length;
             const pending = allClients.filter(c => !c.feito).length;
             
-            if (progressChart) {
-                progressChart.destroy();
-            }
+            if (progressChart) progressChart.destroy();
             
             const ctx1 = document.getElementById('progressChart').getContext('2d');
             progressChart = new Chart(ctx1, {
@@ -627,9 +708,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom'
-                        },
+                        legend: { position: 'bottom' },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -645,94 +724,61 @@
                 }
             });
             
-            // Gráfico Mensal
-            const monthlyData = getMonthlyData();
+            // Gráfico de Cidades (Top 5)
+            const sortedCities = Object.entries(cityData)
+                .filter(([city]) => city !== 'Não definida')
+                .sort((a, b) => b[1].total - a[1].total)
+                .slice(0, 5);
             
-            if (monthlyChart) {
-                monthlyChart.destroy();
-            }
+            if (cityChart) cityChart.destroy();
             
-            const ctx2 = document.getElementById('monthlyChart').getContext('2d');
-            monthlyChart = new Chart(ctx2, {
-                type: 'line',
+            const ctx2 = document.getElementById('cityChart').getContext('2d');
+            cityChart = new Chart(ctx2, {
+                type: 'bar',
                 data: {
-                    labels: monthlyData.labels,
+                    labels: sortedCities.map(([city]) => city),
                     datasets: [{
-                        label: 'Logos Concluídas',
-                        data: monthlyData.completed,
-                        borderColor: '#48bb78',
-                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }, {
                         label: 'Total de Clientes',
-                        data: monthlyData.total,
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 3,
-                        pointRadius: 5,
-                        pointHoverRadius: 7
+                        data: sortedCities.map(([, data]) => data.total),
+                        backgroundColor: '#667eea',
+                        borderRadius: 5
+                    }, {
+                        label: 'Concluídos',
+                        data: sortedCities.map(([, data]) => data.completed),
+                        backgroundColor: '#48bb78',
+                        borderRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
+                        legend: { position: 'bottom' }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            ticks: { stepSize: 1 }
                         }
                     }
                 }
             });
         }
         
-        function getMonthlyData() {
-            const months = {};
-            const last6Months = [];
+        function updateCityFilter() {
+            const currentValue = cityFilter.value;
+            cityFilter.innerHTML = '<option value="all">Todas as Cidades</option>';
             
-            // Gerar últimos 6 meses
-            for (let i = 5; i >= 0; i--) {
-                const date = new Date();
-                date.setMonth(date.getMonth() - i);
-                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                const monthLabel = date.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' });
-                last6Months.push({ key: monthKey, label: monthLabel });
-                months[monthKey] = { completed: 0, total: 0 };
-            }
-            
-            // Contar clientes por mês
-            allClients.forEach(client => {
-                if (client.timestampImportacao) {
-                    const date = new Date(client.timestampImportacao);
-                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                    
-                    if (months[monthKey] !== undefined) {
-                        months[monthKey].total++;
-                        if (client.feito) {
-                            months[monthKey].completed++;
-                        }
-                    }
-                }
+            Array.from(availableCities).sort().forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = `${city} (${cityData[city]?.total || 0})`;
+                cityFilter.appendChild(option);
             });
             
-            return {
-                labels: last6Months.map(m => m.label),
-                completed: last6Months.map(m => months[m.key].completed),
-                total: last6Months.map(m => months[m.key].total)
-            };
+            if (currentValue && Array.from(availableCities).includes(currentValue)) {
+                cityFilter.value = currentValue;
+            }
         }
         
         function updateOriginFilter() {
@@ -752,8 +798,7 @@
         }
         
         function applyFilters() {
-            // Filtrar apenas clientes concluídos
-            let filtered = allClients.filter(c => c.feito);
+            let filtered = [...allClients];
             
             // Filtro de busca
             const searchTerm = searchBox.value.toLowerCase();
@@ -761,8 +806,15 @@
                 filtered = filtered.filter(client => 
                     (client.nome && client.nome.toLowerCase().includes(searchTerm)) ||
                     (client.empresaNome && client.empresaNome.toLowerCase().includes(searchTerm)) ||
+                    (client.email && client.email.toLowerCase().includes(searchTerm)) ||
                     (client.cidade && client.cidade.toLowerCase().includes(searchTerm))
                 );
+            }
+            
+            // Filtro de cidade
+            const selectedCity = cityFilter.value;
+            if (selectedCity !== 'all') {
+                filtered = filtered.filter(client => client.cidade === selectedCity);
             }
             
             // Filtro de origem
@@ -771,46 +823,71 @@
                 filtered = filtered.filter(client => client.origem === selectedOrigin);
             }
             
-            // Filtro de data
-            const startDate = dateStart.value ? new Date(dateStart.value) : null;
-            const endDate = dateEnd.value ? new Date(dateEnd.value) : null;
-            if (endDate) {
-                endDate.setHours(23, 59, 59, 999);
+            // Filtro de status
+            const selectedStatus = statusFilter.value;
+            if (selectedStatus === 'completed') {
+                filtered = filtered.filter(client => client.feito);
+            } else if (selectedStatus === 'pending') {
+                filtered = filtered.filter(client => !client.feito);
             }
             
-            if (startDate || endDate) {
-                filtered = filtered.filter(client => {
-                    const clientDate = client.logoUploadDate ? new Date(client.logoUploadDate) : 
-                                     (client.timestampImportacao ? new Date(client.timestampImportacao) : null);
-                    
-                    if (!clientDate) return false;
-                    
-                    if (startDate && clientDate < startDate) return false;
-                    if (endDate && clientDate > endDate) return false;
-                    
-                    return true;
-                });
-            }
-            
-            filteredCompletedClients = filtered;
-            renderCompletedTable();
+            filteredClients = filtered;
+            renderClientsTable();
+            updateCityStats();
+            document.getElementById('filteredCount').textContent = `${filtered.length} clientes`;
         }
         
         function clearFilters() {
             searchBox.value = '';
+            cityFilter.value = 'all';
             originFilter.value = 'all';
-            dateStart.value = '';
-            dateEnd.value = '';
+            statusFilter.value = 'all';
             applyFilters();
         }
         
-        function renderCompletedTable() {
-            if (filteredCompletedClients.length === 0) {
-                completedContainer.innerHTML = `
+        function updateCityStats() {
+            const selectedCity = cityFilter.value;
+            const cityStatsDiv = document.getElementById('cityStats');
+            const cityStatsGrid = document.getElementById('cityStatsGrid');
+            
+            if (selectedCity === 'all') {
+                cityStatsDiv.style.display = 'none';
+                return;
+            }
+            
+            const stats = cityData[selectedCity] || { total: 0, completed: 0, pending: 0 };
+            const completionRate = stats.total > 0 ? ((stats.completed / stats.total) * 100).toFixed(1) : 0;
+            
+            cityStatsDiv.style.display = 'block';
+            cityStatsGrid.innerHTML = `
+                <div class="city-stat-item">
+                    <div class="city-stat-name">Total de Clientes</div>
+                    <div class="city-stat-count">${stats.total}</div>
+                </div>
+                <div class="city-stat-item">
+                    <div class="city-stat-name">Concluídos</div>
+                    <div class="city-stat-count">${stats.completed}</div>
+                    <div class="city-stat-completed">✅ ${stats.completed} logos entregues</div>
+                </div>
+                <div class="city-stat-item">
+                    <div class="city-stat-name">Em Andamento</div>
+                    <div class="city-stat-count">${stats.pending}</div>
+                    <div class="city-stat-completed">⏳ Aguardando</div>
+                </div>
+                <div class="city-stat-item">
+                    <div class="city-stat-name">Taxa de Conclusão</div>
+                    <div class="city-stat-count">${completionRate}%</div>
+                </div>
+            `;
+        }
+        
+        function renderClientsTable() {
+            if (filteredClients.length === 0) {
+                clientsContainer.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">🎨</div>
-                        <h3>Nenhuma logo concluída encontrada</h3>
-                        <p>Ajuste os filtros ou aguarde a conclusão de novas logos</p>
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>Nenhum cliente encontrado</h3>
+                        <p>Ajuste os filtros para ver os resultados</p>
                     </div>
                 `;
                 return;
@@ -824,27 +901,30 @@
                             <th>Empresa</th>
                             <th>Cidade</th>
                             <th>Origem</th>
-                            <th>Data Conclusão</th>
                             <th>Status</th>
                             <th>Logo</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${filteredCompletedClients.map(client => {
+                        ${filteredClients.map(client => {
                             const hasLogo = client.logoUrl || client.logoBase64;
                             const logoUrl = client.logoUrl || client.logoBase64;
-                            const completionDate = client.logoUploadDate ? 
-                                new Date(client.logoUploadDate).toLocaleDateString('pt-BR') : 
-                                'Não registrada';
+                            const status = client.feito;
                             
                             return `
                                 <tr>
-                                    <td class="client-cell">${client.nome || 'N/A'}</td>
+                                    <td class="client-cell">
+                                        ${client.nome || 'N/A'}<br>
+                                        <small style="color: #a0aec0;">${client.email || 'Sem email'}</small>
+                                    </td>
                                     <td class="company-cell">${client.empresaNome || client.nomeFantasia || 'N/A'}</td>
-                                    <td>${client.cidade || 'N/A'}</td>
+                                    <td>${client.cidade || 'Não definida'}</td>
                                     <td>${client.origem || 'N/A'}</td>
-                                    <td>${completionDate}</td>
-                                    <td><span class="status-badge">✅ Concluído</span></td>
+                                    <td>
+                                        <span class="status-badge ${status ? 'status-completed' : 'status-pending'}">
+                                            ${status ? '✅ Concluído' : '⏳ Em Andamento'}
+                                        </span>
+                                    </td>
                                     <td>
                                         ${hasLogo ? 
                                             `<a href="${logoUrl}" target="_blank" class="logo-link">🔗 Ver Logo</a>` : 
@@ -858,11 +938,11 @@
                 </table>
             `;
             
-            completedContainer.innerHTML = tableHTML;
+            clientsContainer.innerHTML = tableHTML;
         }
         
         function showEmptyState() {
-            completedContainer.innerHTML = `
+            clientsContainer.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">📭</div>
                     <h3>Nenhum dado encontrado</h3>
@@ -871,6 +951,143 @@
             `;
             updateStats();
             updateLastUpdate();
+        }
+        
+        // ============= GERAÇÃO DE PDF =============
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const selectedCity = cityFilter.value;
+            const selectedStatus = statusFilter.value;
+            const selectedOrigin = originFilter.value;
+            
+            // Título
+            doc.setFontSize(22);
+            doc.setTextColor(45, 55, 72);
+            doc.text('Relatório de Desenvolvimento de Logos', 14, 20);
+            
+            // Subtítulo com filtros
+            doc.setFontSize(12);
+            doc.setTextColor(113, 128, 150);
+            let subtitle = '';
+            if (selectedCity !== 'all') subtitle += `Cidade: ${selectedCity} | `;
+            if (selectedOrigin !== 'all') subtitle += `Origem: ${selectedOrigin} | `;
+            if (selectedStatus !== 'all') subtitle += `Status: ${selectedStatus === 'completed' ? 'Concluídos' : 'Em Andamento'} | `;
+            subtitle += `Data: ${new Date().toLocaleDateString('pt-BR')}`;
+            doc.text(subtitle, 14, 30);
+            
+            // Métricas
+            const totalFiltered = filteredClients.length;
+            const completedFiltered = filteredClients.filter(c => c.feito).length;
+            const pendingFiltered = totalFiltered - completedFiltered;
+            const completionRateFiltered = totalFiltered > 0 ? ((completedFiltered / totalFiltered) * 100).toFixed(1) : 0;
+            
+            doc.setFontSize(14);
+            doc.setTextColor(45, 55, 72);
+            doc.text('Métricas do Período', 14, 45);
+            
+            doc.setFontSize(11);
+            doc.setTextColor(74, 85, 104);
+            doc.text(`Total de Clientes: ${totalFiltered}`, 14, 55);
+            doc.text(`Logos Concluídas: ${completedFiltered}`, 14, 62);
+            doc.text(`Em Andamento: ${pendingFiltered}`, 14, 69);
+            doc.text(`Taxa de Conclusão: ${completionRateFiltered}%`, 14, 76);
+            
+            // Estatísticas por cidade (se filtro não for específico)
+            if (selectedCity === 'all') {
+                doc.setFontSize(14);
+                doc.setTextColor(45, 55, 72);
+                doc.text('Distribuição por Cidade', 14, 95);
+                
+                const cityTableData = Object.entries(cityData)
+                    .filter(([city]) => city !== 'Não definida')
+                    .sort((a, b) => b[1].total - a[1].total)
+                    .slice(0, 10)
+                    .map(([city, data]) => [
+                        city,
+                        data.total.toString(),
+                        data.completed.toString(),
+                        data.pending.toString(),
+                        data.total > 0 ? ((data.completed / data.total) * 100).toFixed(1) + '%' : '0%'
+                    ]);
+                
+                doc.autoTable({
+                    startY: 100,
+                    head: [['Cidade', 'Total', 'Concluídos', 'Pendentes', 'Taxa']],
+                    body: cityTableData,
+                    theme: 'striped',
+                    headStyles: {
+                        fillColor: [102, 126, 234],
+                        textColor: 255,
+                        fontSize: 11
+                    },
+                    bodyStyles: {
+                        fontSize: 10,
+                        textColor: [74, 85, 104]
+                    },
+                    alternateRowStyles: {
+                        fillColor: [247, 250, 252]
+                    }
+                });
+            }
+            
+            // Lista de clientes
+            const currentY = selectedCity === 'all' ? doc.lastAutoTable.finalY + 15 : 95;
+            
+            doc.setFontSize(14);
+            doc.setTextColor(45, 55, 72);
+            doc.text('Lista de Clientes', 14, currentY);
+            
+            const clientTableData = filteredClients.map(client => [
+                client.nome || 'N/A',
+                client.empresaNome || client.nomeFantasia || 'N/A',
+                client.cidade || 'Não definida',
+                client.feito ? 'Concluído' : 'Em Andamento',
+                client.logoUrl || 'Sem logo'
+            ]);
+            
+            doc.autoTable({
+                startY: currentY + 5,
+                head: [['Cliente', 'Empresa', 'Cidade', 'Status', 'Link da Logo']],
+                body: clientTableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [102, 126, 234],
+                    textColor: 255,
+                    fontSize: 10
+                },
+                bodyStyles: {
+                    fontSize: 9,
+                    textColor: [74, 85, 104]
+                },
+                alternateRowStyles: {
+                    fillColor: [247, 250, 252]
+                },
+                columnStyles: {
+                    4: { cellWidth: 40 }
+                },
+                didDrawCell: function(data) {
+                    // Links ficam como texto normal (não são clicáveis no PDF)
+                }
+            });
+            
+            // Rodapé
+            const pageCount = doc.getNumberOfPages();
+            for(let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(160, 174, 192);
+                doc.text(
+                    `Relatório de Desenvolvimento de Logos - Página ${i} de ${pageCount} - Gerado em ${new Date().toLocaleString('pt-BR')}`,
+                    14,
+                    doc.internal.pageSize.height - 10
+                );
+            }
+            
+            // Salvar PDF
+            const fileName = `relatorio_logos_${selectedCity !== 'all' ? selectedCity.replace(/\s+/g, '_') : 'todas_cidades'}_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
         }
     </script>
 </body>
