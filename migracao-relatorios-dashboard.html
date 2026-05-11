@@ -203,6 +203,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .content-header h2 {
@@ -290,6 +292,30 @@
         .report-classif {
             color: var(--gray-color);
             font-size: 0.9rem;
+        }
+        
+        .report-establishment {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .report-establishment.eco {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .report-establishment.cionc {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .report-establishment.ambos {
+            background-color: #fff3cd;
+            color: #856404;
         }
 
         .report-body {
@@ -699,6 +725,36 @@
             font-size: 1.1rem;
         }
 
+        /* Contadores de estabelecimento */
+        .establishment-counters {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .establishment-counter {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .establishment-counter.eco {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .establishment-counter.cionc {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .establishment-counter.ambos {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
         /* Responsividade */
         @media (max-width: 1024px) {
             .main-content {
@@ -788,6 +844,16 @@
                     <h3><i class="fas fa-filter"></i> Filtros</h3>
                     
                     <div class="filter-group">
+                        <label for="filter-establishment">Estabelecimento:</label>
+                        <select id="filter-establishment" class="filter-select">
+                            <option value="all">Todos</option>
+                            <option value="ECO">ECO</option>
+                            <option value="CIONC">CIONC</option>
+                            <option value="ambos">Ambos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
                         <label for="filter-type">Filtrar por:</label>
                         <select id="filter-type" class="filter-select">
                             <option value="all">Todos os relatórios</option>
@@ -817,6 +883,19 @@
                     <button id="clear-filters" class="btn-secondary">
                         <i class="fas fa-times"></i> Limpar Filtros
                     </button>
+                    
+                    <!-- Contadores de estabelecimento -->
+                    <div class="establishment-counters" style="margin-top: 15px;">
+                        <span class="establishment-counter eco">
+                            ECO: <span id="count-eco">0</span>
+                        </span>
+                        <span class="establishment-counter cionc">
+                            CIONC: <span id="count-cionc">0</span>
+                        </span>
+                        <span class="establishment-counter ambos">
+                            Ambos: <span id="count-ambos">0</span>
+                        </span>
+                    </div>
                 </div>
                 
                 <div class="sidebar-section">
@@ -877,6 +956,9 @@
                         </div>
                         <div class="info-item">
                             <strong>Classificação:</strong> <span id="modal-report-classif">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Estabelecimento:</strong> <span id="modal-report-establishment">-</span>
                         </div>
                         <div class="info-item">
                             <strong>Total de Impressões:</strong> <span id="modal-report-total">-</span>
@@ -997,6 +1079,7 @@
             filteredReports: [],
             currentSort: 'priority',
             currentFilters: {
+                establishment: 'all',
                 type: 'all',
                 status: 'all',
                 search: ''
@@ -1030,6 +1113,9 @@
             // Determinar prioridade para cada relatório
             determineReportPriorities();
             
+            // Classificar estabelecimento para cada relatório
+            classifyEstablishments();
+            
             // Inicializar gráficos
             initCharts();
             
@@ -1039,8 +1125,35 @@
             console.log("Aplicação iniciada com", appState.reports.length, "relatórios");
         }
         
+        // Classificar estabelecimento baseado no título do relatório
+        function classifyEstablishments() {
+            appState.reports.forEach(report => {
+                // Se já tiver estabelecimento definido, manter
+                if (report.establishment && ['ECO', 'CIONC', 'ambos'].includes(report.establishment)) {
+                    return;
+                }
+                
+                const title = (report.name || '').toUpperCase();
+                
+                if (title.includes('ECO') || title.includes('ECOGRAFIA') || title.includes('ECOCARDIOGRAMA')) {
+                    report.establishment = 'ECO';
+                } else if (title.includes('CIONC') || title.includes('CIONCO') || title.includes('ONCOLOGIA')) {
+                    report.establishment = 'CIONC';
+                } else {
+                    report.establishment = 'ambos';
+                }
+            });
+        }
+        
         // Configurar event listeners
         function setupEventListeners() {
+            // Filtro de estabelecimento
+            document.getElementById('filter-establishment').addEventListener('change', function() {
+                appState.currentFilters.establishment = this.value;
+                applyFilters();
+                updateUI();
+            });
+            
             // Filtros
             document.getElementById('filter-type').addEventListener('change', function() {
                 appState.currentFilters.type = this.value;
@@ -1061,11 +1174,13 @@
             });
             
             document.getElementById('clear-filters').addEventListener('click', function() {
+                document.getElementById('filter-establishment').value = 'all';
                 document.getElementById('filter-type').value = 'all';
                 document.getElementById('filter-status').value = 'all';
                 document.getElementById('search').value = '';
                 
                 appState.currentFilters = {
+                    establishment: 'all',
                     type: 'all',
                     status: 'all',
                     search: ''
@@ -1182,7 +1297,9 @@
                         details: report.details || [],
                         logs: report.logs || [],
                         // Garantir que tenha campo errorDescription
-                        errorDescription: report.errorDescription || ''
+                        errorDescription: report.errorDescription || '',
+                        // Garantir que tenha campo establishment
+                        establishment: report.establishment || null
                     }));
                 } else {
                     // Se for um objeto, converter para array
@@ -1191,11 +1308,15 @@
                         code: report.code ? report.code.toString() : '',
                         details: report.details || [],
                         logs: report.logs || [],
-                        errorDescription: report.errorDescription || ''
+                        errorDescription: report.errorDescription || '',
+                        establishment: report.establishment || null
                     }));
                 }
                 
                 console.log(`${appState.reports.length} relatórios carregados do Firebase`);
+                
+                // Classificar estabelecimentos
+                classifyEstablishments();
                 
                 // Ordenar relatórios
                 sortReports();
@@ -1232,6 +1353,9 @@
                 
                 if (processedReports.length > 0) {
                     appState.reports = processedReports;
+                    
+                    // Classificar estabelecimentos
+                    classifyEstablishments();
                     
                     // Salvar relatórios processados no Firebase
                     await saveProcessedReportsToFirebase(processedReports);
@@ -1275,6 +1399,7 @@
                         code: reportCode,
                         name: item.DS_RELATORIO || item.ds_relatorio || item.name || `Relatório ${reportCode}`,
                         classification: item.CD_CLASSIF_RELAT || item.cd_classif_relat || item.classification || 'N/A',
+                        establishment: item.establishment || null,
                         details: [],
                         totalImpressions: 0,
                         topFunction: { code: null, name: null, impressions: 0 },
@@ -1409,6 +1534,11 @@
         function applyFilters() {
             let filtered = [...appState.reports];
             
+            // Filtrar por estabelecimento
+            if (appState.currentFilters.establishment !== 'all') {
+                filtered = filtered.filter(report => report.establishment === appState.currentFilters.establishment);
+            }
+            
             // Filtrar por tipo
             if (appState.currentFilters.type === 'function') {
                 // Ordenar por função que mais imprimiu
@@ -1469,7 +1599,24 @@
         function updateUI() {
             updateReportsDisplay();
             updateStatusSummary();
+            updateEstablishmentCounters();
             updateCharts();
+        }
+        
+        // Atualizar contadores de estabelecimento
+        function updateEstablishmentCounters() {
+            const counts = { ECO: 0, CIONC: 0, ambos: 0 };
+            
+            appState.reports.forEach(report => {
+                const establishment = report.establishment || 'ambos';
+                if (counts.hasOwnProperty(establishment)) {
+                    counts[establishment]++;
+                }
+            });
+            
+            document.getElementById('count-eco').textContent = counts.ECO;
+            document.getElementById('count-cionc').textContent = counts.CIONC;
+            document.getElementById('count-ambos').textContent = counts.ambos;
         }
         
         // Atualizar exibição dos cards de relatórios
@@ -1503,6 +1650,12 @@
                 error: 'Com Erro'
             };
             
+            const establishmentText = {
+                ECO: 'ECO',
+                CIONC: 'CIONC',
+                ambos: 'Ambos'
+            };
+            
             // Determinar ícone de prioridade
             let priorityIcon = '';
             let priorityTitle = '';
@@ -1531,6 +1684,8 @@
                 priorityTitle = 'COM ERRO - ' + priorityTitle;
             }
             
+            const establishment = report.establishment || 'ambos';
+            
             card.innerHTML = `
                 <div class="report-header">
                     <div class="report-code">
@@ -1541,6 +1696,7 @@
                     </div>
                     <h3 class="report-title">${report.name || 'Nome não disponível'}</h3>
                     <div class="report-classif">${report.classification || 'N/A'}</div>
+                    <span class="report-establishment ${establishment.toLowerCase()}">${establishmentText[establishment] || 'Ambos'}</span>
                 </div>
                 <div class="report-body">
                     <div class="report-stats">
@@ -1749,6 +1905,7 @@
             document.getElementById('modal-report-title').textContent = report.name || 'Nome não disponível';
             document.getElementById('modal-report-code').textContent = report.code || 'N/A';
             document.getElementById('modal-report-classif').textContent = report.classification || 'N/A';
+            document.getElementById('modal-report-establishment').textContent = report.establishment || 'ambos';
             document.getElementById('modal-report-total').textContent = report.totalImpressions || 0;
             document.getElementById('modal-report-status').value = report.status || 'pending';
             
@@ -1937,6 +2094,9 @@
                 const success = await updateReportInFirebase(appState.selectedReport);
                 
                 if (success) {
+                    // Reclassificar estabelecimento após salvar
+                    classifyEstablishments();
+                    
                     // Atualizar interface
                     updateUI();
                     
