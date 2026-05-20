@@ -10,56 +10,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #050505;
-            --bg-secondary: #0A0E12;
-            --bg-card: #0B1418;
-            --bg-elevated: #0F1A20;
-            --accent: #11B5FF;
-            --accent-glow: rgba(17, 181, 255, 0.15);
-            --accent-dim: #0D8BC4;
-            --teal-dark: #071E24;
-            --teal-card: #0A2A30;
-            --teal-border: rgba(10, 42, 48, 0.6);
-            --white: #FFFFFF;
-            --white-soft: #F2F2F2;
-            --gray-light: #B0B8C0;
-            --gray-mid: #6B7280;
-            --gray-dim: #3A4048;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-glow: rgba(17, 181, 255, 0.25);
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.4);
-            --shadow-glow: 0 0 30px rgba(17, 181, 255, 0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary-color: #2c5aa0;
+            --primary-dark: #1e3a6e;
+            --secondary-color: #4a90e2;
+            --accent-color: #50c878;
+            --accent-light: #e8f7ed;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+            
+            --dsa-color: #8E44AD;
+            --dsa-light: #f3e8ff;
+            --infra-color: #E67E22; 
+            --infra-light: #fdf2e9;
+            --future-color: #16a085;
+            --future-light: #e8f8f5;
+            
+            /* Header Dark */
+            --header-bg: #050505;
+            --header-border: rgba(255, 255, 255, 0.06);
+            --header-accent: #11B5FF;
+            --header-accent-glow: rgba(17, 181, 255, 0.15);
+            
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--gray-light);
-            background-color: var(--bg-primary);
+            color: var(--dark-color);
+            background-color: #f5f7fa;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 28px;
+            padding: 0 20px;
         }
-
-        /* Header */
+        
+        /* Header - Dark Style */
         header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-subtle);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
             padding: 1.2rem 0;
             position: sticky;
             top: 0;
@@ -67,582 +73,652 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
-
+        
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .logo {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-
+        
         .logo img {
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            border: 1px solid var(--border-glow);
+            border: 1px solid rgba(17, 181, 255, 0.25);
             box-shadow: 0 0 20px rgba(17, 181, 255, 0.12);
         }
-
+        
         .logo h1 {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            color: var(--white);
+            color: #FFFFFF;
             letter-spacing: -0.3px;
         }
-
+        
         .logo span {
             font-size: 0.78rem;
-            color: var(--gray-mid);
+            color: #6B7280;
             font-weight: 400;
         }
-
+        
         nav ul {
             display: flex;
             list-style: none;
             gap: 0.4rem;
         }
-
+        
         nav a {
-            color: var(--gray-mid);
+            color: #6B7280;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.85rem;
             padding: 0.5rem 0.9rem;
-            border-radius: var(--radius-sm);
+            border-radius: 6px;
             transition: var(--transition);
             letter-spacing: -0.1px;
         }
-
+        
         nav a:hover,
         nav a.active {
-            color: var(--accent);
+            color: var(--header-accent);
             background: rgba(17, 181, 255, 0.08);
         }
-
+        
         /* Main */
         main {
-            padding: 2.5rem 0 5rem;
+            padding: 2rem 0 4rem;
         }
-
+        
         section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 5rem;
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 6rem;
         }
-
+        
         .section-header {
-            margin-bottom: 2.2rem;
-            padding-bottom: 0.6rem;
-            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--light-gray);
         }
-
+        
         .section-header h2 {
-            color: var(--white);
-            font-size: 1.65rem;
+            color: var(--primary-dark);
+            font-size: 1.8rem;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
             letter-spacing: -0.4px;
         }
-
+        
         .section-header h2 i {
-            color: var(--accent);
-            font-size: 1.4rem;
+            color: var(--secondary-color);
         }
-
+        
         /* KPI Cards */
         .kpi-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.2rem;
-            margin-bottom: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
-
+        
         .kpi-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 1.4rem 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            border-top: 4px solid var(--primary-color);
         }
-
-        .kpi-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
+        
         .kpi-card:hover {
-            border-color: var(--border-glow);
-            box-shadow: var(--shadow-glow);
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-hover);
         }
-
-        .kpi-card:hover::after {
-            opacity: 1;
+        
+        .kpi-card.dsa {
+            border-top-color: var(--dsa-color);
         }
-
+        
+        .kpi-card.infra {
+            border-top-color: var(--infra-color);
+        }
+        
+        .kpi-card.future {
+            border-top-color: var(--future-color);
+        }
+        
         .kpi-value {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            color: var(--white);
-            margin: 0.3rem 0;
+            color: var(--primary-dark);
+            margin: 0.5rem 0;
             letter-spacing: -0.8px;
         }
-
-        .kpi-card.accent .kpi-value {
-            color: var(--accent);
+        
+        .kpi-card.dsa .kpi-value {
+            color: var(--dsa-color);
         }
-
+        
+        .kpi-card.infra .kpi-value {
+            color: var(--infra-color);
+        }
+        
+        .kpi-card.future .kpi-value {
+            color: var(--future-color);
+        }
+        
         .kpi-label {
-            color: var(--gray-mid);
-            font-size: 0.82rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
+            color: var(--gray-color);
+            font-size: 0.95rem;
         }
-
-        .kpi-label.mt-1 {
-            margin-top: 0.4rem;
-            text-transform: none;
-            letter-spacing: 0;
-            color: var(--gray-dim);
-            font-size: 0.8rem;
-        }
-
+        
         /* Chart Cards */
         .chart-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
             margin-bottom: 2rem;
         }
-
+        
         .chart-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
+            background: white;
+            border-radius: var(--border-radius);
             padding: 1.5rem;
+            box-shadow: var(--box-shadow);
         }
-
+        
         .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
-
+        
         .chart-title {
-            font-size: 1.05rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: var(--white);
-            letter-spacing: -0.2px;
+            color: var(--primary-dark);
         }
-
+        
         .chart-wrapper {
             position: relative;
-            height: 280px;
+            height: 300px;
         }
-
+        
         /* Insight Cards */
         .insight-card {
-            background: var(--teal-card);
-            border: 1px solid var(--teal-border);
-            border-radius: var(--radius-md);
-            padding: 1.5rem 1.6rem;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
             margin-top: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--secondary-color);
         }
-
+        
+        .insight-card.dsa {
+            border-left-color: var(--dsa-color);
+        }
+        
+        .insight-card.infra {
+            border-left-color: var(--infra-color);
+        }
+        
+        .insight-card.future {
+            border-left-color: var(--future-color);
+        }
+        
         .insight-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--white);
-            margin-bottom: 0.7rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
         }
-
+        
         .insight-title i {
-            color: var(--accent);
-            font-size: 1.1rem;
+            color: var(--secondary-color);
         }
-
-        .insight-title h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: -0.2px;
+        
+        .insight-card.dsa .insight-title i {
+            color: var(--dsa-color);
         }
-
-        .insight-card p,
-        .insight-card li {
-            color: var(--gray-light);
-            font-weight: 400;
+        
+        .insight-card.infra .insight-title i {
+            color: var(--infra-color);
         }
-
-        .insight-card ul {
-            list-style: none;
-            padding: 0;
+        
+        .insight-card.future .insight-title i {
+            color: var(--future-color);
         }
-
-        .insight-card ul li {
-            padding: 0.3rem 0;
-            padding-left: 1.2rem;
-            position: relative;
-        }
-
-        .insight-card ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 12px;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-
+        
         /* Activity Cards */
         .activity-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
         }
-
+        
         .activity-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 1.4rem 1.5rem;
-            transition: var(--transition);
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--accent-color);
         }
-
-        .activity-card:hover {
-            border-color: var(--border-glow);
-            box-shadow: var(--shadow-glow);
+        
+        .activity-card.dsa {
+            border-left-color: var(--dsa-color);
         }
-
+        
+        .activity-card.infra {
+            border-left-color: var(--infra-color);
+        }
+        
+        .activity-card.future {
+            border-left-color: var(--future-color);
+        }
+        
         .activity-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
-
+        
         .activity-area {
             font-weight: 600;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.7rem;
+            color: var(--primary-dark);
+            background: var(--light-gray);
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            background: rgba(17, 181, 255, 0.08);
-            color: var(--accent);
-            border: 1px solid rgba(17, 181, 255, 0.18);
+            font-size: 0.85rem;
         }
-
+        
+        .activity-area.dsa {
+            background: var(--dsa-light);
+            color: var(--dsa-color);
+        }
+        
+        .activity-area.infra {
+            background: var(--infra-light);
+            color: var(--infra-color);
+        }
+        
+        .activity-area.future {
+            background: var(--future-light);
+            color: var(--future-color);
+        }
+        
         .activity-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--white);
-            letter-spacing: -0.2px;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary-dark);
         }
-
-        .activity-card p {
-            color: var(--gray-light);
-            font-weight: 400;
-            font-size: 0.9rem;
-        }
-
+        
         /* Value Cards */
         .value-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 1.8rem 2rem;
-            margin: 1.2rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: var(--box-shadow);
         }
-
+        
+        .value-card.dsa {
+            border-left-color: var(--dsa-color);
+            background: linear-gradient(135deg, var(--dsa-light) 0%, #f3e8ff 100%);
+        }
+        
+        .value-card.infra {
+            border-left-color: var(--infra-color);
+            background: linear-gradient(135deg, var(--infra-light) 0%, #fdf2e9 100%);
+        }
+        
+        .value-card.future {
+            border-left-color: var(--future-color);
+            background: linear-gradient(135deg, var(--future-light) 0%, #e8f8f5 100%);
+        }
+        
         .value-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--white);
+            color: var(--primary-dark);
             margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .value-title i {
-            color: var(--accent);
             font-size: 1.2rem;
         }
-
-        .value-title h3 {
-            font-weight: 600;
-            letter-spacing: -0.2px;
+        
+        .value-title i {
+            color: var(--accent-color);
         }
-
+        
+        .value-card.dsa .value-title i {
+            color: var(--dsa-color);
+        }
+        
+        .value-card.infra .value-title i {
+            color: var(--infra-color);
+        }
+        
+        .value-card.future .value-title i {
+            color: var(--future-color);
+        }
+        
         .value-item {
-            margin-bottom: 0.7rem;
-            padding-left: 1.4rem;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
             position: relative;
-            color: var(--gray-light);
-            font-size: 0.92rem;
         }
-
-        .value-item::before {
-            content: '';
+        
+        .value-item:before {
+            content: "✓";
             position: absolute;
             left: 0;
-            top: 8px;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            opacity: 0.7;
+            color: var(--accent-color);
+            font-weight: bold;
         }
-
-        /* Timeline */
+        
+        .value-card.dsa .value-item:before {
+            color: var(--dsa-color);
+        }
+        
+        .value-card.infra .value-item:before {
+            color: var(--infra-color);
+        }
+        
+        .value-card.future .value-item:before {
+            color: var(--future-color);
+        }
+        
+        /* Timeline Conquistas */
         .timeline-conquest {
             position: relative;
-            max-width: 900px;
-            margin: 1.5rem auto;
-            padding-left: 28px;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding-left: 30px;
         }
-
+        
         .timeline-conquest::before {
             content: '';
             position: absolute;
-            left: 14px;
+            left: 15px;
             top: 0;
             bottom: 0;
-            width: 1px;
-            background: var(--border-subtle);
+            width: 3px;
+            background: var(--light-gray);
         }
-
+        
         .timeline-item-conquest {
             display: flex;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
         }
-
+        
+        .timeline-item-conquest:last-child {
+            margin-bottom: 0;
+        }
+        
         .timeline-icon {
             position: absolute;
-            left: -28px;
+            left: -30px;
             top: 0;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background: var(--bg-card);
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid var(--border-glow);
+            border: 3px solid;
             z-index: 1;
-            font-size: 0.8rem;
-            color: var(--accent);
         }
-
+        
         .timeline-content-conquest {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            padding: 1.2rem 1.4rem;
-            border-radius: var(--radius-md);
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             width: 100%;
         }
-
+        
         .timeline-period-conquest {
             font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 0.4rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 7px;
-            font-size: 0.9rem;
+            gap: 8px;
         }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 0.2rem 0.65rem;
-            border-radius: 20px;
-            font-size: 0.72rem;
+        
+        /* Timeline Plano de Ação */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--secondary-color);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            justify-content: flex-end;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 2%;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 2%;
+        }
+        
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -10px;
+        }
+        
+        .timeline-period {
             font-weight: 600;
-            margin-right: 0.4rem;
-            margin-bottom: 0.4rem;
-            letter-spacing: 0.2px;
-            text-transform: uppercase;
-            background: rgba(17, 181, 255, 0.06);
-            color: var(--accent);
-            border: 1px solid rgba(17, 181, 255, 0.15);
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
         }
-
-        .badge-highlight {
-            background: rgba(17, 181, 255, 0.12);
-            border-color: rgba(17, 181, 255, 0.3);
-        }
-
+        
         /* Image Placeholder */
         .image-placeholder {
-            border: 1px dashed var(--gray-dim);
-            border-radius: var(--radius-md);
+            border: 2px dashed var(--light-gray);
+            border-radius: var(--border-radius);
             padding: 2rem;
             text-align: center;
-            margin: 1.2rem 0;
-            background: var(--bg-card);
+            margin: 1.5rem 0;
+            background: white;
         }
-
+        
         .image-placeholder i {
-            font-size: 2.5rem;
-            color: var(--gray-dim);
-            margin-bottom: 0.8rem;
+            font-size: 3rem;
+            color: var(--gray-color);
+            margin-bottom: 1rem;
         }
-
-        .image-placeholder p {
-            color: var(--gray-mid);
-            font-size: 0.85rem;
-        }
-
+        
         /* Footer */
         footer {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-subtle);
+            background: var(--dark-color);
+            color: white;
             padding: 2.5rem 0;
             text-align: center;
         }
-
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            letter-spacing: -0.4px;
+            font-size: 1.8rem;
+            font-weight: 600;
         }
-
-        .footer-logo i {
-            color: var(--accent);
-            margin-right: 6px;
-        }
-
+        
         .footer-info {
-            color: var(--gray-mid);
-            font-size: 0.88rem;
-            max-width: 580px;
-            line-height: 1.7;
+            opacity: 0.8;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge-erp {
+            background-color: rgba(44, 90, 160, 0.1);
+            color: var(--primary-color);
+            border: 1px solid rgba(44, 90, 160, 0.3);
+        }
+        
+        .badge-bi {
+            background-color: rgba(80, 200, 120, 0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(80, 200, 120, 0.3);
+        }
+        
+        .badge-dsa {
+            background-color: rgba(142, 68, 173, 0.1);
+            color: var(--dsa-color);
+            border: 1px solid rgba(142, 68, 173, 0.3);
+        }
+        
+        .badge-infra {
+            background-color: rgba(230, 126, 34, 0.1);
+            color: var(--infra-color);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        
+        .badge-future {
+            background-color: rgba(22, 160, 133, 0.1);
+            color: var(--future-color);
+            border: 1px solid rgba(22, 160, 133, 0.3);
+        }
+        
+        .badge-corretivo {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .badge-treinamento {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+        
+        .badge-relatorio {
+            background-color: rgba(155, 89, 182, 0.1);
+            color: #9b59b6;
+            border: 1px solid rgba(155, 89, 182, 0.3);
+        }
+        
+        .badge-migracao {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .badge-powerbi {
+            background-color: rgba(243, 119, 53, 0.1);
+            color: #f37735;
+            border: 1px solid rgba(243, 119, 53, 0.3);
+        }
+        
+        .badge-desenvolvimento {
+            background-color: rgba(142, 68, 173, 0.2);
+            color: var(--dsa-color);
+            border: 1px solid rgba(142, 68, 173, 0.4);
+        }
+        
+        .badge-estabilidade {
+            background-color: rgba(230, 126, 34, 0.2);
+            color: var(--infra-color);
+            border: 1px solid rgba(230, 126, 34, 0.4);
         }
 
-        footer p {
-            color: var(--gray-dim);
-            font-size: 0.8rem;
+        .badge-inovacao {
+            background-color: rgba(22, 160, 133, 0.2);
+            color: var(--future-color);
+            border: 1px solid rgba(22, 160, 133, 0.4);
         }
-
-        /* Future Section - Dark Tech Premium */
-        .future-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .future-header .accent-word {
-            color: var(--accent);
-            font-weight: 800;
-        }
-
-        .future-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1.4rem;
-        }
-
-        .future-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 1.6rem 1.8rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .future-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--accent) 0%, transparent 100%);
-            opacity: 0.5;
-        }
-
-        .future-card:hover {
-            border-color: var(--border-glow);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .future-card .future-icon {
-            font-size: 1.6rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
-
-        .future-card h4 {
-            color: var(--white);
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.2px;
-        }
-
-        .future-card p {
-            color: var(--gray-light);
-            font-size: 0.88rem;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        .future-card .badge-row {
-            margin-top: 1rem;
-        }
-
-        /* Text utilities */
-        .text-center {
-            text-align: center;
-        }
-        .mb-1 {
-            margin-bottom: 1rem;
-        }
-        .mb-2 {
-            margin-bottom: 2rem;
-        }
-        .mt-1 {
-            margin-top: 1rem;
-        }
-        .mt-2 {
-            margin-top: 2rem;
-        }
-
+        
         /* Responsive */
         @media (max-width: 1100px) {
             .chart-container {
                 grid-template-columns: 1fr;
             }
-            .future-grid {
-                grid-template-columns: 1fr;
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item, .timeline-item:nth-child(odd) {
+                justify-content: flex-start;
+            }
+            .timeline-content {
+                width: calc(100% - 50px);
+                margin-left: 50px !important;
+            }
+            .timeline-item:nth-child(odd) .timeline-content::after {
+                left: -10px;
+                right: auto;
             }
         }
-
+        
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -658,34 +734,37 @@
             .activity-cards {
                 grid-template-columns: 1fr;
             }
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
         }
-
+        
         @media (max-width: 576px) {
             .kpi-cards {
                 grid-template-columns: 1fr;
             }
             .section-header h2 {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
             .kpi-value {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
         }
-
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
+        
         .fade-in {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s ease forwards;
         }
+        
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
     </style>
 </head>
 <body>
@@ -716,31 +795,31 @@
 
         <!-- Introdução -->
         <section id="introducao" class="fade-in">
-            <div class="section-header" style="margin-top: 100px;">
+            <div class="section-header" style="margin-top: 110px;">
                 <h2><i class="fas fa-chart-line"></i> Contexto Estratégico 2025</h2>
             </div>
             <div class="chart-card">
-                <p class="mb-1" style="color: var(--gray-light); font-size: 0.95rem;">Este dashboard apresenta de forma estratégica o valor gerado durante 2025 através dos três pilares fundamentais da gestão tecnológica: <span style="color: var(--accent); font-weight: 600;">ERP Tasy & BI</span>, <span style="color: var(--accent); font-weight: 600;">Desenvolvimento de Sistemas (DSA)</span> e <span style="color: var(--accent); font-weight: 600;">Infraestrutura</span>.</p>
-                <p style="color: var(--gray-mid); font-size: 0.9rem;">Cada pilar contribuiu de forma única para a otimização operacional, tomada de decisão baseada em dados e criação de uma base tecnológica robusta para o crescimento futuro.</p>
+                <p class="mb-1">Este dashboard apresenta de forma estratégica o valor gerado durante 2025 através dos três pilares fundamentais da gestão tecnológica: <strong style="color: var(--primary-color);">ERP Tasy & BI</strong>, <strong style="color: var(--dsa-color);">Desenvolvimento de Sistemas (DSA)</strong> e <strong style="color: var(--infra-color);">Infraestrutura</strong>.</p>
+                <p>Cada pilar contribuiu de forma única para a otimização operacional, tomada de decisão baseada em dados e criação de uma base tecnológica robusta para o crescimento futuro.</p>
 
                 <div class="activity-cards mt-2">
                     <div class="activity-card">
                         <div class="activity-header">
-                            <div class="activity-area">ERP & BI</div>
+                            <div class="activity-area badge-erp">ERP & BI</div>
                         </div>
                         <h4 class="activity-title">Otimização Estratégica</h4>
                         <p>Padronização de processos, automação de relatórios e tomada de decisão baseada em dados.</p>
                     </div>
-                    <div class="activity-card">
+                    <div class="activity-card dsa">
                         <div class="activity-header">
-                            <div class="activity-area">DSA</div>
+                            <div class="activity-area badge-dsa">DSA</div>
                         </div>
                         <h4 class="activity-title">Sistemas Complementares</h4>
                         <p>Estabilização de sistemas críticos e desenvolvimento de soluções para automação de processos complexos.</p>
                     </div>
-                    <div class="activity-card">
+                    <div class="activity-card infra">
                         <div class="activity-header">
-                            <div class="activity-area">Infraestrutura</div>
+                            <div class="activity-area badge-infra">Infraestrutura</div>
                         </div>
                         <h4 class="activity-title">Base Tecnológica</h4>
                         <p>Disponibilidade, segurança e performance dos ambientes que suportam todas as operações.</p>
@@ -760,12 +839,12 @@
                     <div class="kpi-value">4 Áreas</div>
                     <div class="kpi-label mt-1">Faturamento, Enfermagem, Farmácia, Estoque</div>
                 </div>
-                <div class="kpi-card accent">
+                <div class="kpi-card dsa">
                     <div class="kpi-label">Sistemas Estabilizados</div>
                     <div class="kpi-value">3+</div>
                     <div class="kpi-label mt-1">ECIONC, NexusHealth, GLPI</div>
                 </div>
-                <div class="kpi-card accent">
+                <div class="kpi-card infra">
                     <div class="kpi-label">Disponibilidade</div>
                     <div class="kpi-value">99.5%</div>
                     <div class="kpi-label mt-1">Ambientes críticos</div>
@@ -783,17 +862,17 @@
                     <h3>Impacto Estratégico Gerado</h3>
                 </div>
                 <div class="mb-1">
-                    <span class="badge">Otimização</span>
-                    <span class="badge">Sistemas Críticos</span>
-                    <span class="badge">Base Tecnológica</span>
-                    <span class="badge">Dados</span>
+                    <span class="badge badge-erp">Otimização</span>
+                    <span class="badge badge-dsa">Sistemas Críticos</span>
+                    <span class="badge badge-infra">Base Tecnológica</span>
+                    <span class="badge badge-bi">Dados</span>
                 </div>
                 <ul>
-                    <li><strong style="color: var(--white);">Padronização Operacional:</strong> 4 áreas críticas mapeadas e otimizadas através do ERP Tasy</li>
-                    <li><strong style="color: var(--white);">Automatização:</strong> Sistema de repasses desenvolvido eliminando processos manuais complexos</li>
-                    <li><strong style="color: var(--white);">Visibilidade Gerencial:</strong> Dashboards para acompanhamento estratégico em tempo real</li>
-                    <li><strong style="color: var(--white);">Estabilidade:</strong> Sistemas complementares críticos estabilizados e documentados</li>
-                    <li><strong style="color: var(--white);">Base Sólida:</strong> Infraestrutura robusta preparada para crescimento e migração tecnológica</li>
+                    <li><strong>Padronização Operacional:</strong> 4 áreas críticas mapeadas e otimizadas através do ERP Tasy</li>
+                    <li><strong>Automatização:</strong> Sistema de repasses desenvolvido eliminando processos manuais complexos</li>
+                    <li><strong>Visibilidade Gerencial:</strong> Dashboards para acompanhamento estratégico em tempo real</li>
+                    <li><strong>Estabilidade:</strong> Sistemas complementares críticos estabilizados e documentados</li>
+                    <li><strong>Base Sólida:</strong> Infraestrutura robusta preparada para crescimento e migração tecnológica</li>
                 </ul>
             </div>
         </section>
@@ -805,7 +884,7 @@
             </div>
 
             <div class="section-header mt-2" style="border-bottom: none; margin-bottom: 1.5rem;">
-                <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--white);"><i class="fas fa-star" style="color: var(--accent); font-size: 1rem;"></i> Como Cada Pilar Gerou Valor</h3>
+                <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--primary-dark);"><i class="fas fa-star" style="color: var(--accent-color); font-size: 1rem;"></i> Como Cada Pilar Gerou Valor</h3>
             </div>
 
             <!-- ERP -->
@@ -815,59 +894,59 @@
                     <h3>ERP Tasy & Business Intelligence</h3>
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Otimização do Fluxo de Agendamentos Oncológicos:</strong> Reestruturação completa do processo de agendamento de quimioterapia na ECO Oncologia, reduzindo conflitos de horários, melhorando a taxa de ocupação dos leitos e proporcionando uma experiência mais humanizada ao paciente durante toda a jornada de tratamento.
+                    <strong>Otimização do Fluxo de Agendamentos Oncológicos:</strong> Reestruturação completa do processo de agendamento de quimioterapia na ECO Oncologia, reduzindo conflitos de horários, melhorando a taxa de ocupação dos leitos e proporcionando uma experiência mais humanizada ao paciente durante toda a jornada de tratamento.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Eliminação de Planilhas Manuais:</strong> Relatório de Controle de Títulos substituiu processos manuais de Excel, reduzindo erros em 30%.
+                    <strong>Eliminação de Planilhas Manuais:</strong> Relatório de Controle de Títulos substituiu processos manuais de Excel, reduzindo erros em 30%.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Integração de Sistemas:</strong> SAE Enfermagem migrado para Tasy, eliminando sistema paralelo e centralizando informações.
+                    <strong>Integração de Sistemas:</strong> SAE Enfermagem migrado para Tasy, eliminando sistema paralelo e centralizando informações.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Visibilidade Financeira:</strong> Indicadores de retorno convênio permitem acompanhamento preciso da situação de glosas.
+                    <strong>Visibilidade Financeira:</strong> Indicadores de retorno convênio permitem acompanhamento preciso da situação de glosas.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Gestão de Medicamentos:</strong> Controle de custos por frasco otimiza compras e reduz desperdícios.
+                    <strong>Gestão de Medicamentos:</strong> Controle de custos por frasco otimiza compras e reduz desperdícios.
                 </div>
             </div>
 
             <!-- DSA -->
-            <div class="value-card">
+            <div class="value-card dsa">
                 <div class="value-title">
                     <i class="fas fa-code"></i>
                     <h3>DSA - Sistemas Complementares & Automações</h3>
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Estabilização de Sistemas Críticos:</strong> Refatoração de códigos dos sistemas ECIONC e NexusHealth sem documentação.
+                    <strong>Estabilização de Sistemas Críticos:</strong> Refatoração de códigos dos sistemas ECIONC e NexusHealth sem documentação.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Sistema de Repasses Inovador:</strong> Motor de regras dinâmicas que automatiza processo complexo e manual.
+                    <strong>Sistema de Repasses Inovador:</strong> Motor de regras dinâmicas que automatiza processo complexo e manual.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Integração de Processos:</strong> Conexão do GLPI (CIONC) com o sistema de OS da Weega, eliminando duplicidade.
+                    <strong>Integração de Processos:</strong> Conexão do GLPI (CIONC) com o sistema de OS da Weega, eliminando duplicidade.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Correções de Fluxo:</strong> Resolução de bugs críticos no WebPonto, gestão de notificações e cadastros.
+                    <strong>Correções de Fluxo:</strong> Resolução de bugs críticos no WebPonto, gestão de notificações e cadastros.
                 </div>
             </div>
 
             <!-- Infra -->
-            <div class="value-card">
+            <div class="value-card infra">
                 <div class="value-title">
                     <i class="fas fa-server"></i>
                     <h3>Infraestrutura - Base Tecnológica e Suporte</h3>
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Continuidade Operacional:</strong> Alta disponibilidade dos ambientes críticos (99.5%).
+                    <strong>Continuidade Operacional:</strong> Alta disponibilidade dos ambientes críticos (99.5%).
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Resposta a Incidentes:</strong> Monitoramento proativo e resolução rápida de problemas.
+                    <strong>Resposta a Incidentes:</strong> Monitoramento proativo e resolução rápida de problemas.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Capacidade de Storage:</strong> Gestão eficiente de recursos para suportar crescimento de dados.
+                    <strong>Capacidade de Storage:</strong> Gestão eficiente de recursos para suportar crescimento de dados.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Projetos de Melhoria:</strong> Implementação de melhorias contínuas na infraestrutura.
+                    <strong>Projetos de Melhoria:</strong> Implementação de melhorias contínuas na infraestrutura.
                 </div>
             </div>
         </section>
@@ -875,7 +954,7 @@
         <!-- ERP & BI -->
         <section id="bi" class="fade-in">
             <div class="section-header">
-                <h2><i class="fas fa-chart-bar"></i> ERP & Business Intelligence 2025</h2>
+                <h2 style="color: #2c5aa0;"><i class="fas fa-chart-bar"></i> ERP & Business Intelligence 2025</h2>
             </div>
             <div class="insight-card">
                 <div class="insight-title">
@@ -902,18 +981,77 @@
                     <h3>BSA Power BI - ECO Oncologia</h3>
                 </div>
                 <div class="mb-1">
-                    <span class="badge">Dashboard Faturamento</span>
-                    <span class="badge">Processo do Paciente</span>
-                    <span class="badge">Qualidade Assistencial</span>
+                    <span class="badge badge-powerbi">Dashboard Faturamento</span>
+                    <span class="badge badge-powerbi">Processo do Paciente</span>
+                    <span class="badge badge-powerbi">Qualidade Assistencial</span>
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Dashboard de Faturamento Completo:</strong> Visão 360° do ciclo financeiro, desde atendimento até repasse.
+                    <strong>Dashboard de Faturamento Completo:</strong> Visão 360° do ciclo financeiro, desde atendimento até repasse.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Processo das Etapas do Atendimento:</strong> Mapeamento completo do journey do paciente.
+                    <strong>Processo das Etapas do Atendimento:</strong> Mapeamento completo do journey do paciente.
                 </div>
                 <div class="value-item">
-                    <strong style="color: var(--white);">Ocupação de Leitos de Quimioterapia:</strong> Indicadores de ocupação da clínica e otimização do fluxo de agendamentos.
+                    <strong>Ocupação de Leitos de Quimioterapia:</strong> Indicadores de ocupação da clínica e otimização do fluxo de agendamentos.
+                </div>
+            </div>
+
+            <!-- ROADMAP: Migração Tasy HTML5 -->
+            <div class="chart-card mt-2">
+                <h3 class="mb-2 text-center"><span class="badge badge-migracao">TRANSFORMAÇÃO TECNOLÓGICA 2026</span></h3>
+                <h3 class="mb-2 text-center" style="color: var(--primary-dark);">Migração Tasy HTML5</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-period">Fase 1 - Estruturação</div>
+                            <h4>Planejamento Estratégico</h4>
+                            <p>Análise detalhada do impacto, definição de escopo por complexidade de funções e relatórios, cronograma estruturado.</p>
+                            <div class="mt-1">
+                                <span class="badge badge-migracao">Em Andamento</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-period">Fase 2 - Estabilidade</div>
+                            <h4>Funções Consolidadas</h4>
+                            <p>Migração das funções/relatórios estáveis, garantindo continuidade operacional sem interrupções.</p>
+                            <div class="mt-1">
+                                <span class="badge badge-migracao">Q1 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-period">Fase 3 - Otimização</div>
+                            <h4>Melhorias Incrementais</h4>
+                            <p>Migração com aproveitamento para implementar otimizações identificadas em 2025.</p>
+                            <div class="mt-1">
+                                <span class="badge badge-migracao">Q2 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-period">Fase 4 - Inovação</div>
+                            <h4>Novas Possibilidades</h4>
+                            <p>Implementação de funcionalidades exclusivas do HTML5 e novas formas de interação.</p>
+                            <div class="mt-1">
+                                <span class="badge badge-migracao">Q3 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-period">Fase 5 - Consolidação</div>
+                            <h4>Capacitação e Ajustes</h4>
+                            <p>Treinamentos específicos, ajustes finais baseados em feedback e consolidação do novo ambiente.</p>
+                            <div class="mt-1">
+                                <span class="badge badge-migracao">Q4 2026</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -922,9 +1060,9 @@
         <!-- DSA -->
         <section id="dsa" class="fade-in">
             <div class="section-header">
-                <h2><i class="fas fa-code"></i> DSA: Sistemas Complementares & Automações</h2>
+                <h2 style="color: #71378a;"><i class="fas fa-code" style="color: #8d57c6ae;"></i> DSA: Sistemas Complementares & Automações</h2>
             </div>
-            <div class="insight-card">
+            <div class="insight-card dsa">
                 <div class="insight-title">
                     <i class="fas fa-code-branch"></i>
                     <h3>Da Estabilização à Inovação</h3>
@@ -933,41 +1071,41 @@
             </div>
 
             <div class="kpi-cards">
-                <div class="kpi-card accent"><div class="kpi-label">Sistemas Estabilizados</div><div class="kpi-value">3+</div><div class="kpi-label mt-1">ECIONC, NexusHealth, GLPI</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Chamados Críticos</div><div class="kpi-value">15+</div><div class="kpi-label mt-1">Incidentes prioritários</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Código Refatorado</div><div class="kpi-value">8k+</div><div class="kpi-label mt-1">Linhas de código</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Processos Automatizados</div><div class="kpi-value">2</div><div class="kpi-label mt-1">Sistemas principais</div></div>
+                <div class="kpi-card dsa"><div class="kpi-label">Sistemas Estabilizados</div><div class="kpi-value">3+</div><div class="kpi-label mt-1">ECIONC, NexusHealth, GLPI</div></div>
+                <div class="kpi-card dsa"><div class="kpi-label">Chamados Críticos</div><div class="kpi-value">15+</div><div class="kpi-label mt-1">Incidentes prioritários</div></div>
+                <div class="kpi-card dsa"><div class="kpi-label">Código Refatorado</div><div class="kpi-value">8k+</div><div class="kpi-label mt-1">Linhas de código</div></div>
+                <div class="kpi-card dsa"><div class="kpi-label">Processos Automatizados</div><div class="kpi-value">2</div><div class="kpi-label mt-1">Sistemas principais</div></div>
             </div>
 
             <div class="chart-card mt-2">
                 <div class="chart-header"><h3 class="chart-title">Linha de Conquistas 2025 - DSA</h3></div>
                 <div class="timeline-conquest">
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-fire"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--dsa-color); color: var(--dsa-color);"><i class="fas fa-fire"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-fire"></i><span>Estabilização de Sistemas</span></div>
                             <p>Refatoração de códigos dos sistemas ECIONC e NexusHealth herdados sem documentação, eliminando gargalos críticos.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-code-branch"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--dsa-color); color: var(--dsa-color);"><i class="fas fa-code-branch"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-code-branch"></i><span>Integração de Processos</span></div>
                             <p>Conexão do GLPI (CIONC) com o sistema de OS da Weega, eliminando duplicidade e automatizando fluxo de chamados.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-bug"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--dsa-color); color: var(--dsa-color);"><i class="fas fa-bug"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-bug"></i><span>Correções de Fluxo</span></div>
                             <p>Resolução de bugs críticos no WebPonto, gestão de notificações e cadastros.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-rocket"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--dsa-color); color: var(--dsa-color);"><i class="fas fa-rocket"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-rocket"></i><span>Desenvolvimento Estratégico</span></div>
-                            <p><strong style="color: var(--accent);">DESTAQUE:</strong> Desenvolvimento do NOVO SISTEMA DE REPASSES com motor de regras dinâmicas, revolucionando a eficiência financeira da clínica.</p>
+                            <p><strong style="color: var(--dsa-color);">DESTAQUE:</strong> Desenvolvimento do NOVO SISTEMA DE REPASSES com motor de regras dinâmicas, revolucionando a eficiência financeira da clínica.</p>
                             <div class="image-placeholder mt-2">
                                 <i class="fas fa-image"></i>
                                 <p>Placeholder para imagem do Sistema de Repasses</p>
@@ -977,13 +1115,53 @@
                 </div>
             </div>
 
-            <div class="insight-card mt-2">
+            <div class="insight-card dsa mt-2">
                 <div class="insight-title"><i class="fas fa-lightbulb"></i><h3>Insight Estratégico</h3></div>
-                <p><strong style="color: var(--white);">Observação Crítica:</strong> "Muitas horas foram destinadas à correção emergencial. Um investimento maior em horas de desenvolvimento (inovação) versus manutenção corretiva permitiria automatizar mais processos e agregar valor exponencial, especialmente para atender demandas de personalização da ECO Oncologia."</p>
+                <p><strong>Observação Crítica:</strong> "Muitas horas foram destinadas à correção emergencial. Um investimento maior em horas de desenvolvimento (inovação) versus manutenção corretiva permitiria automatizar mais processos e agregar valor exponencial, especialmente para atender demandas de personalização da ECO Oncologia."</p>
                 <div class="mt-1">
-                    <span class="badge badge-highlight">Inovação</span>
-                    <span class="badge badge-highlight">Automatização</span>
-                    <span class="badge badge-highlight">Valor Exponencial</span>
+                    <span class="badge badge-desenvolvimento">Inovação</span>
+                    <span class="badge badge-desenvolvimento">Automatização</span>
+                    <span class="badge badge-desenvolvimento">Valor Exponencial</span>
+                </div>
+            </div>
+
+            <!-- ROADMAP: Projeção DSA 2026 -->
+            <div class="chart-card mt-2">
+                <h3 class="mb-2 text-center"><span class="badge badge-desenvolvimento">PROJEÇÃO ESTRATÉGICA 2026 - DSA</span></h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--dsa-color);">
+                            <div class="timeline-period" style="color: var(--dsa-color);">Fase 1 - Consolidação</div>
+                            <h4>Validação e Implantação Total</h4>
+                            <p>Validação completa e implantação em produção do Sistema de Repasses, com treinamento dos usuários e ajustes finais.</p>
+                            <div class="mt-1"><span class="badge badge-desenvolvimento">Q1 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--dsa-color);">
+                            <div class="timeline-period" style="color: var(--dsa-color);">Fase 2 - Expansão</div>
+                            <h4>Atendimento à ECO Oncologia</h4>
+                            <p>Desenvolvimento de funcionalidades personalizadas para atender demandas específicas da ECO Oncologia, ampliando o valor entregue.</p>
+                            <div class="mt-1"><span class="badge badge-desenvolvimento">Q2 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--dsa-color);">
+                            <div class="timeline-period" style="color: var(--dsa-color);">Fase 3 - Sistema de RH</div>
+                            <h4>Desenvolvimento do Sistema de RH</h4>
+                            <p>Início do desenvolvimento do sistema de RH mencionado pela Silvana, integrado aos sistemas existentes.</p>
+                            <div class="mt-1"><span class="badge badge-desenvolvimento">Q3 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--dsa-color);">
+                            <div class="timeline-period" style="color: var(--dsa-color);">Fase 4 - Evolução Contínua</div>
+                            <h4>Correções e Melhorias ECIONC2</h4>
+                            <p>Manutenção evolutiva do ECIONC2, implementação de melhorias e correções pontuais.</p>
+                            <div class="mt-1"><span class="badge badge-desenvolvimento">Q4 2026</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -992,49 +1170,89 @@
         <!-- Infraestrutura -->
         <section id="infra" class="fade-in">
             <div class="section-header">
-                <h2><i class="fas fa-server"></i> Infraestrutura: Base Tecnológica e Suporte</h2>
+                <h2 style="color: #c46c1f;"><i class="fas fa-server" style="color: #f4913baf;"></i> Infraestrutura: Base Tecnológica e Suporte</h2>
             </div>
-            <div class="insight-card">
+            <div class="insight-card infra">
                 <div class="insight-title"><i class="fas fa-shield-alt"></i><h3>A Fundação Invisível</h3></div>
                 <p>"Garantia da estabilidade, segurança e performance dos ambientes que suportam todas as operações (ERP, BI, Sistemas DSA). A infraestrutura robusta é a fundação invisível que permite a inovação nos outros pilares."</p>
             </div>
 
             <div class="kpi-cards">
-                <div class="kpi-card accent"><div class="kpi-label">Disponibilidade</div><div class="kpi-value">99.5%</div><div class="kpi-label mt-1">Ambientes críticos</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Incidentes Críticos</div><div class="kpi-value">3</div><div class="kpi-label mt-1">Resolvidos em menos de 4h</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Capacidade de Storage</div><div class="kpi-value">+2TB</div><div class="kpi-label mt-1">Expandido em 2025</div></div>
-                <div class="kpi-card accent"><div class="kpi-label">Projetos de Melhoria</div><div class="kpi-value">5+</div><div class="kpi-label mt-1">Implementados</div></div>
+                <div class="kpi-card infra"><div class="kpi-label">Disponibilidade</div><div class="kpi-value">99.5%</div><div class="kpi-label mt-1">Ambientes críticos</div></div>
+                <div class="kpi-card infra"><div class="kpi-label">Incidentes Críticos</div><div class="kpi-value">3</div><div class="kpi-label mt-1">Resolvidos em menos de 4h</div></div>
+                <div class="kpi-card infra"><div class="kpi-label">Capacidade de Storage</div><div class="kpi-value">+2TB</div><div class="kpi-label mt-1">Expandido em 2025</div></div>
+                <div class="kpi-card infra"><div class="kpi-label">Projetos de Melhoria</div><div class="kpi-value">5+</div><div class="kpi-label mt-1">Implementados</div></div>
             </div>
 
             <div class="chart-card mt-2">
                 <div class="chart-header"><h3 class="chart-title">Linha de Conquistas 2025 - Infraestrutura</h3></div>
                 <div class="timeline-conquest">
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--infra-color); color: var(--infra-color);"><i class="fas fa-shield-alt"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-shield-alt"></i><span>Monitoramento Proativo</span></div>
                             <p>Implementação de monitoramento 24/7 dos ambientes críticos, com alertas automatizados.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-hdd"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--infra-color); color: var(--infra-color);"><i class="fas fa-hdd"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-hdd"></i><span>Expansão de Capacidade</span></div>
                             <p>Expansão de storage em +2TB para suportar crescimento de dados dos sistemas de BI.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--infra-color); color: var(--infra-color);"><i class="fas fa-bolt"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-bolt"></i><span>Otimização de Performance</span></div>
                             <p>Ajustes em servidores e rede para garantir performance ótima dos sistemas.</p>
                         </div>
                     </div>
                     <div class="timeline-item-conquest">
-                        <div class="timeline-icon"><i class="fas fa-cloud"></i></div>
+                        <div class="timeline-icon" style="border-color: var(--infra-color); color: var(--infra-color);"><i class="fas fa-cloud"></i></div>
                         <div class="timeline-content-conquest">
                             <div class="timeline-period-conquest"><i class="fas fa-cloud"></i><span>Plano de Continuidade</span></div>
                             <p>Desenvolvimento e teste do plano de continuidade de negócios para ambientes críticos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROADMAP: Projeção Infra 2026 -->
+            <div class="chart-card mt-2">
+                <h3 class="mb-2 text-center"><span class="badge badge-estabilidade">PROJEÇÃO ESTRATÉGICA 2026 - INFRAESTRUTURA</span></h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--infra-color);">
+                            <div class="timeline-period" style="color: var(--infra-color);">Fase 1 - Otimização</div>
+                            <h4>Consolidação e Melhoria</h4>
+                            <p>Otimização dos recursos existentes, consolidação de servidores e implementação de melhorias de performance identificadas em 2025.</p>
+                            <div class="mt-1"><span class="badge badge-estabilidade">Q1 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--infra-color);">
+                            <div class="timeline-period" style="color: var(--infra-color);">Fase 2 - Segurança</div>
+                            <h4>Fortalecimento da Segurança</h4>
+                            <p>Implementação de camadas adicionais de segurança, atualização de políticas e treinamento em conscientização.</p>
+                            <div class="mt-1"><span class="badge badge-estabilidade">Q2 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--infra-color);">
+                            <div class="timeline-period" style="color: var(--infra-color);">Fase 3 - Escalabilidade</div>
+                            <h4>Preparação para Crescimento</h4>
+                            <p>Expansão da infraestrutura para suportar crescimento previsto, com foco em escalabilidade e flexibilidade.</p>
+                            <div class="mt-1"><span class="badge badge-estabilidade">Q3 2026</span></div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content" style="border-left: 3px solid var(--infra-color);">
+                            <div class="timeline-period" style="color: var(--infra-color);">Fase 4 - Inovação</div>
+                            <h4>Tecnologias Emergentes</h4>
+                            <p>Avaliação e possível implementação de tecnologias emergentes que possam agregar valor à infraestrutura existente.</p>
+                            <div class="mt-1"><span class="badge badge-estabilidade">Q4 2026</span></div>
                         </div>
                     </div>
                 </div>
@@ -1049,20 +1267,20 @@
             </div>
 
             <div class="chart-card" style="margin-bottom: 2rem;">
-                <h3 class="mb-2 text-center" style="color: var(--white); font-size: 1.1rem; letter-spacing: -0.3px;">Sinergia entre os Três Pilares</h3>
+                <h3 class="mb-2 text-center" style="color: var(--primary-dark); font-size: 1.1rem;">Sinergia entre os Três Pilares</h3>
                 <div class="activity-cards">
                     <div class="activity-card">
-                        <div class="activity-header"><div class="activity-area">ERP Tasy HTML5</div></div>
+                        <div class="activity-header"><div class="activity-area badge-erp">ERP Tasy HTML5</div></div>
                         <h4 class="activity-title">Modernização do Core</h4>
                         <p>Migração para HTML5 como evolução natural, aproveitando para implementar otimizações identificadas em 2025.</p>
                     </div>
-                    <div class="activity-card">
-                        <div class="activity-header"><div class="activity-area">Expansão DSA</div></div>
+                    <div class="activity-card dsa">
+                        <div class="activity-header"><div class="activity-area badge-dsa">Expansão DSA</div></div>
                         <h4 class="activity-title">Inovação em Sistemas</h4>
                         <p>Consolidação do Sistema de Repasses e desenvolvimento de novas soluções para ECO Oncologia e RH.</p>
                     </div>
-                    <div class="activity-card">
-                        <div class="activity-header"><div class="activity-area">Infra Evolutiva</div></div>
+                    <div class="activity-card infra">
+                        <div class="activity-header"><div class="activity-area badge-infra">Infra Evolutiva</div></div>
                         <h4 class="activity-title">Base para o Futuro</h4>
                         <p>Infraestrutura escalável e segura para suportar o crescimento e as novas tecnologias.</p>
                     </div>
@@ -1073,21 +1291,21 @@
                 <div class="insight-title"><i class="fas fa-bullseye"></i><h3>Estratégia de Evolução 2026</h3></div>
                 <p>Com a base sólida estabelecida em 2025, 2026 será focado na sinergia entre os três pilares:</p>
                 <ul class="mt-1">
-                    <li><strong style="color: var(--white);">Modernização Tecnológica:</strong> Migração Tasy HTML5 para melhor experiência e performance</li>
-                    <li><strong style="color: var(--white);">Expansão do BI:</strong> Integração entre WeKnow e Power BI para visão completa</li>
-                    <li><strong style="color: var(--white);">Inovação em DSA:</strong> Foco em desenvolvimento de novas soluções versus manutenção corretiva</li>
-                    <li><strong style="color: var(--white);">Infraestrutura Proativa:</strong> Monitoramento preditivo e infra como serviço</li>
-                    <li><strong style="color: var(--white);">Capacitação Avançada:</strong> Formação de especialistas nas novas funcionalidades de cada pilar</li>
-                    <li><strong style="color: var(--white);">Integração Total:</strong> Sistemas conversando entre si, dados fluindo sem barreiras</li>
+                    <li><strong>Modernização Tecnológica:</strong> Migração Tasy HTML5 para melhor experiência e performance</li>
+                    <li><strong>Expansão do BI:</strong> Integração entre WeKnow e Power BI para visão completa</li>
+                    <li><strong>Inovação em DSA:</strong> Foco em desenvolvimento de novas soluções versus manutenção corretiva</li>
+                    <li><strong>Infraestrutura Proativa:</strong> Monitoramento preditivo e infra como serviço</li>
+                    <li><strong>Capacitação Avançada:</strong> Formação de especialistas nas novas funcionalidades de cada pilar</li>
+                    <li><strong>Integração Total:</strong> Sistemas conversando entre si, dados fluindo sem barreiras</li>
                 </ul>
             </div>
 
-            <!-- NOVA SEÇÃO: Desenvolvimentos Futuros -->
+            <!-- Desenvolvimentos Futuros (sem roadmap) -->
             <div class="section-header mt-2">
                 <h2><i class="fas fa-lightbulb"></i> Desenvolvimentos Futuros</h2>
             </div>
 
-            <div class="insight-card" style="margin-bottom: 2rem;">
+            <div class="insight-card future" style="margin-bottom: 2rem;">
                 <div class="insight-title">
                     <i class="fas fa-brain"></i>
                     <h3>Visão: A Jornada para uma Saúde Inteligente e Integrada</h3>
@@ -1095,77 +1313,81 @@
                 <p>Com os alicerces tecnológicos consolidados, a visão para os próximos ciclos é evoluir para um ecossistema de saúde verdadeiramente inteligente, onde a tecnologia antecipa necessidades, automatiza processos complexos e coloca o paciente no centro de uma experiência totalmente integrada.</p>
             </div>
 
-            <div class="future-grid">
-                <!-- Card 1: Autorização & Elegibilidade -->
-                <div class="future-card">
-                    <div class="future-icon"><i class="fas fa-check-circle"></i></div>
-                    <h4>Soluções Inteligentes para Autorização & Elegibilidade</h4>
+            <div class="activity-cards">
+                <div class="activity-card future">
+                    <div class="activity-header">
+                        <div class="activity-area badge-future">Autorização & Elegibilidade</div>
+                    </div>
+                    <h4 class="activity-title">Soluções Inteligentes para Autorização</h4>
                     <p>Motor de regras inteligente integrado ao Tasy para automatizar a verificação de elegibilidade de pacientes em tempo real. Cruzamento de dados de carteirinha, guias e contratos de convênios, sinalizando automaticamente pendências e liberando procedimentos de forma ágil, reduzindo a negativa de autorizações e acelerando o início do tratamento oncológico.</p>
-                    <div class="badge-row mt-1">
-                        <span class="badge">Integração Tasy</span>
-                        <span class="badge">Automação</span>
+                    <div class="mt-1">
+                        <span class="badge badge-future">Integração Tasy</span>
+                        <span class="badge badge-future">Automação</span>
                     </div>
                 </div>
 
-                <!-- Card 2: Farmácia -->
-                <div class="future-card">
-                    <div class="future-icon"><i class="fas fa-capsules"></i></div>
-                    <h4>Farmácia Inteligente: Controle de Estoque e Previsão de Compras</h4>
+                <div class="activity-card future">
+                    <div class="activity-header">
+                        <div class="activity-area badge-future">Farmácia Inteligente</div>
+                    </div>
+                    <h4 class="activity-title">Gestão Preditiva de Estoque e Compras</h4>
                     <p>Evolução do módulo de farmácia com algoritmos de previsão de consumo baseados em séries históricas e sazonalidade. O sistema antecipará necessidades de compra, automatizará pedidos baseados em níveis de estoque mínimo e máximo, e integrará alertas de validade de medicamentos. Rastreabilidade completa por lote e automação de processos de dispensação para reduzir perdas e garantir disponibilidade contínua de medicamentos críticos.</p>
-                    <div class="badge-row mt-1">
-                        <span class="badge">Previsão de Consumo</span>
-                        <span class="badge">Automação de Compras</span>
+                    <div class="mt-1">
+                        <span class="badge badge-future">Previsão de Consumo</span>
+                        <span class="badge badge-future">Automação de Compras</span>
                     </div>
                 </div>
 
-                <!-- Card 3: Enfermagem -->
-                <div class="future-card">
-                    <div class="future-icon"><i class="fas fa-user-md"></i></div>
-                    <h4>Enfermagem Digital: Gestão de Prescrições e Segurança</h4>
+                <div class="activity-card future">
+                    <div class="activity-header">
+                        <div class="activity-area badge-future">Enfermagem Digital</div>
+                    </div>
+                    <h4 class="activity-title">Gestão de Prescrições e Segurança</h4>
                     <p>Módulo avançado de gestão de prescrições médicas com validação automática de interações medicamentosas, alergias e dosagens. O sistema garantirá a segurança do paciente através de alertas inteligentes no momento da administração, registro eletrônico completo da execução da prescrição e indicadores de qualidade assistencial em tempo real, assegurando a aderência aos protocolos clínicos.</p>
-                    <div class="badge-row mt-1">
-                        <span class="badge">Segurança do Paciente</span>
-                        <span class="badge">Alertas Inteligentes</span>
+                    <div class="mt-1">
+                        <span class="badge badge-future">Segurança do Paciente</span>
+                        <span class="badge badge-future">Alertas Inteligentes</span>
                     </div>
                 </div>
 
-                <!-- Card 4: Diagnóstico -->
-                <div class="future-card">
-                    <div class="future-icon"><i class="fas fa-dna"></i></div>
-                    <h4>Visão Inteligente: Dados Preditivos para Apoio ao Diagnóstico</h4>
+                <div class="activity-card future">
+                    <div class="activity-header">
+                        <div class="activity-area badge-future">Apoio ao Diagnóstico</div>
+                    </div>
+                    <h4 class="activity-title">Visão Inteligente e Dados Preditivos</h4>
                     <p>Camada de inteligência de dados clínicos que consolida informações do prontuário eletrônico, resultados de exames e histórico do paciente para oferecer insights de apoio à decisão médica. Modelos preditivos para identificação precoce de riscos, sugestão de protocolos baseados em evidências e dashboards clínicos personalizados por especialidade, potencializando a precisão diagnóstica e a eficácia terapêutica.</p>
-                    <div class="badge-row mt-1">
-                        <span class="badge">Machine Learning</span>
-                        <span class="badge">Clinical Intelligence</span>
+                    <div class="mt-1">
+                        <span class="badge badge-future">Machine Learning</span>
+                        <span class="badge badge-future">Clinical Intelligence</span>
                     </div>
                 </div>
 
-                <!-- Card 5: Portal do Paciente -->
-                <div class="future-card">
-                    <div class="future-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <h4>Portal de Gestão do Paciente Integrado ao Tasy</h4>
+                <div class="activity-card future">
+                    <div class="activity-header">
+                        <div class="activity-area badge-future">Portal do Paciente</div>
+                    </div>
+                    <h4 class="activity-title">Portal de Gestão Integrado ao Tasy</h4>
                     <p>Portal completo e integrado onde o paciente poderá acessar seu prontuário, resultados de exames, agendar consultas e quimioterapias, visualizar seu plano terapêutico e interagir com a equipe assistencial de forma segura. Totalmente integrado ao Tasy, o portal proporcionará autonomia ao paciente, reduzirá a carga administrativa sobre a equipe e fortalecerá o vínculo com a instituição através de uma experiência digital moderna e humanizada.</p>
-                    <div class="badge-row mt-1">
-                        <span class="badge">Experiência do Paciente</span>
-                        <span class="badge">Integração Total</span>
+                    <div class="mt-1">
+                        <span class="badge badge-future">Experiência do Paciente</span>
+                        <span class="badge badge-future">Integração Total</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Insight Final -->
-            <div class="insight-card mt-2">
+            <div class="insight-card future mt-2">
                 <div class="insight-title">
                     <i class="fas fa-rocket"></i>
                     <h3>O Futuro é Inteligente e Integrado</h3>
                 </div>
                 <p>A evolução para os próximos ciclos representa um salto qualitativo na entrega de valor:</p>
                 <ul class="mt-1">
-                    <li><strong style="color: var(--white);">Automação Inteligente:</strong> Processos que hoje demandam intervenção humana serão automatizados com regras de negócio sofisticadas</li>
-                    <li><strong style="color: var(--white);">Predição e Prevenção:</strong> A análise de dados históricos permitirá antecipar necessidades e prevenir problemas antes que ocorram</li>
-                    <li><strong style="color: var(--white);">Segurança Reforçada:</strong> Validações automáticas garantirão a segurança do paciente em todas as etapas do cuidado</li>
-                    <li><strong style="color: var(--white);">Experiência do Paciente:</strong> O paciente terá autonomia e acesso transparente à sua jornada de tratamento</li>
-                    <li><strong style="color: var(--white);">Eficiência Operacional:</strong> A redução de processos manuais e retrabalho liberará a equipe para atividades de maior valor</li>
-                    <li><strong style="color: var(--white);">Integração Total:</strong> Todos os sistemas — Tasy, DSA, BI e novos módulos inteligentes — operarão como um ecossistema coeso</li>
+                    <li><strong>Automação Inteligente:</strong> Processos que hoje demandam intervenção humana serão automatizados com regras de negócio sofisticadas</li>
+                    <li><strong>Predição e Prevenção:</strong> A análise de dados históricos permitirá antecipar necessidades e prevenir problemas antes que ocorram</li>
+                    <li><strong>Segurança Reforçada:</strong> Validações automáticas garantirão a segurança do paciente em todas as etapas do cuidado</li>
+                    <li><strong>Experiência do Paciente:</strong> O paciente terá autonomia e acesso transparente à sua jornada de tratamento</li>
+                    <li><strong>Eficiência Operacional:</strong> A redução de processos manuais e retrabalho liberará a equipe para atividades de maior valor</li>
+                    <li><strong>Integração Total:</strong> Todos os sistemas — Tasy, DSA, BI e novos módulos inteligentes — operarão como um ecossistema coeso</li>
                 </ul>
             </div>
         </section>
@@ -1177,7 +1399,7 @@
             <div class="footer-logo">
                 <i class="fas fa-chart-line"></i> Dashboard de Valor 2025
             </div>
-            <div class="footer-info" style="margin: 0.8rem 0;">
+            <div class="footer-info">
                 Relatório executivo demonstrando o valor estratégico entregue através dos três pilares fundamentais:
                 ERP Tasy & BI, Desenvolvimento de Sistemas (DSA) e Infraestrutura.
                 Preparação consolidada para a transformação tecnológica de 2026 e a jornada rumo à saúde inteligente.
@@ -1202,7 +1424,7 @@
                     const targetSection = document.querySelector(this.getAttribute('href'));
                     if (targetSection) {
                         window.scrollTo({
-                            top: targetSection.offsetTop - 70,
+                            top: targetSection.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
