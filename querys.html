@@ -22,6 +22,7 @@
             --text-color: #e6e6e6;
             --border-color: #2d4059;
             --success-color: #4CAF50;
+            --warning-color: #ff6b6b;
             --sql-color: #00758f;
             --js-color: #f0db4f;
             --html-color: #e34c26;
@@ -76,8 +77,8 @@
         
         .project-list {
             list-style: none;
-            margin-bottom: 30px;
-            max-height: 300px;
+            margin-bottom: 20px;
+            max-height: 250px;
             overflow-y: auto;
         }
         
@@ -146,6 +147,16 @@
         .btn-new-project {
             width: 100%;
             margin-bottom: 20px;
+        }
+        
+        .btn-pending {
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #8e44ad;
+        }
+        
+        .btn-pending:hover {
+            background-color: #9b59b6;
         }
         
         .btn-daily-report {
@@ -265,26 +276,11 @@
             font-weight: bold;
         }
         
-        .entry-type.sql {
-            background-color: var(--sql-color);
-        }
-        
-        .entry-type.js {
-            background-color: var(--js-color);
-            color: #333;
-        }
-        
-        .entry-type.html {
-            background-color: var(--html-color);
-        }
-        
-        .entry-type.css {
-            background-color: var(--css-color);
-        }
-        
-        .entry-type.text {
-            background-color: var(--text-type-color);
-        }
+        .entry-type.sql { background-color: var(--sql-color); }
+        .entry-type.js, .entry-type.javascript { background-color: var(--js-color); color: #333; }
+        .entry-type.html { background-color: var(--html-color); }
+        .entry-type.css { background-color: var(--css-color); }
+        .entry-type.text, .entry-type.texto { background-color: var(--text-type-color); }
         
         .entry-content {
             flex-grow: 1;
@@ -360,12 +356,12 @@
             color: #ccc;
         }
         
-        .activity-list, .case-list {
+        .activity-list, .case-list, .pending-list {
             list-style: none;
             margin-bottom: 30px;
         }
         
-        .activity-item, .case-item {
+        .activity-item, .case-item, .pending-item {
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 5px;
             padding: 12px;
@@ -375,11 +371,11 @@
             transition: all 0.2s;
         }
         
-        .activity-item:hover, .case-item:hover {
+        .activity-item:hover, .case-item:hover, .pending-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
         
-        .activity-header, .case-header {
+        .activity-header, .case-header, .pending-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -398,7 +394,7 @@
             height: 18px;
         }
         
-        .activity-title, .case-title {
+        .activity-title, .case-title, .pending-title {
             font-weight: 600;
             font-size: 14px;
             overflow: hidden;
@@ -407,7 +403,7 @@
             flex-grow: 1;
         }
         
-        .activity-description, .case-description {
+        .activity-description, .case-description, .pending-description {
             font-size: 12px;
             color: #aaa;
             margin-top: 5px;
@@ -418,7 +414,7 @@
             -webkit-box-orient: vertical;
         }
         
-        .activity-actions, .case-actions {
+        .activity-actions, .case-actions, .pending-actions {
             display: flex;
             gap: 8px;
             margin-left: 10px;
@@ -427,6 +423,29 @@
         .activity-completed {
             text-decoration: line-through;
             opacity: 0.6;
+        }
+        
+        .pending-expired {
+            border-color: var(--warning-color) !important;
+            border-width: 2px !important;
+            animation: pulse-warning 2s infinite;
+        }
+        
+        @keyframes pulse-warning {
+            0% { border-color: var(--warning-color); }
+            50% { border-color: #ff4444; }
+            100% { border-color: var(--warning-color); }
+        }
+        
+        .pending-date {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        
+        .pending-date.expired {
+            color: var(--warning-color);
+            font-weight: bold;
         }
         
         .empty-right {
@@ -537,6 +556,121 @@
             background-color: #5a6268;
         }
         
+        /* Modal de alerta urgente */
+        .urgent-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(139, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .urgent-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .urgent-modal-content {
+            background-color: #8b0000;
+            border: 4px solid #ff0000;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+            animation: shake 0.5s infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .urgent-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.5s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+        
+        .urgent-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .urgent-subtitle {
+            font-size: 18px;
+            color: #ffcccc;
+            margin-bottom: 30px;
+        }
+        
+        .urgent-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .urgent-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #ff0000;
+        }
+        
+        .urgent-item-title {
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .urgent-item-description {
+            color: #ffcccc;
+            font-size: 14px;
+        }
+        
+        .urgent-item-date {
+            color: #ff6666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .btn-urgent-dismiss {
+            padding: 15px 40px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .btn-urgent-dismiss:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+        
         /* Modal de relatório diário */
         .daily-report-navigation {
             display: flex;
@@ -626,78 +760,29 @@
         
         /* Responsividade */
         @media (max-width: 1400px) {
-            .sidebar-right {
-                width: 300px;
-            }
+            .sidebar-right { width: 300px; }
         }
         
         @media (max-width: 1200px) {
-            body {
-                flex-wrap: wrap;
-            }
-            
-            .sidebar-right {
-                width: 100%;
-                order: 3;
-            }
-            
-            .entries-list {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            }
+            body { flex-wrap: wrap; }
+            .sidebar-right { width: 100%; order: 3; }
+            .entries-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
         }
         
         @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-            }
-            
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-            }
-            
-            .sidebar-right {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid var(--border-color);
-            }
-            
-            .project-list {
-                max-height: 200px;
-            }
-            
-            .top-bar {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-            
-            .search-section {
-                max-width: 100%;
-                order: 2;
-            }
-            
-            .btn-new-entry {
-                order: 1;
-            }
+            body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .sidebar-right { width: 100%; border-left: none; border-top: 1px solid var(--border-color); }
+            .project-list { max-height: 200px; }
+            .top-bar { flex-wrap: wrap; gap: 15px; }
+            .search-section { max-width: 100%; order: 2; }
+            .btn-new-entry { order: 1; }
         }
         
         @media (max-width: 600px) {
-            .entries-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .top-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-section {
-                flex-direction: column;
-            }
+            .entries-list { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .search-section { flex-direction: column; }
         }
     </style>
 </head>
@@ -715,10 +800,12 @@
         
         <div class="projects-section">
             <h2>Projetos</h2>
-            <ul class="project-list" id="projectList">
-                <!-- Projetos serão carregados aqui -->
-            </ul>
+            <ul class="project-list" id="projectList"></ul>
         </div>
+        
+        <button class="btn btn-pending" id="pendingBtn">
+            <i class="fas fa-exclamation-triangle"></i> Pendências
+        </button>
         
         <button class="btn btn-daily-report" id="dailyReportBtn">
             <i class="fas fa-calendar-check"></i> Relatório Diário
@@ -729,7 +816,6 @@
     
     <!-- Conteúdo principal -->
     <main class="main-content">
-        <!-- Barra superior com busca e filtros -->
         <div class="top-bar">
             <div class="search-section">
                 <input type="text" class="search-box" id="searchBox" placeholder="Buscar por título ou conteúdo...">
@@ -742,55 +828,56 @@
                     <option value="title">A-Z (título)</option>
                 </select>
             </div>
-            
             <button class="btn btn-new-entry" id="newEntryBtn">
                 <i class="fas fa-plus"></i> Nova Query
             </button>
         </div>
         
-        <!-- Container de registros -->
         <div class="entries-container">
             <div class="entries-header">
                 <h2 id="entriesTitle">Todas as queries</h2>
                 <span id="entriesCount">0 registros</span>
             </div>
-            
             <div class="status-message" id="entriesStatus"></div>
-            
-            <div class="entries-list" id="entriesList">
-                <!-- Registros serão carregados aqui -->
-            </div>
+            <div class="entries-list" id="entriesList"></div>
         </div>
     </main>
     
-    <!-- Sidebar direita com atividades e cases -->
+    <!-- Sidebar direita -->
     <aside class="sidebar-right" id="sidebarRight">
         <h2>Atividades & Cases</h2>
         
-        <!-- Seção de Atividades -->
         <div class="section-title">
             <h3>Atividades</h3>
-            <button class="btn btn-small" id="newActivityBtn">
-                <i class="fas fa-plus"></i>
-            </button>
+            <button class="btn btn-small" id="newActivityBtn"><i class="fas fa-plus"></i></button>
         </div>
-        <ul class="activity-list" id="activityList">
-            <!-- Atividades serão carregadas aqui -->
-        </ul>
+        <ul class="activity-list" id="activityList"></ul>
         
-        <!-- Seção de Cases -->
         <div class="section-title">
             <h3>Cases (Philips)</h3>
-            <button class="btn btn-small" id="newCaseBtn">
-                <i class="fas fa-plus"></i>
-            </button>
+            <button class="btn btn-small" id="newCaseBtn"><i class="fas fa-plus"></i></button>
         </div>
-        <ul class="case-list" id="caseList">
-            <!-- Cases serão carregados aqui -->
-        </ul>
+        <ul class="case-list" id="caseList"></ul>
+        
+        <div class="section-title">
+            <h3>Pendências Gerais</h3>
+            <button class="btn btn-small" id="newPendingBtn"><i class="fas fa-plus"></i></button>
+        </div>
+        <ul class="pending-list" id="pendingList"></ul>
     </aside>
     
-    <!-- Modal para criar/editar projetos -->
+    <!-- Modal de alerta urgente -->
+    <div class="urgent-modal" id="urgentModal">
+        <div class="urgent-modal-content">
+            <div class="urgent-icon">⚠️🚨⚠️</div>
+            <div class="urgent-title">ATENÇÃO! PENDÊNCIAS URGENTES!</div>
+            <div class="urgent-subtitle">As seguintes pendências estão com o prazo vencido ou vencem hoje:</div>
+            <ul class="urgent-list" id="urgentList"></ul>
+            <button class="btn-urgent-dismiss" id="dismissUrgentBtn">ENTENDI - VERIFICAR DEPOIS</button>
+        </div>
+    </div>
+    
+    <!-- Modal Projeto -->
     <div class="modal" id="projectModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -810,7 +897,7 @@
         </div>
     </div>
     
-    <!-- Modal para criar/editar queries -->
+    <!-- Modal Query -->
     <div class="modal" id="entryModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -822,7 +909,6 @@
                     <label for="entryTitle">Título</label>
                     <input type="text" class="form-control" id="entryTitle" placeholder="Digite o título da query">
                 </div>
-                
                 <div class="form-group">
                     <label for="entryType">Tipo de Conteúdo</label>
                     <select class="form-control" id="entryType">
@@ -833,14 +919,10 @@
                         <option value="Texto">Texto</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
                     <label for="entryProject">Projeto</label>
-                    <select class="form-control" id="entryProject">
-                        <!-- Projetos serão carregados aqui -->
-                    </select>
+                    <select class="form-control" id="entryProject"></select>
                 </div>
-                
                 <div class="form-group">
                     <label for="entryContent">Conteúdo</label>
                     <textarea class="form-control" id="entryContent" placeholder="Cole ou digite seu código aqui..."></textarea>
@@ -853,7 +935,7 @@
         </div>
     </div>
     
-    <!-- Modal para atividades -->
+    <!-- Modal Atividade -->
     <div class="modal" id="activityModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -877,7 +959,7 @@
         </div>
     </div>
     
-    <!-- Modal para cases -->
+    <!-- Modal Case -->
     <div class="modal" id="caseModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -901,7 +983,35 @@
         </div>
     </div>
     
-    <!-- Modal para relatório diário -->
+    <!-- Modal Pendência -->
+    <div class="modal" id="pendingModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #8e44ad;">
+                <h2 id="pendingModalTitle">Nova Pendência</h2>
+                <button class="close-modal" id="closePendingModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="pendingTitle">Título</label>
+                    <input type="text" class="form-control" id="pendingTitle" placeholder="Ex: Verificar planner do Felipinho">
+                </div>
+                <div class="form-group">
+                    <label for="pendingDescription">Descrição</label>
+                    <textarea class="form-control" id="pendingDescription" placeholder="Ex: Alinhar demandas com ele..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pendingAlertDate">Data de Alerta (Prazo)</label>
+                    <input type="date" class="form-control" id="pendingAlertDate">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelPendingBtn">Cancelar</button>
+                <button class="btn" id="savePendingBtn">Salvar Pendência</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Relatório Diário -->
     <div class="modal" id="dailyReportModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -910,47 +1020,36 @@
             </div>
             <div class="modal-body">
                 <div class="daily-report-navigation">
-                    <button class="btn btn-small" id="prevDayBtn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
+                    <button class="btn btn-small" id="prevDayBtn"><i class="fas fa-chevron-left"></i></button>
                     <span class="date-display" id="currentDateDisplay"></span>
-                    <button class="btn btn-small" id="nextDayBtn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <button class="btn btn-small" id="nextDayBtn"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                
                 <div class="form-group">
                     <label for="dailyActivityTitle">Título da Atividade</label>
                     <input type="text" class="form-control" id="dailyActivityTitle" placeholder="O que você fez?">
                 </div>
-                
                 <div class="form-group">
                     <label for="dailyActivityDescription">Descrição</label>
                     <textarea class="form-control" id="dailyActivityDescription" placeholder="Descreva a atividade..."></textarea>
                 </div>
-                
                 <button class="btn" id="addDailyActivityBtn" style="width: 100%; margin-bottom: 20px;">
                     <i class="fas fa-plus"></i> Adicionar Atividade
                 </button>
-                
                 <h3 style="margin-bottom: 15px;">Atividades do dia</h3>
-                <div class="daily-activities-list" id="dailyActivitiesList">
-                    <!-- Atividades do dia serão carregadas aqui -->
-                </div>
+                <div class="daily-activities-list" id="dailyActivitiesList"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Configurações do Firebase
         const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/';
         
-        // Estado da aplicação
         let state = {
             projects: {},
             entries: {},
             activities: {},
             cases: {},
+            pendingItems: {},
             dailyReports: {},
             selectedProject: 'all',
             searchTerm: '',
@@ -959,10 +1058,11 @@
             editingEntryId: null,
             editingActivityId: null,
             editingCaseId: null,
+            editingPendingId: null,
             currentDailyDate: new Date().toISOString().split('T')[0]
         };
         
-        // Elementos do DOM
+        // Elementos DOM
         const projectList = document.getElementById('projectList');
         const entriesList = document.getElementById('entriesList');
         const entriesTitle = document.getElementById('entriesTitle');
@@ -972,14 +1072,16 @@
         const sortSelect = document.getElementById('sortSelect');
         const newProjectBtn = document.getElementById('newProjectBtn');
         const newEntryBtn = document.getElementById('newEntryBtn');
+        const pendingBtn = document.getElementById('pendingBtn');
         const dailyReportBtn = document.getElementById('dailyReportBtn');
-        const sidebarRight = document.getElementById('sidebarRight');
         const activityList = document.getElementById('activityList');
         const caseList = document.getElementById('caseList');
+        const pendingList = document.getElementById('pendingList');
         const newActivityBtn = document.getElementById('newActivityBtn');
         const newCaseBtn = document.getElementById('newCaseBtn');
-        
-        // Elementos de status
+        const newPendingBtn = document.getElementById('newPendingBtn');
+        const urgentModal = document.getElementById('urgentModal');
+        const dismissUrgentBtn = document.getElementById('dismissUrgentBtn');
         const sidebarStatus = document.getElementById('sidebarStatus');
         const entriesStatus = document.getElementById('entriesStatus');
         
@@ -989,24 +1091,22 @@
             setupEventListeners();
         });
         
-        // Carregar todos os dados
         async function loadAllData() {
             await loadProjects();
             await loadEntries();
             await loadActivities();
             await loadCases();
+            await loadPendingItems();
             await loadDailyReports();
+            checkPendingAlerts();
         }
         
-        // Configurar event listeners
         function setupEventListeners() {
-            // Busca
             searchBox.addEventListener('input', (e) => {
                 state.searchTerm = e.target.value.toLowerCase();
                 renderEntries();
             });
             
-            // Filtro por projeto
             projectFilter.addEventListener('change', (e) => {
                 state.selectedProject = e.target.value;
                 updateEntriesTitle();
@@ -1014,20 +1114,19 @@
                 renderSidebarRight();
             });
             
-            // Ordenação
             sortSelect.addEventListener('change', (e) => {
                 state.sortBy = e.target.value;
                 renderEntries();
             });
             
-            // Botões principais
             newProjectBtn.addEventListener('click', () => openProjectModal());
             newEntryBtn.addEventListener('click', () => openEntryModal());
+            pendingBtn.addEventListener('click', () => openPendingModal());
             dailyReportBtn.addEventListener('click', openDailyReportModal);
             newActivityBtn.addEventListener('click', () => openActivityModal());
             newCaseBtn.addEventListener('click', () => openCaseModal());
+            newPendingBtn.addEventListener('click', () => openPendingModal());
             
-            // Modais
             document.getElementById('closeProjectModal').addEventListener('click', closeProjectModalHandler);
             document.getElementById('cancelProjectBtn').addEventListener('click', closeProjectModalHandler);
             document.getElementById('saveProjectBtn').addEventListener('click', saveProject);
@@ -1044,20 +1143,229 @@
             document.getElementById('cancelCaseBtn').addEventListener('click', closeCaseModalHandler);
             document.getElementById('saveCaseBtn').addEventListener('click', saveCase);
             
+            document.getElementById('closePendingModal').addEventListener('click', closePendingModalHandler);
+            document.getElementById('cancelPendingBtn').addEventListener('click', closePendingModalHandler);
+            document.getElementById('savePendingBtn').addEventListener('click', savePending);
+            
             document.getElementById('closeDailyReportModal').addEventListener('click', closeDailyReportModalHandler);
             document.getElementById('prevDayBtn').addEventListener('click', () => changeDailyDate(-1));
             document.getElementById('nextDayBtn').addEventListener('click', () => changeDailyDate(1));
             document.getElementById('addDailyActivityBtn').addEventListener('click', addDailyActivity);
             
-            // Fechar modais ao clicar fora
+            dismissUrgentBtn.addEventListener('click', () => urgentModal.classList.remove('active'));
+            
             window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
+                if (e.target.classList.contains('modal') || e.target.classList.contains('urgent-modal')) {
                     closeAllModals();
                 }
             });
         }
         
-        // Carregar projetos
+        // ========== FUNÇÕES DE PENDÊNCIAS ==========
+        async function loadPendingItems() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/pendingItems.json`);
+                state.pendingItems = response.ok ? (await response.json()) || {} : {};
+                renderPendingItems();
+            } catch (error) {
+                console.error('Erro ao carregar pendências:', error);
+            }
+        }
+        
+        function checkPendingAlerts() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const urgentPendings = [];
+            
+            Object.entries(state.pendingItems).forEach(([id, pending]) => {
+                if (pending.alertDate) {
+                    const alertDate = new Date(pending.alertDate + 'T00:00:00');
+                    if (alertDate <= today) {
+                        urgentPendings.push({
+                            id,
+                            ...pending,
+                            isExpired: alertDate < today
+                        });
+                    }
+                }
+            });
+            
+            if (urgentPendings.length > 0) {
+                showUrgentModal(urgentPendings);
+            }
+        }
+        
+        function showUrgentModal(urgentPendings) {
+            const urgentList = document.getElementById('urgentList');
+            urgentList.innerHTML = '';
+            
+            urgentPendings.forEach(pending => {
+                const alertDate = new Date(pending.alertDate + 'T00:00:00');
+                const formattedDate = alertDate.toLocaleDateString('pt-BR');
+                
+                const item = document.createElement('li');
+                item.className = 'urgent-item';
+                item.innerHTML = `
+                    <div class="urgent-item-title">
+                        ${pending.isExpired ? '🔴 VENCIDO' : '🟡 VENCE HOJE'}: ${pending.title}
+                    </div>
+                    ${pending.description ? `<div class="urgent-item-description">${pending.description}</div>` : ''}
+                    <div class="urgent-item-date">Prazo: ${formattedDate}</div>
+                `;
+                urgentList.appendChild(item);
+            });
+            
+            urgentModal.classList.add('active');
+        }
+        
+        function renderPendingItems() {
+            pendingList.innerHTML = '';
+            
+            if (Object.keys(state.pendingItems).length === 0) {
+                pendingList.innerHTML = '<div class="empty-right">Nenhuma pendência</div>';
+                return;
+            }
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            Object.entries(state.pendingItems)
+                .sort((a, b) => {
+                    if (!a[1].alertDate) return 1;
+                    if (!b[1].alertDate) return -1;
+                    return new Date(a[1].alertDate) - new Date(b[1].alertDate);
+                })
+                .forEach(([pendingId, pending]) => {
+                    let isExpired = false;
+                    let isToday = false;
+                    
+                    if (pending.alertDate) {
+                        const alertDate = new Date(pending.alertDate + 'T00:00:00');
+                        isExpired = alertDate < today;
+                        isToday = alertDate.getTime() === today.getTime();
+                    }
+                    
+                    const pendingElement = document.createElement('li');
+                    pendingElement.className = `pending-item ${isExpired ? 'pending-expired' : ''}`;
+                    
+                    const formattedDate = pending.alertDate ? 
+                        new Date(pending.alertDate + 'T00:00:00').toLocaleDateString('pt-BR') : 
+                        'Sem prazo';
+                    
+                    pendingElement.innerHTML = `
+                        <div class="pending-header">
+                            <span class="pending-title">
+                                ${isExpired ? '🔴 ' : isToday ? '🟡 ' : ''}${pending.title}
+                            </span>
+                            <div class="pending-actions">
+                                <button class="action-btn edit-pending" data-pending-id="${pendingId}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-pending" data-pending-id="${pendingId}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        ${pending.description ? `<div class="pending-description">${pending.description}</div>` : ''}
+                        <div class="pending-date ${isExpired ? 'expired' : ''}">
+                            📅 ${formattedDate} ${isExpired ? '(Vencido)' : isToday ? '(Hoje)' : ''}
+                        </div>
+                    `;
+                    
+                    pendingList.appendChild(pendingElement);
+                });
+            
+            document.querySelectorAll('.edit-pending').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPendingModal(btn.dataset.pendingId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-pending').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deletePending(btn.dataset.pendingId);
+                });
+            });
+        }
+        
+        function openPendingModal(pendingId = null) {
+            state.editingPendingId = pendingId;
+            const modal = document.getElementById('pendingModal');
+            
+            if (pendingId) {
+                const pending = state.pendingItems[pendingId];
+                document.getElementById('pendingModalTitle').textContent = 'Editar Pendência';
+                document.getElementById('pendingTitle').value = pending.title || '';
+                document.getElementById('pendingDescription').value = pending.description || '';
+                document.getElementById('pendingAlertDate').value = pending.alertDate || '';
+            } else {
+                document.getElementById('pendingModalTitle').textContent = 'Nova Pendência';
+                document.getElementById('pendingTitle').value = '';
+                document.getElementById('pendingDescription').value = '';
+                document.getElementById('pendingAlertDate').value = '';
+            }
+            
+            modal.classList.add('active');
+            document.getElementById('pendingTitle').focus();
+        }
+        
+        function closePendingModalHandler() {
+            document.getElementById('pendingModal').classList.remove('active');
+            state.editingPendingId = null;
+        }
+        
+        async function savePending() {
+            const title = document.getElementById('pendingTitle').value.trim();
+            const description = document.getElementById('pendingDescription').value.trim();
+            const alertDate = document.getElementById('pendingAlertDate').value;
+            
+            if (!title) {
+                alert('Digite um título para a pendência');
+                return;
+            }
+            
+            const pendingData = {
+                title,
+                description,
+                alertDate,
+                createdAt: state.editingPendingId ? 
+                    (state.pendingItems[state.editingPendingId]?.createdAt || Date.now()) : 
+                    Date.now()
+            };
+            
+            try {
+                const url = state.editingPendingId ? 
+                    `${FIREBASE_URL}/pendingItems/${state.editingPendingId}.json` : 
+                    `${FIREBASE_URL}/pendingItems.json`;
+                
+                await fetch(url, {
+                    method: state.editingPendingId ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(pendingData)
+                });
+                
+                closePendingModalHandler();
+                await loadPendingItems();
+            } catch (error) {
+                console.error('Erro ao salvar pendência:', error);
+            }
+        }
+        
+        async function deletePending(pendingId) {
+            if (!confirm('Tem certeza que deseja excluir esta pendência?')) return;
+            
+            try {
+                await fetch(`${FIREBASE_URL}/pendingItems/${pendingId}.json`, { method: 'DELETE' });
+                await loadPendingItems();
+            } catch (error) {
+                console.error('Erro ao deletar pendência:', error);
+            }
+        }
+        
+        // ========== FUNÇÕES EXISTENTES (MANTIDAS INTACTAS) ==========
         async function loadProjects() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/projects.json`);
@@ -1066,22 +1374,17 @@
                 renderProjects();
                 updateProjectFilter();
                 updateEntryProjectSelect();
-                
-                if (Object.keys(state.projects).length === 0) {
-                    await createDefaultProject();
-                }
+                if (Object.keys(state.projects).length === 0) await createDefaultProject();
             } catch (error) {
                 console.error('Erro ao carregar projetos:', error);
                 showStatus(sidebarStatus, 'Erro ao carregar projetos', 'error');
             }
         }
         
-        // Carregar queries
         async function loadEntries() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/entries.json`);
-                const data = await response.json();
-                state.entries = data || {};
+                state.entries = (await response.json()) || {};
                 renderEntries();
             } catch (error) {
                 console.error('Erro ao carregar queries:', error);
@@ -1089,94 +1392,63 @@
             }
         }
         
-        // Carregar atividades
         async function loadActivities() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/activities.json`);
-                const data = await response.json();
-                state.activities = data || {};
+                state.activities = (await response.json()) || {};
                 renderSidebarRight();
-            } catch (error) {
-                console.error('Erro ao carregar atividades:', error);
-            }
+            } catch (error) { console.error('Erro ao carregar atividades:', error); }
         }
         
-        // Carregar cases
         async function loadCases() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/cases.json`);
-                const data = await response.json();
-                state.cases = data || {};
+                state.cases = (await response.json()) || {};
                 renderSidebarRight();
-            } catch (error) {
-                console.error('Erro ao carregar cases:', error);
-            }
+            } catch (error) { console.error('Erro ao carregar cases:', error); }
         }
         
-        // Carregar relatórios diários
         async function loadDailyReports() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/dailyReports.json`);
-                const data = await response.json();
-                state.dailyReports = data || {};
-            } catch (error) {
-                console.error('Erro ao carregar relatórios:', error);
-            }
+                state.dailyReports = (await response.json()) || {};
+            } catch (error) { console.error('Erro ao carregar relatórios:', error); }
         }
         
-        // Criar projeto padrão
         async function createDefaultProject() {
-            const defaultProject = {
-                name: "Projeto Principal",
-                createdAt: Date.now()
-            };
-            
             try {
                 await fetch(`${FIREBASE_URL}/projects.json`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(defaultProject)
+                    body: JSON.stringify({ name: "Projeto Principal", createdAt: Date.now() })
                 });
                 await loadProjects();
                 showStatus(sidebarStatus, 'Projeto padrão criado com sucesso', 'success');
-            } catch (error) {
-                console.error('Erro ao criar projeto padrão:', error);
-            }
+            } catch (error) { console.error('Erro ao criar projeto padrão:', error); }
         }
         
-        // Renderizar projetos
         function renderProjects() {
             projectList.innerHTML = '';
+            const allItem = document.createElement('li');
+            allItem.className = `project-item ${state.selectedProject === 'all' ? 'active' : ''}`;
+            allItem.dataset.projectId = 'all';
+            allItem.innerHTML = `<span class="project-name">Todos os projetos</span><span class="project-count">${Object.keys(state.entries).length}</span>`;
+            allItem.addEventListener('click', () => selectProject('all'));
+            projectList.appendChild(allItem);
             
-            const allProjectsItem = document.createElement('li');
-            allProjectsItem.className = `project-item ${state.selectedProject === 'all' ? 'active' : ''}`;
-            allProjectsItem.dataset.projectId = 'all';
-            allProjectsItem.innerHTML = `
-                <span class="project-name">Todos os projetos</span>
-                <span class="project-count">${Object.keys(state.entries).length}</span>
-            `;
-            allProjectsItem.addEventListener('click', () => selectProject('all'));
-            projectList.appendChild(allProjectsItem);
-            
-            Object.entries(state.projects).forEach(([projectId, project]) => {
-                const entryCount = Object.values(state.entries).filter(entry => entry.projectId === projectId).length;
-                
-                const projectItem = document.createElement('li');
-                projectItem.className = `project-item ${state.selectedProject === projectId ? 'active' : ''}`;
-                projectItem.dataset.projectId = projectId;
-                projectItem.innerHTML = `
-                    <span class="project-name">${project.name}</span>
-                    <span class="project-count">${entryCount}</span>
-                `;
-                projectItem.addEventListener('click', () => selectProject(projectId));
-                projectItem.addEventListener('dblclick', () => editProject(projectId));
-                projectList.appendChild(projectItem);
+            Object.entries(state.projects).forEach(([id, project]) => {
+                const count = Object.values(state.entries).filter(e => e.projectId === id).length;
+                const item = document.createElement('li');
+                item.className = `project-item ${state.selectedProject === id ? 'active' : ''}`;
+                item.dataset.projectId = id;
+                item.innerHTML = `<span class="project-name">${project.name}</span><span class="project-count">${count}</span>`;
+                item.addEventListener('click', () => selectProject(id));
+                item.addEventListener('dblclick', () => editProject(id));
+                projectList.appendChild(item);
             });
-            
             updateEntriesTitle();
         }
         
-        // Selecionar projeto
         function selectProject(projectId) {
             state.selectedProject = projectId;
             projectFilter.value = projectId;
@@ -1185,805 +1457,418 @@
             renderSidebarRight();
         }
         
-        // Renderizar sidebar direita
         function renderSidebarRight() {
             renderActivities();
             renderCases();
+            renderPendingItems();
         }
         
-        // Renderizar atividades
         function renderActivities() {
             activityList.innerHTML = '';
+            const filtered = Object.entries(state.activities).filter(([_, a]) => 
+                state.selectedProject === 'all' || a.projectId === state.selectedProject
+            );
+            if (!filtered.length) { activityList.innerHTML = '<div class="empty-right">Nenhuma atividade</div>'; return; }
             
-            const filteredActivities = Object.entries(state.activities).filter(([_, activity]) => {
-                if (state.selectedProject === 'all') return true;
-                return activity.projectId === state.selectedProject;
-            });
-            
-            if (filteredActivities.length === 0) {
-                activityList.innerHTML = '<div class="empty-right">Nenhuma atividade</div>';
-                return;
-            }
-            
-            filteredActivities.forEach(([activityId, activity]) => {
-                const activityItem = document.createElement('li');
-                activityItem.className = 'activity-item';
-                activityItem.innerHTML = `
+            filtered.forEach(([id, activity]) => {
+                const item = document.createElement('li');
+                item.className = 'activity-item';
+                item.innerHTML = `
                     <div class="activity-header">
                         <div class="activity-checkbox">
-                            <input type="checkbox" ${activity.completed ? 'checked' : ''} data-activity-id="${activityId}">
+                            <input type="checkbox" ${activity.completed ? 'checked' : ''} data-activity-id="${id}">
                             <span class="activity-title ${activity.completed ? 'activity-completed' : ''}">${activity.title}</span>
                         </div>
                         <div class="activity-actions">
-                            <button class="action-btn edit-activity" data-activity-id="${activityId}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete-activity" data-activity-id="${activityId}">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <button class="action-btn edit-activity" data-activity-id="${id}"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete-activity" data-activity-id="${id}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     ${activity.description ? `<div class="activity-description">${activity.description}</div>` : ''}
                 `;
-                
-                activityList.appendChild(activityItem);
+                activityList.appendChild(item);
             });
             
-            // Event listeners para atividades
-            document.querySelectorAll('.activity-checkbox input').forEach(checkbox => {
-                checkbox.addEventListener('change', toggleActivityComplete);
-            });
-            
-            document.querySelectorAll('.edit-activity').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const activityId = btn.dataset.activityId;
-                    openActivityModal(activityId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-activity').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const activityId = btn.dataset.activityId;
-                    deleteActivity(activityId);
-                });
-            });
+            document.querySelectorAll('.activity-checkbox input').forEach(cb => cb.addEventListener('change', toggleActivityComplete));
+            document.querySelectorAll('.edit-activity').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); openActivityModal(b.dataset.activityId); }));
+            document.querySelectorAll('.delete-activity').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); deleteActivity(b.dataset.activityId); }));
         }
         
-        // Renderizar cases
         function renderCases() {
             caseList.innerHTML = '';
+            const filtered = Object.entries(state.cases).filter(([_, c]) => 
+                state.selectedProject === 'all' || c.projectId === state.selectedProject
+            );
+            if (!filtered.length) { caseList.innerHTML = '<div class="empty-right">Nenhum case</div>'; return; }
             
-            const filteredCases = Object.entries(state.cases).filter(([_, caseItem]) => {
-                if (state.selectedProject === 'all') return true;
-                return caseItem.projectId === state.selectedProject;
-            });
-            
-            if (filteredCases.length === 0) {
-                caseList.innerHTML = '<div class="empty-right">Nenhum case</div>';
-                return;
-            }
-            
-            filteredCases.forEach(([caseId, caseItem]) => {
-                const caseElement = document.createElement('li');
-                caseElement.className = 'case-item';
-                caseElement.innerHTML = `
+            filtered.forEach(([id, caseItem]) => {
+                const el = document.createElement('li');
+                el.className = 'case-item';
+                el.innerHTML = `
                     <div class="case-header">
                         <span class="case-title">${caseItem.title}</span>
                         <div class="case-actions">
-                            <button class="action-btn edit-case" data-case-id="${caseId}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete-case" data-case-id="${caseId}">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <button class="action-btn edit-case" data-case-id="${id}"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete-case" data-case-id="${id}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     ${caseItem.description ? `<div class="case-description">${caseItem.description}</div>` : ''}
                 `;
-                
-                caseElement.addEventListener('click', () => openCaseDetailModal(caseItem));
-                caseList.appendChild(caseElement);
+                el.addEventListener('click', () => openCaseDetailModal(caseItem));
+                caseList.appendChild(el);
             });
             
-            // Event listeners para cases
-            document.querySelectorAll('.edit-case').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const caseId = btn.dataset.caseId;
-                    openCaseModal(caseId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-case').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const caseId = btn.dataset.caseId;
-                    deleteCase(caseId);
-                });
-            });
+            document.querySelectorAll('.edit-case').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); openCaseModal(b.dataset.caseId); }));
+            document.querySelectorAll('.delete-case').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); deleteCase(b.dataset.caseId); }));
         }
         
-        // Alternar checkbox de atividade
         async function toggleActivityComplete(e) {
-            const activityId = e.target.dataset.activityId;
-            const activity = state.activities[activityId];
-            
+            const id = e.target.dataset.activityId;
+            const activity = state.activities[id];
             if (!activity) return;
-            
             activity.completed = e.target.checked;
-            
             try {
-                await fetch(`${FIREBASE_URL}/activities/${activityId}.json`, {
+                await fetch(`${FIREBASE_URL}/activities/${id}.json`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ completed: activity.completed })
                 });
-                
                 await loadActivities();
-            } catch (error) {
-                console.error('Erro ao atualizar atividade:', error);
-            }
+            } catch (error) { console.error('Erro ao atualizar atividade:', error); }
         }
         
-        // Abrir modal de atividade
         function openActivityModal(activityId = null) {
-            if (!state.selectedProject || state.selectedProject === 'all') {
-                alert('Selecione um projeto primeiro');
-                return;
-            }
-            
+            if (!state.selectedProject || state.selectedProject === 'all') { alert('Selecione um projeto primeiro'); return; }
             state.editingActivityId = activityId;
             const modal = document.getElementById('activityModal');
-            const title = document.getElementById('activityModalTitle');
-            
             if (activityId) {
-                const activity = state.activities[activityId];
-                title.textContent = 'Editar Atividade';
-                document.getElementById('activityTitle').value = activity.title;
-                document.getElementById('activityDescription').value = activity.description || '';
+                const a = state.activities[activityId];
+                document.getElementById('activityModalTitle').textContent = 'Editar Atividade';
+                document.getElementById('activityTitle').value = a.title;
+                document.getElementById('activityDescription').value = a.description || '';
             } else {
-                title.textContent = 'Nova Atividade';
+                document.getElementById('activityModalTitle').textContent = 'Nova Atividade';
                 document.getElementById('activityTitle').value = '';
                 document.getElementById('activityDescription').value = '';
             }
-            
             modal.classList.add('active');
             document.getElementById('activityTitle').focus();
         }
         
-        // Fechar modal de atividade
-        function closeActivityModalHandler() {
-            document.getElementById('activityModal').classList.remove('active');
-            state.editingActivityId = null;
-        }
+        function closeActivityModalHandler() { document.getElementById('activityModal').classList.remove('active'); state.editingActivityId = null; }
         
-        // Salvar atividade
         async function saveActivity() {
             const title = document.getElementById('activityTitle').value.trim();
-            const description = document.getElementById('activityDescription').value.trim();
-            
-            if (!title) {
-                alert('Digite um título para a atividade');
-                return;
-            }
-            
-            const activityData = {
+            if (!title) { alert('Digite um título'); return; }
+            const data = {
                 title,
-                description,
+                description: document.getElementById('activityDescription').value.trim(),
                 projectId: state.selectedProject,
                 completed: state.editingActivityId ? state.activities[state.editingActivityId].completed : false,
                 createdAt: state.editingActivityId ? state.activities[state.editingActivityId].createdAt : Date.now()
             };
-            
             try {
-                if (state.editingActivityId) {
-                    await fetch(`${FIREBASE_URL}/activities/${state.editingActivityId}.json`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(activityData)
-                    });
-                } else {
-                    await fetch(`${FIREBASE_URL}/activities.json`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(activityData)
-                    });
-                }
-                
+                const url = state.editingActivityId ? `${FIREBASE_URL}/activities/${state.editingActivityId}.json` : `${FIREBASE_URL}/activities.json`;
+                await fetch(url, { method: state.editingActivityId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 closeActivityModalHandler();
                 await loadActivities();
-            } catch (error) {
-                console.error('Erro ao salvar atividade:', error);
-            }
+            } catch (error) { console.error('Erro ao salvar atividade:', error); }
         }
         
-        // Deletar atividade
-        async function deleteActivity(activityId) {
-            if (!confirm('Tem certeza que deseja excluir esta atividade?')) return;
-            
-            try {
-                await fetch(`${FIREBASE_URL}/activities/${activityId}.json`, {
-                    method: 'DELETE'
-                });
-                await loadActivities();
-            } catch (error) {
-                console.error('Erro ao deletar atividade:', error);
-            }
+        async function deleteActivity(id) {
+            if (!confirm('Excluir esta atividade?')) return;
+            try { await fetch(`${FIREBASE_URL}/activities/${id}.json`, { method: 'DELETE' }); await loadActivities(); }
+            catch (error) { console.error('Erro ao deletar atividade:', error); }
         }
         
-        // Abrir modal de case
         function openCaseModal(caseId = null) {
-            if (!state.selectedProject || state.selectedProject === 'all') {
-                alert('Selecione um projeto primeiro');
-                return;
-            }
-            
+            if (!state.selectedProject || state.selectedProject === 'all') { alert('Selecione um projeto primeiro'); return; }
             state.editingCaseId = caseId;
             const modal = document.getElementById('caseModal');
-            const title = document.getElementById('caseModalTitle');
-            
             if (caseId) {
-                const caseItem = state.cases[caseId];
-                title.textContent = 'Editar Case';
-                document.getElementById('caseTitle').value = caseItem.title;
-                document.getElementById('caseDescription').value = caseItem.description || '';
+                const c = state.cases[caseId];
+                document.getElementById('caseModalTitle').textContent = 'Editar Case';
+                document.getElementById('caseTitle').value = c.title;
+                document.getElementById('caseDescription').value = c.description || '';
             } else {
-                title.textContent = 'Novo Case';
+                document.getElementById('caseModalTitle').textContent = 'Novo Case';
                 document.getElementById('caseTitle').value = '';
                 document.getElementById('caseDescription').value = '';
             }
-            
             modal.classList.add('active');
             document.getElementById('caseTitle').focus();
         }
         
-        // Abrir modal de detalhes do case
         function openCaseDetailModal(caseItem) {
-            const modal = document.getElementById('caseModal');
             document.getElementById('caseModalTitle').textContent = 'Detalhes do Case';
             document.getElementById('caseTitle').value = caseItem.title;
             document.getElementById('caseDescription').value = caseItem.description || '';
-            modal.classList.add('active');
+            document.getElementById('caseModal').classList.add('active');
         }
         
-        // Fechar modal de case
-        function closeCaseModalHandler() {
-            document.getElementById('caseModal').classList.remove('active');
-            state.editingCaseId = null;
-        }
+        function closeCaseModalHandler() { document.getElementById('caseModal').classList.remove('active'); state.editingCaseId = null; }
         
-        // Salvar case
         async function saveCase() {
             const title = document.getElementById('caseTitle').value.trim();
-            const description = document.getElementById('caseDescription').value.trim();
-            
-            if (!title) {
-                alert('Digite o número do case');
-                return;
-            }
-            
-            const caseData = {
+            if (!title) { alert('Digite o número do case'); return; }
+            const data = {
                 title,
-                description,
+                description: document.getElementById('caseDescription').value.trim(),
                 projectId: state.selectedProject,
                 createdAt: state.editingCaseId ? state.cases[state.editingCaseId].createdAt : Date.now()
             };
-            
             try {
-                if (state.editingCaseId) {
-                    await fetch(`${FIREBASE_URL}/cases/${state.editingCaseId}.json`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(caseData)
-                    });
-                } else {
-                    await fetch(`${FIREBASE_URL}/cases.json`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(caseData)
-                    });
-                }
-                
+                const url = state.editingCaseId ? `${FIREBASE_URL}/cases/${state.editingCaseId}.json` : `${FIREBASE_URL}/cases.json`;
+                await fetch(url, { method: state.editingCaseId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 closeCaseModalHandler();
                 await loadCases();
-            } catch (error) {
-                console.error('Erro ao salvar case:', error);
-            }
+            } catch (error) { console.error('Erro ao salvar case:', error); }
         }
         
-        // Deletar case
-        async function deleteCase(caseId) {
-            if (!confirm('Tem certeza que deseja excluir este case?')) return;
-            
-            try {
-                await fetch(`${FIREBASE_URL}/cases/${caseId}.json`, {
-                    method: 'DELETE'
-                });
-                await loadCases();
-            } catch (error) {
-                console.error('Erro ao deletar case:', error);
-            }
+        async function deleteCase(id) {
+            if (!confirm('Excluir este case?')) return;
+            try { await fetch(`${FIREBASE_URL}/cases/${id}.json`, { method: 'DELETE' }); await loadCases(); }
+            catch (error) { console.error('Erro ao deletar case:', error); }
         }
         
-        // Abrir modal de relatório diário
         function openDailyReportModal() {
-            const modal = document.getElementById('dailyReportModal');
+            document.getElementById('dailyReportModal').classList.add('active');
             updateDailyReportDisplay();
-            modal.classList.add('active');
         }
         
-        // Fechar modal de relatório diário
-        function closeDailyReportModalHandler() {
-            document.getElementById('dailyReportModal').classList.remove('active');
-        }
+        function closeDailyReportModalHandler() { document.getElementById('dailyReportModal').classList.remove('active'); }
         
-        // Mudar data do relatório diário
         function changeDailyDate(days) {
-            const currentDate = new Date(state.currentDailyDate);
-            currentDate.setDate(currentDate.getDate() + days);
-            state.currentDailyDate = currentDate.toISOString().split('T')[0];
+            const d = new Date(state.currentDailyDate);
+            d.setDate(d.getDate() + days);
+            state.currentDailyDate = d.toISOString().split('T')[0];
             updateDailyReportDisplay();
         }
         
-        // Atualizar exibição do relatório diário
         function updateDailyReportDisplay() {
             document.getElementById('currentDateDisplay').textContent = formatDate(state.currentDailyDate);
             renderDailyActivities();
         }
         
-        // Formatar data
         function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
+            return new Date(dateString).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
         }
         
-        // Renderizar atividades diárias
         function renderDailyActivities() {
-            const activitiesList = document.getElementById('dailyActivitiesList');
-            activitiesList.innerHTML = '';
-            
-            const dailyReport = state.dailyReports[state.currentDailyDate];
-            
-            if (!dailyReport || !dailyReport.activities || Object.keys(dailyReport.activities).length === 0) {
-                activitiesList.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-day"></i><h3>Nenhuma atividade registrada</h3></div>';
+            const list = document.getElementById('dailyActivitiesList');
+            list.innerHTML = '';
+            const report = state.dailyReports[state.currentDailyDate];
+            if (!report?.activities || !Object.keys(report.activities).length) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-day"></i><h3>Nenhuma atividade registrada</h3></div>';
                 return;
             }
-            
-            Object.entries(dailyReport.activities).forEach(([activityId, activity]) => {
-                const activityCard = document.createElement('div');
-                activityCard.className = 'daily-activity-card';
-                
-                const time = new Date(activity.createdAt).toLocaleTimeString('pt-BR', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                activityCard.innerHTML = `
+            Object.entries(report.activities).forEach(([id, activity]) => {
+                const card = document.createElement('div');
+                card.className = 'daily-activity-card';
+                card.innerHTML = `
                     <div class="daily-activity-header">
                         <span class="daily-activity-title">${activity.title}</span>
                         <div>
-                            <span class="daily-activity-time">${time}</span>
-                            <button class="action-btn delete-daily-activity" data-date="${state.currentDailyDate}" data-activity-id="${activityId}">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <span class="daily-activity-time">${new Date(activity.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                            <button class="action-btn delete-daily-activity" data-date="${state.currentDailyDate}" data-activity-id="${id}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     ${activity.description ? `<div class="daily-activity-description">${activity.description}</div>` : ''}
                 `;
-                
-                activitiesList.appendChild(activityCard);
+                list.appendChild(card);
             });
-            
-            // Event listeners para deletar atividades diárias
-            document.querySelectorAll('.delete-daily-activity').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    e.stopPropagation();
-                    const date = btn.dataset.date;
-                    const activityId = btn.dataset.activityId;
-                    await deleteDailyActivity(date, activityId);
-                });
-            });
+            document.querySelectorAll('.delete-daily-activity').forEach(b => b.addEventListener('click', async e => {
+                e.stopPropagation();
+                await deleteDailyActivity(b.dataset.date, b.dataset.activityId);
+            }));
         }
         
-        // Adicionar atividade diária
         async function addDailyActivity() {
             const title = document.getElementById('dailyActivityTitle').value.trim();
-            const description = document.getElementById('dailyActivityDescription').value.trim();
-            
-            if (!title) {
-                alert('Digite um título para a atividade');
-                return;
-            }
-            
-            const activityData = {
-                title,
-                description,
-                createdAt: Date.now()
-            };
-            
+            if (!title) { alert('Digite um título'); return; }
             try {
                 await fetch(`${FIREBASE_URL}/dailyReports/${state.currentDailyDate}/activities.json`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(activityData)
+                    body: JSON.stringify({ title, description: document.getElementById('dailyActivityDescription').value.trim(), createdAt: Date.now() })
                 });
-                
                 document.getElementById('dailyActivityTitle').value = '';
                 document.getElementById('dailyActivityDescription').value = '';
-                
                 await loadDailyReports();
                 renderDailyActivities();
-            } catch (error) {
-                console.error('Erro ao adicionar atividade diária:', error);
-            }
+            } catch (error) { console.error('Erro:', error); }
         }
         
-        // Deletar atividade diária
-        async function deleteDailyActivity(date, activityId) {
-            if (!confirm('Tem certeza que deseja excluir esta atividade?')) return;
-            
+        async function deleteDailyActivity(date, id) {
+            if (!confirm('Excluir esta atividade?')) return;
             try {
-                await fetch(`${FIREBASE_URL}/dailyReports/${date}/activities/${activityId}.json`, {
-                    method: 'DELETE'
-                });
-                
+                await fetch(`${FIREBASE_URL}/dailyReports/${date}/activities/${id}.json`, { method: 'DELETE' });
                 await loadDailyReports();
                 renderDailyActivities();
-            } catch (error) {
-                console.error('Erro ao deletar atividade diária:', error);
-            }
+            } catch (error) { console.error('Erro:', error); }
         }
-        
-        // Fechar todos os modais
-        function closeAllModals() {
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.classList.remove('active');
-            });
-        }
-        
-        // Restante das funções existentes (renderEntries, saveEntry, etc.)
-        // ... (mantenha as funções existentes do código original)
         
         function renderEntries() {
             entriesList.innerHTML = '';
-            
-            let filteredEntries = Object.entries(state.entries);
-            
-            if (state.selectedProject !== 'all') {
-                filteredEntries = filteredEntries.filter(([_, entry]) => entry.projectId === state.selectedProject);
-            }
-            
-            if (state.searchTerm) {
-                filteredEntries = filteredEntries.filter(([_, entry]) => {
-                    return entry.title.toLowerCase().includes(state.searchTerm) || 
-                           entry.content.toLowerCase().includes(state.searchTerm);
-                });
-            }
-            
-            filteredEntries.sort((a, b) => {
-                const entryA = a[1];
-                const entryB = b[1];
-                
-                switch (state.sortBy) {
-                    case 'newest': return entryB.createdAt - entryA.createdAt;
-                    case 'oldest': return entryA.createdAt - entryB.createdAt;
-                    case 'title': return entryA.title.localeCompare(entryB.title);
-                    default: return entryB.createdAt - entryA.createdAt;
-                }
+            let filtered = Object.entries(state.entries);
+            if (state.selectedProject !== 'all') filtered = filtered.filter(([_, e]) => e.projectId === state.selectedProject);
+            if (state.searchTerm) filtered = filtered.filter(([_, e]) => e.title.toLowerCase().includes(state.searchTerm) || e.content.toLowerCase().includes(state.searchTerm));
+            filtered.sort((a, b) => {
+                const [ea, eb] = [a[1], b[1]];
+                if (state.sortBy === 'newest') return eb.createdAt - ea.createdAt;
+                if (state.sortBy === 'oldest') return ea.createdAt - eb.createdAt;
+                return ea.title.localeCompare(eb.title);
             });
-            
-            entriesCount.textContent = `${filteredEntries.length} registro${filteredEntries.length !== 1 ? 's' : ''}`;
-            
-            if (filteredEntries.length === 0) {
-                const emptyState = document.createElement('div');
-                emptyState.className = 'empty-state';
-                
-                if (state.searchTerm || state.selectedProject !== 'all') {
-                    emptyState.innerHTML = '<i class="fas fa-search"></i><h3>Nenhum resultado encontrado</h3><p>Tente ajustar sua busca ou filtro</p>';
-                } else {
-                    emptyState.innerHTML = '<i class="fas fa-code"></i><h3>Nenhuma query salva ainda</h3><p>Clique em "Nova Query" para adicionar sua primeira query</p>';
-                }
-                
-                entriesList.appendChild(emptyState);
+            entriesCount.textContent = `${filtered.length} registro${filtered.length !== 1 ? 's' : ''}`;
+            if (!filtered.length) {
+                entriesList.innerHTML = `<div class="empty-state"><i class="fas fa-${state.searchTerm || state.selectedProject !== 'all' ? 'search' : 'code'}"></i><h3>${state.searchTerm || state.selectedProject !== 'all' ? 'Nenhum resultado encontrado' : 'Nenhuma query salva ainda'}</h3></div>`;
                 return;
             }
-            
-            filteredEntries.forEach(([entryId, entry]) => {
-                const entryCard = document.createElement('div');
-                entryCard.className = 'entry-card';
-                
-                const createdAt = new Date(entry.createdAt);
-                const formattedDate = createdAt.toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
-                
-                let previewContent = entry.content;
-                if (previewContent.length > 200) {
-                    previewContent = previewContent.substring(0, 200) + '...';
-                }
-                
-                entryCard.innerHTML = `
+            filtered.forEach(([id, entry]) => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.innerHTML = `
                     <div class="entry-header">
                         <div class="entry-title" title="${entry.title}">${entry.title}</div>
                         <div class="entry-type ${entry.type.toLowerCase()}">${entry.type}</div>
                     </div>
-                    <div class="entry-content">
-                        <pre>${previewContent}</pre>
-                    </div>
+                    <div class="entry-content"><pre>${entry.content.substring(0, 200)}${entry.content.length > 200 ? '...' : ''}</pre></div>
                     <div class="entry-footer">
-                        <div class="entry-date">${formattedDate}</div>
+                        <div class="entry-date">${new Date(entry.createdAt).toLocaleDateString('pt-BR')}</div>
                         <div class="entry-actions">
-                            <button class="action-btn" title="Copiar" data-action="copy" data-entry-id="${entryId}">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                            <button class="action-btn" title="Editar" data-action="edit" data-entry-id="${entryId}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn" title="Excluir" data-action="delete" data-entry-id="${entryId}">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <button class="action-btn" data-action="copy" data-entry-id="${id}"><i class="fas fa-copy"></i></button>
+                            <button class="action-btn" data-action="edit" data-entry-id="${id}"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" data-action="delete" data-entry-id="${id}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
-                
-                entriesList.appendChild(entryCard);
+                entriesList.appendChild(card);
             });
-            
-            document.querySelectorAll('[data-action="copy"]').forEach(btn => {
-                btn.addEventListener('click', copyEntryContent);
-            });
-            
-            document.querySelectorAll('[data-action="edit"]').forEach(btn => {
-                btn.addEventListener('click', editEntry);
-            });
-            
-            document.querySelectorAll('[data-action="delete"]').forEach(btn => {
-                btn.addEventListener('click', deleteEntry);
-            });
+            document.querySelectorAll('[data-action="copy"]').forEach(b => b.addEventListener('click', copyEntryContent));
+            document.querySelectorAll('[data-action="edit"]').forEach(b => b.addEventListener('click', editEntry));
+            document.querySelectorAll('[data-action="delete"]').forEach(b => b.addEventListener('click', deleteEntry));
         }
         
         function updateProjectFilter() {
-            const currentValue = projectFilter.value;
+            const val = projectFilter.value;
             projectFilter.innerHTML = '<option value="all">Todos os projetos</option>';
-            
-            Object.entries(state.projects).forEach(([projectId, project]) => {
-                const option = document.createElement('option');
-                option.value = projectId;
-                option.textContent = project.name;
-                projectFilter.appendChild(option);
-            });
-            
-            projectFilter.value = currentValue;
+            Object.entries(state.projects).forEach(([id, p]) => projectFilter.innerHTML += `<option value="${id}">${p.name}</option>`);
+            projectFilter.value = val;
         }
         
         function updateEntryProjectSelect() {
-            const currentValue = document.getElementById('entryProject').value;
+            const val = document.getElementById('entryProject').value;
             document.getElementById('entryProject').innerHTML = '';
-            
-            Object.entries(state.projects).forEach(([projectId, project]) => {
-                const option = document.createElement('option');
-                option.value = projectId;
-                option.textContent = project.name;
-                document.getElementById('entryProject').appendChild(option);
-            });
-            
-            if (currentValue && state.projects[currentValue]) {
-                document.getElementById('entryProject').value = currentValue;
-            } else if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
-                document.getElementById('entryProject').value = state.selectedProject;
-            }
+            Object.entries(state.projects).forEach(([id, p]) => document.getElementById('entryProject').innerHTML += `<option value="${id}">${p.name}</option>`);
+            if (val && state.projects[val]) document.getElementById('entryProject').value = val;
+            else if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) document.getElementById('entryProject').value = state.selectedProject;
         }
         
         function updateEntriesTitle() {
-            if (state.selectedProject === 'all') {
-                entriesTitle.textContent = 'Todas as queries';
-            } else {
-                const project = state.projects[state.selectedProject];
-                entriesTitle.textContent = project ? `Queries: ${project.name}` : 'Queries';
-            }
+            entriesTitle.textContent = state.selectedProject === 'all' ? 'Todas as queries' : `Queries: ${state.projects[state.selectedProject]?.name || 'Projeto'}`;
         }
         
-        function openProjectModal(projectId = null) {
-            state.editingProjectId = projectId;
-            const modal = document.getElementById('projectModal');
-            
-            if (projectId) {
-                document.getElementById('projectModalTitle').textContent = 'Editar Projeto';
-                document.getElementById('projectName').value = state.projects[projectId].name;
-            } else {
-                document.getElementById('projectModalTitle').textContent = 'Novo Projeto';
-                document.getElementById('projectName').value = '';
-            }
-            
-            modal.classList.add('active');
+        function openProjectModal(id = null) {
+            state.editingProjectId = id;
+            document.getElementById('projectModalTitle').textContent = id ? 'Editar Projeto' : 'Novo Projeto';
+            document.getElementById('projectName').value = id ? state.projects[id].name : '';
+            document.getElementById('projectModal').classList.add('active');
             document.getElementById('projectName').focus();
         }
         
-        function closeProjectModalHandler() {
-            document.getElementById('projectModal').classList.remove('active');
-            state.editingProjectId = null;
-        }
+        function closeProjectModalHandler() { document.getElementById('projectModal').classList.remove('active'); state.editingProjectId = null; }
         
         async function saveProject() {
-            const projectName = document.getElementById('projectName').value.trim();
-            
-            if (!projectName) {
-                alert('Por favor, digite um nome para o projeto');
-                return;
-            }
-            
-            const projectData = {
-                name: projectName,
-                createdAt: state.editingProjectId ? state.projects[state.editingProjectId].createdAt : Date.now()
-            };
-            
+            const name = document.getElementById('projectName').value.trim();
+            if (!name) { alert('Digite um nome'); return; }
+            const data = { name, createdAt: state.editingProjectId ? state.projects[state.editingProjectId].createdAt : Date.now() };
             try {
-                if (state.editingProjectId) {
-                    await fetch(`${FIREBASE_URL}/projects/${state.editingProjectId}.json`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(projectData)
-                    });
-                    showStatus(sidebarStatus, 'Projeto atualizado com sucesso', 'success');
-                } else {
-                    await fetch(`${FIREBASE_URL}/projects.json`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(projectData)
-                    });
-                    showStatus(sidebarStatus, 'Projeto criado com sucesso', 'success');
-                }
-                
+                await fetch(`${FIREBASE_URL}/projects/${state.editingProjectId || ''}.json`, {
+                    method: state.editingProjectId ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
                 closeProjectModalHandler();
                 await loadProjects();
-            } catch (error) {
-                console.error('Erro ao salvar projeto:', error);
-                showStatus(sidebarStatus, 'Erro ao salvar projeto', 'error');
-            }
+            } catch (error) { console.error('Erro:', error); }
         }
         
-        function editProject(projectId) {
-            openProjectModal(projectId);
-        }
+        function editProject(id) { openProjectModal(id); }
         
-        function openEntryModal(entryId = null) {
-            state.editingEntryId = entryId;
+        function openEntryModal(id = null) {
+            state.editingEntryId = id;
             updateEntryProjectSelect();
-            
-            if (entryId) {
-                document.getElementById('entryModalTitle').textContent = 'Editar Query';
-                const entry = state.entries[entryId];
-                document.getElementById('entryTitle').value = entry.title;
-                document.getElementById('entryType').value = entry.type;
-                document.getElementById('entryProject').value = entry.projectId;
-                document.getElementById('entryContent').value = entry.content;
+            document.getElementById('entryModalTitle').textContent = id ? 'Editar Query' : 'Nova Query';
+            if (id) {
+                const e = state.entries[id];
+                document.getElementById('entryTitle').value = e.title;
+                document.getElementById('entryType').value = e.type;
+                document.getElementById('entryProject').value = e.projectId;
+                document.getElementById('entryContent').value = e.content;
             } else {
-                document.getElementById('entryModalTitle').textContent = 'Nova Query';
                 document.getElementById('entryTitle').value = '';
                 document.getElementById('entryType').value = 'SQL';
                 document.getElementById('entryContent').value = '';
-                
-                if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
-                    document.getElementById('entryProject').value = state.selectedProject;
-                }
+                if (state.selectedProject !== 'all') document.getElementById('entryProject').value = state.selectedProject;
             }
-            
             document.getElementById('entryModal').classList.add('active');
             document.getElementById('entryTitle').focus();
         }
         
-        function closeEntryModalHandler() {
-            document.getElementById('entryModal').classList.remove('active');
-            state.editingEntryId = null;
-        }
+        function closeEntryModalHandler() { document.getElementById('entryModal').classList.remove('active'); state.editingEntryId = null; }
         
         async function saveEntry() {
             const title = document.getElementById('entryTitle').value.trim();
-            const type = document.getElementById('entryType').value;
             const projectId = document.getElementById('entryProject').value;
             const content = document.getElementById('entryContent').value.trim();
-            
-            if (!title || !projectId || !content) {
-                alert('Preencha todos os campos obrigatórios');
-                return;
-            }
-            
-            const entryData = {
-                title,
-                type,
-                projectId,
-                content,
+            if (!title || !projectId || !content) { alert('Preencha todos os campos'); return; }
+            const data = {
+                title, type: document.getElementById('entryType').value, projectId, content,
                 createdAt: state.editingEntryId ? state.entries[state.editingEntryId].createdAt : Date.now()
             };
-            
             try {
-                if (state.editingEntryId) {
-                    await fetch(`${FIREBASE_URL}/entries/${state.editingEntryId}.json`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(entryData)
-                    });
-                    showStatus(entriesStatus, 'Query atualizada com sucesso', 'success');
-                } else {
-                    await fetch(`${FIREBASE_URL}/entries.json`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(entryData)
-                    });
-                    showStatus(entriesStatus, 'Query criada com sucesso', 'success');
-                }
-                
+                await fetch(`${FIREBASE_URL}/entries/${state.editingEntryId || ''}.json`, {
+                    method: state.editingEntryId ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
                 closeEntryModalHandler();
                 await loadEntries();
                 await loadProjects();
-            } catch (error) {
-                console.error('Erro ao salvar query:', error);
-                showStatus(entriesStatus, 'Erro ao salvar query', 'error');
-            }
+            } catch (error) { console.error('Erro:', error); }
         }
         
         function copyEntryContent(e) {
-            const entryId = e.currentTarget.dataset.entryId;
-            const entry = state.entries[entryId];
-            
-            navigator.clipboard.writeText(entry.content)
-                .then(() => {
-                    const btn = e.currentTarget;
-                    const originalHTML = btn.innerHTML;
-                    btn.innerHTML = '<i class="fas fa-check"></i>';
-                    btn.style.color = '#4CAF50';
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = originalHTML;
-                        btn.style.color = '';
-                    }, 1000);
-                })
-                .catch(err => {
-                    console.error('Erro ao copiar:', err);
-                });
+            const entry = state.entries[e.currentTarget.dataset.entryId];
+            navigator.clipboard.writeText(entry.content).then(() => {
+                const btn = e.currentTarget;
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.color = '#4CAF50';
+                setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1000);
+            });
         }
         
-        function editEntry(e) {
-            const entryId = e.currentTarget.dataset.entryId;
-            openEntryModal(entryId);
-        }
+        function editEntry(e) { openEntryModal(e.currentTarget.dataset.entryId); }
         
         async function deleteEntry(e) {
-            const entryId = e.currentTarget.dataset.entryId;
-            const entry = state.entries[entryId];
-            
-            if (!confirm(`Tem certeza que deseja excluir a query "${entry.title}"?`)) return;
-            
+            const id = e.currentTarget.dataset.entryId;
+            if (!confirm(`Excluir "${state.entries[id].title}"?`)) return;
             try {
-                await fetch(`${FIREBASE_URL}/entries/${entryId}.json`, {
-                    method: 'DELETE'
-                });
-                
-                showStatus(entriesStatus, 'Query excluída com sucesso', 'success');
+                await fetch(`${FIREBASE_URL}/entries/${id}.json`, { method: 'DELETE' });
                 await loadEntries();
                 await loadProjects();
-            } catch (error) {
-                console.error('Erro ao excluir query:', error);
-                showStatus(entriesStatus, 'Erro ao excluir query', 'error');
-            }
+            } catch (error) { console.error('Erro:', error); }
         }
         
-        function showStatus(element, message, type) {
-            element.textContent = message;
-            element.className = `status-message ${type}`;
-            
-            setTimeout(() => {
-                element.className = 'status-message';
-            }, 3000);
+        function closeAllModals() {
+            document.querySelectorAll('.modal, .urgent-modal').forEach(m => m.classList.remove('active'));
+        }
+        
+        function showStatus(el, msg, type) {
+            el.textContent = msg;
+            el.className = `status-message ${type}`;
+            setTimeout(() => el.className = 'status-message', 3000);
         }
     </script>
 </body>
