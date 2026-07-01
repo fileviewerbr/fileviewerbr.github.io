@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeSnippet Manager</title>
+    <title>XLR8</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset e configurações gerais */
@@ -38,15 +38,16 @@
             overflow: hidden;
         }
         
-        /* Sidebar */
+        /* Sidebar esquerda */
         .sidebar {
-            width: 300px;
+            width: 280px;
             background-color: var(--secondary-color);
             padding: 20px;
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
             overflow-y: auto;
+            flex-shrink: 0;
         }
         
         .logo {
@@ -137,9 +138,24 @@
             background-color: var(--light-accent);
         }
         
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+        
         .btn-new-project {
             width: 100%;
             margin-bottom: 20px;
+        }
+        
+        .btn-daily-report {
+            width: 100%;
+            margin-top: auto;
+            background-color: #e67e22;
+        }
+        
+        .btn-daily-report:hover {
+            background-color: #d35400;
         }
         
         /* Área principal */
@@ -148,6 +164,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            min-width: 0;
         }
         
         .top-bar {
@@ -313,6 +330,112 @@
             color: var(--light-accent);
         }
         
+        /* Sidebar direita */
+        .sidebar-right {
+            width: 350px;
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-right h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-accent);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-title h3 {
+            font-size: 16px;
+            color: #ccc;
+        }
+        
+        .activity-list, .case-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .activity-item, .case-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .activity-item:hover, .case-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity-header, .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .activity-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .activity-checkbox input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .activity-title, .case-title {
+            font-weight: 600;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 1;
+        }
+        
+        .activity-description, .case-description {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .activity-actions, .case-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        
+        .activity-completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .empty-right {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
         /* Modal */
         .modal {
             position: fixed;
@@ -393,7 +516,7 @@
         }
         
         textarea.form-control {
-            min-height: 200px;
+            min-height: 150px;
             font-family: 'Courier New', monospace;
             resize: vertical;
         }
@@ -412,6 +535,57 @@
         
         .btn-cancel:hover {
             background-color: #5a6268;
+        }
+        
+        /* Modal de relatório diário */
+        .daily-report-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .date-display {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .daily-activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .daily-activity-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .daily-activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .daily-activity-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .daily-activity-time {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .daily-activity-description {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.5;
         }
         
         /* Status e mensagens */
@@ -446,8 +620,27 @@
             color: var(--border-color);
         }
         
+        .checkbox-done {
+            color: var(--success-color);
+        }
+        
         /* Responsividade */
-        @media (max-width: 1100px) {
+        @media (max-width: 1400px) {
+            .sidebar-right {
+                width: 300px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            body {
+                flex-wrap: wrap;
+            }
+            
+            .sidebar-right {
+                width: 100%;
+                order: 3;
+            }
+            
             .entries-list {
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             }
@@ -465,6 +658,12 @@
                 width: 100%;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
+            }
+            
+            .sidebar-right {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
             }
             
             .project-list {
@@ -506,8 +705,8 @@
     <!-- Sidebar com projetos -->
     <aside class="sidebar">
         <div class="logo">
-            <i class="fas fa-code"></i>
-            <h1>CodeSnippet Manager</h1>
+            <i class="fas fa-bolt"></i>
+            <h1>XLR8</h1>
         </div>
         
         <button class="btn btn-new-project" id="newProjectBtn">
@@ -520,6 +719,10 @@
                 <!-- Projetos serão carregados aqui -->
             </ul>
         </div>
+        
+        <button class="btn btn-daily-report" id="dailyReportBtn">
+            <i class="fas fa-calendar-check"></i> Relatório Diário
+        </button>
         
         <div class="status-message" id="sidebarStatus"></div>
     </aside>
@@ -559,6 +762,33 @@
             </div>
         </div>
     </main>
+    
+    <!-- Sidebar direita com atividades e cases -->
+    <aside class="sidebar-right" id="sidebarRight">
+        <h2>Atividades & Cases</h2>
+        
+        <!-- Seção de Atividades -->
+        <div class="section-title">
+            <h3>Atividades</h3>
+            <button class="btn btn-small" id="newActivityBtn">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <ul class="activity-list" id="activityList">
+            <!-- Atividades serão carregadas aqui -->
+        </ul>
+        
+        <!-- Seção de Cases -->
+        <div class="section-title">
+            <h3>Cases (Philips)</h3>
+            <button class="btn btn-small" id="newCaseBtn">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <ul class="case-list" id="caseList">
+            <!-- Cases serão carregados aqui -->
+        </ul>
+    </aside>
     
     <!-- Modal para criar/editar projetos -->
     <div class="modal" id="projectModal">
@@ -622,21 +852,114 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal para atividades -->
+    <div class="modal" id="activityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="activityModalTitle">Nova Atividade</h2>
+                <button class="close-modal" id="closeActivityModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="activityTitle">Título</label>
+                    <input type="text" class="form-control" id="activityTitle" placeholder="Digite o título da atividade">
+                </div>
+                <div class="form-group">
+                    <label for="activityDescription">Descrição</label>
+                    <textarea class="form-control" id="activityDescription" placeholder="Descreva a atividade..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelActivityBtn">Cancelar</button>
+                <button class="btn" id="saveActivityBtn">Salvar Atividade</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para cases -->
+    <div class="modal" id="caseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="caseModalTitle">Novo Case</h2>
+                <button class="close-modal" id="closeCaseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="caseTitle">Número do Case</label>
+                    <input type="text" class="form-control" id="caseTitle" placeholder="Ex: CASE-12345">
+                </div>
+                <div class="form-group">
+                    <label for="caseDescription">Descrição / Status</label>
+                    <textarea class="form-control" id="caseDescription" placeholder="Ex: Philips respondeu que precisa de mais logs..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelCaseBtn">Cancelar</button>
+                <button class="btn" id="saveCaseBtn">Salvar Case</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para relatório diário -->
+    <div class="modal" id="dailyReportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Relatório Diário</h2>
+                <button class="close-modal" id="closeDailyReportModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="daily-report-navigation">
+                    <button class="btn btn-small" id="prevDayBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="date-display" id="currentDateDisplay"></span>
+                    <button class="btn btn-small" id="nextDayBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dailyActivityTitle">Título da Atividade</label>
+                    <input type="text" class="form-control" id="dailyActivityTitle" placeholder="O que você fez?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dailyActivityDescription">Descrição</label>
+                    <textarea class="form-control" id="dailyActivityDescription" placeholder="Descreva a atividade..."></textarea>
+                </div>
+                
+                <button class="btn" id="addDailyActivityBtn" style="width: 100%; margin-bottom: 20px;">
+                    <i class="fas fa-plus"></i> Adicionar Atividade
+                </button>
+                
+                <h3 style="margin-bottom: 15px;">Atividades do dia</h3>
+                <div class="daily-activities-list" id="dailyActivitiesList">
+                    <!-- Atividades do dia serão carregadas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Configurações do Firebase
         const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/';
-        const API_KEY = 'AIzaSyAmrZslE-wFzXWq5ed0u2c28vTHT2MCL_M'; // Apenas para referência, não usada diretamente em fetch
         
         // Estado da aplicação
         let state = {
             projects: {},
             entries: {},
+            activities: {},
+            cases: {},
+            dailyReports: {},
             selectedProject: 'all',
             searchTerm: '',
             sortBy: 'newest',
             editingProjectId: null,
-            editingEntryId: null
+            editingEntryId: null,
+            editingActivityId: null,
+            editingCaseId: null,
+            currentDailyDate: new Date().toISOString().split('T')[0]
         };
         
         // Elementos do DOM
@@ -649,25 +972,12 @@
         const sortSelect = document.getElementById('sortSelect');
         const newProjectBtn = document.getElementById('newProjectBtn');
         const newEntryBtn = document.getElementById('newEntryBtn');
-        
-        // Elementos do modal de projeto
-        const projectModal = document.getElementById('projectModal');
-        const projectModalTitle = document.getElementById('projectModalTitle');
-        const projectNameInput = document.getElementById('projectName');
-        const closeProjectModal = document.getElementById('closeProjectModal');
-        const cancelProjectBtn = document.getElementById('cancelProjectBtn');
-        const saveProjectBtn = document.getElementById('saveProjectBtn');
-        
-        // Elementos do modal de query
-        const entryModal = document.getElementById('entryModal');
-        const entryModalTitle = document.getElementById('entryModalTitle');
-        const entryTitleInput = document.getElementById('entryTitle');
-        const entryTypeSelect = document.getElementById('entryType');
-        const entryProjectSelect = document.getElementById('entryProject');
-        const entryContentTextarea = document.getElementById('entryContent');
-        const closeEntryModal = document.getElementById('closeEntryModal');
-        const cancelEntryBtn = document.getElementById('cancelEntryBtn');
-        const saveEntryBtn = document.getElementById('saveEntryBtn');
+        const dailyReportBtn = document.getElementById('dailyReportBtn');
+        const sidebarRight = document.getElementById('sidebarRight');
+        const activityList = document.getElementById('activityList');
+        const caseList = document.getElementById('caseList');
+        const newActivityBtn = document.getElementById('newActivityBtn');
+        const newCaseBtn = document.getElementById('newCaseBtn');
         
         // Elementos de status
         const sidebarStatus = document.getElementById('sidebarStatus');
@@ -675,16 +985,18 @@
         
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
-            // Carregar dados do Firebase
-            loadProjects();
-            loadEntries();
-            
-            // Configurar event listeners
+            loadAllData();
             setupEventListeners();
-            
-            // Configurar realtime updates
-            setupRealtimeUpdates();
         });
+        
+        // Carregar todos os dados
+        async function loadAllData() {
+            await loadProjects();
+            await loadEntries();
+            await loadActivities();
+            await loadCases();
+            await loadDailyReports();
+        }
         
         // Configurar event listeners
         function setupEventListeners() {
@@ -699,6 +1011,7 @@
                 state.selectedProject = e.target.value;
                 updateEntriesTitle();
                 renderEntries();
+                renderSidebarRight();
             });
             
             // Ordenação
@@ -707,68 +1020,53 @@
                 renderEntries();
             });
             
-            // Botão novo projeto
-            newProjectBtn.addEventListener('click', () => {
-                openProjectModal();
-            });
+            // Botões principais
+            newProjectBtn.addEventListener('click', () => openProjectModal());
+            newEntryBtn.addEventListener('click', () => openEntryModal());
+            dailyReportBtn.addEventListener('click', openDailyReportModal);
+            newActivityBtn.addEventListener('click', () => openActivityModal());
+            newCaseBtn.addEventListener('click', () => openCaseModal());
             
-            // Botão nova query
-            newEntryBtn.addEventListener('click', () => {
-                openEntryModal();
-            });
+            // Modais
+            document.getElementById('closeProjectModal').addEventListener('click', closeProjectModalHandler);
+            document.getElementById('cancelProjectBtn').addEventListener('click', closeProjectModalHandler);
+            document.getElementById('saveProjectBtn').addEventListener('click', saveProject);
             
-            // Modal de projeto
-            closeProjectModal.addEventListener('click', closeProjectModalHandler);
-            cancelProjectBtn.addEventListener('click', closeProjectModalHandler);
-            saveProjectBtn.addEventListener('click', saveProject);
+            document.getElementById('closeEntryModal').addEventListener('click', closeEntryModalHandler);
+            document.getElementById('cancelEntryBtn').addEventListener('click', closeEntryModalHandler);
+            document.getElementById('saveEntryBtn').addEventListener('click', saveEntry);
             
-            // Modal de query
-            closeEntryModal.addEventListener('click', closeEntryModalHandler);
-            cancelEntryBtn.addEventListener('click', closeEntryModalHandler);
-            saveEntryBtn.addEventListener('click', saveEntry);
+            document.getElementById('closeActivityModal').addEventListener('click', closeActivityModalHandler);
+            document.getElementById('cancelActivityBtn').addEventListener('click', closeActivityModalHandler);
+            document.getElementById('saveActivityBtn').addEventListener('click', saveActivity);
             
-            // Fechar modal ao clicar fora
+            document.getElementById('closeCaseModal').addEventListener('click', closeCaseModalHandler);
+            document.getElementById('cancelCaseBtn').addEventListener('click', closeCaseModalHandler);
+            document.getElementById('saveCaseBtn').addEventListener('click', saveCase);
+            
+            document.getElementById('closeDailyReportModal').addEventListener('click', closeDailyReportModalHandler);
+            document.getElementById('prevDayBtn').addEventListener('click', () => changeDailyDate(-1));
+            document.getElementById('nextDayBtn').addEventListener('click', () => changeDailyDate(1));
+            document.getElementById('addDailyActivityBtn').addEventListener('click', addDailyActivity);
+            
+            // Fechar modais ao clicar fora
             window.addEventListener('click', (e) => {
-                if (e.target === projectModal) {
-                    closeProjectModalHandler();
-                }
-                if (e.target === entryModal) {
-                    closeEntryModalHandler();
+                if (e.target.classList.contains('modal')) {
+                    closeAllModals();
                 }
             });
         }
         
-        // Configurar atualizações em tempo real
-        function setupRealtimeUpdates() {
-            // Ouvir mudanças nos projetos
-            fetch(`${FIREBASE_URL}/projects.json`)
-                .then(response => response.json())
-                .then(data => {
-                    // Configurar listener para mudanças (simulado com polling devido a limitações do fetch)
-                    setInterval(() => {
-                        loadProjects();
-                        loadEntries();
-                    }, 5000); // Atualizar a cada 5 segundos
-                });
-        }
-        
-        // Carregar projetos do Firebase
+        // Carregar projetos
         async function loadProjects() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/projects.json`);
                 const data = await response.json();
+                state.projects = data || {};
+                renderProjects();
+                updateProjectFilter();
+                updateEntryProjectSelect();
                 
-                if (data) {
-                    state.projects = data;
-                    renderProjects();
-                    updateProjectFilter();
-                    updateEntryProjectSelect();
-                } else {
-                    state.projects = {};
-                    renderProjects();
-                }
-                
-                // Criar um projeto padrão se não existir nenhum
                 if (Object.keys(state.projects).length === 0) {
                     await createDefaultProject();
                 }
@@ -778,18 +1076,12 @@
             }
         }
         
-        // Carregar queries do Firebase
+        // Carregar queries
         async function loadEntries() {
             try {
                 const response = await fetch(`${FIREBASE_URL}/entries.json`);
                 const data = await response.json();
-                
-                if (data) {
-                    state.entries = data;
-                } else {
-                    state.entries = {};
-                }
-                
+                state.entries = data || {};
                 renderEntries();
             } catch (error) {
                 console.error('Erro ao carregar queries:', error);
@@ -797,7 +1089,42 @@
             }
         }
         
-        // Criar um projeto padrão
+        // Carregar atividades
+        async function loadActivities() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/activities.json`);
+                const data = await response.json();
+                state.activities = data || {};
+                renderSidebarRight();
+            } catch (error) {
+                console.error('Erro ao carregar atividades:', error);
+            }
+        }
+        
+        // Carregar cases
+        async function loadCases() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/cases.json`);
+                const data = await response.json();
+                state.cases = data || {};
+                renderSidebarRight();
+            } catch (error) {
+                console.error('Erro ao carregar cases:', error);
+            }
+        }
+        
+        // Carregar relatórios diários
+        async function loadDailyReports() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/dailyReports.json`);
+                const data = await response.json();
+                state.dailyReports = data || {};
+            } catch (error) {
+                console.error('Erro ao carregar relatórios:', error);
+            }
+        }
+        
+        // Criar projeto padrão
         async function createDefaultProject() {
             const defaultProject = {
                 name: "Projeto Principal",
@@ -805,30 +1132,22 @@
             };
             
             try {
-                const response = await fetch(`${FIREBASE_URL}/projects.json`, {
+                await fetch(`${FIREBASE_URL}/projects.json`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(defaultProject)
                 });
-                
-                const data = await response.json();
-                
-                // Recarregar projetos após criar o padrão
                 await loadProjects();
-                
                 showStatus(sidebarStatus, 'Projeto padrão criado com sucesso', 'success');
             } catch (error) {
                 console.error('Erro ao criar projeto padrão:', error);
             }
         }
         
-        // Renderizar lista de projetos
+        // Renderizar projetos
         function renderProjects() {
             projectList.innerHTML = '';
             
-            // Adicionar item "Todos os projetos"
             const allProjectsItem = document.createElement('li');
             allProjectsItem.className = `project-item ${state.selectedProject === 'all' ? 'active' : ''}`;
             allProjectsItem.dataset.projectId = 'all';
@@ -836,14 +1155,10 @@
                 <span class="project-name">Todos os projetos</span>
                 <span class="project-count">${Object.keys(state.entries).length}</span>
             `;
-            allProjectsItem.addEventListener('click', () => {
-                selectProject('all');
-            });
+            allProjectsItem.addEventListener('click', () => selectProject('all'));
             projectList.appendChild(allProjectsItem);
             
-            // Adicionar cada projeto
             Object.entries(state.projects).forEach(([projectId, project]) => {
-                // Contar entradas para este projeto
                 const entryCount = Object.values(state.entries).filter(entry => entry.projectId === projectId).length;
                 
                 const projectItem = document.createElement('li');
@@ -853,17 +1168,8 @@
                     <span class="project-name">${project.name}</span>
                     <span class="project-count">${entryCount}</span>
                 `;
-                
-                // Adicionar evento de clique
-                projectItem.addEventListener('click', () => {
-                    selectProject(projectId);
-                });
-                
-                // Adicionar evento de clique duplo para editar
-                projectItem.addEventListener('dblclick', () => {
-                    editProject(projectId);
-                });
-                
+                projectItem.addEventListener('click', () => selectProject(projectId));
+                projectItem.addEventListener('dblclick', () => editProject(projectId));
                 projectList.appendChild(projectItem);
             });
             
@@ -873,38 +1179,487 @@
         // Selecionar projeto
         function selectProject(projectId) {
             state.selectedProject = projectId;
-            
-            // Atualizar filtro
             projectFilter.value = projectId;
-            
-            // Atualizar interface
             renderProjects();
             renderEntries();
+            renderSidebarRight();
         }
         
-        // Atualizar título das entradas
-        function updateEntriesTitle() {
-            if (state.selectedProject === 'all') {
-                entriesTitle.textContent = 'Todas as queries';
-            } else {
-                const project = state.projects[state.selectedProject];
-                entriesTitle.textContent = project ? `Queries: ${project.name}` : 'Queries';
+        // Renderizar sidebar direita
+        function renderSidebarRight() {
+            renderActivities();
+            renderCases();
+        }
+        
+        // Renderizar atividades
+        function renderActivities() {
+            activityList.innerHTML = '';
+            
+            const filteredActivities = Object.entries(state.activities).filter(([_, activity]) => {
+                if (state.selectedProject === 'all') return true;
+                return activity.projectId === state.selectedProject;
+            });
+            
+            if (filteredActivities.length === 0) {
+                activityList.innerHTML = '<div class="empty-right">Nenhuma atividade</div>';
+                return;
+            }
+            
+            filteredActivities.forEach(([activityId, activity]) => {
+                const activityItem = document.createElement('li');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-header">
+                        <div class="activity-checkbox">
+                            <input type="checkbox" ${activity.completed ? 'checked' : ''} data-activity-id="${activityId}">
+                            <span class="activity-title ${activity.completed ? 'activity-completed' : ''}">${activity.title}</span>
+                        </div>
+                        <div class="activity-actions">
+                            <button class="action-btn edit-activity" data-activity-id="${activityId}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-activity" data-activity-id="${activityId}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${activity.description ? `<div class="activity-description">${activity.description}</div>` : ''}
+                `;
+                
+                activityList.appendChild(activityItem);
+            });
+            
+            // Event listeners para atividades
+            document.querySelectorAll('.activity-checkbox input').forEach(checkbox => {
+                checkbox.addEventListener('change', toggleActivityComplete);
+            });
+            
+            document.querySelectorAll('.edit-activity').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const activityId = btn.dataset.activityId;
+                    openActivityModal(activityId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-activity').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const activityId = btn.dataset.activityId;
+                    deleteActivity(activityId);
+                });
+            });
+        }
+        
+        // Renderizar cases
+        function renderCases() {
+            caseList.innerHTML = '';
+            
+            const filteredCases = Object.entries(state.cases).filter(([_, caseItem]) => {
+                if (state.selectedProject === 'all') return true;
+                return caseItem.projectId === state.selectedProject;
+            });
+            
+            if (filteredCases.length === 0) {
+                caseList.innerHTML = '<div class="empty-right">Nenhum case</div>';
+                return;
+            }
+            
+            filteredCases.forEach(([caseId, caseItem]) => {
+                const caseElement = document.createElement('li');
+                caseElement.className = 'case-item';
+                caseElement.innerHTML = `
+                    <div class="case-header">
+                        <span class="case-title">${caseItem.title}</span>
+                        <div class="case-actions">
+                            <button class="action-btn edit-case" data-case-id="${caseId}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-case" data-case-id="${caseId}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${caseItem.description ? `<div class="case-description">${caseItem.description}</div>` : ''}
+                `;
+                
+                caseElement.addEventListener('click', () => openCaseDetailModal(caseItem));
+                caseList.appendChild(caseElement);
+            });
+            
+            // Event listeners para cases
+            document.querySelectorAll('.edit-case').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const caseId = btn.dataset.caseId;
+                    openCaseModal(caseId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-case').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const caseId = btn.dataset.caseId;
+                    deleteCase(caseId);
+                });
+            });
+        }
+        
+        // Alternar checkbox de atividade
+        async function toggleActivityComplete(e) {
+            const activityId = e.target.dataset.activityId;
+            const activity = state.activities[activityId];
+            
+            if (!activity) return;
+            
+            activity.completed = e.target.checked;
+            
+            try {
+                await fetch(`${FIREBASE_URL}/activities/${activityId}.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed: activity.completed })
+                });
+                
+                await loadActivities();
+            } catch (error) {
+                console.error('Erro ao atualizar atividade:', error);
             }
         }
         
-        // Renderizar lista de queries
+        // Abrir modal de atividade
+        function openActivityModal(activityId = null) {
+            if (!state.selectedProject || state.selectedProject === 'all') {
+                alert('Selecione um projeto primeiro');
+                return;
+            }
+            
+            state.editingActivityId = activityId;
+            const modal = document.getElementById('activityModal');
+            const title = document.getElementById('activityModalTitle');
+            
+            if (activityId) {
+                const activity = state.activities[activityId];
+                title.textContent = 'Editar Atividade';
+                document.getElementById('activityTitle').value = activity.title;
+                document.getElementById('activityDescription').value = activity.description || '';
+            } else {
+                title.textContent = 'Nova Atividade';
+                document.getElementById('activityTitle').value = '';
+                document.getElementById('activityDescription').value = '';
+            }
+            
+            modal.classList.add('active');
+            document.getElementById('activityTitle').focus();
+        }
+        
+        // Fechar modal de atividade
+        function closeActivityModalHandler() {
+            document.getElementById('activityModal').classList.remove('active');
+            state.editingActivityId = null;
+        }
+        
+        // Salvar atividade
+        async function saveActivity() {
+            const title = document.getElementById('activityTitle').value.trim();
+            const description = document.getElementById('activityDescription').value.trim();
+            
+            if (!title) {
+                alert('Digite um título para a atividade');
+                return;
+            }
+            
+            const activityData = {
+                title,
+                description,
+                projectId: state.selectedProject,
+                completed: state.editingActivityId ? state.activities[state.editingActivityId].completed : false,
+                createdAt: state.editingActivityId ? state.activities[state.editingActivityId].createdAt : Date.now()
+            };
+            
+            try {
+                if (state.editingActivityId) {
+                    await fetch(`${FIREBASE_URL}/activities/${state.editingActivityId}.json`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(activityData)
+                    });
+                } else {
+                    await fetch(`${FIREBASE_URL}/activities.json`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(activityData)
+                    });
+                }
+                
+                closeActivityModalHandler();
+                await loadActivities();
+            } catch (error) {
+                console.error('Erro ao salvar atividade:', error);
+            }
+        }
+        
+        // Deletar atividade
+        async function deleteActivity(activityId) {
+            if (!confirm('Tem certeza que deseja excluir esta atividade?')) return;
+            
+            try {
+                await fetch(`${FIREBASE_URL}/activities/${activityId}.json`, {
+                    method: 'DELETE'
+                });
+                await loadActivities();
+            } catch (error) {
+                console.error('Erro ao deletar atividade:', error);
+            }
+        }
+        
+        // Abrir modal de case
+        function openCaseModal(caseId = null) {
+            if (!state.selectedProject || state.selectedProject === 'all') {
+                alert('Selecione um projeto primeiro');
+                return;
+            }
+            
+            state.editingCaseId = caseId;
+            const modal = document.getElementById('caseModal');
+            const title = document.getElementById('caseModalTitle');
+            
+            if (caseId) {
+                const caseItem = state.cases[caseId];
+                title.textContent = 'Editar Case';
+                document.getElementById('caseTitle').value = caseItem.title;
+                document.getElementById('caseDescription').value = caseItem.description || '';
+            } else {
+                title.textContent = 'Novo Case';
+                document.getElementById('caseTitle').value = '';
+                document.getElementById('caseDescription').value = '';
+            }
+            
+            modal.classList.add('active');
+            document.getElementById('caseTitle').focus();
+        }
+        
+        // Abrir modal de detalhes do case
+        function openCaseDetailModal(caseItem) {
+            const modal = document.getElementById('caseModal');
+            document.getElementById('caseModalTitle').textContent = 'Detalhes do Case';
+            document.getElementById('caseTitle').value = caseItem.title;
+            document.getElementById('caseDescription').value = caseItem.description || '';
+            modal.classList.add('active');
+        }
+        
+        // Fechar modal de case
+        function closeCaseModalHandler() {
+            document.getElementById('caseModal').classList.remove('active');
+            state.editingCaseId = null;
+        }
+        
+        // Salvar case
+        async function saveCase() {
+            const title = document.getElementById('caseTitle').value.trim();
+            const description = document.getElementById('caseDescription').value.trim();
+            
+            if (!title) {
+                alert('Digite o número do case');
+                return;
+            }
+            
+            const caseData = {
+                title,
+                description,
+                projectId: state.selectedProject,
+                createdAt: state.editingCaseId ? state.cases[state.editingCaseId].createdAt : Date.now()
+            };
+            
+            try {
+                if (state.editingCaseId) {
+                    await fetch(`${FIREBASE_URL}/cases/${state.editingCaseId}.json`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(caseData)
+                    });
+                } else {
+                    await fetch(`${FIREBASE_URL}/cases.json`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(caseData)
+                    });
+                }
+                
+                closeCaseModalHandler();
+                await loadCases();
+            } catch (error) {
+                console.error('Erro ao salvar case:', error);
+            }
+        }
+        
+        // Deletar case
+        async function deleteCase(caseId) {
+            if (!confirm('Tem certeza que deseja excluir este case?')) return;
+            
+            try {
+                await fetch(`${FIREBASE_URL}/cases/${caseId}.json`, {
+                    method: 'DELETE'
+                });
+                await loadCases();
+            } catch (error) {
+                console.error('Erro ao deletar case:', error);
+            }
+        }
+        
+        // Abrir modal de relatório diário
+        function openDailyReportModal() {
+            const modal = document.getElementById('dailyReportModal');
+            updateDailyReportDisplay();
+            modal.classList.add('active');
+        }
+        
+        // Fechar modal de relatório diário
+        function closeDailyReportModalHandler() {
+            document.getElementById('dailyReportModal').classList.remove('active');
+        }
+        
+        // Mudar data do relatório diário
+        function changeDailyDate(days) {
+            const currentDate = new Date(state.currentDailyDate);
+            currentDate.setDate(currentDate.getDate() + days);
+            state.currentDailyDate = currentDate.toISOString().split('T')[0];
+            updateDailyReportDisplay();
+        }
+        
+        // Atualizar exibição do relatório diário
+        function updateDailyReportDisplay() {
+            document.getElementById('currentDateDisplay').textContent = formatDate(state.currentDailyDate);
+            renderDailyActivities();
+        }
+        
+        // Formatar data
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+        
+        // Renderizar atividades diárias
+        function renderDailyActivities() {
+            const activitiesList = document.getElementById('dailyActivitiesList');
+            activitiesList.innerHTML = '';
+            
+            const dailyReport = state.dailyReports[state.currentDailyDate];
+            
+            if (!dailyReport || !dailyReport.activities || Object.keys(dailyReport.activities).length === 0) {
+                activitiesList.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-day"></i><h3>Nenhuma atividade registrada</h3></div>';
+                return;
+            }
+            
+            Object.entries(dailyReport.activities).forEach(([activityId, activity]) => {
+                const activityCard = document.createElement('div');
+                activityCard.className = 'daily-activity-card';
+                
+                const time = new Date(activity.createdAt).toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                activityCard.innerHTML = `
+                    <div class="daily-activity-header">
+                        <span class="daily-activity-title">${activity.title}</span>
+                        <div>
+                            <span class="daily-activity-time">${time}</span>
+                            <button class="action-btn delete-daily-activity" data-date="${state.currentDailyDate}" data-activity-id="${activityId}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ${activity.description ? `<div class="daily-activity-description">${activity.description}</div>` : ''}
+                `;
+                
+                activitiesList.appendChild(activityCard);
+            });
+            
+            // Event listeners para deletar atividades diárias
+            document.querySelectorAll('.delete-daily-activity').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const date = btn.dataset.date;
+                    const activityId = btn.dataset.activityId;
+                    await deleteDailyActivity(date, activityId);
+                });
+            });
+        }
+        
+        // Adicionar atividade diária
+        async function addDailyActivity() {
+            const title = document.getElementById('dailyActivityTitle').value.trim();
+            const description = document.getElementById('dailyActivityDescription').value.trim();
+            
+            if (!title) {
+                alert('Digite um título para a atividade');
+                return;
+            }
+            
+            const activityData = {
+                title,
+                description,
+                createdAt: Date.now()
+            };
+            
+            try {
+                await fetch(`${FIREBASE_URL}/dailyReports/${state.currentDailyDate}/activities.json`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(activityData)
+                });
+                
+                document.getElementById('dailyActivityTitle').value = '';
+                document.getElementById('dailyActivityDescription').value = '';
+                
+                await loadDailyReports();
+                renderDailyActivities();
+            } catch (error) {
+                console.error('Erro ao adicionar atividade diária:', error);
+            }
+        }
+        
+        // Deletar atividade diária
+        async function deleteDailyActivity(date, activityId) {
+            if (!confirm('Tem certeza que deseja excluir esta atividade?')) return;
+            
+            try {
+                await fetch(`${FIREBASE_URL}/dailyReports/${date}/activities/${activityId}.json`, {
+                    method: 'DELETE'
+                });
+                
+                await loadDailyReports();
+                renderDailyActivities();
+            } catch (error) {
+                console.error('Erro ao deletar atividade diária:', error);
+            }
+        }
+        
+        // Fechar todos os modais
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+        
+        // Restante das funções existentes (renderEntries, saveEntry, etc.)
+        // ... (mantenha as funções existentes do código original)
+        
         function renderEntries() {
             entriesList.innerHTML = '';
             
-            // Filtrar entradas
             let filteredEntries = Object.entries(state.entries);
             
-            // Filtrar por projeto selecionado
             if (state.selectedProject !== 'all') {
                 filteredEntries = filteredEntries.filter(([_, entry]) => entry.projectId === state.selectedProject);
             }
             
-            // Filtrar por termo de busca
             if (state.searchTerm) {
                 filteredEntries = filteredEntries.filter(([_, entry]) => {
                     return entry.title.toLowerCase().includes(state.searchTerm) || 
@@ -912,55 +1667,38 @@
                 });
             }
             
-            // Ordenar entradas
             filteredEntries.sort((a, b) => {
                 const entryA = a[1];
                 const entryB = b[1];
                 
                 switch (state.sortBy) {
-                    case 'newest':
-                        return entryB.createdAt - entryA.createdAt;
-                    case 'oldest':
-                        return entryA.createdAt - entryB.createdAt;
-                    case 'title':
-                        return entryA.title.localeCompare(entryB.title);
-                    default:
-                        return entryB.createdAt - entryA.createdAt;
+                    case 'newest': return entryB.createdAt - entryA.createdAt;
+                    case 'oldest': return entryA.createdAt - entryB.createdAt;
+                    case 'title': return entryA.title.localeCompare(entryB.title);
+                    default: return entryB.createdAt - entryA.createdAt;
                 }
             });
             
-            // Atualizar contador
             entriesCount.textContent = `${filteredEntries.length} registro${filteredEntries.length !== 1 ? 's' : ''}`;
             
-            // Mostrar mensagem se não houver resultados
             if (filteredEntries.length === 0) {
                 const emptyState = document.createElement('div');
                 emptyState.className = 'empty-state';
                 
                 if (state.searchTerm || state.selectedProject !== 'all') {
-                    emptyState.innerHTML = `
-                        <i class="fas fa-search"></i>
-                        <h3>Nenhum resultado encontrado</h3>
-                        <p>Tente ajustar sua busca ou filtro</p>
-                    `;
+                    emptyState.innerHTML = '<i class="fas fa-search"></i><h3>Nenhum resultado encontrado</h3><p>Tente ajustar sua busca ou filtro</p>';
                 } else {
-                    emptyState.innerHTML = `
-                        <i class="fas fa-code"></i>
-                        <h3>Nenhuma query salva ainda</h3>
-                        <p>Clique em "Nova Query" para adicionar sua primeira query</p>
-                    `;
+                    emptyState.innerHTML = '<i class="fas fa-code"></i><h3>Nenhuma query salva ainda</h3><p>Clique em "Nova Query" para adicionar sua primeira query</p>';
                 }
                 
                 entriesList.appendChild(emptyState);
                 return;
             }
             
-            // Renderizar cada entrada
             filteredEntries.forEach(([entryId, entry]) => {
                 const entryCard = document.createElement('div');
                 entryCard.className = 'entry-card';
                 
-                // Formatar data
                 const createdAt = new Date(entry.createdAt);
                 const formattedDate = createdAt.toLocaleDateString('pt-BR', {
                     day: '2-digit',
@@ -968,21 +1706,9 @@
                     year: 'numeric'
                 });
                 
-                // Formatar conteúdo para exibição (limitar tamanho)
                 let previewContent = entry.content;
                 if (previewContent.length > 200) {
                     previewContent = previewContent.substring(0, 200) + '...';
-                }
-                
-                // Adicionar destaque de sintaxe básico
-                let formattedContent = previewContent;
-                if (entry.type === 'SQL') {
-                    // Destacar palavras-chave SQL
-                    const sqlKeywords = ['SELECT', 'FROM', 'WHERE', 'INSERT', 'UPDATE', 'DELETE', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'GROUP BY', 'ORDER BY', 'HAVING'];
-                    sqlKeywords.forEach(keyword => {
-                        const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-                        formattedContent = formattedContent.replace(regex, `<span style="color: #4dabf7;">${keyword}</span>`);
-                    });
                 }
                 
                 entryCard.innerHTML = `
@@ -991,7 +1717,7 @@
                         <div class="entry-type ${entry.type.toLowerCase()}">${entry.type}</div>
                     </div>
                     <div class="entry-content">
-                        <pre>${formattedContent}</pre>
+                        <pre>${previewContent}</pre>
                     </div>
                     <div class="entry-footer">
                         <div class="entry-date">${formattedDate}</div>
@@ -1012,7 +1738,6 @@
                 entriesList.appendChild(entryCard);
             });
             
-            // Adicionar eventos aos botões de ação
             document.querySelectorAll('[data-action="copy"]').forEach(btn => {
                 btn.addEventListener('click', copyEntryContent);
             });
@@ -1026,15 +1751,10 @@
             });
         }
         
-        // Atualizar filtro de projetos
         function updateProjectFilter() {
-            // Salvar valor atual
             const currentValue = projectFilter.value;
-            
-            // Limpar opções (exceto "Todos os projetos")
             projectFilter.innerHTML = '<option value="all">Todos os projetos</option>';
             
-            // Adicionar cada projeto
             Object.entries(state.projects).forEach(([projectId, project]) => {
                 const option = document.createElement('option');
                 option.value = projectId;
@@ -1042,67 +1762,62 @@
                 projectFilter.appendChild(option);
             });
             
-            // Restaurar valor selecionado
             projectFilter.value = currentValue;
         }
         
-        // Atualizar select de projetos no modal de query
         function updateEntryProjectSelect() {
-            // Salvar valor atual
-            const currentValue = entryProjectSelect.value;
+            const currentValue = document.getElementById('entryProject').value;
+            document.getElementById('entryProject').innerHTML = '';
             
-            // Limpar opções
-            entryProjectSelect.innerHTML = '';
-            
-            // Adicionar cada projeto
             Object.entries(state.projects).forEach(([projectId, project]) => {
                 const option = document.createElement('option');
                 option.value = projectId;
                 option.textContent = project.name;
-                entryProjectSelect.appendChild(option);
+                document.getElementById('entryProject').appendChild(option);
             });
             
-            // Restaurar valor selecionado
             if (currentValue && state.projects[currentValue]) {
-                entryProjectSelect.value = currentValue;
+                document.getElementById('entryProject').value = currentValue;
             } else if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
-                entryProjectSelect.value = state.selectedProject;
+                document.getElementById('entryProject').value = state.selectedProject;
             }
         }
         
-        // Abrir modal de projeto
+        function updateEntriesTitle() {
+            if (state.selectedProject === 'all') {
+                entriesTitle.textContent = 'Todas as queries';
+            } else {
+                const project = state.projects[state.selectedProject];
+                entriesTitle.textContent = project ? `Queries: ${project.name}` : 'Queries';
+            }
+        }
+        
         function openProjectModal(projectId = null) {
             state.editingProjectId = projectId;
+            const modal = document.getElementById('projectModal');
             
             if (projectId) {
-                // Modo edição
-                projectModalTitle.textContent = 'Editar Projeto';
-                const project = state.projects[projectId];
-                projectNameInput.value = project.name;
+                document.getElementById('projectModalTitle').textContent = 'Editar Projeto';
+                document.getElementById('projectName').value = state.projects[projectId].name;
             } else {
-                // Modo criação
-                projectModalTitle.textContent = 'Novo Projeto';
-                projectNameInput.value = '';
+                document.getElementById('projectModalTitle').textContent = 'Novo Projeto';
+                document.getElementById('projectName').value = '';
             }
             
-            projectModal.classList.add('active');
-            projectNameInput.focus();
+            modal.classList.add('active');
+            document.getElementById('projectName').focus();
         }
         
-        // Fechar modal de projeto
         function closeProjectModalHandler() {
-            projectModal.classList.remove('active');
+            document.getElementById('projectModal').classList.remove('active');
             state.editingProjectId = null;
-            projectNameInput.value = '';
         }
         
-        // Salvar projeto
         async function saveProject() {
-            const projectName = projectNameInput.value.trim();
+            const projectName = document.getElementById('projectName').value.trim();
             
             if (!projectName) {
                 alert('Por favor, digite um nome para o projeto');
-                projectNameInput.focus();
                 return;
             }
             
@@ -1112,108 +1827,73 @@
             };
             
             try {
-                let response;
-                
                 if (state.editingProjectId) {
-                    // Atualizar projeto existente
-                    response = await fetch(`${FIREBASE_URL}/projects/${state.editingProjectId}.json`, {
+                    await fetch(`${FIREBASE_URL}/projects/${state.editingProjectId}.json`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(projectData)
                     });
-                    
                     showStatus(sidebarStatus, 'Projeto atualizado com sucesso', 'success');
                 } else {
-                    // Criar novo projeto
-                    response = await fetch(`${FIREBASE_URL}/projects.json`, {
+                    await fetch(`${FIREBASE_URL}/projects.json`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(projectData)
                     });
-                    
                     showStatus(sidebarStatus, 'Projeto criado com sucesso', 'success');
                 }
                 
-                // Fechar modal e recarregar projetos
                 closeProjectModalHandler();
                 await loadProjects();
-                
             } catch (error) {
                 console.error('Erro ao salvar projeto:', error);
                 showStatus(sidebarStatus, 'Erro ao salvar projeto', 'error');
             }
         }
         
-        // Editar projeto (com duplo clique)
         function editProject(projectId) {
             openProjectModal(projectId);
         }
         
-        // Abrir modal de query
         function openEntryModal(entryId = null) {
             state.editingEntryId = entryId;
-            
-            // Atualizar lista de projetos no select
             updateEntryProjectSelect();
             
             if (entryId) {
-                // Modo edição
-                entryModalTitle.textContent = 'Editar Query';
+                document.getElementById('entryModalTitle').textContent = 'Editar Query';
                 const entry = state.entries[entryId];
-                entryTitleInput.value = entry.title;
-                entryTypeSelect.value = entry.type;
-                entryProjectSelect.value = entry.projectId;
-                entryContentTextarea.value = entry.content;
+                document.getElementById('entryTitle').value = entry.title;
+                document.getElementById('entryType').value = entry.type;
+                document.getElementById('entryProject').value = entry.projectId;
+                document.getElementById('entryContent').value = entry.content;
             } else {
-                // Modo criação
-                entryModalTitle.textContent = 'Nova Query';
-                entryTitleInput.value = '';
-                entryTypeSelect.value = 'SQL';
-                entryContentTextarea.value = '';
+                document.getElementById('entryModalTitle').textContent = 'Nova Query';
+                document.getElementById('entryTitle').value = '';
+                document.getElementById('entryType').value = 'SQL';
+                document.getElementById('entryContent').value = '';
                 
-                // Selecionar o projeto atual no modal
                 if (state.selectedProject !== 'all' && state.projects[state.selectedProject]) {
-                    entryProjectSelect.value = state.selectedProject;
+                    document.getElementById('entryProject').value = state.selectedProject;
                 }
             }
             
-            entryModal.classList.add('active');
-            entryTitleInput.focus();
+            document.getElementById('entryModal').classList.add('active');
+            document.getElementById('entryTitle').focus();
         }
         
-        // Fechar modal de query
         function closeEntryModalHandler() {
-            entryModal.classList.remove('active');
+            document.getElementById('entryModal').classList.remove('active');
             state.editingEntryId = null;
-            entryTitleInput.value = '';
-            entryContentTextarea.value = '';
         }
         
-        // Salvar query
         async function saveEntry() {
-            const title = entryTitleInput.value.trim();
-            const type = entryTypeSelect.value;
-            const projectId = entryProjectSelect.value;
-            const content = entryContentTextarea.value.trim();
+            const title = document.getElementById('entryTitle').value.trim();
+            const type = document.getElementById('entryType').value;
+            const projectId = document.getElementById('entryProject').value;
+            const content = document.getElementById('entryContent').value.trim();
             
-            if (!title) {
-                alert('Por favor, digite um título para a query');
-                entryTitleInput.focus();
-                return;
-            }
-            
-            if (!projectId) {
-                alert('Por favor, selecione um projeto');
-                return;
-            }
-            
-            if (!content) {
-                alert('Por favor, digite o conteúdo da query');
-                entryContentTextarea.focus();
+            if (!title || !projectId || !content) {
+                alert('Preencha todos os campos obrigatórios');
                 return;
             }
             
@@ -1226,51 +1906,37 @@
             };
             
             try {
-                let response;
-                
                 if (state.editingEntryId) {
-                    // Atualizar entrada existente
-                    response = await fetch(`${FIREBASE_URL}/entries/${state.editingEntryId}.json`, {
+                    await fetch(`${FIREBASE_URL}/entries/${state.editingEntryId}.json`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(entryData)
                     });
-                    
                     showStatus(entriesStatus, 'Query atualizada com sucesso', 'success');
                 } else {
-                    // Criar nova entrada
-                    response = await fetch(`${FIREBASE_URL}/entries.json`, {
+                    await fetch(`${FIREBASE_URL}/entries.json`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(entryData)
                     });
-                    
                     showStatus(entriesStatus, 'Query criada com sucesso', 'success');
                 }
                 
-                // Fechar modal e recarregar entradas
                 closeEntryModalHandler();
                 await loadEntries();
-                await loadProjects(); // Para atualizar contadores
-                
+                await loadProjects();
             } catch (error) {
                 console.error('Erro ao salvar query:', error);
                 showStatus(entriesStatus, 'Erro ao salvar query', 'error');
             }
         }
         
-        // Copiar conteúdo da query
         function copyEntryContent(e) {
             const entryId = e.currentTarget.dataset.entryId;
             const entry = state.entries[entryId];
             
             navigator.clipboard.writeText(entry.content)
                 .then(() => {
-                    // Feedback visual
                     const btn = e.currentTarget;
                     const originalHTML = btn.innerHTML;
                     btn.innerHTML = '<i class="fas fa-check"></i>';
@@ -1283,24 +1949,19 @@
                 })
                 .catch(err => {
                     console.error('Erro ao copiar:', err);
-                    alert('Erro ao copiar para a área de transferência');
                 });
         }
         
-        // Editar query
         function editEntry(e) {
             const entryId = e.currentTarget.dataset.entryId;
             openEntryModal(entryId);
         }
         
-        // Excluir query
         async function deleteEntry(e) {
             const entryId = e.currentTarget.dataset.entryId;
             const entry = state.entries[entryId];
             
-            if (!confirm(`Tem certeza que deseja excluir a query "${entry.title}"?`)) {
-                return;
-            }
+            if (!confirm(`Tem certeza que deseja excluir a query "${entry.title}"?`)) return;
             
             try {
                 await fetch(`${FIREBASE_URL}/entries/${entryId}.json`, {
@@ -1308,23 +1969,18 @@
                 });
                 
                 showStatus(entriesStatus, 'Query excluída com sucesso', 'success');
-                
-                // Recarregar dados
                 await loadEntries();
-                await loadProjects(); // Para atualizar contadores
-                
+                await loadProjects();
             } catch (error) {
                 console.error('Erro ao excluir query:', error);
                 showStatus(entriesStatus, 'Erro ao excluir query', 'error');
             }
         }
         
-        // Mostrar mensagem de status
         function showStatus(element, message, type) {
             element.textContent = message;
             element.className = `status-message ${type}`;
             
-            // Remover após 3 segundos
             setTimeout(() => {
                 element.className = 'status-message';
             }, 3000);
