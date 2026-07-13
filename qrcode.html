@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de QR Codes</title>
+    <title>Gerador de QR Codes - WhatsApp</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -36,6 +36,11 @@
             margin-bottom: 30px;
             font-size: 2em;
             font-weight: 600;
+        }
+
+        .whatsapp-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
         }
 
         .input-group {
@@ -62,8 +67,66 @@
         }
 
         input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .phone-preview {
+            background: #f0fdf4;
+            border: 2px solid #25D366;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 25px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .phone-preview.show {
+            display: block;
+        }
+
+        .phone-preview-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phone-preview-icon {
+            font-size: 2em;
+        }
+
+        .phone-preview-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .phone-preview-number {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #075e54;
+            margin-bottom: 5px;
+        }
+
+        .phone-preview-link {
+            font-size: 0.9em;
+            color: #25D366;
+            word-break: break-all;
+        }
+
+        .copy-link-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .copy-link-btn:hover {
+            background: #128C7E;
         }
 
         .qr-container {
@@ -119,13 +182,13 @@
         }
 
         .btn-generate {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
         }
 
         .btn-generate:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
         }
 
         .btn-generate:disabled {
@@ -155,34 +218,90 @@
             display: none;
         }
 
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
         footer {
             margin-top: 25px;
             color: #888;
             font-size: 0.85em;
         }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>✨ Gerador de QR Code</h1>
+        <div class="whatsapp-icon">💬</div>
+        <h1>Gerador de QR Code WhatsApp</h1>
         
         <div class="input-group">
-            <label for="url-input">Digite ou cole seu link:</label>
+            <label for="phone-input">Digite o número de telefone:</label>
             <input 
-                type="url" 
-                id="url-input" 
-                placeholder="https://exemplo.com"
+                type="tel" 
+                id="phone-input" 
+                placeholder="(11) 99999-9999"
                 autocomplete="off"
             >
             <div class="error-message" id="error-message">
-                Por favor, insira uma URL válida
+                Por favor, insira um número de telefone válido
             </div>
+        </div>
+
+        <!-- Preview do link do WhatsApp -->
+        <div class="phone-preview" id="phone-preview">
+            <div class="phone-preview-content">
+                <div class="phone-preview-icon">📱</div>
+                <div class="phone-preview-text">
+                    <div class="phone-preview-number" id="preview-number"></div>
+                    <div class="phone-preview-link" id="preview-link"></div>
+                </div>
+                <button class="copy-link-btn" id="copy-link-btn" title="Copiar link">
+                    📋 Copiar
+                </button>
+            </div>
+        </div>
+
+        <!-- Mensagem de sucesso ao copiar -->
+        <div class="success-message" id="success-message">
+            ✅ Link copiado com sucesso!
         </div>
 
         <div class="qr-container" id="qr-container">
             <div id="qrcode">
                 <div class="placeholder-text">
-                    🔗 Aguardando link...
+                    📱 Aguardando número...
                 </div>
             </div>
         </div>
@@ -197,7 +316,7 @@
         </div>
 
         <footer>
-            Coloque um link e clique em Gerar QR Code
+            Digite um número de telefone com DDD e clique em Gerar QR Code
         </footer>
     </div>
 
@@ -205,58 +324,134 @@
     <script>
         let currentQR = null;
         let qrImageUrl = null;
+        let currentWhatsAppLink = '';
 
         // Elementos do DOM
-        const urlInput = document.getElementById('url-input');
+        const phoneInput = document.getElementById('phone-input');
         const generateBtn = document.getElementById('generate-btn');
         const downloadBtn = document.getElementById('download-btn');
         const qrcodeDiv = document.getElementById('qrcode');
         const errorMessage = document.getElementById('error-message');
         const qrContainer = document.getElementById('qr-container');
+        const phonePreview = document.getElementById('phone-preview');
+        const previewNumber = document.getElementById('preview-number');
+        const previewLink = document.getElementById('preview-link');
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        const successMessage = document.getElementById('success-message');
 
-        // Validação de URL em tempo real
-        urlInput.addEventListener('input', function() {
-            const url = this.value.trim();
+        // Função para formatar número de telefone
+        function formatPhoneNumber(input) {
+            // Remove todos os caracteres não numéricos
+            let numbers = input.replace(/\D/g, '');
             
-            if (url === '') {
-                errorMessage.style.display = 'none';
-                return;
+            // Adiciona 55 se não começar com código do país
+            if (!numbers.startsWith('55')) {
+                numbers = '55' + numbers;
             }
+            
+            // Remove zeros extras após o código do país
+            if (numbers.length > 2 && numbers[2] === '0') {
+                numbers = numbers.substring(0, 2) + numbers.substring(3);
+            }
+            
+            return numbers;
+        }
 
-            if (!isValidURL(url)) {
-                errorMessage.style.display = 'block';
-                generateBtn.disabled = true;
+        // Função para criar link do WhatsApp
+        function createWhatsAppLink(phoneNumber) {
+            return `https://wa.me/${phoneNumber}`;
+        }
+
+        // Função para formatar número para exibição
+        function formatForDisplay(phoneNumber) {
+            // Remove o 55 do início para exibição
+            let displayNumber = phoneNumber.substring(2);
+            
+            if (displayNumber.length === 11) {
+                // Celular com 9 dígitos: (XX) 9XXXX-XXXX
+                return `(${displayNumber.substring(0, 2)}) ${displayNumber.substring(2, 7)}-${displayNumber.substring(7)}`;
+            } else if (displayNumber.length === 10) {
+                // Telefone fixo: (XX) XXXX-XXXX
+                return `(${displayNumber.substring(0, 2)}) ${displayNumber.substring(2, 6)}-${displayNumber.substring(6)}`;
             } else {
-                errorMessage.style.display = 'none';
-                generateBtn.disabled = false;
-            }
-        });
-
-        // Função para validar URL
-        function isValidURL(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
+                return phoneNumber;
             }
         }
 
+        // Validação do número de telefone em tempo real
+        phoneInput.addEventListener('input', function() {
+            let value = this.value;
+            
+            // Remove caracteres não numéricos para validação
+            let numbers = value.replace(/\D/g, '');
+            
+            // Se o número tiver pelo menos 8 dígitos (sem contar o 55)
+            let localNumber = numbers;
+            if (numbers.startsWith('55')) {
+                localNumber = numbers.substring(2);
+            }
+            
+            if (localNumber.length >= 8 && localNumber.length <= 11) {
+                errorMessage.style.display = 'none';
+                generateBtn.disabled = false;
+                
+                // Formata e mostra preview
+                const formattedNumber = formatPhoneNumber(numbers);
+                const whatsappLink = createWhatsAppLink(formattedNumber);
+                
+                currentWhatsAppLink = whatsappLink;
+                
+                // Atualiza preview
+                previewNumber.textContent = `📞 ${formatForDisplay(formattedNumber)}`;
+                previewLink.textContent = whatsappLink;
+                phonePreview.classList.add('show');
+                
+                // Limpa QR Code anterior se houver
+                if (currentQR) {
+                    qrcodeDiv.innerHTML = '<div class="placeholder-text">📱 Aguardando número...</div>';
+                    currentQR = null;
+                    qrImageUrl = null;
+                    downloadBtn.disabled = true;
+                }
+            } else if (numbers.length === 0) {
+                errorMessage.style.display = 'none';
+                generateBtn.disabled = true;
+                phonePreview.classList.remove('show');
+            } else {
+                errorMessage.style.display = 'block';
+                generateBtn.disabled = true;
+                phonePreview.classList.remove('show');
+            }
+        });
+
         // Função para gerar QR Code
         function generateQRCode() {
-            const url = urlInput.value.trim();
+            const phoneNumber = phoneInput.value.trim();
 
-            if (!url) {
+            if (!phoneNumber) {
                 errorMessage.style.display = 'block';
-                errorMessage.textContent = 'Por favor, insira um link';
+                errorMessage.textContent = 'Por favor, insira um número de telefone';
                 return;
             }
 
-            if (!isValidURL(url)) {
+            // Formata o número
+            const numbers = phoneNumber.replace(/\D/g, '');
+            const localNumber = numbers.startsWith('55') ? numbers.substring(2) : numbers;
+            
+            if (localNumber.length < 8 || localNumber.length > 11) {
                 errorMessage.style.display = 'block';
-                errorMessage.textContent = 'Por favor, insira uma URL válida (incluindo http:// ou https://)';
+                errorMessage.textContent = 'Por favor, insira um número de telefone válido (8-11 dígitos)';
                 return;
             }
+
+            const formattedNumber = formatPhoneNumber(numbers);
+            const whatsappLink = createWhatsAppLink(formattedNumber);
+            currentWhatsAppLink = whatsappLink;
+
+            // Atualiza preview
+            previewNumber.textContent = `📞 ${formatForDisplay(formattedNumber)}`;
+            previewLink.textContent = whatsappLink;
+            phonePreview.classList.add('show');
 
             // Limpar QR Code anterior
             qrcodeDiv.innerHTML = '';
@@ -264,10 +459,10 @@
             try {
                 // Criar novo QR Code com tamanho maior para melhor qualidade
                 currentQR = new QRCode(qrcodeDiv, {
-                    text: url,
+                    text: whatsappLink,
                     width: 250,
                     height: 250,
-                    colorDark: "#000000",
+                    colorDark: "#075e54",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
@@ -291,24 +486,51 @@
             }
         }
 
+        // Função para copiar link
+        function copyWhatsAppLink() {
+            if (!currentWhatsAppLink) return;
+            
+            navigator.clipboard.writeText(currentWhatsAppLink).then(() => {
+                // Mostra mensagem de sucesso
+                successMessage.classList.add('show');
+                
+                // Esconde após 2 segundos
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 2000);
+                
+                // Muda o texto do botão temporariamente
+                const originalText = copyLinkBtn.textContent;
+                copyLinkBtn.textContent = '✅ Copiado!';
+                copyLinkBtn.style.backgroundColor = '#28a745';
+                
+                setTimeout(() => {
+                    copyLinkBtn.textContent = originalText;
+                    copyLinkBtn.style.backgroundColor = '#25D366';
+                }, 1500);
+            }).catch(err => {
+                console.error('Erro ao copiar:', err);
+            });
+        }
+
         // Função para baixar QR Code
         function downloadQRCode() {
             if (!qrImageUrl) return;
 
             // Criar link de download
             const link = document.createElement('a');
-            link.download = `qrcode-${Date.now()}.png`;
+            link.download = `whatsapp-qrcode-${Date.now()}.png`;
             link.href = qrImageUrl;
             link.click();
         }
 
         // Event listeners
         generateBtn.addEventListener('click', generateQRCode);
-
         downloadBtn.addEventListener('click', downloadQRCode);
+        copyLinkBtn.addEventListener('click', copyWhatsAppLink);
 
         // Permitir gerar com Enter
-        urlInput.addEventListener('keypress', function(e) {
+        phoneInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (!generateBtn.disabled) {
@@ -335,10 +557,6 @@
             }
         `;
         document.head.appendChild(style);
-
-        // Exemplo pré-preenchido (opcional)
-        // urlInput.value = 'https://github.com';
-        // generateQRCode();
     </script>
 </body>
 </html>
