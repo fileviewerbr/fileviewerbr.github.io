@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Procedimentos e Exames</title>
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0f4c75;
+            --light-accent: #00b4d8;
+            --text-color: #e6e6e6;
+            --border-color: #2d4059;
+            --success-color: #4CAF50;
+            --warning-color: #ff6b6b;
+            --excluded-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--light-accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--light-accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--light-accent);
+        }
+
+        .procedimentos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .procedimento-card {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .procedimento-card:hover {
+            border-color: var(--light-accent);
+        }
+
+        .procedimento-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--accent-color);
+            transition: background 0.3s;
+        }
+
+        .procedimento-header:hover {
+            background: #1a5f8a;
+        }
+
+        .procedimento-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .procedimento-codigo {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--light-accent);
+        }
+
+        .procedimento-nome {
+            font-size: 16px;
+        }
+
+        .procedimento-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .badge {
+            background: rgba(0, 180, 216, 0.2);
+            color: var(--light-accent);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-warning {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--warning-color);
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .exames-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .exames-container.expanded {
+            max-height: 2000px;
+        }
+
+        .exames-list {
+            padding: 20px;
+        }
+
+        .exame-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .exame-item:last-child {
+            border-bottom: none;
+        }
+
+        .exame-item.excluded {
+            opacity: 0.5;
+            text-decoration: line-through;
+            color: var(--excluded-color);
+        }
+
+        .exame-checkbox {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--excluded-color);
+        }
+
+        .exame-info {
+            flex: 1;
+        }
+
+        .exame-seq {
+            font-weight: bold;
+            color: var(--light-accent);
+            margin-right: 10px;
+        }
+
+        .exame-nome {
+            color: var(--text-color);
+        }
+
+        .exame-item.excluded .exame-nome {
+            color: var(--excluded-color);
+        }
+
+        .exame-stats {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .stat-item-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .stat-item-value {
+            font-size: 13px;
+            color: var(--text-color);
+        }
+
+        .exame-item.excluded .stat-item-value {
+            color: var(--excluded-color);
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--light-accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 2000;
+            animation: slideIn 0.3s ease-out;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .procedimento-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .exame-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .exame-stats {
+                margin-left: 0;
+                margin-top: 10px;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .stat-item {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Análise de Procedimentos e Exames</h1>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="exportToXLSX()">
+                    📥 Exportar XLSX
+                </button>
+            </div>
+        </header>
+
+        <div class="stats-bar" id="statsBar"></div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="🔍 Buscar por código ou nome do procedimento..." oninput="filterProcedimentos()" id="searchInput">
+        </div>
+
+        <div class="procedimentos-list" id="procedimentosList">
+            <div class="empty-state">
+                <h3>Nenhum dado carregado</h3>
+                <p>Importe um arquivo XLSX para começar a análise</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/';
+        
+        let state = {
+            procedimentos: {},
+            exameExclusions: {}
+        };
+
+        // Carregar dados do Firebase
+        async function loadData() {
+            try {
+                const response = await fetch(`${FIREBASE_URL}/analise-exames.json`);
+                const data = await response.json();
+                
+                if (data) {
+                    state.procedimentos = data.procedimentos || {};
+                    state.exameExclusions = data.exameExclusions || {};
+                }
+                
+                renderStats();
+                renderProcedimentos();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+
+        // Salvar dados no Firebase
+        async function saveData() {
+            try {
+                await fetch(`${FIREBASE_URL}/analise-exames.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        procedimentos: state.procedimentos,
+                        exameExclusions: state.exameExclusions
+                    })
+                });
+            } catch (error) {
+                console.error('Erro ao salvar dados:', error);
+            }
+        }
+
+        // Exportar para XLSX (sem exames excluídos)
+        function exportToXLSX() {
+            const data = [['CD_PROCEDIMENTO', 'DS_PROCEDIMENTO', 'NR_SEQ_EXAME', 'DS_EXAME', 'QTD_VEZES_PEDIDO', 'ULTIMA_VEZ_PEDIDO']];
+            
+            Object.values(state.procedimentos).forEach(proc => {
+                proc.exames.forEach(exame => {
+                    // Só inclui exames que NÃO estão excluídos
+                    if (!isExameExcluded(proc.cdProcedimento, exame.nrSeqExame)) {
+                        data.push([
+                            proc.cdProcedimento,
+                            proc.dsProcedimento,
+                            exame.nrSeqExame,
+                            exame.dsExame,
+                            exame.qtdVezes,
+                            exame.ultimaVez
+                        ]);
+                    }
+                });
+            });
+            
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Procedimentos e Exames");
+            
+            // Gerar arquivo e fazer download
+            XLSX.writeFile(wb, "procedimentos_exames_sem_excluidos.xlsx");
+            
+            showToast('✅ Arquivo exportado com sucesso!');
+        }
+
+        // Toast de notificação
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Toggle exclusão de exame
+        async function toggleExameExclusion(procedimentoId, nrSeqExame) {
+            if (!state.exameExclusions[procedimentoId]) {
+                state.exameExclusions[procedimentoId] = [];
+            }
+            
+            const index = state.exameExclusions[procedimentoId].indexOf(nrSeqExame);
+            if (index > -1) {
+                state.exameExclusions[procedimentoId].splice(index, 1);
+            } else {
+                state.exameExclusions[procedimentoId].push(nrSeqExame);
+            }
+            
+            await saveData();
+            renderProcedimentos();
+        }
+
+        // Verificar se exame está excluído
+        function isExameExcluded(procedimentoId, nrSeqExame) {
+            return state.exameExclusions[procedimentoId]?.includes(nrSeqExame) || false;
+        }
+
+        // Renderizar estatísticas
+        function renderStats() {
+            const totalProcedimentos = Object.keys(state.procedimentos).length;
+            let totalExames = 0;
+            let totalExcluidos = 0;
+            let totalAtivos = 0;
+            
+            Object.keys(state.procedimentos).forEach(cdProc => {
+                const totalProcExames = state.procedimentos[cdProc].exames.length;
+                totalExames += totalProcExames;
+                
+                const excluidosProc = state.exameExclusions[cdProc]?.length || 0;
+                totalExcluidos += excluidosProc;
+                totalAtivos += (totalProcExames - excluidosProc);
+            });
+            
+            document.getElementById('statsBar').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Total de Procedimentos</div>
+                    <div class="stat-value">${totalProcedimentos}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total de Exames Ativos</div>
+                    <div class="stat-value" style="color: var(--success-color)">${totalAtivos}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Exames Excluídos</div>
+                    <div class="stat-value" style="color: var(--excluded-color)">${totalExcluidos}</div>
+                </div>
+            `;
+        }
+
+        // Filtrar procedimentos
+        function filterProcedimentos() {
+            renderProcedimentos();
+        }
+
+        // Renderizar procedimentos
+        function renderProcedimentos() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('procedimentosList');
+            
+            let procedimentosFiltrados = Object.values(state.procedimentos);
+            
+            if (searchTerm) {
+                procedimentosFiltrados = procedimentosFiltrados.filter(proc => 
+                    proc.cdProcedimento.toLowerCase().includes(searchTerm) ||
+                    proc.dsProcedimento.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (procedimentosFiltrados.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nenhum procedimento encontrado</h3>
+                        <p>${searchTerm ? 'Tente buscar com outros termos' : 'Carregue os dados para começar'}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = procedimentosFiltrados.map(proc => {
+                const excludedCount = state.exameExclusions[proc.cdProcedimento]?.length || 0;
+                const activeCount = proc.exames.length - excludedCount;
+                
+                return `
+                    <div class="procedimento-card">
+                        <div class="procedimento-header" onclick="toggleProcedimento('${proc.cdProcedimento}')">
+                            <div class="procedimento-info">
+                                <span class="procedimento-codigo">#${proc.cdProcedimento}</span>
+                                <span class="procedimento-nome">${proc.dsProcedimento}</span>
+                            </div>
+                            <div class="procedimento-stats">
+                                <span class="badge">${activeCount} ativos</span>
+                                ${excludedCount > 0 ? `<span class="badge badge-warning">${excludedCount} excluídos</span>` : ''}
+                                <span class="toggle-icon" id="toggle-${proc.cdProcedimento}">▼</span>
+                            </div>
+                        </div>
+                        <div class="exames-container" id="exames-${proc.cdProcedimento}">
+                            <div class="exames-list">
+                                ${proc.exames.map(exame => {
+                                    const isExcluded = isExameExcluded(proc.cdProcedimento, exame.nrSeqExame);
+                                    return `
+                                        <div class="exame-item ${isExcluded ? 'excluded' : ''}">
+                                            <input type="checkbox" 
+                                                   class="exame-checkbox" 
+                                                   ${isExcluded ? 'checked' : ''}
+                                                   onclick="event.stopPropagation(); toggleExameExclusion('${proc.cdProcedimento}', '${exame.nrSeqExame}')">
+                                            <div class="exame-info">
+                                                <span class="exame-seq">SEQ: ${exame.nrSeqExame}</span>
+                                                <span class="exame-nome">${exame.dsExame || 'Sem nome'}</span>
+                                            </div>
+                                            <div class="exame-stats">
+                                                <div class="stat-item">
+                                                    <span class="stat-item-label">Qtd. Vezes Pedido</span>
+                                                    <span class="stat-item-value">${exame.qtdVezes}x</span>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <span class="stat-item-label">Última Data Solicitação</span>
+                                                    <span class="stat-item-value">${formatDate(exame.ultimaVez)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle expandir procedimento
+        function toggleProcedimento(cdProcedimento) {
+            const examesContainer = document.getElementById(`exames-${cdProcedimento}`);
+            const toggleIcon = document.getElementById(`toggle-${cdProcedimento}`);
+            
+            if (examesContainer.classList.contains('expanded')) {
+                examesContainer.classList.remove('expanded');
+                toggleIcon.classList.remove('expanded');
+            } else {
+                examesContainer.classList.add('expanded');
+                toggleIcon.classList.add('expanded');
+            }
+        }
+
+        // Formatar data
+        function formatDate(dateValue) {
+            if (!dateValue) return 'N/A';
+            
+            // Se for um número (serial date do Excel)
+            if (typeof dateValue === 'number' || !isNaN(parseFloat(dateValue))) {
+                const excelDate = parseFloat(dateValue);
+                const date = new Date((excelDate - 25569) * 86400 * 1000);
+                
+                if (!isNaN(date.getTime())) {
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    
+                    return `${day}/${month}/${year} ${hours}:${minutes}`;
+                }
+            }
+            
+            // Se for string
+            const dateString = String(dateValue);
+            
+            // Formato Oracle: DD/MM/YY HH24:MI:SS
+            if (dateString.includes('/')) {
+                const parts = dateString.split(' ');
+                const datePart = parts[0].split('/');
+                const timePart = parts[1] || '00:00:00';
+                
+                if (datePart.length === 3) {
+                    let year = datePart[2];
+                    if (year.length === 2) {
+                        year = '20' + year;
+                    }
+                    return `${datePart[0]}/${datePart[1]}/${year} ${timePart}`;
+                }
+            }
+            
+            // Tentar parse como data
+            const parsedDate = new Date(dateString);
+            if (!isNaN(parsedDate.getTime())) {
+                const day = String(parsedDate.getDate()).padStart(2, '0');
+                const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+                const year = parsedDate.getFullYear();
+                const hours = String(parsedDate.getHours()).padStart(2, '0');
+                const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
+                
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            }
+            
+            return dateString;
+        }
+
+        // Inicializar
+        window.onload = function() {
+            loadData();
+        };
+    </script>
+</body>
+</html>
