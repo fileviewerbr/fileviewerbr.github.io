@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4a5d3a">
+<title>Estúdio Pilates Eneli</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --primary:#4a5d3a;
+  --primary-dark:#364528;
+  --primary-light:#a8b89a;
+  --primary-soft:#e8ede3;
+  --accent:#7d9471;
+  --bg:#f6f8f4;
+  --card:#ffffff;
+  --text:#2b3428;
+  --text-soft:#6d7a68;
+  --border:#e3e9dd;
+  --green:#4a5d3a;
+  --red:#c0503d;
+  --yellow:#d4a72c;
+  --blue:#5a7d8c;
+  --gray:#8a9384;
+  --radius:14px;
+  --shadow:0 2px 12px rgba(74,93,58,.07);
+  --shadow-lg:0 8px 28px rgba(74,93,58,.14);
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);
+  font-size:15px;
+  overflow-x:hidden;
+}
+
+/* LOGIN */
+#loginScreen{
+  position:fixed;inset:0;z-index:1000;
+  background:linear-gradient(135deg,#4a5d3a 0%,#364528 100%);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+#loginScreen.hidden{display:none}
+.login-box{
+  background:#fff;border-radius:20px;padding:36px 32px;
+  width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:popIn .3s ease;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.login-logo{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 16px;
+  background:var(--primary-soft);display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+}
+.login-box h1{
+  text-align:center;font-size:1.4rem;margin:0 0 6px;color:var(--primary-dark);
+  font-weight:800;letter-spacing:-.5px;
+}
+.login-box p.sub{
+  text-align:center;color:var(--text-soft);margin:0 0 26px;font-size:.85rem;
+}
+.login-error{
+  background:#fdecea;color:#c0503d;padding:10px 14px;border-radius:10px;
+  font-size:.83rem;margin-bottom:14px;display:none;font-weight:600;
+}
+.login-error.show{display:block}
+.login-hint{
+  text-align:center;font-size:.75rem;color:var(--text-soft);margin-top:18px;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+
+/* APP SHELL */
+#app{display:none;min-height:100vh}
+#app.active{display:block}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:var(--sidebar-w);background:var(--primary);
+  color:#fff;z-index:100;
+  display:flex;flex-direction:column;
+  transition:transform .28s ease;
+  box-shadow:2px 0 20px rgba(74,93,58,.15);
+}
+.sidebar-header{
+  padding:22px 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;gap:12px;
+}
+.sidebar-logo{
+  width:42px;height:42px;border-radius:12px;flex-shrink:0;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+}
+.sidebar-brand h2{margin:0;font-size:1rem;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.sidebar-brand span{font-size:.72rem;opacity:.7;font-weight:500}
+.sidebar-nav{flex:1;padding:14px 12px;overflow-y:auto}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:10px;
+  cursor:pointer;font-size:.9rem;font-weight:600;
+  color:rgba(255,255,255,.8);
+  transition:.18s;margin-bottom:3px;
+  border:none;background:transparent;width:100%;text-align:left;
+  font-family:inherit;
+}
+.nav-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.18);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.nav-item .ico{width:22px;text-align:center;font-size:1.1rem;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.nav-item .txt{flex:1}
+.sidebar-footer{padding:14px 12px;border-top:1px solid rgba(255,255,255,.12)}
+.sidebar-footer .nav-item{font-size:.85rem}
+
+/* MAIN */
+.main{
+  margin-left:var(--sidebar-w);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+}
+.topbar{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  gap:14px;position:sticky;top:0;z-index:50;
+  box-shadow:0 1px 3px rgba(74,93,58,.04);
+}
+.menu-toggle{
+  display:none;background:transparent;border:none;font-size:1.4rem;
+  color:var(--primary);cursor:pointer;padding:4px 8px;border-radius:8px;
+}
+.topbar-title{font-size:1.1rem;font-weight:800;color:var(--primary-dark);letter-spacing:-.3px}
+.topbar-title small{display:block;font-size:.75rem;font-weight:500;color:var(--text-soft);letter-spacing:0}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.user-chip{
+  display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;
+  background:var(--primary-soft);border-radius:30px;
+  font-size:.83rem;font-weight:700;color:var(--primary-dark);
+}
+.user-chip .avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--primary);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:800;
+}
+.content{flex:1;padding:24px;max-width:1500px;width:100%;margin:0 auto}
+
+/* VIEWS */
+.view{display:none;animation:fade .25s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* CARDS */
+.card{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px;margin-bottom:18px;
+  border:1px solid var(--border);
+}
+.card-title{
+  font-size:1rem;font-weight:800;margin:0 0 16px;
+  display:flex;align-items:center;gap:8px;color:var(--primary-dark);
+  letter-spacing:-.2px;
+}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--primary)}
+
+/* STATS */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:14px;margin-bottom:20px;
+}
+.stat{
+  background:var(--card);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.stat::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--primary)}
+.stat.green::before{background:#4a5d3a}
+.stat.red::before{background:var(--red)}
+.stat.yellow::before{background:var(--yellow)}
+.stat.blue::before{background:var(--blue)}
+.stat-label{font-size:.72rem;color:var(--text-soft);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.stat-value{font-size:1.7rem;font-weight:800;margin-top:6px;color:var(--primary-dark);letter-spacing:-.5px}
+.stat-sub{font-size:.75rem;color:var(--text-soft);margin-top:2px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chart-wrap{position:relative;height:260px}
+
+/* BUTTONS */
+.btn{
+  border:none;border-radius:10px;padding:10px 16px;font-size:.88rem;
+  font-weight:700;cursor:pointer;transition:.18s;font-family:inherit;
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  letter-spacing:-.1px;
+}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);box-shadow:0 4px 14px rgba(74,93,58,.25)}
+.btn-ghost{background:var(--primary-soft);color:var(--primary-dark)}
+.btn-ghost:hover{background:#dde5d6}
+.btn-sm{padding:7px 12px;font-size:.8rem}
+.btn-block{width:100%;justify-content:center}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+.btn-icon{
+  padding:7px 9px;font-size:.85rem;background:var(--primary-soft);
+  color:var(--primary-dark);border-radius:9px;
+}
+.btn-icon:hover{background:var(--primary);color:#fff}
+
+/* TABELAS */
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.87rem;min-width:520px}
+th{
+  background:var(--primary-soft);text-align:left;padding:12px;
+  font-weight:800;font-size:.72rem;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--primary-dark);
+  border-bottom:1px solid var(--border);white-space:nowrap;
+}
+td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--primary-soft)}
+.actions-cell{display:flex;gap:6px;flex-wrap:wrap}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:20px;font-size:.73rem;font-weight:800;
+  white-space:nowrap;letter-spacing:-.1px;
+}
+.badge-presenca{background:#d8ead0;color:#2e5c1f}
+.badge-desmarcou{background:#eceae6;color:#6d7a68}
+
+/* FORM */
+.field{margin-bottom:15px}
+.field label{
+  display:block;font-size:.8rem;font-weight:800;margin-bottom:6px;
+  color:var(--text-soft);letter-spacing:.2px;
+}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;border:1.5px solid var(--border);
+  border-radius:10px;font-size:.92rem;font-family:inherit;
+  color:var(--text);background:#fff;transition:.18s;outline:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,93,58,.12);
+}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* DAYS */
+.days-row{display:flex;gap:6px;flex-wrap:wrap}
+.day-pill{
+  padding:7px 12px;border-radius:9px;font-size:.8rem;font-weight:800;
+  background:var(--primary-soft);color:var(--primary-dark);
+  cursor:pointer;user-select:none;transition:.15s;
+  border:2px solid transparent;
+}
+.day-pill:hover{transform:translateY(-1px)}
+.day-pill.on{background:var(--primary);color:#fff}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(43,52,40,.5);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;z-index:200;padding:16px;
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:#fff;border-radius:20px;width:100%;max-width:540px;
+  max-height:92vh;overflow-y:auto;
+  box-shadow:0 24px 60px rgba(0,0,0,.28);
+  animation:pop .25s ease;
+}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.modal-header{
+  padding:20px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1;
+}
+.modal-header h3{margin:0;font-size:1.05rem;color:var(--primary-dark);letter-spacing:-.3px}
+.modal-close{
+  background:var(--primary-soft);border:none;width:34px;height:34px;border-radius:9px;
+  cursor:pointer;font-size:1rem;color:var(--primary-dark);transition:.18s;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{background:#fbe4e0;color:var(--red)}
+.modal-body{padding:22px}
+.modal-footer{
+  padding:16px 22px;border-top:1px solid var(--border);
+  display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(120px);
+  background:var(--primary-dark);color:#fff;padding:12px 22px;
+  border-radius:12px;font-size:.87rem;font-weight:700;z-index:300;
+  opacity:0;transition:.3s;box-shadow:0 8px 28px rgba(0,0,0,.25);
+  max-width:90vw;text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.ok{background:var(--primary)}
+.toast.err{background:var(--red)}
+
+/* EMPTY */
+.empty{text-align:center;padding:44px 16px;color:var(--text-soft)}
+.empty .big{font-size:2.6rem;margin-bottom:10px;opacity:.5}
+.empty p{margin:4px 0;font-size:.88rem}
+
+/* FILTROS */
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.filters .field{margin:0;flex:1;min-width:140px}
+
+/* AGENDA VISUAL */
+.agenda-controls{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:18px;flex-wrap:wrap;
+}
+.agenda-controls .month-nav{display:flex;align-items:center;gap:8px}
+.month-title{
+  font-size:1.15rem;font-weight:800;color:var(--primary-dark);
+  letter-spacing:-.3px;min-width:180px;text-align:center;
+}
+.calendar-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:8px;margin-top:6px;
+}
+.cal-header{
+  text-align:center;font-weight:800;font-size:.72rem;
+  text-transform:uppercase;color:var(--text-soft);
+  letter-spacing:.6px;padding:8px 0;
+}
+.cal-day{
+  background:#fff;border:1px solid var(--border);border-radius:11px;
+  min-height:110px;padding:8px;position:relative;
+  transition:.15s;cursor:pointer;
+}
+.cal-day:hover{border-color:var(--primary-light);box-shadow:0 4px 14px rgba(74,93,58,.08)}
+.cal-day.other-month{background:#fafbf9;opacity:.45}
+.cal-day.today{border:2px solid var(--primary);background:#fbfdf9}
+.cal-day.today .cal-num{background:var(--primary);color:#fff}
+.cal-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  font-size:.78rem;font-weight:800;color:var(--text-soft);
+  margin-bottom:5px;
+}
+.cal-events{display:flex;flex-direction:column;gap:3px}
+.cal-event{
+  font-size:.72rem;font-weight:700;
+  padding:3px 7px;border-radius:6px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  border-left:3px solid;cursor:pointer;
+}
+.cal-event.agendado{background:#e6efe0;border-color:var(--yellow);color:#5c4a10}
+.cal-event.presenca{background:#d8ead0;border-color:var(--primary);color:#2e5c1f}
+.cal-event.faltou{background:#fbe4e0;border-color:var(--red);color:#a53f2f}
+.cal-event.desmarcou{background:#eceae6;border-color:var(--gray);color:#6d7a68}
+.cal-more{font-size:.68rem;color:var(--text-soft);font-weight:700;padding-left:5px}
+
+/* SIDEBAR OVERLAY */
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(43,52,40,.5);
+  z-index:99;backdrop-filter:blur(2px);
+}
+.sidebar-overlay.active{display:block}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .grid-2{grid-template-columns:1fr}
+  .chart-wrap{height:230px}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);box-shadow:none}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,.2)}
+  .main{margin-left:0}
+  .menu-toggle{display:block}
+  .topbar{padding:12px 16px}
+  .topbar-title{font-size:1rem}
+  .content{padding:16px}
+  .card{padding:16px;border-radius:12px}
+  .cal-day{min-height:78px;padding:5px;border-radius:9px}
+  .cal-num{width:20px;height:20px;font-size:.7rem;margin-bottom:3px}
+  .cal-event{font-size:.62rem;padding:2px 5px;border-left-width:2px}
+  .cal-more{font-size:.6rem}
+  .calendar-grid{gap:5px}
+  .cal-header{font-size:.66rem}
+}
+@media(max-width:600px){
+  body{font-size:14px}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:14px}
+  .stat-value{font-size:1.35rem}
+  .field-row{grid-template-columns:1fr}
+  .modal{max-width:100%;border-radius:18px 18px 0 0;max-height:94vh}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal-footer{flex-direction:column-reverse}
+  .modal-footer .btn{width:100%;justify-content:center}
+  .topbar-actions .btn span.txt{display:none}
+  .topbar-actions .btn{padding:8px 10px}
+  .user-chip .name{display:none}
+  .user-chip{padding:4px 8px 4px 4px}
+  .month-title{font-size:1rem;min-width:140px}
+  .agenda-controls{gap:8px}
+  .agenda-controls .btn{padding:7px 10px;font-size:.8rem}
+}
+@media(max-width:380px){
+  .stats-grid{grid-template-columns:1fr}
+  .cal-day{min-height:64px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🧘‍♀️</div>
+    <h1>Estúdio Pilates Eneli</h1>
+    <p class="sub">Acesse sua conta para continuar</p>
+    <div class="login-error" id="loginError"></div>
+    <div class="field">
+      <label>Usuário</label>
+      <input type="text" id="loginUser" placeholder="Usuário" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="loginPass" placeholder="Senha" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-block" onclick="fazerLogin()" style="margin-top:6px;padding:12px">
+      Entrar
+    </button>
+    <div class="login-hint" id="loginHint">Primeiro acesso: usuário <b>eneli</b> / senha <b>eneli123</b></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">🧘‍♀️</div>
+      <div class="sidebar-brand">
+        <h2>Pilates Eneli</h2>
+        <span>Gestão de Estúdio</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard">
+        <span class="ico">📊</span><span class="txt">Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="agenda">
+        <span class="ico">📅</span><span class="txt">Agenda</span>
+      </button>
+      <button class="nav-item" data-view="alunos">
+        <span class="ico">👥</span><span class="txt">Alunos</span>
+      </button>
+      <button class="nav-item" data-view="avaliacao">
+        <span class="ico">📋</span><span class="txt">Avaliação Física</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="nav-item" onclick="openAlterarSenha()">
+        <span class="ico">🔑</span><span class="txt">Alterar Senha</span>
+      </button>
+      <button class="nav-item" onclick="fazerLogout()">
+        <span class="ico">🚪</span><span class="txt">Sair</span>
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="topbar-title" id="pageTitle">
+          Dashboard
+          <small id="pageSubtitle">Visão geral do estúdio</small>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="syncPull(false)">🔄 <span class="txt">Atualizar</span></button>
+        <div class="user-chip">
+          <div class="avatar" id="userAvatar">E</div>
+          <span class="name" id="userName">Eneli</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="view active" id="view-dashboard">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title"><span class="dot"></span>Status das Aulas</h3>
+            <div class="chart-wrap"><canvas id="chartStatus"></canvas></div>
+          </div>
+          <div class="card">
+            <h3 class="card-title"><span class="dot"></span>Alunos por Período</h3>
+            <div class="chart-wrap"><canvas id="chartPeriodo"></canvas></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="card-title"><span class="dot"></span>Faturamento por Mês</h3>
+            <div class="chart-wrap"><canvas id="chartMes"></canvas></div>
+          </div>
+          <div class="card">
+            <h3 class="card-title"><span class="dot"></span>Aulas por Dia da Semana</h3>
+            <div class="chart-wrap"><canvas id="chartDia"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title"><span class="dot"></span>Resumo Financeiro</h3>
+          <div id="finResumo"></div>
+        </div>
+      </div>
+
+      <!-- AGENDA -->
+      <div class="view" id="view-agenda">
+        <div class="card">
+          <div class="agenda-controls">
+            <div class="month-nav">
+              <button class="btn btn-ghost btn-sm" onclick="mudarMes(-1)">◀</button>
+              <div class="month-title" id="monthTitle">Mês</div>
+              <button class="btn btn-ghost btn-sm" onclick="mudarMes(1)">▶</button>
+              <button class="btn btn-outline btn-sm" onclick="irParaHoje()">Hoje</button>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-primary btn-sm" onclick="gerarAgendaMes()">⚡ Gerar Agenda do Mês</button>
+              <button class="btn btn-ghost btn-sm" onclick="openAulaModal()">➕ Nova Aula</button>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
+        <div class="card">
+          <div class="filters" style="margin-bottom:16px">
+            <div class="field">
+              <label>Aluno</label>
+              <select id="filtroAluno" onchange="renderListaAulas()"><option value="">Todos</option></select>
+            </div>
+            <div class="field">
+              <label>Status</label>
+              <select id="filtroStatus" onchange="renderListaAulas()">
+                <option value="">Todos</option>
+                <option value="agendado">Agendado</option>
+                <option value="presenca">Presença</option>
+                <option value="faltou">Faltou</option>
+                <option value="desmarcou">Desmarcou</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Data</label>
+              <input type="date" id="filtroData" onchange="renderListaAulas()">
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="limparFiltros()">🧹 Limpar</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Data</th><th>Aluno</th><th>Horário</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+              </thead>
+              <tbody id="agendaTbody"></tbody>
+            </table>
+          </div>
+          <div id="agendaEmpty"></div>
+        </div>
+      </div>
+
+      <!-- ALUNOS -->
+      <div class="view" id="view-alunos">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <h3 class="card-title" style="margin:0"><span class="dot"></span>Alunos Cadastrados</h3>
+            <button class="btn btn-primary btn-sm" onclick="openAlunoModal()">➕ Novo Aluno</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Nome</th><th>Telefone</th><th>Dias</th><th>Valor/Aula</th><th>Status</th><th>Ações</th></tr>
+              </thead>
+              <tbody id="alunosTbody"></tbody>
+            </table>
+          </div>
+          <div id="alunosEmpty"></div>
+        </div>
+      </div>
+
+      <!-- AVALIAÇÃO -->
+      <div class="view" id="view-avaliacao">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <h3 class="card-title" style="margin:0"><span class="dot"></span>Avaliações Físicas</h3>
+            <button class="btn btn-primary btn-sm" onclick="openAvaliacaoModal()">➕ Nova Avaliação</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Data</th><th>Aluno</th><th>Peso</th><th>Altura</th><th>IMC</th><th>Ações</th></tr>
+              </thead>
+              <tbody id="avaliacaoTbody"></tbody>
+            </table>
+          </div>
+          <div id="avaliacaoEmpty"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALUNO -->
+<div class="modal-overlay" id="modalAluno">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalAlunoTitle">Novo Aluno</h3>
+      <button class="modal-close" onclick="closeModal('modalAluno')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="alunoId">
+      <div class="field">
+        <label>Nome completo *</label>
+        <input type="text" id="alunoNome" placeholder="Ex: João Silva">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Telefone</label>
+          <input type="tel" id="alunoTelefone" placeholder="(00) 00000-0000">
+        </div>
+        <div class="field">
+          <label>Valor por aula (R$)</label>
+          <input type="number" id="alunoValor" step="0.01" min="0" placeholder="0,00">
+        </div>
+      </div>
+      <div class="field">
+        <label>Dias de aula</label>
+        <div class="days-row" id="alunoDias"></div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Período</label>
+          <select id="alunoPeriodo">
+            <option value="manha">Manhã</option>
+            <option value="tarde">Tarde</option>
+            <option value="noite">Noite</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Horário padrão</label>
+          <input type="time" id="alunoHora">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Status</label>
+          <select id="alunoAtivo">
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Observações</label>
+        <textarea id="alunoObs" rows="2" placeholder="Anotações..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalAluno')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarAluno()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AULA -->
+<div class="modal-overlay" id="modalAula">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalAulaTitle">Nova Aula</h3>
+      <button class="modal-close" onclick="closeModal('modalAula')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="aulaId">
+      <div class="field">
+        <label>Aluno *</label>
+        <select id="aulaAluno"></select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Data *</label>
+          <input type="date" id="aulaData">
+        </div>
+        <div class="field">
+          <label>Horário</label>
+          <input type="time" id="aulaHora">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Valor (R$)</label>
+          <input type="number" id="aulaValor" step="0.01" min="0">
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="aulaStatus">
+            <option value="agendado">Agendado</option>
+            <option value="presenca">Presença</option>
+            <option value="faltou">Faltou</option>
+            <option value="desmarcou">Desmarcou</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Observações</label>
+        <textarea id="aulaObs" rows="2" placeholder="Anotações..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalAula')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarAula()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AVALIAÇÃO -->
+<div class="modal-overlay" id="modalAvaliacao">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalAvaliacaoTitle">Nova Avaliação Física</h3>
+      <button class="modal-close" onclick="closeModal('modalAvaliacao')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="avalId">
+      <div class="field">
+        <label>Aluno *</label>
+        <select id="avalAluno"></select>
+      </div>
+      <div class="field">
+        <label>Data da avaliação</label>
+        <input type="date" id="avalData">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Peso (kg)</label>
+          <input type="number" id="avalPeso" step="0.1" min="0" placeholder="0.0">
+        </div>
+        <div class="field">
+          <label>Altura (cm)</label>
+          <input type="number" id="avalAltura" step="0.1" min="0" placeholder="0">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>% Gordura</label>
+          <input type="number" id="avalGordura" step="0.1" min="0" placeholder="0.0">
+        </div>
+        <div class="field">
+          <label>Massa muscular (kg)</label>
+          <input type="number" id="avalMassa" step="0.1" min="0" placeholder="0.0">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Circunf. abdominal (cm)</label>
+          <input type="number" id="avalAbdomen" step="0.1" min="0">
+        </div>
+        <div class="field">
+          <label>Circunf. quadril (cm)</label>
+          <input type="number" id="avalQuadril" step="0.1" min="0">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Pressão arterial</label>
+          <input type="text" id="avalPressao" placeholder="120/80">
+        </div>
+        <div class="field">
+          <label>Flexibilidade (cm)</label>
+          <input type="number" id="avalFlex" step="0.1" min="0">
+        </div>
+      </div>
+      <div class="field">
+        <label>Objetivos / Observações</label>
+        <textarea id="avalObs" rows="3" placeholder="Objetivos, queixas, histórico..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalAvaliacao')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarAvaliacao()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ALTERAR SENHA -->
+<div class="modal-overlay" id="modalSenha">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🔑 Alterar Senha</h3>
+      <button class="modal-close" onclick="closeModal('modalSenha')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Senha atual *</label>
+        <input type="password" id="senhaAtual" autocomplete="current-password">
+      </div>
+      <div class="field">
+        <label>Nova senha *</label>
+        <input type="password" id="senhaNova" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>Confirmar nova senha *</label>
+        <input type="password" id="senhaConfirma" autocomplete="new-password">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalSenha')">Cancelar</button>
+      <button class="btn btn-primary" onclick="alterarSenha()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================
+   ESTÚDIO PILATES ENELI
+   ===================================================== */
+const DIAS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const STATUS_LABEL = {agendado:'Agendado',presenca:'Presença',faltou:'Faltou',desmarcou:'Desmarcou'};
+const VALOR_PADRAO = 80; // valor padrão por aula quando aluno não tem valor definido
+
+const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/estudio-pilates-eneli.json';
+
+let state = {
+  alunos: [],
+  aulas: [],
+  avaliacoes: [],
+  user: { nome:'Eneli', usuario:'eneli', senha:'eneli123' }
+};
+
+let charts = {};
+let currentMonth = new Date();
+let loggedUser = null;
+
+const $ = id => document.getElementById(id);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const fmtMoney = v => 'R$ ' + (Number(v)||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fmtDate = d => {
+  if(!d) return '-';
+  const [y,m,dd] = d.split('-');
+  return `${dd}/${m}/${y}`;
+};
+const hoje = () => new Date().toISOString().slice(0,10);
+const pad = n => String(n).padStart(2,'0');
+
+function toast(msg, type=''){
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=>{ t.className = 'toast ' + type; }, 2600);
+}
+
+/* ========== STORAGE ========== */
+function saveLocal(){
+  try{ localStorage.setItem('eneli_data_v2', JSON.stringify(state)); }catch(e){}
+  pushFirebase();
+}
+
+function loadLocal(){
+  try{
+    const raw = localStorage.getItem('eneli_data_v2');
+    if(raw){
+      const d = JSON.parse(raw);
+      state.alunos = d.alunos || [];
+      state.aulas = d.aulas || [];
+      state.avaliacoes = d.avaliacoes || [];
+      state.user = Object.assign({nome:'Eneli',usuario:'eneli',senha:'eneli123'}, d.user||{});
+    }
+  }catch(e){}
+}
+
+/* ========== LOGIN ========== */
+function fazerLogin(){
+  const u = $('loginUser').value.trim();
+  const p = $('loginPass').value;
+  const err = $('loginError');
+  if(!u || !p){
+    err.textContent = 'Preencha usuário e senha.';
+    err.classList.add('show');
+    return;
+  }
+  if(u === state.user.usuario && p === state.user.senha){
+    loggedUser = { nome: state.user.nome, usuario: state.user.usuario };
+    sessionStorage.setItem('eneli_logged', '1');
+    err.classList.remove('show');
+    entrarApp();
+  } else {
+    err.textContent = 'Usuário ou senha incorretos.';
+    err.classList.add('show');
+  }
+}
+function fazerLogout(){
+  if(!confirm('Deseja sair da conta?')) return;
+  sessionStorage.removeItem('eneli_logged');
+  loggedUser = null;
+  $('app').classList.remove('active');
+  $('loginScreen').classList.remove('hidden');
+  $('loginPass').value = '';
+}
+function entrarApp(){
+  $('loginScreen').classList.add('hidden');
+  $('app').classList.add('active');
+  $('userName').textContent = loggedUser?.nome || 'Usuário';
+  $('userAvatar').textContent = (loggedUser?.nome||'U')[0].toUpperCase();
+  renderAll();
+  syncPull(true);
+}
+function openAlterarSenha(){
+  $('senhaAtual').value = '';
+  $('senhaNova').value = '';
+  $('senhaConfirma').value = '';
+  openModal('modalSenha');
+}
+function alterarSenha(){
+  const atual = $('senhaAtual').value;
+  const nova = $('senhaNova').value;
+  const conf = $('senhaConfirma').value;
+  if(!atual || !nova || !conf){ toast('Preencha todos os campos', 'err'); return; }
+  if(atual !== state.user.senha){ toast('Senha atual incorreta', 'err'); return; }
+  if(nova.length < 4){ toast('A nova senha deve ter ao menos 4 caracteres', 'err'); return; }
+  if(nova !== conf){ toast('As senhas não coincidem', 'err'); return; }
+  state.user.senha = nova;
+  saveLocal();
+  closeModal('modalSenha');
+  toast('Senha alterada com sucesso!', 'ok');
+}
+
+/* ========== NAVEGAÇÃO ========== */
+function setView(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  $('view-'+view)?.classList.add('active');
+  document.querySelector(`.nav-item[data-view="${view}"]`)?.classList.add('active');
+
+  const titles = {
+    dashboard:['Dashboard','Visão geral do estúdio'],
+    agenda:['Agenda','Calendário de aulas'],
+    alunos:['Alunos','Cadastro de alunos'],
+    avaliacao:['Avaliação Física','Acompanhamento dos alunos']
+  };
+  if(titles[view]){
+    $('pageTitle').childNodes[0].nodeValue = titles[view][0] + ' ';
+    $('pageSubtitle').textContent = titles[view][1];
+  }
+  if(view === 'dashboard') renderDashboard();
+  if(view === 'agenda') renderAgenda();
+  if(view === 'avaliacao') renderAvaliacoes();
+  if(window.innerWidth <= 768) closeSidebar();
+}
+document.querySelectorAll('.nav-item[data-view]').forEach(item=>{
+  item.addEventListener('click', ()=> setView(item.dataset.view));
+});
+function toggleSidebar(){
+  $('sidebar').classList.toggle('open');
+  $('sidebarOverlay').classList.toggle('active');
+}
+function closeSidebar(){
+  $('sidebar').classList.remove('open');
+  $('sidebarOverlay').classList.remove('active');
+}
+
+/* ========== MODAIS ========== */
+function openModal(id){ $(id).classList.add('active'); }
+function closeModal(id){ $(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click', e=>{ if(e.target === o) o.classList.remove('active'); });
+});
+
+/* ========== FIREBASE ========== */
+async function pushFirebase(){
+  try{
+    const payload = {
+      atualizadoEm: new Date().toISOString(),
+      alunos: state.alunos,
+      aulas: state.aulas,
+      avaliacoes: state.avaliacoes,
+      user: state.user
+    };
+    await fetch(FIREBASE_URL, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+  }catch(e){ console.warn('Erro Firebase:', e); }
+}
+
+async function syncPull(silent=false){
+  try{
+    const resp = await fetch(FIREBASE_URL);
+    const data = await resp.json();
+    if(!data || !data.alunos){ if(!silent) toast('Nenhum dado na nuvem'); return; }
+    state.alunos = data.alunos || [];
+    state.aulas = data.aulas || [];
+    state.avaliacoes = data.avaliacoes || [];
+    if(data.user) state.user = Object.assign(state.user, data.user);
+    try{ localStorage.setItem('eneli_data_v2', JSON.stringify(state)); }catch(e){}
+    renderAll();
+    if(!silent) toast('Dados sincronizados!', 'ok');
+  }catch(e){
+    console.warn('Erro pull:', e);
+    if(!silent) toast('Erro ao buscar dados', 'err');
+  }
+}
+
+/* ========== ALUNOS ========== */
+function renderDiasPicker(selected=[]){
+  const wrap = $('alunoDias');
+  wrap.innerHTML = '';
+  DIAS.forEach((d,i)=>{
+    const el = document.createElement('span');
+    el.className = 'day-pill' + (selected.includes(i)?' on':'');
+    el.textContent = d;
+    el.onclick = ()=> el.classList.toggle('on');
+    wrap.appendChild(el);
+  });
+}
+function openAlunoModal(id=null){
+  const isEdit = !!id;
+  $('modalAlunoTitle').textContent = isEdit ? 'Editar Aluno' : 'Novo Aluno';
+  if(isEdit){
+    const a = state.alunos.find(x=>x.id === id);
+    if(!a) return;
+    $('alunoId').value = a.id;
+    $('alunoNome').value = a.nome;
+    $('alunoTelefone').value = a.telefone || '';
+    $('alunoValor').value = a.valor ?? '';
+    $('alunoPeriodo').value = a.periodo || 'manha';
+    $('alunoHora').value = a.hora || '';
+    $('alunoAtivo').value = String(a.ativo !== false);
+    $('alunoObs').value = a.obs || '';
+    renderDiasPicker(a.dias || []);
+  } else {
+    $('alunoId').value = '';
+    $('alunoNome').value = '';
+    $('alunoTelefone').value = '';
+    $('alunoValor').value = VALOR_PADRAO;
+    $('alunoPeriodo').value = 'manha';
+    $('alunoHora').value = '';
+    $('alunoAtivo').value = 'true';
+    $('alunoObs').value = '';
+    renderDiasPicker([]);
+  }
+  openModal('modalAluno');
+}
+async function salvarAluno(){
+  const nome = $('alunoNome').value.trim();
+  if(!nome){ toast('Informe o nome do aluno', 'err'); return; }
+  const id = $('alunoId').value;
+  const dados = {
+    nome,
+    telefone: $('alunoTelefone').value.trim(),
+    valor: parseFloat($('alunoValor').value) || 0,
+    dias: [...$('alunoDias').querySelectorAll('.day-pill.on')].map(p=>DIAS.indexOf(p.textContent)),
+    periodo: $('alunoPeriodo').value,
+    hora: $('alunoHora').value || '',
+    ativo: $('alunoAtivo').value === 'true',
+    obs: $('alunoObs').value.trim()
+  };
+  if(id){
+    const idx = state.alunos.findIndex(a=>a.id === id);
+    state.alunos[idx] = {...state.alunos[idx], ...dados};
+    toast('Aluno atualizado!', 'ok');
+  } else {
+    state.alunos.push({id: uid(), ...dados, criadoEm: new Date().toISOString()});
+    toast('Aluno cadastrado!', 'ok');
+  }
+  saveLocal();
+  closeModal('modalAluno');
+  renderAll();
+}
+function excluirAluno(id){
+  const a = state.alunos.find(x=>x.id === id);
+  if(!confirm(`Excluir o aluno "${a?.nome}"? As aulas vinculadas também serão removidas.`)) return;
+  state.alunos = state.alunos.filter(x=>x.id !== id);
+  state.aulas = state.aulas.filter(x=>x.alunoId !== id);
+  saveLocal();
+  renderAll();
+  toast('Aluno excluído', 'ok');
+}
+
+/* ========== AULAS ========== */
+function openAulaModal(id=null){
+  if(!state.alunos.length){ toast('Cadastre um aluno primeiro', 'err'); return; }
+  const isEdit = !!id;
+  $('modalAulaTitle').textContent = isEdit ? 'Editar Aula' : 'Nova Aula';
+  const sel = $('aulaAluno');
+  sel.innerHTML = state.alunos.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+
+  if(isEdit){
+    const x = state.aulas.find(a=>a.id === id);
+    if(!x) return;
+    $('aulaId').value = x.id;
+    sel.value = x.alunoId;
+    $('aulaData').value = x.data;
+    $('aulaHora').value = x.hora || '';
+    $('aulaValor').value = x.valor ?? '';
+    $('aulaStatus').value = x.status || 'agendado';
+    $('aulaObs').value = x.obs || '';
+  } else {
+    $('aulaId').value = '';
+    $('aulaData').value = hoje();
+    $('aulaHora').value = '';
+    $('aulaValor').value = '';
+    $('aulaStatus').value = 'agendado';
+    $('aulaObs').value = '';
+    sel.onchange = ()=>{
+      const a = state.alunos.find(x=>x.id === sel.value);
+      if(a){
+        if(a.valor) $('aulaValor').value = a.valor;
+        if(a.hora) $('aulaHora').value = a.hora;
+      }
+    };
+    const a0 = state.alunos[0];
+    $('aulaValor').value = a0?.valor || VALOR_PADRAO;
+    if(a0?.hora) $('aulaHora').value = a0.hora;
+  }
+  openModal('modalAula');
+}
+async function salvarAula(){
+  const alunoId = $('aulaAluno').value;
+  const data = $('aulaData').value;
+  if(!alunoId){ toast('Selecione um aluno', 'err'); return; }
+  if(!data){ toast('Informe a data', 'err'); return; }
+  const id = $('aulaId').value;
+  const aluno = state.alunos.find(a=>a.id === alunoId);
+  const dados = {
+    alunoId,
+    alunoNome: aluno ? aluno.nome : '',
+    data,
+    hora: $('aulaHora').value || '',
+    valor: parseFloat($('aulaValor').value) || 0,
+    status: $('aulaStatus').value,
+    obs: $('aulaObs').value.trim()
+  };
+  if(id){
+    const idx = state.aulas.findIndex(a=>a.id === id);
+    state.aulas[idx] = {...state.aulas[idx], ...dados};
+    toast('Aula atualizada!', 'ok');
+  } else {
+    state.aulas.push({id: uid(), ...dados, criadoEm: new Date().toISOString()});
+    toast('Aula registrada!', 'ok');
+  }
+  saveLocal();
+  closeModal('modalAula');
+  renderAll();
+}
+function excluirAula(id){
+  if(!confirm('Excluir este registro de aula?')) return;
+  state.aulas = state.aulas.filter(a=>a.id !== id);
+  saveLocal();
+  renderAll();
+  toast('Aula excluída', 'ok');
+}
+function mudarStatusAula(id, novoStatus){
+  const a = state.aulas.find(x=>x.id === id);
+  if(!a) return;
+  a.status = novoStatus;
+  saveLocal();
+  renderAll();
+  toast('Status: ' + STATUS_LABEL[novoStatus], 'ok');
+}
+
+/* ========== GERAR AGENDA DO MÊS ========== */
+function gerarAgendaMes(){
+  const alunos = state.alunos.filter(a=>a.ativo !== false);
+  if(!alunos.length){ toast('Nenhum aluno ativo cadastrado', 'err'); return; }
+
+  const ano = currentMonth.getFullYear();
+  const mes = currentMonth.getMonth();
+  const ultimoDia = new Date(ano, mes+1, 0).getDate();
+
+  let geradas = 0, puladas = 0;
+
+  for(let dia = 1; dia <= ultimoDia; dia++){
+    const data = new Date(ano, mes, dia);
+    let diaSemana = data.getDay() - 1;
+    if(diaSemana < 0) diaSemana = 6;
+    const dataStr = `${ano}-${pad(mes+1)}-${pad(dia)}`;
+
+    alunos.forEach(aluno=>{
+      if(!(aluno.dias||[]).includes(diaSemana)) return;
+      const existe = state.aulas.some(a=>
+        a.alunoId === aluno.id && a.data === dataStr
+      );
+      if(existe){ puladas++; return; }
+
+      state.aulas.push({
+        id: uid(),
+        alunoId: aluno.id,
+        alunoNome: aluno.nome,
+        data: dataStr,
+        hora: aluno.hora || '',
+        valor: aluno.valor || VALOR_PADRAO,
+        status: 'agendado',
+        obs: '',
+        geradoAuto: true,
+        criadoEm: new Date().toISOString()
+      });
+      geradas++;
+    });
+  }
+
+  saveLocal();
+  renderAll();
+  toast(`${geradas} aulas geradas${puladas?`, ${puladas} já existiam`:''}`, 'ok');
+}
+
+/* ========== AVALIAÇÕES ========== */
+function openAvaliacaoModal(id=null){
+  if(!state.alunos.length){ toast('Cadastre um aluno primeiro', 'err'); return; }
+  const isEdit = !!id;
+  $('modalAvaliacaoTitle').textContent = isEdit ? 'Editar Avaliação' : 'Nova Avaliação Física';
+  const sel = $('avalAluno');
+  sel.innerHTML = state.alunos.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+
+  if(isEdit){
+    const x = state.avaliacoes.find(a=>a.id === id);
+    if(!x) return;
+    $('avalId').value = x.id;
+    sel.value = x.alunoId;
+    $('avalData').value = x.data || hoje();
+    $('avalPeso').value = x.peso ?? '';
+    $('avalAltura').value = x.altura ?? '';
+    $('avalGordura').value = x.gordura ?? '';
+    $('avalMassa').value = x.massa ?? '';
+    $('avalAbdomen').value = x.abdomen ?? '';
+    $('avalQuadril').value = x.quadril ?? '';
+    $('avalPressao').value = x.pressao || '';
+    $('avalFlex').value = x.flex ?? '';
+    $('avalObs').value = x.obs || '';
+  } else {
+    $('avalId').value = '';
+    $('avalData').value = hoje();
+    ['avalPeso','avalAltura','avalGordura','avalMassa','avalAbdomen','avalQuadril','avalFlex'].forEach(i=>$(i).value='');
+    $('avalPressao').value = '';
+    $('avalObs').value = '';
+  }
+  openModal('modalAvaliacao');
+}
+async function salvarAvaliacao(){
+  const alunoId = $('avalAluno').value;
+  if(!alunoId){ toast('Selecione um aluno', 'err'); return; }
+  const aluno = state.alunos.find(a=>a.id === alunoId);
+  const id = $('avalId').value;
+  const dados = {
+    alunoId,
+    alunoNome: aluno ? aluno.nome : '',
+    data: $('avalData').value || hoje(),
+    peso: parseFloat($('avalPeso').value) || 0,
+    altura: parseFloat($('avalAltura').value) || 0,
+    gordura: parseFloat($('avalGordura').value) || 0,
+    massa: parseFloat($('avalMassa').value) || 0,
+    abdomen: parseFloat($('avalAbdomen').value) || 0,
+    quadril: parseFloat($('avalQuadril').value) || 0,
+    pressao: $('avalPressao').value.trim(),
+    flex: parseFloat($('avalFlex').value) || 0,
+    obs: $('avalObs').value.trim()
+  };
+  if(id){
+    const idx = state.avaliacoes.findIndex(a=>a.id === id);
+    state.avaliacoes[idx] = {...state.avaliacoes[idx], ...dados};
+    toast('Avaliação atualizada!', 'ok');
+  } else {
+    state.avaliacoes.push({id: uid(), ...dados, criadoEm: new Date().toISOString()});
+    toast('Avaliação registrada!', 'ok');
+  }
+  saveLocal();
+  closeModal('modalAvaliacao');
+  renderAll();
+}
+function excluirAvaliacao(id){
+  if(!confirm('Excluir esta avaliação?')) return;
+  state.avaliacoes = state.avaliacoes.filter(a=>a.id !== id);
+  saveLocal();
+  renderAvaliacoes();
+  toast('Avaliação excluída', 'ok');
+}
+function calcIMC(peso, alturaCm){
+  if(!peso || !alturaCm) return 0;
+  const h = alturaCm/100;
+  return peso/(h*h);
+}
+
+/* ========== RENDER ========== */
+function renderAll(){
+  renderAlunos();
+  renderAgenda();
+  renderAvaliacoes();
+  renderDashboard();
+  atualizarFiltros();
+}
+
+function renderAlunos(){
+  const tb = $('alunosTbody');
+  const empty = $('alunosEmpty');
+  if(!state.alunos.length){
+    tb.innerHTML = '';
+    empty.innerHTML = '<div class="empty"><div class="big">👥</div><p>Nenhum aluno cadastrado</p><p>Clique em "Novo Aluno" para começar</p></div>';
+    return;
+  }
+  empty.innerHTML = '';
+  tb.innerHTML = state.alunos.map(a=>{
+    const dias = (a.dias||[]).map(i=>DIAS[i]).join(', ') || '-';
+    const iniciais = a.nome.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    return `<tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--primary-soft);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;flex-shrink:0">${iniciais}</div>
+          <div>
+            <div style="font-weight:700">${a.nome}</div>
+            ${a.obs?`<div style="font-size:.75rem;color:var(--text-soft)">${a.obs}</div>`:''}
+          </div>
+        </div>
+      </td>
+      <td>${a.telefone || '-'}</td>
+      <td>${dias}</td>
+      <td>${fmtMoney(a.valor)}</td>
+      <td>${a.ativo !== false ? '<span class="badge badge-presenca">Ativo</span>' : '<span class="badge badge-desmarcou">Inativo</span>'}</td>
+      <td>
+        <div class="actions-cell">
+          <button class="btn btn-icon" onclick="openAlunoModal('${a.id}')">✏️</button>
+          <button class="btn btn-icon" onclick="excluirAluno('${a.id}')">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ========== AGENDA VISUAL ========== */
+function renderAgenda(){
+  renderCalendario();
+  renderListaAulas();
+  atualizarFiltros();
+}
+
+function renderCalendario(){
+  const grid = $('calendarGrid');
+  const ano = currentMonth.getFullYear();
+  const mes = currentMonth.getMonth();
+  const nomeMes = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  $('monthTitle').textContent = `${nomeMes[mes]} ${ano}`;
+
+  const primeiroDia = new Date(ano, mes, 1);
+  let startWeek = primeiroDia.getDay() - 1;
+  if(startWeek < 0) startWeek = 6;
+
+  const ultimoDiaAnt = new Date(ano, mes, 0).getDate();
+  const ultimoDia = new Date(ano, mes+1, 0).getDate();
+  const hojeStr = hoje();
+
+  let html = DIAS.map(d=>`<div class="cal-header">${d}</div>`).join('');
+
+  for(let i = startWeek - 1; i >= 0; i--){
+    html += `<div class="cal-day other-month"><span class="cal-num">${ultimoDiaAnt - i}</span></div>`;
+  }
+
+  for(let dia = 1; dia <= ultimoDia; dia++){
+    const dataStr = `${ano}-${pad(mes+1)}-${pad(dia)}`;
+    const isHoje = dataStr === hojeStr;
+    const aulasDia = state.aulas.filter(a=>a.data === dataStr).sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+
+    let eventosHtml = '';
+    const maxMostrar = 3;
+    aulasDia.slice(0, maxMostrar).forEach(a=>{
+      const hora = a.hora ? a.hora + ' ' : '';
+      eventosHtml += `<div class="cal-event ${a.status}" onclick="event.stopPropagation();openAulaModal('${a.id}')" title="${a.alunoNome} - ${STATUS_LABEL[a.status]}">${hora}${a.alunoNome}</div>`;
+    });
+    if(aulasDia.length > maxMostrar){
+      eventosHtml += `<div class="cal-more">+${aulasDia.length - maxMostrar} mais</div>`;
+    }
+
+    html += `<div class="cal-day ${isHoje?'today':''}" onclick="adicionarAulaDia('${dataStr}')">
+      <span class="cal-num">${dia}</span>
+      <div class="cal-events">${eventosHtml}</div>
+    </div>`;
+  }
+
+  const totalCells = startWeek + ultimoDia;
+  const resto = totalCells % 7;
+  if(resto !== 0){
+    for(let i = 1; i <= 7 - resto; i++){
+      html += `<div class="cal-day other-month"><span class="cal-num">${i}</span></div>`;
+    }
+  }
+
+  grid.innerHTML = html;
+}
+
+function mudarMes(delta){
+  currentMonth.setMonth(currentMonth.getMonth() + delta);
+  renderCalendario();
+}
+function irParaHoje(){
+  currentMonth = new Date();
+  renderCalendario();
+}
+function adicionarAulaDia(dataStr){
+  if(!state.alunos.length){ toast('Cadastre um aluno primeiro', 'err'); return; }
+  openAulaModal();
+  setTimeout(()=>{ $('aulaData').value = dataStr; }, 50);
+}
+
+function renderListaAulas(){
+  const tb = $('agendaTbody');
+  const empty = $('agendaEmpty');
+  if(!tb) return;
+  const fAluno = $('filtroAluno')?.value || '';
+  const fStatus = $('filtroStatus')?.value || '';
+  const fData = $('filtroData')?.value || '';
+
+  let lista = [...state.aulas];
+  if(fAluno) lista = lista.filter(a=>a.alunoId === fAluno);
+  if(fStatus) lista = lista.filter(a=>a.status === fStatus);
+  if(fData) lista = lista.filter(a=>a.data === fData);
+  lista.sort((a,b)=> (b.data + (b.hora||'')).localeCompare(a.data + (a.hora||'')));
+
+  if(!lista.length){
+    tb.innerHTML = '';
+    empty.innerHTML = '<div class="empty"><div class="big">📅</div><p>Nenhum registro encontrado</p><p>Use "Gerar Agenda do Mês" para criar automaticamente</p></div>';
+    return;
+  }
+  empty.innerHTML = '';
+  tb.innerHTML = lista.slice(0, 200).map(a=>`
+    <tr>
+      <td style="white-space:nowrap">${fmtDate(a.data)}</td>
+      <td style="font-weight:700">${a.alunoNome || '-'}</td>
+      <td>${a.hora || '-'}</td>
+      <td>${fmtMoney(a.valor)}</td>
+      <td>
+        <select onchange="mudarStatusAula('${a.id}', this.value)" style="padding:5px 9px;border-radius:8px;border:1.5px solid var(--border);font-size:.78rem;font-weight:700;font-family:inherit;cursor:pointer;background:#fff;color:var(--text)">
+          ${Object.entries(STATUS_LABEL).map(([k,v])=>`<option value="${k}" ${a.status===k?'selected':''}>${v}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <div class="actions-cell">
+          <button class="btn btn-icon" onclick="openAulaModal('${a.id}')">✏️</button>
+          <button class="btn btn-icon" onclick="excluirAula('${a.id}')">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') + (lista.length > 200 ? `<tr><td colspan="6" style="text-align:center;color:var(--text-soft);font-size:.82rem">Mostrando 200 de ${lista.length} registros. Use os filtros para refinar.</td></tr>` : '');
+}
+
+function atualizarFiltros(){
+  const sel = $('filtroAluno');
+  if(!sel) return;
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">Todos</option>' + state.alunos.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+  sel.value = atual;
+}
+function limparFiltros(){
+  $('filtroAluno').value = '';
+  $('filtroStatus').value = '';
+  $('filtroData').value = '';
+  renderListaAulas();
+}
+
+/* ========== AVALIAÇÕES RENDER ========== */
+function renderAvaliacoes(){
+  const tb = $('avaliacaoTbody');
+  const empty = $('avaliacaoEmpty');
+  if(!tb) return;
+  if(!state.avaliacoes.length){
+    tb.innerHTML = '';
+    empty.innerHTML = '<div class="empty"><div class="big">📋</div><p>Nenhuma avaliação registrada</p><p>Clique em "Nova Avaliação" para começar</p></div>';
+    return;
+  }
+  empty.innerHTML = '';
+  const sorted = [...state.avaliacoes].sort((a,b)=> (b.data||'').localeCompare(a.data||''));
+  tb.innerHTML = sorted.map(a=>{
+    const imc = calcIMC(a.peso, a.altura);
+    const imcTxt = imc ? imc.toFixed(1) : '-';
+    return `<tr>
+      <td style="white-space:nowrap">${fmtDate(a.data)}</td>
+      <td style="font-weight:700">${a.alunoNome || '-'}</td>
+      <td>${a.peso ? a.peso + ' kg' : '-'}</td>
+      <td>${a.altura ? a.altura + ' cm' : '-'}</td>
+      <td>${imcTxt}</td>
+      <td>
+        <div class="actions-cell">
+          <button class="btn btn-icon" onclick="openAvaliacaoModal('${a.id}')">✏️</button>
+          <button class="btn btn-icon" onclick="excluirAvaliacao('${a.id}')">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ========== DASHBOARD ========== */
+function renderDashboard(){
+  const aulas = state.aulas;
+  const alunos = state.alunos;
+
+  const totalAlunos = alunos.length;
+  const ativos = alunos.filter(a=>a.ativo !== false).length;
+  const totalAulas = aulas.length;
+  const presencas = aulas.filter(a=>a.status === 'presenca').length;
+  const faltas = aulas.filter(a=>a.status === 'faltou').length;
+  const desmarcou = aulas.filter(a=>a.status === 'desmarcou').length;
+  const agendadas = aulas.filter(a=>a.status === 'agendado').length;
+  const faturado = aulas.filter(a=>a.status === 'presenca').reduce((s,a)=>s+(Number(a.valor)||0),0);
+  const pendente = aulas.filter(a=>a.status === 'agendado').reduce((s,a)=>s+(Number(a.valor)||0),0);
+
+  $('statsGrid').innerHTML = `
+    <div class="stat"><div class="stat-label">Alunos</div><div class="stat-value">${totalAlunos}</div><div class="stat-sub">${ativos} ativos</div></div>
+    <div class="stat green"><div class="stat-label">Presenças</div><div class="stat-value">${presencas}</div><div class="stat-sub">de ${totalAulas} aulas</div></div>
+    <div class="stat red"><div class="stat-label">Faltas</div><div class="stat-value">${faltas}</div><div class="stat-sub">${desmarcou} desmarcou</div></div>
+    <div class="stat yellow"><div class="stat-label">Agendadas</div><div class="stat-value">${agendadas}</div><div class="stat-sub">${fmtMoney(pendente)} previsto</div></div>
+    <div class="stat blue"><div class="stat-label">Faturamento</div><div class="stat-value">${fmtMoney(faturado)}</div><div class="stat-sub">presenças confirmadas</div></div>
+  `;
+
+  atualizarChart('chartStatus','doughnut',{
+    labels:['Presença','Faltou','Desmarcou','Agendado'],
+    datasets:[{
+      data:[presencas,faltas,desmarcou,agendadas],
+      backgroundColor:['#4a5d3a','#c0503d','#8a9384','#d4a72c'],
+      borderWidth:0
+    }]
+  });
+
+  const periodos = {manha:0,tarde:0,noite:0};
+  alunos.forEach(a=>{ if(a.periodo) periodos[a.periodo] = (periodos[a.periodo]||0)+1; });
+  atualizarChart('chartPeriodo','bar',{
+    labels:['Manhã','Tarde','Noite'],
+    datasets:[{
+      label:'Alunos',
+      data:[periodos.manha,periodos.tarde,periodos.noite],
+      backgroundColor:['#4a5d3a','#7d9471','#a8b89a'],
+      borderRadius:8
+    }]
+  },{plugins:{legend:{display:false}}});
+
+  const porMes = {};
+  aulas.filter(a=>a.status === 'presenca').forEach(a=>{
+    const mes = a.data?.slice(0,7) || 'sem-data';
+    porMes[mes] = (porMes[mes]||0) + (Number(a.valor)||0);
+  });
+  const meses = Object.keys(porMes).sort();
+  atualizarChart('chartMes','bar',{
+    labels: meses.length ? meses.map(m=>{ const [y,mm] = m.split('-'); return `${mm}/${y}`; }) : ['Sem dados'],
+    datasets:[{
+      label:'R$',
+      data: meses.length ? meses.map(m=>porMes[m]) : [0],
+      backgroundColor:'#4a5d3a',
+      borderRadius:8
+    }]
+  },{plugins:{legend:{display:false}}});
+
+  const porDia = [0,0,0,0,0,0,0];
+  aulas.forEach(a=>{
+    if(!a.data) return;
+    const d = new Date(a.data + 'T12:00:00');
+    let idx = d.getDay() - 1;
+    if(idx < 0) idx = 6;
+    porDia[idx]++;
+  });
+  atualizarChart('chartDia','bar',{
+    labels: DIAS,
+    datasets:[{
+      label:'Aulas',
+      data: porDia,
+      backgroundColor:'#7d9471',
+      borderRadius:8
+    }]
+  },{plugins:{legend:{display:false}}});
+
+  const ticket = presencas ? faturado/presencas : 0;
+  $('finResumo').innerHTML = `
+    <div class="stats-grid" style="margin:0">
+      <div class="stat green"><div class="stat-label">Total Faturado</div><div class="stat-value">${fmtMoney(faturado)}</div></div>
+      <div class="stat yellow"><div class="stat-label">A Receber</div><div class="stat-value">${fmtMoney(pendente)}</div></div>
+      <div class="stat blue"><div class="stat-label">Ticket Médio</div><div class="stat-value">${fmtMoney(ticket)}</div></div>
+      <div class="stat"><div class="stat-label">Valor Padrão</div><div class="stat-value">${fmtMoney(VALOR_PADRAO)}</div></div>
+    </div>
+  `;
+}
+
+function atualizarChart(canvasId, type, data, options={}){
+  const el = document.getElementById(canvasId);
+  if(!el) return;
+  if(charts[canvasId]) charts[canvasId].destroy();
+  const baseOptions = {
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:12,font:{size:11},padding:12,color:'#2b3428'}},
+      ...(options.plugins||{})
+    }
+  };
+  if(type === 'bar'){
+    baseOptions.scales = {
+      y:{beginAtZero:true,grid:{color:'#eef2ea'},ticks:{font:{size:11},color:'#6d7a68'}},
+      x:{grid:{display:false},ticks:{font:{size:11},color:'#6d7a68'}}
+    };
+  }
+  charts[canvasId] = new Chart(el, { type, data, options: baseOptions });
+}
+
+/* ========== INIT ========== */
+function init(){
+  loadLocal();
+
+  if(sessionStorage.getItem('eneli_logged') === '1'){
+    loggedUser = { nome: state.user.nome, usuario: state.user.usuario };
+    entrarApp();
+  }
+
+  $('loginPass').addEventListener('keydown', e=>{ if(e.key === 'Enter') fazerLogin(); });
+  $('loginUser').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('loginPass').focus(); });
+
+  if(state.user.senha !== 'eneli123'){
+    $('loginHint').style.display = 'none';
+  }
+
+  // Auto-sync a cada 30s
+  setInterval(()=>{ pushFirebase(); }, 30000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
