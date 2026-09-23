@@ -111,6 +111,10 @@ body{
 .nav-item.active{background:rgba(255,255,255,.18);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .nav-item .ico{width:22px;text-align:center;font-size:1.1rem;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .nav-item .txt{flex:1}
+.nav-item .badge-count{
+  background:#fff;color:var(--primary-dark);font-size:.68rem;font-weight:800;
+  padding:2px 7px;border-radius:10px;min-width:22px;text-align:center;
+}
 .sidebar-footer{padding:14px 12px;border-top:1px solid rgba(255,255,255,.12)}
 .sidebar-footer .nav-item{font-size:.85rem}
 
@@ -358,6 +362,68 @@ tbody tr:hover{background:var(--primary-soft)}
 .cal-event.desmarcou{background:#eceae6;border-color:var(--gray);color:#6d7a68}
 .cal-more{font-size:.68rem;color:var(--text-soft);font-weight:700;padding-left:5px}
 
+/* ====== MODAL DIA (agenda do dia) ====== */
+.dia-modal-date{
+  font-size:.82rem;color:var(--text-soft);font-weight:700;
+  margin:-8px 0 16px;letter-spacing:.2px;
+}
+.dia-aluno-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;
+  margin-bottom:10px;transition:.15s;background:#fff;
+}
+.dia-aluno-item:hover{border-color:var(--primary-light);background:var(--primary-soft)}
+.dia-aluno-hora{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:56px;padding:6px 4px;border-radius:9px;
+  background:var(--primary-soft);color:var(--primary-dark);font-weight:800;
+}
+.dia-aluno-hora .h{font-size:.9rem;line-height:1.1}
+.dia-aluno-hora .d{font-size:.62rem;opacity:.7;font-weight:700;margin-top:2px}
+.dia-aluno-info{flex:1;min-width:0}
+.dia-aluno-nome{font-weight:800;font-size:.92rem;color:var(--text);margin-bottom:3px}
+.dia-aluno-meta{font-size:.75rem;color:var(--text-soft);display:flex;gap:8px;flex-wrap:wrap}
+.dia-aluno-acoes{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+.status-check{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 12px;border-radius:10px;font-size:.78rem;font-weight:800;
+  border:1.5px solid var(--border);background:#fff;cursor:pointer;
+  transition:.15s;color:var(--text-soft);user-select:none;
+}
+.status-check:hover{border-color:var(--primary-light)}
+.status-check.on{border-color:transparent;color:#fff}
+.status-check.on.presenca{background:var(--primary)}
+.status-check.on.faltou{background:var(--red)}
+.status-check.on.desmarcou{background:var(--gray)}
+.status-check.on.agendado{background:var(--yellow)}
+.status-check .chk{
+  width:16px;height:16px;border-radius:50%;border:2px solid currentColor;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:.7rem;
+}
+.status-check.on .chk{background:#fff;color:inherit;border-color:#fff}
+
+/* ====== HOJE ====== */
+.hoje-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin-bottom:18px;
+}
+.hoje-data{
+  font-size:1.15rem;font-weight:800;color:var(--primary-dark);letter-spacing:-.3px;
+}
+.hoje-data small{display:block;font-size:.75rem;font-weight:600;color:var(--text-soft);letter-spacing:0;margin-top:2px}
+.hoje-stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;margin-bottom:18px;
+}
+.hoje-stat{
+  background:var(--primary-soft);border-radius:11px;padding:12px 14px;
+  border:1px solid var(--border);
+}
+.hoje-stat .lbl{font-size:.7rem;color:var(--text-soft);font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+.hoje-stat .val{font-size:1.3rem;font-weight:800;color:var(--primary-dark);margin-top:3px}
+
 /* SIDEBAR OVERLAY */
 .sidebar-overlay{
   display:none;position:fixed;inset:0;background:rgba(43,52,40,.5);
@@ -403,6 +469,12 @@ tbody tr:hover{background:var(--primary-soft)}
   .month-title{font-size:1rem;min-width:140px}
   .agenda-controls{gap:8px}
   .agenda-controls .btn{padding:7px 10px;font-size:.8rem}
+  .dia-aluno-item{padding:10px;gap:8px}
+  .dia-aluno-hora{min-width:48px;padding:5px 3px}
+  .dia-aluno-hora .h{font-size:.82rem}
+  .dia-aluno-acoes{gap:4px}
+  .status-check{padding:6px 9px;font-size:.72rem}
+  .status-check .txt-chk{display:none}
 }
 @media(max-width:380px){
   .stats-grid{grid-template-columns:1fr}
@@ -448,6 +520,10 @@ tbody tr:hover{background:var(--primary-soft)}
     <nav class="sidebar-nav">
       <button class="nav-item active" data-view="dashboard">
         <span class="ico">📊</span><span class="txt">Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="hoje">
+        <span class="ico">⭐</span><span class="txt">Hoje</span>
+        <span class="badge-count" id="hojeCount">0</span>
       </button>
       <button class="nav-item" data-view="agenda">
         <span class="ico">📅</span><span class="txt">Agenda</span>
@@ -519,6 +595,24 @@ tbody tr:hover{background:var(--primary-soft)}
         </div>
       </div>
 
+      <!-- HOJE -->
+      <div class="view" id="view-hoje">
+        <div class="hoje-header">
+          <div class="hoje-data" id="hojeData">
+            Hoje
+            <small id="hojeDataSub"></small>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="openAulaModal()">➕ Agendar Aula</button>
+          </div>
+        </div>
+        <div class="hoje-stats" id="hojeStats"></div>
+        <div class="card">
+          <h3 class="card-title"><span class="dot"></span>Aulas de Hoje</h3>
+          <div id="hojeLista"></div>
+        </div>
+      </div>
+
       <!-- AGENDA -->
       <div class="view" id="view-agenda">
         <div class="card">
@@ -562,7 +656,7 @@ tbody tr:hover{background:var(--primary-soft)}
           <div class="table-wrap">
             <table>
               <thead>
-                <tr><th>Data</th><th>Aluno</th><th>Horário</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+                <tr><th>Data</th><th>Aluno</th><th>Horário</th><th>Duração</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
               </thead>
               <tbody id="agendaTbody"></tbody>
             </table>
@@ -581,7 +675,7 @@ tbody tr:hover{background:var(--primary-soft)}
           <div class="table-wrap">
             <table>
               <thead>
-                <tr><th>Nome</th><th>Telefone</th><th>Dias</th><th>Valor/Aula</th><th>Status</th><th>Ações</th></tr>
+                <tr><th>Nome</th><th>Telefone</th><th>Dias</th><th>Horário</th><th>Valor/Aula</th><th>Status</th><th>Ações</th></tr>
               </thead>
               <tbody id="alunosTbody"></tbody>
             </table>
@@ -609,6 +703,24 @@ tbody tr:hover{background:var(--primary-soft)}
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DIA (agenda do dia) -->
+<div class="modal-overlay" id="modalDia">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalDiaTitle">Aulas do Dia</h3>
+      <button class="modal-close" onclick="closeModal('modalDia')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="dia-modal-date" id="modalDiaDate"></div>
+      <div id="modalDiaLista"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalDia')">Fechar</button>
+      <button class="btn btn-primary" id="modalDiaAgendarBtn" onclick="agendarNoDiaSelecionado()">➕ Agendar Aula</button>
     </div>
   </div>
 </div>
@@ -656,6 +768,15 @@ tbody tr:hover{background:var(--primary-soft)}
       </div>
       <div class="field-row">
         <div class="field">
+          <label>Duração da aula</label>
+          <select id="alunoDuracao">
+            <option value="30">30 minutos</option>
+            <option value="45">45 minutos</option>
+            <option value="60" selected>1 hora</option>
+            <option value="90">1h30</option>
+          </select>
+        </div>
+        <div class="field">
           <label>Status</label>
           <select id="alunoAtivo">
             <option value="true">Ativo</option>
@@ -700,18 +821,27 @@ tbody tr:hover{background:var(--primary-soft)}
       </div>
       <div class="field-row">
         <div class="field">
+          <label>Duração</label>
+          <select id="aulaDuracao">
+            <option value="30">30 minutos</option>
+            <option value="45">45 minutos</option>
+            <option value="60" selected>1 hora</option>
+            <option value="90">1h30</option>
+          </select>
+        </div>
+        <div class="field">
           <label>Valor (R$)</label>
           <input type="number" id="aulaValor" step="0.01" min="0">
         </div>
-        <div class="field">
-          <label>Status</label>
-          <select id="aulaStatus">
-            <option value="agendado">Agendado</option>
-            <option value="presenca">Presença</option>
-            <option value="faltou">Faltou</option>
-            <option value="desmarcou">Desmarcou</option>
-          </select>
-        </div>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="aulaStatus">
+          <option value="agendado">Agendado</option>
+          <option value="presenca">Presença</option>
+          <option value="faltou">Faltou</option>
+          <option value="desmarcou">Desmarcou</option>
+        </select>
       </div>
       <div class="field">
         <label>Observações</label>
@@ -829,8 +959,10 @@ tbody tr:hover{background:var(--primary-soft)}
    ESTÚDIO PILATES ENELI
    ===================================================== */
 const DIAS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const DIAS_FULL = ['Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo'];
 const STATUS_LABEL = {agendado:'Agendado',presenca:'Presença',faltou:'Faltou',desmarcou:'Desmarcou'};
-const VALOR_PADRAO = 80; // valor padrão por aula quando aluno não tem valor definido
+const VALOR_PADRAO = 80;
+const DURACAO_LABEL = {30:'30 min',45:'45 min',60:'1h',90:'1h30'};
 
 const FIREBASE_URL = 'https://appatividades-7450d-default-rtdb.firebaseio.com/estudio-pilates-eneli.json';
 
@@ -844,6 +976,7 @@ let state = {
 let charts = {};
 let currentMonth = new Date();
 let loggedUser = null;
+let diaSelecionado = null; // data no formato YYYY-MM-DD do modalDia
 
 const $ = id => document.getElementById(id);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -853,6 +986,7 @@ const fmtDate = d => {
   const [y,m,dd] = d.split('-');
   return `${dd}/${m}/${y}`;
 };
+const fmtDur = d => DURACAO_LABEL[d] || (d ? d + ' min' : '-');
 const hoje = () => new Date().toISOString().slice(0,10);
 const pad = n => String(n).padStart(2,'0');
 
@@ -948,6 +1082,7 @@ function setView(view){
 
   const titles = {
     dashboard:['Dashboard','Visão geral do estúdio'],
+    hoje:['Agenda de Hoje','Aulas do dia'],
     agenda:['Agenda','Calendário de aulas'],
     alunos:['Alunos','Cadastro de alunos'],
     avaliacao:['Avaliação Física','Acompanhamento dos alunos']
@@ -957,6 +1092,7 @@ function setView(view){
     $('pageSubtitle').textContent = titles[view][1];
   }
   if(view === 'dashboard') renderDashboard();
+  if(view === 'hoje') renderHoje();
   if(view === 'agenda') renderAgenda();
   if(view === 'avaliacao') renderAvaliacoes();
   if(window.innerWidth <= 768) closeSidebar();
@@ -1040,6 +1176,7 @@ function openAlunoModal(id=null){
     $('alunoValor').value = a.valor ?? '';
     $('alunoPeriodo').value = a.periodo || 'manha';
     $('alunoHora').value = a.hora || '';
+    $('alunoDuracao').value = a.duracao || 60;
     $('alunoAtivo').value = String(a.ativo !== false);
     $('alunoObs').value = a.obs || '';
     renderDiasPicker(a.dias || []);
@@ -1050,6 +1187,7 @@ function openAlunoModal(id=null){
     $('alunoValor').value = VALOR_PADRAO;
     $('alunoPeriodo').value = 'manha';
     $('alunoHora').value = '';
+    $('alunoDuracao').value = '60';
     $('alunoAtivo').value = 'true';
     $('alunoObs').value = '';
     renderDiasPicker([]);
@@ -1067,6 +1205,7 @@ async function salvarAluno(){
     dias: [...$('alunoDias').querySelectorAll('.day-pill.on')].map(p=>DIAS.indexOf(p.textContent)),
     periodo: $('alunoPeriodo').value,
     hora: $('alunoHora').value || '',
+    duracao: parseInt($('alunoDuracao').value) || 60,
     ativo: $('alunoAtivo').value === 'true',
     obs: $('alunoObs').value.trim()
   };
@@ -1093,7 +1232,7 @@ function excluirAluno(id){
 }
 
 /* ========== AULAS ========== */
-function openAulaModal(id=null){
+function openAulaModal(id=null, dataPreenchida=null){
   if(!state.alunos.length){ toast('Cadastre um aluno primeiro', 'err'); return; }
   const isEdit = !!id;
   $('modalAulaTitle').textContent = isEdit ? 'Editar Aula' : 'Nova Aula';
@@ -1107,13 +1246,15 @@ function openAulaModal(id=null){
     sel.value = x.alunoId;
     $('aulaData').value = x.data;
     $('aulaHora').value = x.hora || '';
+    $('aulaDuracao').value = x.duracao || 60;
     $('aulaValor').value = x.valor ?? '';
     $('aulaStatus').value = x.status || 'agendado';
     $('aulaObs').value = x.obs || '';
   } else {
     $('aulaId').value = '';
-    $('aulaData').value = hoje();
+    $('aulaData').value = dataPreenchida || hoje();
     $('aulaHora').value = '';
+    $('aulaDuracao').value = '60';
     $('aulaValor').value = '';
     $('aulaStatus').value = 'agendado';
     $('aulaObs').value = '';
@@ -1122,11 +1263,13 @@ function openAulaModal(id=null){
       if(a){
         if(a.valor) $('aulaValor').value = a.valor;
         if(a.hora) $('aulaHora').value = a.hora;
+        if(a.duracao) $('aulaDuracao').value = a.duracao;
       }
     };
     const a0 = state.alunos[0];
     $('aulaValor').value = a0?.valor || VALOR_PADRAO;
     if(a0?.hora) $('aulaHora').value = a0.hora;
+    if(a0?.duracao) $('aulaDuracao').value = a0.duracao;
   }
   openModal('modalAula');
 }
@@ -1142,6 +1285,7 @@ async function salvarAula(){
     alunoNome: aluno ? aluno.nome : '',
     data,
     hora: $('aulaHora').value || '',
+    duracao: parseInt($('aulaDuracao').value) || 60,
     valor: parseFloat($('aulaValor').value) || 0,
     status: $('aulaStatus').value,
     obs: $('aulaObs').value.trim()
@@ -1157,12 +1301,14 @@ async function salvarAula(){
   saveLocal();
   closeModal('modalAula');
   renderAll();
+  if(diaSelecionado) renderModalDia();
 }
 function excluirAula(id){
   if(!confirm('Excluir este registro de aula?')) return;
   state.aulas = state.aulas.filter(a=>a.id !== id);
   saveLocal();
   renderAll();
+  if(diaSelecionado) renderModalDia();
   toast('Aula excluída', 'ok');
 }
 function mudarStatusAula(id, novoStatus){
@@ -1171,7 +1317,161 @@ function mudarStatusAula(id, novoStatus){
   a.status = novoStatus;
   saveLocal();
   renderAll();
+  if(diaSelecionado) renderModalDia();
   toast('Status: ' + STATUS_LABEL[novoStatus], 'ok');
+}
+
+/* ========== MODAL DIA (agenda do dia) ========== */
+function abrirModalDia(dataStr){
+  diaSelecionado = dataStr;
+  renderModalDia();
+  openModal('modalDia');
+}
+function renderModalDia(){
+  if(!diaSelecionado) return;
+  const dt = new Date(diaSelecionado + 'T12:00:00');
+  const diaSemana = dt.getDay();
+  const diaSemanaIdx = diaSemana === 0 ? 6 : diaSemana - 1;
+
+  $('modalDiaTitle').textContent = 'Aulas do Dia';
+  $('modalDiaDate').textContent = `${DIAS_FULL[diaSemanaIdx]}, ${fmtDate(diaSelecionado)}`;
+
+  const aulas = state.aulas
+    .filter(a=>a.data === diaSelecionado)
+    .sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+
+  const wrap = $('modalDiaLista');
+  if(!aulas.length){
+    wrap.innerHTML = `<div class="empty" style="padding:30px 16px">
+      <div class="big">📭</div>
+      <p>Nenhuma aula agendada neste dia</p>
+      <p style="font-size:.8rem">Clique em "Agendar Aula" para adicionar</p>
+    </div>`;
+    return;
+  }
+
+  wrap.innerHTML = aulas.map(a=>{
+    const hora = a.hora || '--:--';
+    const dur = a.duracao ? fmtDur(a.duracao) : '';
+    const st = a.status || 'agendado';
+    return `<div class="dia-aluno-item">
+      <div class="dia-aluno-hora">
+        <span class="h">${hora}</span>
+        ${dur?`<span class="d">${dur}</span>`:''}
+      </div>
+      <div class="dia-aluno-info">
+        <div class="dia-aluno-nome">${a.alunoNome}</div>
+        <div class="dia-aluno-meta">
+          <span>💰 ${fmtMoney(a.valor)}</span>
+          ${a.obs?`<span>📝 ${a.obs}</span>`:''}
+        </div>
+      </div>
+      <div class="dia-aluno-acoes">
+        <div class="status-check ${st==='presenca'?'on presenca':''}" onclick="toggleStatusDia('${a.id}','presenca')" title="Presença">
+          <span class="chk">${st==='presenca'?'✓':''}</span>
+          <span class="txt-chk">Presença</span>
+        </div>
+        <div class="status-check ${st==='faltou'?'on faltou':''}" onclick="toggleStatusDia('${a.id}','faltou')" title="Faltou">
+          <span class="chk">${st==='faltou'?'✓':''}</span>
+          <span class="txt-chk">Faltou</span>
+        </div>
+        <div class="status-check ${st==='desmarcou'?'on desmarcou':''}" onclick="toggleStatusDia('${a.id}','desmarcou')" title="Desmarcou">
+          <span class="chk">${st==='desmarcou'?'✓':''}</span>
+          <span class="txt-chk">Desmarcou</span>
+        </div>
+        <button class="btn btn-icon" onclick="openAulaModal('${a.id}')" title="Editar">✏️</button>
+        <button class="btn btn-icon" onclick="excluirAula('${a.id}')" title="Excluir">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleStatusDia(id, novoStatus){
+  const a = state.aulas.find(x=>x.id === id);
+  if(!a) return;
+  // Se clicar no mesmo status que já está, volta pra agendado
+  if(a.status === novoStatus){
+    a.status = 'agendado';
+  } else {
+    a.status = novoStatus;
+  }
+  saveLocal();
+  renderAll();
+  renderModalDia();
+}
+function agendarNoDiaSelecionado(){
+  closeModal('modalDia');
+  setTimeout(()=>{ openAulaModal(null, diaSelecionado); }, 150);
+}
+
+/* ========== ABA HOJE ========== */
+function renderHoje(){
+  const hj = hoje();
+  const dt = new Date(hj + 'T12:00:00');
+  const diaSemana = dt.getDay();
+  const diaSemanaIdx = diaSemana === 0 ? 6 : diaSemana - 1;
+  $('hojeDataSub').textContent = `${DIAS_FULL[diaSemanaIdx]}, ${fmtDate(hj)}`;
+
+  const aulas = state.aulas
+    .filter(a=>a.data === hj)
+    .sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+
+  const presencas = aulas.filter(a=>a.status === 'presenca').length;
+  const faltas = aulas.filter(a=>a.status === 'faltou').length;
+  const desmarcou = aulas.filter(a=>a.status === 'desmarcou').length;
+  const agendadas = aulas.filter(a=>a.status === 'agendado').length;
+  const faturado = aulas.filter(a=>a.status === 'presenca').reduce((s,a)=>s+(Number(a.valor)||0),0);
+
+  $('hojeStats').innerHTML = `
+    <div class="hoje-stat"><div class="lbl">Total</div><div class="val">${aulas.length}</div></div>
+    <div class="hoje-stat"><div class="lbl">Presenças</div><div class="val">${presencas}</div></div>
+    <div class="hoje-stat"><div class="lbl">Faltas</div><div class="val">${faltas}</div></div>
+    <div class="hoje-stat"><div class="lbl">A confirmar</div><div class="val">${agendadas}</div></div>
+    <div class="hoje-stat"><div class="lbl">Faturado hoje</div><div class="val">${fmtMoney(faturado)}</div></div>
+  `;
+
+  const wrap = $('hojeLista');
+  if(!aulas.length){
+    wrap.innerHTML = `<div class="empty">
+      <div class="big">☕</div>
+      <p>Nenhuma aula agendada para hoje</p>
+      <p style="font-size:.82rem">Aproveite o descanso!</p>
+    </div>`;
+    return;
+  }
+
+  wrap.innerHTML = aulas.map(a=>{
+    const hora = a.hora || '--:--';
+    const dur = a.duracao ? fmtDur(a.duracao) : '';
+    const st = a.status || 'agendado';
+    return `<div class="dia-aluno-item">
+      <div class="dia-aluno-hora">
+        <span class="h">${hora}</span>
+        ${dur?`<span class="d">${dur}</span>`:''}
+      </div>
+      <div class="dia-aluno-info">
+        <div class="dia-aluno-nome">${a.alunoNome}</div>
+        <div class="dia-aluno-meta">
+          <span>💰 ${fmtMoney(a.valor)}</span>
+          ${a.obs?`<span>📝 ${a.obs}</span>`:''}
+        </div>
+      </div>
+      <div class="dia-aluno-acoes">
+        <div class="status-check ${st==='presenca'?'on presenca':''}" onclick="toggleStatusDia('${a.id}','presenca')" title="Presença">
+          <span class="chk">${st==='presenca'?'✓':''}</span>
+          <span class="txt-chk">Presença</span>
+        </div>
+        <div class="status-check ${st==='faltou'?'on faltou':''}" onclick="toggleStatusDia('${a.id}','faltou')" title="Faltou">
+          <span class="chk">${st==='faltou'?'✓':''}</span>
+          <span class="txt-chk">Faltou</span>
+        </div>
+        <div class="status-check ${st==='desmarcou'?'on desmarcou':''}" onclick="toggleStatusDia('${a.id}','desmarcou')" title="Desmarcou">
+          <span class="chk">${st==='desmarcou'?'✓':''}</span>
+          <span class="txt-chk">Desmarcou</span>
+        </div>
+        <button class="btn btn-icon" onclick="openAulaModal('${a.id}')" title="Editar">✏️</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 /* ========== GERAR AGENDA DO MÊS ========== */
@@ -1204,6 +1504,7 @@ function gerarAgendaMes(){
         alunoNome: aluno.nome,
         data: dataStr,
         hora: aluno.hora || '',
+        duracao: aluno.duracao || 60,
         valor: aluno.valor || VALOR_PADRAO,
         status: 'agendado',
         obs: '',
@@ -1301,7 +1602,19 @@ function renderAll(){
   renderAgenda();
   renderAvaliacoes();
   renderDashboard();
+  renderHoje();
   atualizarFiltros();
+  atualizarBadgeHoje();
+}
+
+function atualizarBadgeHoje(){
+  const hj = hoje();
+  const count = state.aulas.filter(a=>a.data === hj && a.status === 'agendado').length;
+  const el = $('hojeCount');
+  if(el){
+    el.textContent = count;
+    el.style.display = count ? 'inline-block' : 'none';
+  }
 }
 
 function renderAlunos(){
@@ -1328,6 +1641,7 @@ function renderAlunos(){
       </td>
       <td>${a.telefone || '-'}</td>
       <td>${dias}</td>
+      <td>${a.hora || '-'}</td>
       <td>${fmtMoney(a.valor)}</td>
       <td>${a.ativo !== false ? '<span class="badge badge-presenca">Ativo</span>' : '<span class="badge badge-desmarcou">Inativo</span>'}</td>
       <td>
@@ -1377,13 +1691,13 @@ function renderCalendario(){
     const maxMostrar = 3;
     aulasDia.slice(0, maxMostrar).forEach(a=>{
       const hora = a.hora ? a.hora + ' ' : '';
-      eventosHtml += `<div class="cal-event ${a.status}" onclick="event.stopPropagation();openAulaModal('${a.id}')" title="${a.alunoNome} - ${STATUS_LABEL[a.status]}">${hora}${a.alunoNome}</div>`;
+      eventosHtml += `<div class="cal-event ${a.status}" title="${a.alunoNome} - ${STATUS_LABEL[a.status]}">${hora}${a.alunoNome}</div>`;
     });
     if(aulasDia.length > maxMostrar){
       eventosHtml += `<div class="cal-more">+${aulasDia.length - maxMostrar} mais</div>`;
     }
 
-    html += `<div class="cal-day ${isHoje?'today':''}" onclick="adicionarAulaDia('${dataStr}')">
+    html += `<div class="cal-day ${isHoje?'today':''}" onclick="abrirModalDia('${dataStr}')">
       <span class="cal-num">${dia}</span>
       <div class="cal-events">${eventosHtml}</div>
     </div>`;
@@ -1407,11 +1721,6 @@ function mudarMes(delta){
 function irParaHoje(){
   currentMonth = new Date();
   renderCalendario();
-}
-function adicionarAulaDia(dataStr){
-  if(!state.alunos.length){ toast('Cadastre um aluno primeiro', 'err'); return; }
-  openAulaModal();
-  setTimeout(()=>{ $('aulaData').value = dataStr; }, 50);
 }
 
 function renderListaAulas(){
@@ -1439,6 +1748,7 @@ function renderListaAulas(){
       <td style="white-space:nowrap">${fmtDate(a.data)}</td>
       <td style="font-weight:700">${a.alunoNome || '-'}</td>
       <td>${a.hora || '-'}</td>
+      <td>${a.duracao ? fmtDur(a.duracao) : '-'}</td>
       <td>${fmtMoney(a.valor)}</td>
       <td>
         <select onchange="mudarStatusAula('${a.id}', this.value)" style="padding:5px 9px;border-radius:8px;border:1.5px solid var(--border);font-size:.78rem;font-weight:700;font-family:inherit;cursor:pointer;background:#fff;color:var(--text)">
@@ -1452,7 +1762,7 @@ function renderListaAulas(){
         </div>
       </td>
     </tr>
-  `).join('') + (lista.length > 200 ? `<tr><td colspan="6" style="text-align:center;color:var(--text-soft);font-size:.82rem">Mostrando 200 de ${lista.length} registros. Use os filtros para refinar.</td></tr>` : '');
+  `).join('') + (lista.length > 200 ? `<tr><td colspan="7" style="text-align:center;color:var(--text-soft);font-size:.82rem">Mostrando 200 de ${lista.length} registros. Use os filtros para refinar.</td></tr>` : '');
 }
 
 function atualizarFiltros(){
@@ -1625,7 +1935,6 @@ function init(){
     $('loginHint').style.display = 'none';
   }
 
-  // Auto-sync a cada 30s
   setInterval(()=>{ pushFirebase(); }, 30000);
 }
 
