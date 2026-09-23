@@ -183,6 +183,7 @@ body{
 .stat.red::before{background:var(--red)}
 .stat.yellow::before{background:var(--yellow)}
 .stat.blue::before{background:var(--blue)}
+.stat.orange::before{background:#e67e22}
 .stat-label{font-size:.72rem;color:var(--text-soft);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
 .stat-value{font-size:1.7rem;font-weight:800;margin-top:6px;color:var(--primary-dark);letter-spacing:-.5px}
 .stat-sub{font-size:.75rem;color:var(--text-soft);margin-top:2px}
@@ -234,6 +235,27 @@ tbody tr:hover{background:var(--primary-soft)}
 }
 .badge-presenca{background:#d8ead0;color:#2e5c1f}
 .badge-desmarcou{background:#eceae6;color:#6d7a68}
+.badge-pago{background:#d8ead0;color:#2e5c1f}
+.badge-pendente{background:#fdf1d4;color:#8a6b13}
+
+/* PAY CHECK */
+.pay-check{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:20px;font-size:.75rem;font-weight:800;
+  border:1.5px solid var(--border);background:#fff;cursor:pointer;
+  transition:.15s;color:var(--text-soft);user-select:none;
+}
+.pay-check:hover{border-color:var(--primary-light)}
+.pay-check.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.pay-check .chk{
+  width:14px;height:14px;border-radius:4px;border:2px solid currentColor;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:.62rem;font-weight:900;
+}
+.pay-check.on .chk{background:#fff;color:var(--primary);border-color:#fff}
+.pay-check.neg{background:#fff5e6;color:#8a6b13;border-color:#f0d9a8}
+.pay-check.neg:hover{border-color:var(--yellow)}
+.pay-check.neg.on{background:var(--yellow);color:#fff;border-color:var(--yellow)}
 
 /* FORM */
 .field{margin-bottom:15px}
@@ -360,9 +382,14 @@ tbody tr:hover{background:var(--primary-soft)}
 .cal-event.presenca{background:#d8ead0;border-color:var(--primary);color:#2e5c1f}
 .cal-event.faltou{background:#fbe4e0;border-color:var(--red);color:#a53f2f}
 .cal-event.desmarcou{background:#eceae6;border-color:var(--gray);color:#6d7a68}
+.cal-event .pg{
+  display:inline-block;margin-left:4px;font-size:.6rem;
+  background:var(--primary);color:#fff;padding:0 4px;border-radius:6px;
+  vertical-align:middle;font-weight:900;
+}
 .cal-more{font-size:.68rem;color:var(--text-soft);font-weight:700;padding-left:5px}
 
-/* ====== MODAL DIA (agenda do dia) ====== */
+/* ====== MODAL DIA ====== */
 .dia-modal-date{
   font-size:.82rem;color:var(--text-soft);font-weight:700;
   margin:-8px 0 16px;letter-spacing:.2px;
@@ -371,8 +398,10 @@ tbody tr:hover{background:var(--primary-soft)}
   display:flex;align-items:center;gap:12px;
   padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;
   margin-bottom:10px;transition:.15s;background:#fff;
+  flex-wrap:wrap;
 }
 .dia-aluno-item:hover{border-color:var(--primary-light);background:var(--primary-soft)}
+.dia-aluno-item.pago{border-color:var(--primary);background:#f1f7ec}
 .dia-aluno-hora{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   min-width:56px;padding:6px 4px;border-radius:9px;
@@ -380,10 +409,10 @@ tbody tr:hover{background:var(--primary-soft)}
 }
 .dia-aluno-hora .h{font-size:.9rem;line-height:1.1}
 .dia-aluno-hora .d{font-size:.62rem;opacity:.7;font-weight:700;margin-top:2px}
-.dia-aluno-info{flex:1;min-width:0}
+.dia-aluno-info{flex:1;min-width:150px}
 .dia-aluno-nome{font-weight:800;font-size:.92rem;color:var(--text);margin-bottom:3px}
 .dia-aluno-meta{font-size:.75rem;color:var(--text-soft);display:flex;gap:8px;flex-wrap:wrap}
-.dia-aluno-acoes{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.dia-aluno-acoes{display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap}
 
 .status-check{
   display:inline-flex;align-items:center;gap:6px;
@@ -414,7 +443,7 @@ tbody tr:hover{background:var(--primary-soft)}
 }
 .hoje-data small{display:block;font-size:.75rem;font-weight:600;color:var(--text-soft);letter-spacing:0;margin-top:2px}
 .hoje-stats{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
   gap:10px;margin-bottom:18px;
 }
 .hoje-stat{
@@ -472,9 +501,11 @@ tbody tr:hover{background:var(--primary-soft)}
   .dia-aluno-item{padding:10px;gap:8px}
   .dia-aluno-hora{min-width:48px;padding:5px 3px}
   .dia-aluno-hora .h{font-size:.82rem}
-  .dia-aluno-acoes{gap:4px}
-  .status-check{padding:6px 9px;font-size:.72rem}
+  .dia-aluno-info{min-width:100%}
+  .dia-aluno-acoes{gap:4px;width:100%}
+  .status-check{padding:6px 9px;font-size:.72rem;flex:1;justify-content:center}
   .status-check .txt-chk{display:none}
+  .pay-check{padding:6px 10px;font-size:.72rem}
 }
 @media(max-width:380px){
   .stats-grid{grid-template-columns:1fr}
@@ -648,6 +679,14 @@ tbody tr:hover{background:var(--primary-soft)}
               </select>
             </div>
             <div class="field">
+              <label>Pagamento</label>
+              <select id="filtroPagamento" onchange="renderListaAulas()">
+                <option value="">Todos</option>
+                <option value="pago">Pago</option>
+                <option value="pendente">Pendente</option>
+              </select>
+            </div>
+            <div class="field">
               <label>Data</label>
               <input type="date" id="filtroData" onchange="renderListaAulas()">
             </div>
@@ -656,7 +695,7 @@ tbody tr:hover{background:var(--primary-soft)}
           <div class="table-wrap">
             <table>
               <thead>
-                <tr><th>Data</th><th>Aluno</th><th>Horário</th><th>Duração</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+                <tr><th>Data</th><th>Aluno</th><th>Horário</th><th>Duração</th><th>Valor</th><th>Pago</th><th>Status</th><th>Ações</th></tr>
               </thead>
               <tbody id="agendaTbody"></tbody>
             </table>
@@ -707,7 +746,7 @@ tbody tr:hover{background:var(--primary-soft)}
   </div>
 </div>
 
-<!-- MODAL DIA (agenda do dia) -->
+<!-- MODAL DIA -->
 <div class="modal-overlay" id="modalDia">
   <div class="modal">
     <div class="modal-header">
@@ -834,14 +873,23 @@ tbody tr:hover{background:var(--primary-soft)}
           <input type="number" id="aulaValor" step="0.01" min="0">
         </div>
       </div>
-      <div class="field">
-        <label>Status</label>
-        <select id="aulaStatus">
-          <option value="agendado">Agendado</option>
-          <option value="presenca">Presença</option>
-          <option value="faltou">Faltou</option>
-          <option value="desmarcou">Desmarcou</option>
-        </select>
+      <div class="field-row">
+        <div class="field">
+          <label>Status</label>
+          <select id="aulaStatus">
+            <option value="agendado">Agendado</option>
+            <option value="presenca">Presença</option>
+            <option value="faltou">Faltou</option>
+            <option value="desmarcou">Desmarcou</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Pagamento</label>
+          <select id="aulaPago">
+            <option value="false">Não pago</option>
+            <option value="true">Pago</option>
+          </select>
+        </div>
       </div>
       <div class="field">
         <label>Observações</label>
@@ -976,7 +1024,7 @@ let state = {
 let charts = {};
 let currentMonth = new Date();
 let loggedUser = null;
-let diaSelecionado = null; // data no formato YYYY-MM-DD do modalDia
+let diaSelecionado = null;
 
 const $ = id => document.getElementById(id);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -1249,6 +1297,7 @@ function openAulaModal(id=null, dataPreenchida=null){
     $('aulaDuracao').value = x.duracao || 60;
     $('aulaValor').value = x.valor ?? '';
     $('aulaStatus').value = x.status || 'agendado';
+    $('aulaPago').value = x.pago ? 'true' : 'false';
     $('aulaObs').value = x.obs || '';
   } else {
     $('aulaId').value = '';
@@ -1257,6 +1306,7 @@ function openAulaModal(id=null, dataPreenchida=null){
     $('aulaDuracao').value = '60';
     $('aulaValor').value = '';
     $('aulaStatus').value = 'agendado';
+    $('aulaPago').value = 'false';
     $('aulaObs').value = '';
     sel.onchange = ()=>{
       const a = state.alunos.find(x=>x.id === sel.value);
@@ -1288,6 +1338,7 @@ async function salvarAula(){
     duracao: parseInt($('aulaDuracao').value) || 60,
     valor: parseFloat($('aulaValor').value) || 0,
     status: $('aulaStatus').value,
+    pago: $('aulaPago').value === 'true',
     obs: $('aulaObs').value.trim()
   };
   if(id){
@@ -1320,8 +1371,17 @@ function mudarStatusAula(id, novoStatus){
   if(diaSelecionado) renderModalDia();
   toast('Status: ' + STATUS_LABEL[novoStatus], 'ok');
 }
+function togglePago(id){
+  const a = state.aulas.find(x=>x.id === id);
+  if(!a) return;
+  a.pago = !a.pago;
+  saveLocal();
+  renderAll();
+  if(diaSelecionado) renderModalDia();
+  toast(a.pago ? '💰 Pago' : '⏳ Pendente', a.pago ? 'ok' : '');
+}
 
-/* ========== MODAL DIA (agenda do dia) ========== */
+/* ========== MODAL DIA ========== */
 function abrirModalDia(dataStr){
   diaSelecionado = dataStr;
   renderModalDia();
@@ -1354,7 +1414,8 @@ function renderModalDia(){
     const hora = a.hora || '--:--';
     const dur = a.duracao ? fmtDur(a.duracao) : '';
     const st = a.status || 'agendado';
-    return `<div class="dia-aluno-item">
+    const pago = !!a.pago;
+    return `<div class="dia-aluno-item ${pago?'pago':''}">
       <div class="dia-aluno-hora">
         <span class="h">${hora}</span>
         ${dur?`<span class="d">${dur}</span>`:''}
@@ -1367,6 +1428,10 @@ function renderModalDia(){
         </div>
       </div>
       <div class="dia-aluno-acoes">
+        <div class="pay-check ${pago?'on':'neg'}" onclick="togglePago('${a.id}')" title="${pago?'Pago':'Pendente'}">
+          <span class="chk">${pago?'✓':''}</span>
+          ${pago?'Pago':'Pendente'}
+        </div>
         <div class="status-check ${st==='presenca'?'on presenca':''}" onclick="toggleStatusDia('${a.id}','presenca')" title="Presença">
           <span class="chk">${st==='presenca'?'✓':''}</span>
           <span class="txt-chk">Presença</span>
@@ -1388,7 +1453,6 @@ function renderModalDia(){
 function toggleStatusDia(id, novoStatus){
   const a = state.aulas.find(x=>x.id === id);
   if(!a) return;
-  // Se clicar no mesmo status que já está, volta pra agendado
   if(a.status === novoStatus){
     a.status = 'agendado';
   } else {
@@ -1419,14 +1483,17 @@ function renderHoje(){
   const faltas = aulas.filter(a=>a.status === 'faltou').length;
   const desmarcou = aulas.filter(a=>a.status === 'desmarcou').length;
   const agendadas = aulas.filter(a=>a.status === 'agendado').length;
-  const faturado = aulas.filter(a=>a.status === 'presenca').reduce((s,a)=>s+(Number(a.valor)||0),0);
+  const pagas = aulas.filter(a=>a.pago).length;
+  const recebido = aulas.filter(a=>a.pago).reduce((s,a)=>s+(Number(a.valor)||0),0);
+  const aReceber = aulas.filter(a=>!a.pago).reduce((s,a)=>s+(Number(a.valor)||0),0);
 
   $('hojeStats').innerHTML = `
     <div class="hoje-stat"><div class="lbl">Total</div><div class="val">${aulas.length}</div></div>
     <div class="hoje-stat"><div class="lbl">Presenças</div><div class="val">${presencas}</div></div>
     <div class="hoje-stat"><div class="lbl">Faltas</div><div class="val">${faltas}</div></div>
     <div class="hoje-stat"><div class="lbl">A confirmar</div><div class="val">${agendadas}</div></div>
-    <div class="hoje-stat"><div class="lbl">Faturado hoje</div><div class="val">${fmtMoney(faturado)}</div></div>
+    <div class="hoje-stat" style="background:#d8ead0"><div class="lbl">Recebido</div><div class="val">${fmtMoney(recebido)}</div></div>
+    <div class="hoje-stat" style="background:#fdf1d4"><div class="lbl">A receber</div><div class="val">${fmtMoney(aReceber)}</div></div>
   `;
 
   const wrap = $('hojeLista');
@@ -1443,7 +1510,8 @@ function renderHoje(){
     const hora = a.hora || '--:--';
     const dur = a.duracao ? fmtDur(a.duracao) : '';
     const st = a.status || 'agendado';
-    return `<div class="dia-aluno-item">
+    const pago = !!a.pago;
+    return `<div class="dia-aluno-item ${pago?'pago':''}">
       <div class="dia-aluno-hora">
         <span class="h">${hora}</span>
         ${dur?`<span class="d">${dur}</span>`:''}
@@ -1456,6 +1524,10 @@ function renderHoje(){
         </div>
       </div>
       <div class="dia-aluno-acoes">
+        <div class="pay-check ${pago?'on':'neg'}" onclick="togglePago('${a.id}')" title="${pago?'Pago':'Pendente'}">
+          <span class="chk">${pago?'✓':''}</span>
+          ${pago?'Pago':'Pendente'}
+        </div>
         <div class="status-check ${st==='presenca'?'on presenca':''}" onclick="toggleStatusDia('${a.id}','presenca')" title="Presença">
           <span class="chk">${st==='presenca'?'✓':''}</span>
           <span class="txt-chk">Presença</span>
@@ -1507,6 +1579,7 @@ function gerarAgendaMes(){
         duracao: aluno.duracao || 60,
         valor: aluno.valor || VALOR_PADRAO,
         status: 'agendado',
+        pago: false,
         obs: '',
         geradoAuto: true,
         criadoEm: new Date().toISOString()
@@ -1691,7 +1764,8 @@ function renderCalendario(){
     const maxMostrar = 3;
     aulasDia.slice(0, maxMostrar).forEach(a=>{
       const hora = a.hora ? a.hora + ' ' : '';
-      eventosHtml += `<div class="cal-event ${a.status}" title="${a.alunoNome} - ${STATUS_LABEL[a.status]}">${hora}${a.alunoNome}</div>`;
+      const pg = a.pago ? '<span class="pg">$</span>' : '';
+      eventosHtml += `<div class="cal-event ${a.status}" title="${a.alunoNome} - ${STATUS_LABEL[a.status]}${a.pago?' - Pago':''}">${hora}${a.alunoNome}${pg}</div>`;
     });
     if(aulasDia.length > maxMostrar){
       eventosHtml += `<div class="cal-more">+${aulasDia.length - maxMostrar} mais</div>`;
@@ -1729,11 +1803,14 @@ function renderListaAulas(){
   if(!tb) return;
   const fAluno = $('filtroAluno')?.value || '';
   const fStatus = $('filtroStatus')?.value || '';
+  const fPag = $('filtroPagamento')?.value || '';
   const fData = $('filtroData')?.value || '';
 
   let lista = [...state.aulas];
   if(fAluno) lista = lista.filter(a=>a.alunoId === fAluno);
   if(fStatus) lista = lista.filter(a=>a.status === fStatus);
+  if(fPag === 'pago') lista = lista.filter(a=>a.pago);
+  if(fPag === 'pendente') lista = lista.filter(a=>!a.pago);
   if(fData) lista = lista.filter(a=>a.data === fData);
   lista.sort((a,b)=> (b.data + (b.hora||'')).localeCompare(a.data + (a.hora||'')));
 
@@ -1751,6 +1828,11 @@ function renderListaAulas(){
       <td>${a.duracao ? fmtDur(a.duracao) : '-'}</td>
       <td>${fmtMoney(a.valor)}</td>
       <td>
+        <div class="pay-check ${a.pago?'on':'neg'}" onclick="togglePago('${a.id}')" title="${a.pago?'Pago':'Pendente'}">
+          <span class="chk">${a.pago?'✓':''}</span>
+        </div>
+      </td>
+      <td>
         <select onchange="mudarStatusAula('${a.id}', this.value)" style="padding:5px 9px;border-radius:8px;border:1.5px solid var(--border);font-size:.78rem;font-weight:700;font-family:inherit;cursor:pointer;background:#fff;color:var(--text)">
           ${Object.entries(STATUS_LABEL).map(([k,v])=>`<option value="${k}" ${a.status===k?'selected':''}>${v}</option>`).join('')}
         </select>
@@ -1762,7 +1844,7 @@ function renderListaAulas(){
         </div>
       </td>
     </tr>
-  `).join('') + (lista.length > 200 ? `<tr><td colspan="7" style="text-align:center;color:var(--text-soft);font-size:.82rem">Mostrando 200 de ${lista.length} registros. Use os filtros para refinar.</td></tr>` : '');
+  `).join('') + (lista.length > 200 ? `<tr><td colspan="8" style="text-align:center;color:var(--text-soft);font-size:.82rem">Mostrando 200 de ${lista.length} registros. Use os filtros para refinar.</td></tr>` : '');
 }
 
 function atualizarFiltros(){
@@ -1775,6 +1857,7 @@ function atualizarFiltros(){
 function limparFiltros(){
   $('filtroAluno').value = '';
   $('filtroStatus').value = '';
+  $('filtroPagamento').value = '';
   $('filtroData').value = '';
   renderListaAulas();
 }
@@ -1822,15 +1905,20 @@ function renderDashboard(){
   const faltas = aulas.filter(a=>a.status === 'faltou').length;
   const desmarcou = aulas.filter(a=>a.status === 'desmarcou').length;
   const agendadas = aulas.filter(a=>a.status === 'agendado').length;
-  const faturado = aulas.filter(a=>a.status === 'presenca').reduce((s,a)=>s+(Number(a.valor)||0),0);
-  const pendente = aulas.filter(a=>a.status === 'agendado').reduce((s,a)=>s+(Number(a.valor)||0),0);
+
+  // Financeiro: baseado em presenças (aulas que realmente aconteceram)
+  const aulasPresenca = aulas.filter(a=>a.status === 'presenca');
+  const totalFaturado = aulasPresenca.reduce((s,a)=>s+(Number(a.valor)||0),0);
+  const totalRecebido = aulasPresenca.filter(a=>a.pago).reduce((s,a)=>s+(Number(a.valor)||0),0);
+  const totalAReceber = aulasPresenca.filter(a=>!a.pago).reduce((s,a)=>s+(Number(a.valor)||0),0);
 
   $('statsGrid').innerHTML = `
     <div class="stat"><div class="stat-label">Alunos</div><div class="stat-value">${totalAlunos}</div><div class="stat-sub">${ativos} ativos</div></div>
     <div class="stat green"><div class="stat-label">Presenças</div><div class="stat-value">${presencas}</div><div class="stat-sub">de ${totalAulas} aulas</div></div>
     <div class="stat red"><div class="stat-label">Faltas</div><div class="stat-value">${faltas}</div><div class="stat-sub">${desmarcou} desmarcou</div></div>
-    <div class="stat yellow"><div class="stat-label">Agendadas</div><div class="stat-value">${agendadas}</div><div class="stat-sub">${fmtMoney(pendente)} previsto</div></div>
-    <div class="stat blue"><div class="stat-label">Faturamento</div><div class="stat-value">${fmtMoney(faturado)}</div><div class="stat-sub">presenças confirmadas</div></div>
+    <div class="stat yellow"><div class="stat-label">Agendadas</div><div class="stat-value">${agendadas}</div></div>
+    <div class="stat blue"><div class="stat-label">Faturado</div><div class="stat-value">${fmtMoney(totalFaturado)}</div><div class="stat-sub">presenças confirmadas</div></div>
+    <div class="stat orange"><div class="stat-label">A Receber</div><div class="stat-value">${fmtMoney(totalAReceber)}</div><div class="stat-sub">${aulasPresenca.filter(a=>!a.pago).length} aulas pendentes</div></div>
   `;
 
   atualizarChart('chartStatus','doughnut',{
@@ -1855,7 +1943,7 @@ function renderDashboard(){
   },{plugins:{legend:{display:false}}});
 
   const porMes = {};
-  aulas.filter(a=>a.status === 'presenca').forEach(a=>{
+  aulasPresenca.forEach(a=>{
     const mes = a.data?.slice(0,7) || 'sem-data';
     porMes[mes] = (porMes[mes]||0) + (Number(a.valor)||0);
   });
@@ -1888,13 +1976,14 @@ function renderDashboard(){
     }]
   },{plugins:{legend:{display:false}}});
 
-  const ticket = presencas ? faturado/presencas : 0;
+  const ticket = presencas ? totalFaturado/presencas : 0;
+  const pendCount = aulasPresenca.filter(a=>!a.pago).length;
   $('finResumo').innerHTML = `
     <div class="stats-grid" style="margin:0">
-      <div class="stat green"><div class="stat-label">Total Faturado</div><div class="stat-value">${fmtMoney(faturado)}</div></div>
-      <div class="stat yellow"><div class="stat-label">A Receber</div><div class="stat-value">${fmtMoney(pendente)}</div></div>
+      <div class="stat green"><div class="stat-label">Total Faturado</div><div class="stat-value">${fmtMoney(totalFaturado)}</div></div>
+      <div class="stat"><div class="stat-label">Total Recebido</div><div class="stat-value">${fmtMoney(totalRecebido)}</div><div class="stat-sub">já pago</div></div>
+      <div class="stat orange"><div class="stat-label">Total a Receber</div><div class="stat-value">${fmtMoney(totalAReceber)}</div><div class="stat-sub">${pendCount} aulas pendentes</div></div>
       <div class="stat blue"><div class="stat-label">Ticket Médio</div><div class="stat-value">${fmtMoney(ticket)}</div></div>
-      <div class="stat"><div class="stat-label">Valor Padrão</div><div class="stat-value">${fmtMoney(VALOR_PADRAO)}</div></div>
     </div>
   `;
 }
