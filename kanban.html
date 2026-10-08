@@ -107,6 +107,56 @@
         .nav-item.active { background: var(--primary); color: #ffffff; }
         .nav-item svg { margin-right: 10px; width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; }
 
+        /* SUB-NAV */
+        .nav-item.has-sub { justify-content: flex-start; }
+        .nav-item .nav-caret {
+            margin-left: auto;
+            transition: transform 0.2s;
+            width: 12px !important;
+            height: 12px !important;
+        }
+        .nav-item .nav-caret.open { transform: rotate(90deg); }
+
+        .sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+            padding-left: 12px;
+        }
+
+        .sub-nav.open { max-height: 200px; }
+
+        .sub-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px 8px 40px;
+            cursor: pointer;
+            transition: all 0.15s;
+            border-radius: 6px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            user-select: none;
+            position: relative;
+        }
+
+        .sub-nav-item::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #475569;
+        }
+
+        .sub-nav-item:hover { background: #334155; color: #f1f5f9; }
+        .sub-nav-item.active { background: #334155; color: #ffffff; }
+        .sub-nav-item.active::before { background: var(--primary-light); }
+
         .sidebar-footer { padding: 16px; border-top: 1px solid #334155; }
 
         .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -224,29 +274,6 @@
 
         .form-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
-        /* TABS */
-        .tabs {
-            display: flex;
-            gap: 2px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 10px 18px;
-            cursor: pointer;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-bottom: 2px solid transparent;
-            margin-bottom: -1px;
-            transition: all 0.15s;
-            user-select: none;
-        }
-
-        .tab:hover { color: var(--text-primary); }
-        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-
         /* STATS */
         .stats-grid {
             display: grid;
@@ -306,6 +333,26 @@
 
         .kanban-toolbar .form-control { width: auto; min-width: 140px; padding: 7px 10px; font-size: 13px; }
         .kanban-toolbar label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-right: -6px; }
+
+        .week-nav {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 14px;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .week-nav .week-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 10px;
+            min-width: 220px;
+            text-align: center;
+        }
 
         .kanban-scroll { overflow-x: auto; padding-bottom: 12px; }
 
@@ -411,8 +458,6 @@
             margin-bottom: 4px;
             word-break: break-word;
         }
-
-        .activity-job svg { width: 11px; height: 11px; flex-shrink: 0; }
 
         .activity-meta { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
 
@@ -977,6 +1022,9 @@ const ICONS = {
     jobs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
     users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
     tags: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+    folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+    chevronRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+    chevronLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
     refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg>',
     edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
@@ -1002,7 +1050,10 @@ const state = {
     jobs: [],
     classifications: [],
     currentPage: 'dashboard',
-    cadastrosTab: 'usuarios', // 'usuarios' | 'classificacoes'
+    cadastrosExpanded: false,
+    cadastrosTab: 'usuarios',
+    // Semana visualizada: guarda a data de referência (domingo da semana)
+    weekReference: getStartOfWeek(new Date()),
     draggedJob: null,
     filters: {
         classification: 'all',
@@ -1011,12 +1062,71 @@ const state = {
         status: 'all'
     },
     jobsFilters: {
+        classification: 'all',
         startDate: '',
         endDate: '',
-        status: 'all',
-        classification: 'all'
+        status: 'all'
     }
 };
+
+// ============================================================================
+// DATE HELPERS
+// ============================================================================
+function getStartOfWeek(date) {
+    const d = new Date(date);
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate() - d.getDay());
+    return d;
+}
+
+function formatISODate(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function parseISODate(str) {
+    if (!str) return null;
+    const parts = str.split('-');
+    if (parts.length !== 3) return null;
+    const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    d.setHours(0,0,0,0);
+    return d;
+}
+
+function getWeekDays(startOfWeek) {
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(startOfWeek);
+        d.setDate(startOfWeek.getDate() + i);
+        days.push({
+            diaAbrev: DIAS_ABREV[d.getDay()],
+            data: formatISODate(d),
+            dataFormatada: d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+            isToday: d.toDateString() === new Date().toDateString(),
+            dateObj: d
+        });
+    }
+    return days;
+}
+
+function getWeekLabel(startOfWeek) {
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    const startStr = startOfWeek.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    const endStr = endOfWeek.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return `${startStr} — ${endStr}`;
+}
+
+// Verifica se uma data (ISO) está dentro do range de filtros
+function isInDateRange(isoDate, startDate, endDate) {
+    if (!isoDate) return false;
+    if (startDate && isoDate < startDate) return false;
+    if (endDate && isoDate > endDate) return false;
+    return true;
+}
 
 // ============================================================================
 // INIT
@@ -1185,8 +1295,25 @@ async function salvarUsuarioFirebase(user) {
 // ============================================================================
 function navegarPara(page) {
     state.currentPage = page;
+    // Se entrou em cadastros, expande o sub-menu
+    if (page === 'cadastros' || page === 'usuarios' || page === 'classificacoes') {
+        state.cadastrosExpanded = true;
+    }
     atualizarSidebar();
     renderizarPagina();
+}
+
+function navegarParaCadastro(tab) {
+    state.cadastrosTab = tab;
+    state.currentPage = 'cadastros';
+    state.cadastrosExpanded = true;
+    atualizarSidebar();
+    renderizarPagina();
+}
+
+function toggleCadastrosMenu() {
+    state.cadastrosExpanded = !state.cadastrosExpanded;
+    atualizarSidebar();
 }
 
 function atualizarSidebar() {
@@ -1194,28 +1321,62 @@ function atualizarSidebar() {
     const label = document.getElementById('sidebarSectionLabel');
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
 
-    let items = [];
+    let html = '';
     if (isAdmin) {
         label.textContent = 'Administração';
-        items = [
-            { id: 'dashboard', icon: ICONS.dashboard, label: 'Dashboard' },
-            { id: 'kanban', icon: ICONS.kanban, label: 'Kanban' },
-            { id: 'jobs', icon: ICONS.jobs, label: 'Jobs' },
-            { id: 'cadastros', icon: ICONS.users, label: 'Cadastros' }
-        ];
+
+        // Dashboard
+        html += `
+            <div class="nav-item ${state.currentPage === 'dashboard' ? 'active' : ''}" onclick="navegarPara('dashboard')">
+                ${ICONS.dashboard}
+                <span>Dashboard</span>
+            </div>
+        `;
+
+        // Kanban
+        html += `
+            <div class="nav-item ${state.currentPage === 'kanban' ? 'active' : ''}" onclick="navegarPara('kanban')">
+                ${ICONS.kanban}
+                <span>Kanban</span>
+            </div>
+        `;
+
+        // Jobs
+        html += `
+            <div class="nav-item ${state.currentPage === 'jobs' ? 'active' : ''}" onclick="navegarPara('jobs')">
+                ${ICONS.jobs}
+                <span>Jobs</span>
+            </div>
+        `;
+
+        // Cadastros (com sub-menu)
+        const cadastrosActive = state.currentPage === 'cadastros';
+        html += `
+            <div class="nav-item has-sub ${cadastrosActive ? 'active' : ''}" onclick="toggleCadastrosMenu()">
+                ${ICONS.folder}
+                <span>Cadastros</span>
+                <span class="nav-caret ${state.cadastrosExpanded ? 'open' : ''}">${ICONS.chevronRight}</span>
+            </div>
+            <div class="sub-nav ${state.cadastrosExpanded ? 'open' : ''}">
+                <div class="sub-nav-item ${cadastrosActive && state.cadastrosTab === 'usuarios' ? 'active' : ''}" onclick="event.stopPropagation(); navegarParaCadastro('usuarios')">
+                    Usuários
+                </div>
+                <div class="sub-nav-item ${cadastrosActive && state.cadastrosTab === 'classificacoes' ? 'active' : ''}" onclick="event.stopPropagation(); navegarParaCadastro('classificacoes')">
+                    Classificações
+                </div>
+            </div>
+        `;
     } else {
         label.textContent = 'Meu Trabalho';
-        items = [
-            { id: 'kanban', icon: ICONS.kanban, label: 'Minhas Atividades' }
-        ];
+        html += `
+            <div class="nav-item ${state.currentPage === 'kanban' ? 'active' : ''}" onclick="navegarPara('kanban')">
+                ${ICONS.kanban}
+                <span>Minhas Atividades</span>
+            </div>
+        `;
     }
 
-    nav.innerHTML = items.map(item => `
-        <div class="nav-item ${state.currentPage === item.id ? 'active' : ''}" onclick="navegarPara('${item.id}')">
-            ${item.icon}
-            <span>${item.label}</span>
-        </div>
-    `).join('');
+    nav.innerHTML = html;
 
     if (state.currentUser) {
         const inicial = (state.currentUser.nome || 'U').charAt(0).toUpperCase();
@@ -1253,7 +1414,7 @@ function renderDashboard(container) {
     const concluidas = state.jobs.filter(j => j.status === 'concluido').length;
     const totalUsuarios = state.users.filter(u => u.tipo !== 'admin').length;
 
-    const hoje = new Date().toISOString().split('T')[0];
+    const hoje = formatISODate(new Date());
     const jobsAtrasados = state.jobs.filter(j => j.prazo && j.prazo < hoje && j.status !== 'concluido').length;
 
     const statusData = [
@@ -1409,33 +1570,41 @@ function renderDashboard(container) {
 }
 
 // ============================================================================
-// KANBAN
+// KANBAN - A semana visualizada é controlada por state.weekReference
+// Se os filtros de data estiverem preenchidos, ajustam a semana visualizada
 // ============================================================================
 function renderKanban(container) {
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
 
-    const hoje = new Date();
-    const inicioSemana = new Date(hoje);
-    inicioSemana.setDate(hoje.getDate() - hoje.getDay());
-
-    const dias = [];
-    for (let i = 0; i < 7; i++) {
-        const d = new Date(inicioSemana);
-        d.setDate(inicioSemana.getDate() + i);
-        dias.push({
-            diaAbrev: DIAS_ABREV[d.getDay()],
-            data: d.toISOString().split('T')[0],
-            dataFormatada: d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
-            isToday: d.toDateString() === hoje.toDateString()
-        });
+    // Se os filtros de data estão preenchidos, ajustar a semana visualizada
+    // - Se startDate preenchida: semana da startDate
+    // - Se só endDate preenchida: semana da endDate
+    // - Se ambos: semana da startDate
+    let weekStart = new Date(state.weekReference);
+    if (state.filters.startDate) {
+        const startFilter = parseISODate(state.filters.startDate);
+        if (startFilter) {
+            weekStart = getStartOfWeek(startFilter);
+            state.weekReference = weekStart;
+        }
+    } else if (state.filters.endDate) {
+        const endFilter = parseISODate(state.filters.endDate);
+        if (endFilter) {
+            weekStart = getStartOfWeek(endFilter);
+            state.weekReference = weekStart;
+        }
     }
 
+    const dias = getWeekDays(weekStart);
+    const weekLabel = getWeekLabel(weekStart);
+
+    // Filtrar jobs
     let jobs = [...state.jobs];
     if (!isAdmin) jobs = jobs.filter(j => j.usuarioId === state.currentUser.id);
     if (state.filters.classification !== 'all') jobs = jobs.filter(j => j.classificacaoId === state.filters.classification);
     if (state.filters.status !== 'all') jobs = jobs.filter(j => j.status === state.filters.status);
-    if (state.filters.startDate) jobs = jobs.filter(j => j.dataExecucao && j.dataExecucao >= state.filters.startDate);
-    if (state.filters.endDate) jobs = jobs.filter(j => j.dataExecucao && j.dataExecucao <= state.filters.endDate);
+    // Filtro de data: aplica sempre (mesmo vazio, mantém coerência)
+    jobs = jobs.filter(j => isInDateRange(j.dataExecucao, state.filters.startDate, state.filters.endDate));
 
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.filters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
 
@@ -1473,6 +1642,17 @@ function renderKanban(container) {
             <label>Até</label>
             <input type="date" class="form-control" value="${state.filters.endDate}" onchange="aplicarFiltro('endDate', this.value)">
             <button class="btn btn-ghost btn-sm" onclick="limparFiltros()">Limpar</button>
+        </div>
+
+        <div class="week-nav">
+            <button class="btn btn-ghost btn-sm" onclick="mudarSemana(-1)" title="Semana anterior">
+                ${ICONS.chevronLeft}
+            </button>
+            <span class="week-label">${weekLabel}</span>
+            <button class="btn btn-ghost btn-sm" onclick="mudarSemana(1)" title="Próxima semana">
+                ${ICONS.chevronRight}
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="voltarSemanaAtual()" style="margin-left:8px;">Hoje</button>
         </div>
     `;
 
@@ -1519,6 +1699,18 @@ function renderKanban(container) {
     container.innerHTML = html;
 }
 
+function mudarSemana(delta) {
+    const nova = new Date(state.weekReference);
+    nova.setDate(nova.getDate() + delta * 7);
+    state.weekReference = nova;
+    renderizarPagina();
+}
+
+function voltarSemanaAtual() {
+    state.weekReference = getStartOfWeek(new Date());
+    renderizarPagina();
+}
+
 function renderKanbanCol(dia, cards, userId) {
     return `
         <div class="kanban-col"
@@ -1561,8 +1753,6 @@ function renderCardJob(job) {
                 <div class="activity-actions" onclick="event.stopPropagation()">
                     ${isAdmin ? `
                         <button title="Editar" onclick="abrirModalJob('${job.id}')">${ICONS.edit}</button>
-                    ` : ''}
-                    ${isAdmin ? `
                         <button title="Excluir" onclick="excluirJob('${job.id}')">${ICONS.trash}</button>
                     ` : ''}
                 </div>
@@ -1572,7 +1762,7 @@ function renderCardJob(job) {
 }
 
 // ============================================================================
-// CLICK NO CARD - ROTEADOR DE AÇÃO
+// CLICK NO CARD
 // ============================================================================
 function abrirAcaoJob(jobId) {
     const job = state.jobs.find(j => j.id === jobId);
@@ -1586,14 +1776,10 @@ function abrirAcaoJob(jobId) {
         if (isAdmin) abrirModalAprovacao(jobId);
         else mostrarToast('Job concluído', 'info');
     } else {
-        // pendente / em_processo → abre modal de ação (avançar / concluir)
         abrirModalAcaoJob(jobId);
     }
 }
 
-// ============================================================================
-// MODAL: AÇÃO DO JOB (avançar etapa / finalizar)
-// ============================================================================
 function abrirModalAcaoJob(jobId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const job = state.jobs.find(j => j.id === jobId);
@@ -1638,12 +1824,7 @@ function abrirModalAcaoJob(jobId) {
                                 ${ICONS.arrowRight} Iniciar processamento (Em Processo)
                             </button>
                         ` : ''}
-                        ${job.status === 'em_processo' ? `
-                            <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalConcluir('${job.id}')">
-                                ${ICONS.check} Finalizar e enviar para aprovação
-                            </button>
-                        ` : ''}
-                        ${job.status === 'pendente' ? `
+                        ${job.status === 'em_processo' || job.status === 'pendente' ? `
                             <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalConcluir('${job.id}')">
                                 ${ICONS.check} Finalizar e enviar para aprovação
                             </button>
@@ -1681,7 +1862,7 @@ async function mudarStatusSimples(jobId, novoStatus) {
 }
 
 // ============================================================================
-// MODAL: CONCLUIR JOB (com observação)
+// CONCLUIR JOB
 // ============================================================================
 function abrirModalConcluir(jobId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
@@ -1768,7 +1949,7 @@ async function confirmarConcluir(jobId) {
 }
 
 // ============================================================================
-// MODAL: APROVAÇÃO (admin)
+// APROVAÇÃO (admin)
 // ============================================================================
 function abrirModalAprovacao(jobId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
@@ -1864,7 +2045,7 @@ function abrirModalAprovacao(jobId) {
                             </div>
                             <div class="form-group">
                                 <label>Data de execução</label>
-                                <input type="date" class="form-control" id="aprovacaoNovaData" value="${new Date().toISOString().split('T')[0]}">
+                                <input type="date" class="form-control" id="aprovacaoNovaData" value="${formatISODate(new Date())}">
                             </div>
                         </div>
 
@@ -1919,7 +2100,6 @@ async function confirmarAprovacao(jobId) {
 
     const agora = new Date().toISOString();
 
-    // 1. Marcar o job atual como concluído (histórico)
     const historicoAtual = job.historico || [];
     historicoAtual.push({
         tipo: 'aprovacao',
@@ -1932,7 +2112,6 @@ async function confirmarAprovacao(jobId) {
         novoUsuarioId
     });
 
-    // 2. Criar um novo job (duplicado) com as novas atribuições
     const novoJobId = 'job_' + Date.now();
     const novoJob = {
         id: novoJobId,
@@ -1958,7 +2137,6 @@ async function confirmarAprovacao(jobId) {
     };
 
     try {
-        // Atualizar job atual como concluído
         await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -1970,14 +2148,12 @@ async function confirmarAprovacao(jobId) {
             })
         });
 
-        // Criar novo job
         await fetch(`${FIREBASE_URL}/jobs/${novoJobId}.json`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novoJob)
         });
 
-        // Atualizar estado local
         job.status = 'concluido';
         job.historico = historicoAtual;
         job.concluidoEm = agora;
@@ -1993,7 +2169,7 @@ async function confirmarAprovacao(jobId) {
 }
 
 // ============================================================================
-// MODAL: MUDANÇA DE ETAPA (admin - sem aprovação, alteração direta)
+// MUDANÇA DE ETAPA (admin direto)
 // ============================================================================
 function abrirModalMudancaEtapa(jobId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
@@ -2149,14 +2325,13 @@ async function soltarJob(event, novaData, userId) {
 }
 
 // ============================================================================
-// PÁGINA JOBS (com filtros)
+// PÁGINA JOBS
 // ============================================================================
 function renderJobs(container) {
     let jobsFiltrados = [...state.jobs];
     if (state.jobsFilters.status !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.status === state.jobsFilters.status);
     if (state.jobsFilters.classification !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.classificacaoId === state.jobsFilters.classification);
-    if (state.jobsFilters.startDate) jobsFiltrados = jobsFiltrados.filter(j => j.dataExecucao && j.dataExecucao >= state.jobsFilters.startDate);
-    if (state.jobsFilters.endDate) jobsFiltrados = jobsFiltrados.filter(j => j.dataExecucao && j.dataExecucao <= state.jobsFilters.endDate);
+    jobsFiltrados = jobsFiltrados.filter(j => isInDateRange(j.dataExecucao, state.jobsFilters.startDate, state.jobsFilters.endDate));
 
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.jobsFilters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
 
@@ -2220,7 +2395,7 @@ function renderJobs(container) {
                     ${jobsFiltrados.map(job => {
                         const user = state.users.find(u => u.id === job.usuarioId);
                         const classif = state.classifications.find(c => c.id === job.classificacaoId);
-                        const hoje = new Date().toISOString().split('T')[0];
+                        const hoje = formatISODate(new Date());
                         const atrasado = job.prazo && job.prazo < hoje && job.status !== 'concluido';
                         return `
                             <tr>
@@ -2261,7 +2436,7 @@ function limparFiltrosJobs() {
 }
 
 // ============================================================================
-// MODAL JOB (criar/editar)
+// MODAL JOB
 // ============================================================================
 function abrirModalJob(jobId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
@@ -2326,7 +2501,7 @@ function abrirModalJob(jobId) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>Data de Execução <span class="required">*</span></label>
-                            <input type="date" class="form-control" id="jobData" value="${job ? job.dataExecucao : new Date().toISOString().split('T')[0]}">
+                            <input type="date" class="form-control" id="jobData" value="${job ? job.dataExecucao : formatISODate(new Date())}">
                         </div>
                         <div class="form-group">
                             <label>Prazo (Deadline)</label>
@@ -2429,17 +2604,18 @@ async function excluirJob(id) {
 }
 
 // ============================================================================
-// PÁGINA CADASTROS (tabs: usuários / classificações)
+// CADASTROS
 // ============================================================================
 function renderCadastros(container) {
+    const tab = state.cadastrosTab;
     container.innerHTML = `
         <div class="content-header">
             <div>
-                <div class="page-title">Cadastros</div>
-                <div class="page-subtitle">Gerencie usuários e classificações do sistema</div>
+                <div class="page-title">Cadastros · ${tab === 'usuarios' ? 'Usuários' : 'Classificações'}</div>
+                <div class="page-subtitle">Gerencie os cadastros do sistema</div>
             </div>
             <div class="header-actions">
-                ${state.cadastrosTab === 'usuarios' ? 
+                ${tab === 'usuarios' ? 
                     `<button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>` :
                     `<button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>`
                 }
@@ -2447,23 +2623,9 @@ function renderCadastros(container) {
             </div>
         </div>
 
-        <div class="tabs">
-            <div class="tab ${state.cadastrosTab === 'usuarios' ? 'active' : ''}" onclick="mudarTabCadastros('usuarios')">
-                Usuários (${state.users.length})
-            </div>
-            <div class="tab ${state.cadastrosTab === 'classificacoes' ? 'active' : ''}" onclick="mudarTabCadastros('classificacoes')">
-                Classificações (${state.classifications.length})
-            </div>
-        </div>
-
         <div id="cadastrosContent"></div>
     `;
     renderizarTabCadastros();
-}
-
-function mudarTabCadastros(tab) {
-    state.cadastrosTab = tab;
-    renderizarPagina();
 }
 
 function renderizarTabCadastros() {
@@ -2731,11 +2893,20 @@ async function excluirClassificacao(id) {
 // ============================================================================
 function aplicarFiltro(tipo, valor) {
     state.filters[tipo] = valor;
+    // Se mudou data inicial ou final, atualizar a semana visualizada
+    if (tipo === 'startDate' && valor) {
+        const d = parseISODate(valor);
+        if (d) state.weekReference = getStartOfWeek(d);
+    } else if (tipo === 'endDate' && valor) {
+        const d = parseISODate(valor);
+        if (d) state.weekReference = getStartOfWeek(d);
+    }
     renderizarPagina();
 }
 
 function limparFiltros() {
     state.filters = { classification: 'all', startDate: '', endDate: '', status: 'all' };
+    state.weekReference = getStartOfWeek(new Date());
     renderizarPagina();
 }
 
