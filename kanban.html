@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GestJobs — Sistema de Gerenciamento</title>
     <style>
-        /* ============ RESET & BASE ============ */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         :root {
@@ -42,7 +41,7 @@
 
         .app-container { display: flex; width: 100%; min-height: 100vh; }
 
-        /* ============ SIDEBAR ============ */
+        /* SIDEBAR */
         .sidebar {
             width: 240px;
             background: var(--bg-sidebar);
@@ -130,7 +129,7 @@
         .user-details .name { font-size: 13px; font-weight: 600; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-details .role { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; }
 
-        /* ============ MAIN ============ */
+        /* MAIN */
         .main-content { flex: 1; margin-left: 240px; padding: 24px 28px; min-height: 100vh; min-width: 0; }
 
         .content-header {
@@ -146,7 +145,7 @@
         .page-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
         .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-        /* ============ BUTTONS ============ */
+        /* BUTTONS */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -186,7 +185,7 @@
         .btn-xs svg { width: 12px; height: 12px; }
         .btn-block { width: 100%; justify-content: center; }
 
-        /* ============ FORMS ============ */
+        /* FORMS */
         .form-group { margin-bottom: 16px; }
 
         .form-group label {
@@ -225,7 +224,30 @@
 
         .form-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
-        /* ============ STATS ============ */
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 2px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 18px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .tab:hover { color: var(--text-primary); }
+        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+        /* STATS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -269,7 +291,7 @@
         .stat-number { font-size: 26px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.8px; line-height: 1.1; }
         .stat-footer { margin-top: 8px; font-size: 12px; color: var(--text-muted); }
 
-        /* ============ KANBAN ============ */
+        /* KANBAN */
         .kanban-toolbar {
             display: flex;
             gap: 10px;
@@ -282,7 +304,7 @@
             border: 1px solid var(--border);
         }
 
-        .kanban-toolbar .form-control { width: auto; min-width: 150px; padding: 7px 10px; font-size: 13px; }
+        .kanban-toolbar .form-control { width: auto; min-width: 140px; padding: 7px 10px; font-size: 13px; }
         .kanban-toolbar label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-right: -6px; }
 
         .kanban-scroll { overflow-x: auto; padding-bottom: 12px; }
@@ -306,6 +328,7 @@
 
         .kanban-user-header .user-avatar { width: 30px; height: 30px; font-size: 12px; border-radius: 6px; }
         .kanban-user-header .user-name { font-weight: 600; font-size: 13.5px; color: var(--text-primary); }
+        .kanban-user-header .user-role { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
         .kanban-user-header .user-count { font-size: 12px; color: var(--text-muted); margin-left: auto; }
 
         .kanban-grid {
@@ -342,7 +365,7 @@
         .kanban-col-header.today .day-abbr { color: var(--primary); }
         .kanban-col-header.today .day-num { color: var(--primary); font-weight: 700; }
 
-        /* ============ CARD ============ */
+        /* CARD */
         .activity-card {
             background: white;
             border-radius: 6px;
@@ -361,8 +384,21 @@
 
         .activity-card.status-pendente { border-left-color: var(--warning); }
         .activity-card.status-em_processo { border-left-color: var(--info); }
+        .activity-card.status-aguardando_aprovacao { border-left-color: var(--purple); background: #faf5ff; }
         .activity-card.status-concluido { border-left-color: var(--success); opacity: 0.75; }
         .activity-card.status-concluido .activity-title { text-decoration: line-through; color: var(--text-muted); }
+
+        .activity-numero {
+            display: inline-block;
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+        }
 
         .activity-title { font-size: 12.5px; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-bottom: 5px; word-break: break-word; }
 
@@ -397,6 +433,7 @@
         .tag-status { text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.5px; }
         .tag-status.pendente { background: var(--warning-bg); color: var(--warning); }
         .tag-status.em_processo { background: var(--info-bg); color: var(--info); }
+        .tag-status.aguardando_aprovacao { background: var(--purple-bg); color: var(--purple); }
         .tag-status.concluido { background: var(--success-bg); color: var(--success); }
 
         .activity-actions {
@@ -426,7 +463,7 @@
         .activity-actions button:hover { background: #f1f5f9; color: var(--text-primary); }
         .activity-actions svg { width: 12px; height: 12px; stroke-width: 2.2; }
 
-        /* ============ TABLES ============ */
+        /* TABLES */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -464,7 +501,7 @@
         .data-table .cell-muted { color: var(--text-muted); font-size: 12.5px; }
         .data-table .cell-actions { display: flex; gap: 4px; }
 
-        /* ============ MODAL ============ */
+        /* MODAL */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -536,37 +573,6 @@
             background: #f8fafc;
         }
 
-        /* ============ MODAL CONTEXT BANNER ============ */
-        .context-banner {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .context-banner .icon-wrap {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .context-banner .icon-wrap svg { width: 16px; height: 16px; stroke-width: 2.2; }
-
-        .context-banner .text { flex: 1; min-width: 0; }
-        .context-banner .text strong { font-size: 13px; color: var(--primary-dark); display: block; }
-        .context-banner .text span { font-size: 12px; color: var(--text-secondary); }
-
-        /* ============ SECTION TITLE ============ */
         .section-title {
             font-size: 11.5px;
             font-weight: 700;
@@ -582,7 +588,52 @@
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .section-title:first-child { margin-top: 0; }
 
-        /* ============ LOGIN ============ */
+        /* CONTEXT BANNER */
+        .context-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .context-banner.warn {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #fcd34d;
+        }
+
+        .context-banner.success {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-color: #6ee7b7;
+        }
+
+        .context-banner .icon-wrap {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .context-banner.warn .icon-wrap { background: var(--warning); }
+        .context-banner.success .icon-wrap { background: var(--success); }
+
+        .context-banner .icon-wrap svg { width: 16px; height: 16px; stroke-width: 2.2; }
+
+        .context-banner .text { flex: 1; min-width: 0; }
+        .context-banner .text strong { font-size: 13px; color: var(--primary-dark); display: block; }
+        .context-banner.warn .text strong { color: #92400e; }
+        .context-banner.success .text strong { color: #065f46; }
+        .context-banner .text span { font-size: 12px; color: var(--text-secondary); }
+
+        /* LOGIN */
         .login-screen {
             display: flex;
             justify-content: center;
@@ -625,7 +676,7 @@
             display: none;
         }
 
-        /* ============ CHARTS ============ */
+        /* CHARTS */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -681,7 +732,7 @@
 
         .bar-value { font-size: 12px; font-weight: 700; color: var(--text-primary); min-width: 30px; text-align: right; }
 
-        /* ============ TOAST ============ */
+        /* TOAST */
         .toast-container { position: fixed; top: 18px; right: 18px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
 
         .toast {
@@ -717,7 +768,7 @@
         .toast.toast-warning svg { color: var(--warning); }
         .toast.toast-info svg { color: var(--info); }
 
-        /* ============ EMPTY STATE ============ */
+        /* EMPTY STATE */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -731,7 +782,7 @@
         .empty-state h3 { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; }
         .empty-state p { font-size: 13px; }
 
-        /* ============ STAGE SELECTOR (status modal) ============ */
+        /* STAGE OPTIONS */
         .stage-options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -750,11 +801,7 @@
         }
 
         .stage-option:hover { border-color: var(--primary-light); }
-
-        .stage-option.selected {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
+        .stage-option.selected { border-color: var(--primary); background: #eff6ff; }
 
         .stage-option .stage-label {
             font-size: 12px;
@@ -770,7 +817,7 @@
 
         .stage-option .stage-desc { font-size: 10.5px; color: var(--text-muted); }
 
-        /* ============ CLASSIFICATION SELECTOR ============ */
+        /* CLASSIFICATION OPTIONS */
         .classification-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -797,7 +844,7 @@
         .classification-option.tag-design { color: var(--warning); }
         .classification-option.tag-outro { color: var(--text-secondary); }
 
-        /* ============ UTILITIES ============ */
+        /* UTILITIES */
         .hidden { display: none !important; }
         .text-center { text-align: center; }
         .text-muted { color: var(--text-muted); }
@@ -822,7 +869,7 @@
             font-weight: 500;
         }
 
-        /* ============ RESPONSIVE ============ */
+        /* RESPONSIVE */
         @media (max-width: 900px) {
             .sidebar { width: 60px; }
             .sidebar-brand { padding: 16px 10px; justify-content: center; }
@@ -850,7 +897,7 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ============ LOGIN ============ -->
+<!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-box">
         <div class="login-brand">
@@ -870,7 +917,7 @@
     </div>
 </div>
 
-<!-- ============ APP ============ -->
+<!-- APP -->
 <div class="app-container hidden" id="appContainer">
     <aside class="sidebar">
         <div class="sidebar-brand">
@@ -905,7 +952,6 @@
 // ============================================================================
 const FIREBASE_URL = "https://kanban-7e762-default-rtdb.firebaseio.com";
 
-const DIAS_SEMANA = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 const DIAS_ABREV = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 const CLASSIFICACOES_PADRAO = [
@@ -918,6 +964,7 @@ const CLASSIFICACOES_PADRAO = [
 const STATUS_LABEL = {
     'pendente': 'Pendente',
     'em_processo': 'Em Processo',
+    'aguardando_aprovacao': 'Aguardando Aprovação',
     'concluido': 'Concluído'
 };
 
@@ -942,7 +989,8 @@ const ICONS = {
     chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
     filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
     arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
-    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
 };
 
 // ============================================================================
@@ -951,15 +999,22 @@ const ICONS = {
 const state = {
     currentUser: null,
     users: [],
-    jobs: [],          // Jobs = Atividades (unificados)
+    jobs: [],
     classifications: [],
     currentPage: 'dashboard',
+    cadastrosTab: 'usuarios', // 'usuarios' | 'classificacoes'
     draggedJob: null,
     filters: {
         classification: 'all',
         startDate: '',
         endDate: '',
         status: 'all'
+    },
+    jobsFilters: {
+        startDate: '',
+        endDate: '',
+        status: 'all',
+        classification: 'all'
     }
 };
 
@@ -1002,6 +1057,7 @@ async function fazerLogin() {
                     nome: 'Administrador',
                     username: 'admin',
                     tipo: 'admin',
+                    cargo: 'Administrador',
                     ativo: true,
                     criadoEm: new Date().toISOString()
                 };
@@ -1103,6 +1159,7 @@ async function carregarDados() {
                 nome: 'Administrador',
                 username: 'admin',
                 tipo: 'admin',
+                cargo: 'Administrador',
                 ativo: true,
                 criadoEm: new Date().toISOString()
             };
@@ -1144,8 +1201,7 @@ function atualizarSidebar() {
             { id: 'dashboard', icon: ICONS.dashboard, label: 'Dashboard' },
             { id: 'kanban', icon: ICONS.kanban, label: 'Kanban' },
             { id: 'jobs', icon: ICONS.jobs, label: 'Jobs' },
-            { id: 'usuarios', icon: ICONS.users, label: 'Usuários' },
-            { id: 'classificacoes', icon: ICONS.tags, label: 'Classificações' }
+            { id: 'cadastros', icon: ICONS.users, label: 'Cadastros' }
         ];
     } else {
         label.textContent = 'Meu Trabalho';
@@ -1165,7 +1221,8 @@ function atualizarSidebar() {
         const inicial = (state.currentUser.nome || 'U').charAt(0).toUpperCase();
         document.getElementById('userAvatar').textContent = inicial;
         document.getElementById('userNameDisplay').textContent = state.currentUser.nome || 'Usuário';
-        document.getElementById('userRoleDisplay').textContent = state.currentUser.tipo === 'admin' ? 'Administrador' : 'Colaborador';
+        const roleLabel = state.currentUser.cargo || (state.currentUser.tipo === 'admin' ? 'Administrador' : 'Colaborador');
+        document.getElementById('userRoleDisplay').textContent = roleLabel;
     }
 }
 
@@ -1180,8 +1237,7 @@ function renderizarPagina() {
         case 'dashboard': if (isAdmin) renderDashboard(main); else renderKanban(main); break;
         case 'kanban': renderKanban(main); break;
         case 'jobs': if (isAdmin) renderJobs(main); break;
-        case 'usuarios': if (isAdmin) renderUsuarios(main); break;
-        case 'classificacoes': if (isAdmin) renderClassificacoes(main); break;
+        case 'cadastros': if (isAdmin) renderCadastros(main); break;
         default: renderKanban(main);
     }
 }
@@ -1193,6 +1249,7 @@ function renderDashboard(container) {
     const totalJobs = state.jobs.length;
     const pendentes = state.jobs.filter(j => j.status === 'pendente').length;
     const emProcesso = state.jobs.filter(j => j.status === 'em_processo').length;
+    const aguardando = state.jobs.filter(j => j.status === 'aguardando_aprovacao').length;
     const concluidas = state.jobs.filter(j => j.status === 'concluido').length;
     const totalUsuarios = state.users.filter(u => u.tipo !== 'admin').length;
 
@@ -1202,6 +1259,7 @@ function renderDashboard(container) {
     const statusData = [
         { label: 'Pendentes', value: pendentes, color: '#d97706' },
         { label: 'Em Processo', value: emProcesso, color: '#0284c7' },
+        { label: 'Aguard. Aprovação', value: aguardando, color: '#7c3aed' },
         { label: 'Concluídas', value: concluidas, color: '#059669' }
     ];
 
@@ -1249,19 +1307,19 @@ function renderDashboard(container) {
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-label">Pendentes</div>
-                    <div class="stat-icon">${ICONS.chart}</div>
+                    <div class="stat-label">Aguardando Aprovação</div>
+                    <div class="stat-icon">${ICONS.clock}</div>
                 </div>
-                <div class="stat-number">${pendentes}</div>
-                <div class="stat-footer">Aguardando início</div>
+                <div class="stat-number" style="color:var(--purple);">${aguardando}</div>
+                <div class="stat-footer">Requerem atenção</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-label">Em Processo</div>
-                    <div class="stat-icon">${ICONS.refresh}</div>
+                    <div class="stat-label">Em Andamento</div>
+                    <div class="stat-icon">${ICONS.chart}</div>
                 </div>
-                <div class="stat-number">${emProcesso}</div>
-                <div class="stat-footer">Em execução</div>
+                <div class="stat-number">${pendentes + emProcesso}</div>
+                <div class="stat-footer">${emProcesso} em processo</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
@@ -1376,8 +1434,8 @@ function renderKanban(container) {
     if (!isAdmin) jobs = jobs.filter(j => j.usuarioId === state.currentUser.id);
     if (state.filters.classification !== 'all') jobs = jobs.filter(j => j.classificacaoId === state.filters.classification);
     if (state.filters.status !== 'all') jobs = jobs.filter(j => j.status === state.filters.status);
-    if (state.filters.startDate) jobs = jobs.filter(j => j.dataExecucao >= state.filters.startDate);
-    if (state.filters.endDate) jobs = jobs.filter(j => j.dataExecucao <= state.filters.endDate);
+    if (state.filters.startDate) jobs = jobs.filter(j => j.dataExecucao && j.dataExecucao >= state.filters.startDate);
+    if (state.filters.endDate) jobs = jobs.filter(j => j.dataExecucao && j.dataExecucao <= state.filters.endDate);
 
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.filters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
 
@@ -1407,6 +1465,7 @@ function renderKanban(container) {
                 <option value="all" ${state.filters.status === 'all' ? 'selected' : ''}>Todos</option>
                 <option value="pendente" ${state.filters.status === 'pendente' ? 'selected' : ''}>Pendente</option>
                 <option value="em_processo" ${state.filters.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
+                <option value="aguardando_aprovacao" ${state.filters.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
                 <option value="concluido" ${state.filters.status === 'concluido' ? 'selected' : ''}>Concluído</option>
             </select>
             <label>De</label>
@@ -1424,11 +1483,12 @@ function renderKanban(container) {
         } else {
             usuarios.forEach(user => {
                 const jobsUser = jobs.filter(j => j.usuarioId === user.id);
+                const cargo = user.cargo ? ` <span class="user-role">· ${escapeHtml(user.cargo)}</span>` : '';
                 html += `
                     <div class="kanban-user-block">
                         <div class="kanban-user-header">
                             <div class="user-avatar">${(user.nome || 'U').charAt(0).toUpperCase()}</div>
-                            <div class="user-name">${escapeHtml(user.nome)}</div>
+                            <div class="user-name">${escapeHtml(user.nome)}${cargo}</div>
                             <div class="user-count">${jobsUser.length} job(s)</div>
                         </div>
                         <div class="kanban-scroll">
@@ -1482,24 +1542,27 @@ function renderCardJob(job) {
 
     const classTag = classificacao ? `<span class="tag ${classificacao.cor}">${escapeHtml(classificacao.nome)}</span>` : '';
     const statusTag = `<span class="tag tag-status ${job.status}">${STATUS_LABEL[job.status] || job.status}</span>`;
+    const numeroTag = job.numero ? `<span class="activity-numero">#${escapeHtml(job.numero)}</span>` : '';
 
     return `
         <div class="activity-card status-${job.status}" 
-             draggable="${canEdit}"
+             draggable="${canEdit && job.status !== 'aguardando_aprovacao'}"
              ondragstart="iniciarDrag(event, '${job.id}')"
              ondragend="finalizarDrag(event)"
-             onclick="abrirModalMudancaStatus('${job.id}')">
+             onclick="abrirAcaoJob('${job.id}')">
+            ${numeroTag}
             <div class="activity-title">${escapeHtml(job.titulo)}</div>
-            ${job.descricao ? `<div class="activity-job" style="color:var(--text-muted);">${escapeHtml(job.descricao.substring(0, 60))}${job.descricao.length > 60 ? '...' : ''}</div>` : ''}
+            ${job.descricao ? `<div class="activity-job">${escapeHtml(job.descricao.substring(0, 60))}${job.descricao.length > 60 ? '...' : ''}</div>` : ''}
             <div class="activity-meta">
                 ${classTag}
                 ${statusTag}
             </div>
             ${canEdit ? `
                 <div class="activity-actions" onclick="event.stopPropagation()">
-                    <button title="Avançar etapa" onclick="abrirModalMudancaStatus('${job.id}')">${ICONS.arrowRight}</button>
                     ${isAdmin ? `
                         <button title="Editar" onclick="abrirModalJob('${job.id}')">${ICONS.edit}</button>
+                    ` : ''}
+                    ${isAdmin ? `
                         <button title="Excluir" onclick="excluirJob('${job.id}')">${ICONS.trash}</button>
                     ` : ''}
                 </div>
@@ -1509,9 +1572,518 @@ function renderCardJob(job) {
 }
 
 // ============================================================================
+// CLICK NO CARD - ROTEADOR DE AÇÃO
+// ============================================================================
+function abrirAcaoJob(jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
+
+    if (job.status === 'aguardando_aprovacao') {
+        if (isAdmin) abrirModalAprovacao(jobId);
+        else mostrarToast('Este job está aguardando aprovação do administrador', 'info');
+    } else if (job.status === 'concluido') {
+        if (isAdmin) abrirModalAprovacao(jobId);
+        else mostrarToast('Job concluído', 'info');
+    } else {
+        // pendente / em_processo → abre modal de ação (avançar / concluir)
+        abrirModalAcaoJob(jobId);
+    }
+}
+
+// ============================================================================
+// MODAL: AÇÃO DO JOB (avançar etapa / finalizar)
+// ============================================================================
+function abrirModalAcaoJob(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
+    const canEdit = isAdmin || job.usuarioId === state.currentUser.id;
+    if (!canEdit) { mostrarToast('Você não pode alterar este job', 'warning'); return; }
+
+    const classifAtual = state.classifications.find(c => c.id === job.classificacaoId);
+    const userAtual = state.users.find(u => u.id === job.usuarioId);
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalAcao">
+            <div class="modal">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">${job.numero ? '#' + escapeHtml(job.numero) + ' · ' : ''}${escapeHtml(job.titulo)}</div>
+                        <div class="modal-subtitle">Detalhes e ações</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalAcao')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    ${job.descricao ? `
+                        <div class="section-title">Descrição</div>
+                        <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:16px;">${escapeHtml(job.descricao)}</p>
+                    ` : ''}
+
+                    <div class="section-title">Etapa atual</div>
+                    <div class="context-banner">
+                        <div class="icon-wrap">${ICONS.arrowRight}</div>
+                        <div class="text">
+                            <strong>${classifAtual ? escapeHtml(classifAtual.nome) : 'Sem classificação'} — ${STATUS_LABEL[job.status]}</strong>
+                            <span>Responsável: ${userAtual ? escapeHtml(userAtual.nome) : 'Não atribuído'}</span>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Ações disponíveis</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${job.status === 'pendente' ? `
+                            <button class="btn btn-primary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); mudarStatusSimples('${job.id}', 'em_processo')">
+                                ${ICONS.arrowRight} Iniciar processamento (Em Processo)
+                            </button>
+                        ` : ''}
+                        ${job.status === 'em_processo' ? `
+                            <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalConcluir('${job.id}')">
+                                ${ICONS.check} Finalizar e enviar para aprovação
+                            </button>
+                        ` : ''}
+                        ${job.status === 'pendente' ? `
+                            <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalConcluir('${job.id}')">
+                                ${ICONS.check} Finalizar e enviar para aprovação
+                            </button>
+                        ` : ''}
+                        ${isAdmin ? `
+                            <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalMudancaEtapa('${job.id}')">
+                                ${ICONS.copy} Alterar etapa / reatribuir
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalAcao')">Fechar</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+async function mudarStatusSimples(jobId, novoStatus) {
+    try {
+        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: novoStatus, atualizadoEm: new Date().toISOString() })
+        });
+        const job = state.jobs.find(j => j.id === jobId);
+        if (job) job.status = novoStatus;
+        mostrarToast(`Status: ${STATUS_LABEL[novoStatus]}`, 'success');
+        renderizarPagina();
+    } catch (error) {
+        mostrarToast('Erro ao alterar status', 'error');
+    }
+}
+
+// ============================================================================
+// MODAL: CONCLUIR JOB (com observação)
+// ============================================================================
+function abrirModalConcluir(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalConcluir">
+            <div class="modal">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">Finalizar Job</div>
+                        <div class="modal-subtitle">${job.numero ? '#' + escapeHtml(job.numero) + ' · ' : ''}${escapeHtml(job.titulo)}</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalConcluir')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    <div class="context-banner warn">
+                        <div class="icon-wrap">${ICONS.alert}</div>
+                        <div class="text">
+                            <strong>Enviar para aprovação</strong>
+                            <span>Ao finalizar, o job irá para o status "Aguardando Aprovação" e ficará disponível para revisão do administrador.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Observação da entrega <span class="required">*</span></label>
+                        <textarea class="form-control" id="concluirObservacao" placeholder="Descreva o que foi entregue, links, contexto, etc."></textarea>
+                        <div class="form-hint">Esta observação ficará registrada no histórico do job.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalConcluir')">Cancelar</button>
+                    <button class="btn btn-success" onclick="confirmarConcluir('${job.id}')">
+                        ${ICONS.check} Enviar para Aprovação
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    setTimeout(() => document.getElementById('concluirObservacao')?.focus(), 50);
+}
+
+async function confirmarConcluir(jobId) {
+    const observacao = document.getElementById('concluirObservacao').value.trim();
+    if (!observacao) {
+        mostrarToast('Escreva uma observação antes de finalizar', 'warning');
+        return;
+    }
+
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const historico = job.historico || [];
+    historico.push({
+        tipo: 'entrega',
+        usuarioId: state.currentUser.id,
+        usuarioNome: state.currentUser.nome,
+        observacao,
+        data: new Date().toISOString(),
+        status: 'aguardando_aprovacao'
+    });
+
+    try {
+        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                status: 'aguardando_aprovacao',
+                historico,
+                atualizadoEm: new Date().toISOString()
+            })
+        });
+        job.status = 'aguardando_aprovacao';
+        job.historico = historico;
+
+        fecharModal('modalConcluir');
+        mostrarToast('Job enviado para aprovação', 'success');
+        renderizarPagina();
+    } catch (error) {
+        mostrarToast('Erro ao enviar para aprovação', 'error');
+    }
+}
+
+// ============================================================================
+// MODAL: APROVAÇÃO (admin)
+// ============================================================================
+function abrirModalAprovacao(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const classifAtual = state.classifications.find(c => c.id === job.classificacaoId);
+    const userAtual = state.users.find(u => u.id === job.usuarioId);
+    const historico = job.historico || [];
+    const ultimaEntrega = [...historico].reverse().find(h => h.tipo === 'entrega');
+
+    const classOptions = state.classifications.map(c => `
+        <div class="classification-option ${c.cor} ${job.classificacaoId === c.id ? 'selected' : ''}" 
+             data-class="${c.id}" onclick="selecionarNovaClassificacao('${c.id}')">
+            ${escapeHtml(c.nome)}
+        </div>
+    `).join('');
+
+    const userOptions = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
+        `<option value="${u.id}" ${job.usuarioId === u.id ? 'selected' : ''}>${escapeHtml(u.nome)}${u.cargo ? ' · ' + escapeHtml(u.cargo) : ''}</option>`
+    ).join('');
+
+    const podeAprovar = job.status === 'aguardando_aprovacao';
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalAprovacao">
+            <div class="modal modal-lg">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">${job.numero ? '#' + escapeHtml(job.numero) + ' · ' : ''}${escapeHtml(job.titulo)}</div>
+                        <div class="modal-subtitle">${podeAprovar ? 'Aprovar e encaminhar para próxima etapa' : 'Detalhes e histórico'}</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalAprovacao')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    <div class="section-title">Etapa atual</div>
+                    <div class="context-banner ${podeAprovar ? 'warn' : ''}">
+                        <div class="icon-wrap">${podeAprovar ? ICONS.clock : ICONS.info}</div>
+                        <div class="text">
+                            <strong>${classifAtual ? escapeHtml(classifAtual.nome) : 'Sem classificação'} — ${STATUS_LABEL[job.status]}</strong>
+                            <span>Responsável: ${userAtual ? escapeHtml(userAtual.nome) : 'Não atribuído'}</span>
+                        </div>
+                    </div>
+
+                    ${ultimaEntrega ? `
+                        <div class="section-title">Última entrega</div>
+                        <div style="background:#f8fafc; padding:14px; border-radius:8px; border:1px solid var(--border); margin-bottom:16px;">
+                            <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:6px;">
+                                ${escapeHtml(ultimaEntrega.usuarioNome)} · ${new Date(ultimaEntrega.data).toLocaleString('pt-BR')}
+                            </div>
+                            <div style="font-size:13px; color:var(--text-secondary); white-space:pre-wrap;">${escapeHtml(ultimaEntrega.observacao)}</div>
+                        </div>
+                    ` : ''}
+
+                    ${historico.length > 0 ? `
+                        <div class="section-title">Histórico completo</div>
+                        <div style="max-height:200px; overflow-y:auto;">
+                            ${historico.map(h => `
+                                <div style="padding:10px 12px; border-left:2px solid var(--border); margin-bottom:8px;">
+                                    <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">
+                                        ${h.tipo === 'entrega' ? 'Entrega' : h.tipo === 'aprovacao' ? 'Aprovação' : 'Evento'} · 
+                                        ${escapeHtml(h.usuarioNome || 'Sistema')} · 
+                                        ${new Date(h.data).toLocaleString('pt-BR')}
+                                    </div>
+                                    ${h.observacao ? `<div style="font-size:12.5px; color:var(--text-secondary); white-space:pre-wrap;">${escapeHtml(h.observacao)}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${podeAprovar ? `
+                        <div class="section-title">Aprovar e encaminhar</div>
+                        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
+                            Ao aprovar, será criada uma <strong>nova versão</strong> deste job (mantendo o histórico do atual) atribuída à nova etapa e ao novo responsável.
+                        </p>
+
+                        <div class="form-group">
+                            <label>Nova classificação (próxima etapa)</label>
+                            <div class="classification-options">
+                                <div class="classification-option tag-outro" data-class="" onclick="selecionarNovaClassificacao('')">
+                                    Sem classificação
+                                </div>
+                                ${classOptions}
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Novo responsável</label>
+                                <select class="form-control" id="aprovacaoNovoUsuario">
+                                    ${userOptions}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Data de execução</label>
+                                <input type="date" class="form-control" id="aprovacaoNovaData" value="${new Date().toISOString().split('T')[0]}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Observação da aprovação</label>
+                            <textarea class="form-control" id="aprovacaoObservacao" placeholder="Feedback, orientações para a próxima etapa..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Novo prazo (opcional)</label>
+                            <input type="date" class="form-control" id="aprovacaoNovoPrazo" value="">
+                            <div class="form-hint">Se vazio, mantém o prazo original do job.</div>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalAprovacao')">Fechar</button>
+                    ${podeAprovar ? `
+                        <button class="btn btn-primary" onclick="confirmarAprovacao('${job.id}')">
+                            ${ICONS.check} Aprovar e Encaminhar
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    window._aprovacao = { novaClassificacaoId: job.classificacaoId || '' };
+}
+
+function selecionarNovaClassificacao(classId) {
+    window._aprovacao.novaClassificacaoId = classId;
+    document.querySelectorAll('#modalAprovacao .classification-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.class === classId);
+    });
+}
+
+async function confirmarAprovacao(jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const novoUsuarioId = document.getElementById('aprovacaoNovoUsuario').value;
+    const novaData = document.getElementById('aprovacaoNovaData').value;
+    const novoPrazo = document.getElementById('aprovacaoNovoPrazo').value;
+    const observacao = document.getElementById('aprovacaoObservacao').value.trim();
+    const novaClassificacaoId = window._aprovacao.novaClassificacaoId || null;
+
+    if (!novoUsuarioId || !novaData) {
+        mostrarToast('Selecione o novo responsável e a data', 'warning');
+        return;
+    }
+
+    const agora = new Date().toISOString();
+
+    // 1. Marcar o job atual como concluído (histórico)
+    const historicoAtual = job.historico || [];
+    historicoAtual.push({
+        tipo: 'aprovacao',
+        usuarioId: state.currentUser.id,
+        usuarioNome: state.currentUser.nome,
+        observacao: observacao || 'Job aprovado e encaminhado para próxima etapa',
+        data: agora,
+        status: 'concluido',
+        novaClassificacaoId,
+        novoUsuarioId
+    });
+
+    // 2. Criar um novo job (duplicado) com as novas atribuições
+    const novoJobId = 'job_' + Date.now();
+    const novoJob = {
+        id: novoJobId,
+        numero: job.numero || null,
+        titulo: job.titulo,
+        descricao: job.descricao,
+        classificacaoId: novaClassificacaoId,
+        usuarioId: novoUsuarioId,
+        dataExecucao: novaData,
+        prazo: novoPrazo || job.prazo || null,
+        status: 'pendente',
+        criadoEm: agora,
+        criadoPor: state.currentUser.id,
+        parentJobId: job.id,
+        historico: [{
+            tipo: 'criacao',
+            usuarioId: state.currentUser.id,
+            usuarioNome: state.currentUser.nome,
+            observacao: `Job criado a partir da aprovação do job ${job.numero || job.id}`,
+            data: agora,
+            status: 'pendente'
+        }]
+    };
+
+    try {
+        // Atualizar job atual como concluído
+        await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                status: 'concluido',
+                historico: historicoAtual,
+                concluidoEm: agora,
+                atualizadoEm: agora
+            })
+        });
+
+        // Criar novo job
+        await fetch(`${FIREBASE_URL}/jobs/${novoJobId}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novoJob)
+        });
+
+        // Atualizar estado local
+        job.status = 'concluido';
+        job.historico = historicoAtual;
+        job.concluidoEm = agora;
+        state.jobs.push(novoJob);
+
+        fecharModal('modalAprovacao');
+        mostrarToast('Job aprovado e nova etapa criada', 'success');
+        renderizarPagina();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarToast('Erro ao aprovar job', 'error');
+    }
+}
+
+// ============================================================================
+// MODAL: MUDANÇA DE ETAPA (admin - sem aprovação, alteração direta)
+// ============================================================================
+function abrirModalMudancaEtapa(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalMudanca">
+            <div class="modal">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">Alterar Etapa</div>
+                        <div class="modal-subtitle">${escapeHtml(job.titulo)}</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalMudanca')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Novo Status</label>
+                        <select class="form-control" id="mudancaStatus">
+                            <option value="pendente" ${job.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                            <option value="em_processo" ${job.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
+                            <option value="concluido" ${job.status === 'concluido' ? 'selected' : ''}>Concluído</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nova Classificação</label>
+                        <select class="form-control" id="mudancaClassificacao">
+                            <option value="">Sem classificação</option>
+                            ${state.classifications.map(c => `<option value="${c.id}" ${job.classificacaoId === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Novo Responsável</label>
+                        <select class="form-control" id="mudancaUsuario">
+                            ${state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
+                                `<option value="${u.id}" ${job.usuarioId === u.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalMudanca')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="confirmarMudancaEtapa('${job.id}')">${ICONS.check} Aplicar</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+async function confirmarMudancaEtapa(jobId) {
+    const novoStatus = document.getElementById('mudancaStatus').value;
+    const novaClassificacao = document.getElementById('mudancaClassificacao').value;
+    const novoUsuario = document.getElementById('mudancaUsuario').value;
+
+    try {
+        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                status: novoStatus,
+                classificacaoId: novaClassificacao || null,
+                usuarioId: novoUsuario,
+                atualizadoEm: new Date().toISOString()
+            })
+        });
+        const job = state.jobs.find(j => j.id === jobId);
+        if (job) {
+            job.status = novoStatus;
+            job.classificacaoId = novaClassificacao || null;
+            job.usuarioId = novoUsuario;
+        }
+        fecharModal('modalMudanca');
+        mostrarToast('Job atualizado', 'success');
+        renderizarPagina();
+    } catch (error) {
+        mostrarToast('Erro ao atualizar job', 'error');
+    }
+}
+
+// ============================================================================
 // DRAG & DROP
 // ============================================================================
 function iniciarDrag(event, jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (job && job.status === 'aguardando_aprovacao') {
+        event.preventDefault();
+        return;
+    }
     state.draggedJob = jobId;
     event.target.classList.add('dragging');
     event.dataTransfer.effectAllowed = 'move';
@@ -1537,6 +2109,11 @@ async function soltarJob(event, novaData, userId) {
 
     const job = state.jobs.find(j => j.id === jobId);
     if (!job) return;
+
+    if (job.status === 'aguardando_aprovacao') {
+        mostrarToast('Jobs aguardando aprovação não podem ser movidos', 'warning');
+        return;
+    }
 
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
     if (!isAdmin && job.usuarioId !== state.currentUser.id) {
@@ -1564,7 +2141,6 @@ async function soltarJob(event, novaData, userId) {
         mostrarToast('Job movido', 'success');
         renderizarPagina();
     } catch (error) {
-        console.error('Erro ao mover:', error);
         job.dataExecucao = dataAnterior;
         job.usuarioId = userAnterior;
         mostrarToast('Erro ao mover job', 'error');
@@ -1573,173 +2149,22 @@ async function soltarJob(event, novaData, userId) {
 }
 
 // ============================================================================
-// MODAL: MUDANÇA DE ETAPA (status + classificação + usuário)
-// ============================================================================
-function abrirModalMudancaStatus(jobId) {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    const job = state.jobs.find(j => j.id === jobId);
-    if (!job) return;
-
-    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
-    const canEdit = isAdmin || job.usuarioId === state.currentUser.id;
-    
-    if (!canEdit) {
-        mostrarToast('Você não pode alterar este job', 'warning');
-        return;
-    }
-
-    const classifAtual = state.classifications.find(c => c.id === job.classificacaoId);
-    const userAtual = state.users.find(u => u.id === job.usuarioId);
-
-    const classOptions = state.classifications.map(c => `
-        <div class="classification-option ${c.cor} ${job.classificacaoId === c.id ? 'selected' : ''}" 
-             data-class="${c.id}" onclick="selecionarClassificacao('${c.id}')">
-            ${escapeHtml(c.nome)}
-        </div>
-    `).join('');
-
-    const userOptions = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
-        `<option value="${u.id}" ${job.usuarioId === u.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
-    ).join('');
-
-    const modalHtml = `
-        <div class="modal-overlay active" id="modalStatus">
-            <div class="modal modal-lg">
-                <div class="modal-header">
-                    <div>
-                        <div class="modal-title">${escapeHtml(job.titulo)}</div>
-                        <div class="modal-subtitle">Avançar etapa do processo</div>
-                    </div>
-                    <button class="modal-close" onclick="fecharModal('modalStatus')">${ICONS.close}</button>
-                </div>
-                <div class="modal-body">
-                    ${classifAtual ? `
-                        <div class="context-banner">
-                            <div class="icon-wrap">${ICONS.arrowRight}</div>
-                            <div class="text">
-                                <strong>Etapa atual: ${escapeHtml(classifAtual.nome)} — ${STATUS_LABEL[job.status]}</strong>
-                                <span>Responsável: ${userAtual ? escapeHtml(userAtual.nome) : 'Não atribuído'}</span>
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <div class="section-title">Novo Status</div>
-                    <div class="stage-options">
-                        <div class="stage-option pendente ${job.status === 'pendente' ? 'selected' : ''}" 
-                             data-status="pendente" onclick="selecionarStatus('pendente')">
-                            <div class="stage-label">Pendente</div>
-                            <div class="stage-desc">Aguardando início</div>
-                        </div>
-                        <div class="stage-option em_processo ${job.status === 'em_processo' ? 'selected' : ''}" 
-                             data-status="em_processo" onclick="selecionarStatus('em_processo')">
-                            <div class="stage-label">Em Processo</div>
-                            <div class="stage-desc">Em execução</div>
-                        </div>
-                        <div class="stage-option concluido ${job.status === 'concluido' ? 'selected' : ''}" 
-                             data-status="concluido" onclick="selecionarStatus('concluido')">
-                            <div class="stage-label">Concluído</div>
-                            <div class="stage-desc">Finalizado</div>
-                        </div>
-                    </div>
-
-                    <div class="section-title">Nova Classificação</div>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
-                        Ao concluir uma etapa, você pode encaminhar o job para outro setor. Ex: Redação → Direção de Arte.
-                    </p>
-                    <div class="classification-options">
-                        <div class="classification-option tag-outro ${!job.classificacaoId ? 'selected' : ''}" 
-                             data-class="" onclick="selecionarClassificacao('')">
-                            Sem classificação
-                        </div>
-                        ${classOptions}
-                    </div>
-
-                    ${isAdmin ? `
-                        <div class="section-title">Reatribuir Responsável</div>
-                        <div class="form-group">
-                            <select class="form-control" id="mudancaUsuario">
-                                ${userOptions}
-                            </select>
-                            <div class="form-hint">O job passará a aparecer para o novo responsável no kanban.</div>
-                        </div>
-                    ` : ''}
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="fecharModal('modalStatus')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarMudancaStatus('${job.id}')">
-                        ${ICONS.check} Confirmar Alteração
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-    window._mudancaStatus = { status: job.status, classificacaoId: job.classificacaoId || '' };
-}
-
-function selecionarStatus(status) {
-    window._mudancaStatus.status = status;
-    document.querySelectorAll('.stage-option').forEach(el => {
-        el.classList.toggle('selected', el.dataset.status === status);
-    });
-}
-
-function selecionarClassificacao(classId) {
-    window._mudancaStatus.classificacaoId = classId;
-    document.querySelectorAll('.classification-option').forEach(el => {
-        el.classList.toggle('selected', el.dataset.class === classId);
-    });
-}
-
-async function salvarMudancaStatus(jobId) {
-    const job = state.jobs.find(j => j.id === jobId);
-    if (!job) return;
-
-    const novoStatus = window._mudancaStatus.status;
-    const novaClassif = window._mudancaStatus.classificacaoId;
-    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
-
-    const updates = {
-        status: novoStatus,
-        classificacaoId: novaClassif || null,
-        atualizadoEm: new Date().toISOString()
-    };
-
-    if (isAdmin) {
-        const userSelect = document.getElementById('mudancaUsuario');
-        if (userSelect && userSelect.value) {
-            updates.usuarioId = userSelect.value;
-        }
-    }
-
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updates)
-        });
-
-        Object.assign(job, updates);
-
-        fecharModal('modalStatus');
-        mostrarToast('Job atualizado com sucesso', 'success');
-        renderizarPagina();
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarToast('Erro ao atualizar job', 'error');
-    }
-}
-
-// ============================================================================
-// PÁGINA JOBS
+// PÁGINA JOBS (com filtros)
 // ============================================================================
 function renderJobs(container) {
+    let jobsFiltrados = [...state.jobs];
+    if (state.jobsFilters.status !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.status === state.jobsFilters.status);
+    if (state.jobsFilters.classification !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.classificacaoId === state.jobsFilters.classification);
+    if (state.jobsFilters.startDate) jobsFiltrados = jobsFiltrados.filter(j => j.dataExecucao && j.dataExecucao >= state.jobsFilters.startDate);
+    if (state.jobsFilters.endDate) jobsFiltrados = jobsFiltrados.filter(j => j.dataExecucao && j.dataExecucao <= state.jobsFilters.endDate);
+
+    const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.jobsFilters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
+
     container.innerHTML = `
         <div class="content-header">
             <div>
                 <div class="page-title">Jobs</div>
-                <div class="page-subtitle">Todos os jobs são também atividades atribuíveis a colaboradores</div>
+                <div class="page-subtitle">Todos os jobs do sistema (${jobsFiltrados.length} de ${state.jobs.length})</div>
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary btn-sm" onclick="abrirModalJob()">${ICONS.plus} Novo Job</button>
@@ -1747,33 +2172,59 @@ function renderJobs(container) {
             </div>
         </div>
 
-        ${state.jobs.length === 0 ? `
+        <div class="kanban-toolbar">
+            <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">
+                ${ICONS.filter} Filtros
+            </span>
+            <label>Classificação</label>
+            <select class="form-control" onchange="aplicarFiltroJobs('classification', this.value)">
+                <option value="all">Todas</option>
+                ${classOptions}
+            </select>
+            <label>Status</label>
+            <select class="form-control" onchange="aplicarFiltroJobs('status', this.value)">
+                <option value="all" ${state.jobsFilters.status === 'all' ? 'selected' : ''}>Todos</option>
+                <option value="pendente" ${state.jobsFilters.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                <option value="em_processo" ${state.jobsFilters.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
+                <option value="aguardando_aprovacao" ${state.jobsFilters.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
+                <option value="concluido" ${state.jobsFilters.status === 'concluido' ? 'selected' : ''}>Concluído</option>
+            </select>
+            <label>De</label>
+            <input type="date" class="form-control" value="${state.jobsFilters.startDate}" onchange="aplicarFiltroJobs('startDate', this.value)">
+            <label>Até</label>
+            <input type="date" class="form-control" value="${state.jobsFilters.endDate}" onchange="aplicarFiltroJobs('endDate', this.value)">
+            <button class="btn btn-ghost btn-sm" onclick="limparFiltrosJobs()">Limpar</button>
+        </div>
+
+        ${jobsFiltrados.length === 0 ? `
             <div class="empty-state">
                 ${ICONS.jobs}
-                <h3>Nenhum job cadastrado</h3>
-                <p>Clique em "Novo Job" para começar</p>
+                <h3>Nenhum job encontrado</h3>
+                <p>Ajuste os filtros ou cadastre um novo job</p>
             </div>
         ` : `
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>Nº</th>
                         <th>Título</th>
                         <th>Classificação</th>
                         <th>Responsável</th>
                         <th>Execução</th>
                         <th>Prazo</th>
                         <th>Status</th>
-                        <th style="width:180px;">Ações</th>
+                        <th style="width:150px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${state.jobs.map(job => {
+                    ${jobsFiltrados.map(job => {
                         const user = state.users.find(u => u.id === job.usuarioId);
                         const classif = state.classifications.find(c => c.id === job.classificacaoId);
                         const hoje = new Date().toISOString().split('T')[0];
                         const atrasado = job.prazo && job.prazo < hoje && job.status !== 'concluido';
                         return `
                             <tr>
+                                <td class="cell-muted">${job.numero ? '#' + escapeHtml(job.numero) : '—'}</td>
                                 <td class="cell-strong">${escapeHtml(job.titulo)}</td>
                                 <td>${classif ? `<span class="tag ${classif.cor}">${escapeHtml(classif.nome)}</span>` : '<span class="cell-muted">—</span>'}</td>
                                 <td>${user ? escapeHtml(user.nome) : '<span class="cell-muted">—</span>'}</td>
@@ -1782,7 +2233,10 @@ function renderJobs(container) {
                                 <td><span class="tag tag-status ${job.status}">${STATUS_LABEL[job.status]}</span></td>
                                 <td>
                                     <div class="cell-actions">
-                                        <button class="btn btn-xs btn-secondary" onclick="abrirModalMudancaStatus('${job.id}')" title="Mudar etapa">${ICONS.arrowRight}</button>
+                                        ${job.status === 'aguardando_aprovacao' ? 
+                                            `<button class="btn btn-xs btn-success" onclick="abrirModalAprovacao('${job.id}')" title="Aprovar">${ICONS.check} Aprovar</button>` :
+                                            `<button class="btn btn-xs btn-secondary" onclick="abrirAcaoJob('${job.id}')" title="Abrir">${ICONS.eye}</button>`
+                                        }
                                         <button class="btn btn-xs btn-primary" onclick="abrirModalJob('${job.id}')" title="Editar">${ICONS.edit}</button>
                                         <button class="btn btn-xs btn-danger" onclick="excluirJob('${job.id}')" title="Excluir">${ICONS.trash}</button>
                                     </div>
@@ -1796,6 +2250,16 @@ function renderJobs(container) {
     `;
 }
 
+function aplicarFiltroJobs(tipo, valor) {
+    state.jobsFilters[tipo] = valor;
+    renderizarPagina();
+}
+
+function limparFiltrosJobs() {
+    state.jobsFilters = { startDate: '', endDate: '', status: 'all', classification: 'all' };
+    renderizarPagina();
+}
+
 // ============================================================================
 // MODAL JOB (criar/editar)
 // ============================================================================
@@ -1805,7 +2269,7 @@ function abrirModalJob(jobId) {
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
 
     const userOptions = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
-        `<option value="${u.id}" ${job && job.usuarioId === u.id ? 'selected' : ''} ${!job && u.id === state.currentUser.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
+        `<option value="${u.id}" ${job && job.usuarioId === u.id ? 'selected' : ''} ${!job && u.id === state.currentUser.id ? 'selected' : ''}>${escapeHtml(u.nome)}${u.cargo ? ' · ' + escapeHtml(u.cargo) : ''}</option>`
     ).join('');
 
     const classOptions = state.classifications.map(c => 
@@ -1824,9 +2288,15 @@ function abrirModalJob(jobId) {
                 </div>
                 <div class="modal-body">
                     <div class="section-title">Informações Básicas</div>
-                    <div class="form-group">
-                        <label>Título <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="jobTitulo" value="${job ? escapeHtml(job.titulo) : ''}" placeholder="Ex: Criar banner para redes sociais">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Número da Job</label>
+                            <input type="text" class="form-control" id="jobNumero" value="${job ? escapeHtml(job.numero || '') : ''}" placeholder="Ex: 2024-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Título <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="jobTitulo" value="${job ? escapeHtml(job.titulo) : ''}" placeholder="Ex: Criar banner">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Descrição</label>
@@ -1857,22 +2327,22 @@ function abrirModalJob(jobId) {
                         <div class="form-group">
                             <label>Data de Execução <span class="required">*</span></label>
                             <input type="date" class="form-control" id="jobData" value="${job ? job.dataExecucao : new Date().toISOString().split('T')[0]}">
-                            <div class="form-hint">Data em que será executado (alterável arrastando o card)</div>
                         </div>
                         <div class="form-group">
                             <label>Prazo (Deadline)</label>
                             <input type="date" class="form-control" id="jobPrazo" value="${job ? (job.prazo || '') : ''}">
-                            <div class="form-hint">Prazo final (não muda ao arrastar o card)</div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Status</label>
-                            <select class="form-control" id="jobStatus">
+                            <select class="form-control" id="jobStatus" ${!isAdmin ? 'disabled' : ''}>
                                 <option value="pendente" ${job && job.status === 'pendente' ? 'selected' : ''}>Pendente</option>
                                 <option value="em_processo" ${job && job.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
+                                <option value="aguardando_aprovacao" ${job && job.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
                                 <option value="concluido" ${job && job.status === 'concluido' ? 'selected' : ''}>Concluído</option>
                             </select>
+                            ${!isAdmin ? '<div class="form-hint">O status é alterado ao executar as ações do job</div>' : ''}
                         </div>
                     </div>
                 </div>
@@ -1891,6 +2361,7 @@ function abrirModalJob(jobId) {
 }
 
 async function salvarJob(jobId) {
+    const numero = document.getElementById('jobNumero').value.trim();
     const titulo = document.getElementById('jobTitulo').value.trim();
     const descricao = document.getElementById('jobDescricao').value.trim();
     const classificacaoId = document.getElementById('jobClassificacao').value;
@@ -1904,8 +2375,10 @@ async function salvarJob(jobId) {
         return;
     }
 
+    const jobExistente = jobId ? state.jobs.find(j => j.id === jobId) : null;
     const job = {
         id: jobId || 'job_' + Date.now(),
+        numero: numero || null,
         titulo,
         descricao,
         classificacaoId: classificacaoId || null,
@@ -1919,6 +2392,8 @@ async function salvarJob(jobId) {
     if (!jobId) {
         job.criadoEm = new Date().toISOString();
         job.criadoPor = state.currentUser.id;
+    } else if (jobExistente && jobExistente.historico) {
+        job.historico = jobExistente.historico;
     }
 
     try {
@@ -1954,22 +2429,49 @@ async function excluirJob(id) {
 }
 
 // ============================================================================
-// PÁGINA USUÁRIOS
+// PÁGINA CADASTROS (tabs: usuários / classificações)
 // ============================================================================
-function renderUsuarios(container) {
+function renderCadastros(container) {
     container.innerHTML = `
         <div class="content-header">
             <div>
-                <div class="page-title">Usuários</div>
-                <div class="page-subtitle">Gerenciamento de colaboradores</div>
+                <div class="page-title">Cadastros</div>
+                <div class="page-subtitle">Gerencie usuários e classificações do sistema</div>
             </div>
             <div class="header-actions">
-                <button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>
+                ${state.cadastrosTab === 'usuarios' ? 
+                    `<button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>` :
+                    `<button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>`
+                }
                 <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
             </div>
         </div>
 
-        ${state.users.length === 0 ? `
+        <div class="tabs">
+            <div class="tab ${state.cadastrosTab === 'usuarios' ? 'active' : ''}" onclick="mudarTabCadastros('usuarios')">
+                Usuários (${state.users.length})
+            </div>
+            <div class="tab ${state.cadastrosTab === 'classificacoes' ? 'active' : ''}" onclick="mudarTabCadastros('classificacoes')">
+                Classificações (${state.classifications.length})
+            </div>
+        </div>
+
+        <div id="cadastrosContent"></div>
+    `;
+    renderizarTabCadastros();
+}
+
+function mudarTabCadastros(tab) {
+    state.cadastrosTab = tab;
+    renderizarPagina();
+}
+
+function renderizarTabCadastros() {
+    const container = document.getElementById('cadastrosContent');
+    if (!container) return;
+
+    if (state.cadastrosTab === 'usuarios') {
+        container.innerHTML = state.users.length === 0 ? `
             <div class="empty-state">${ICONS.users}<h3>Nenhum usuário cadastrado</h3></div>
         ` : `
             <table class="data-table">
@@ -1977,6 +2479,7 @@ function renderUsuarios(container) {
                     <tr>
                         <th>Nome</th>
                         <th>Username</th>
+                        <th>Cargo</th>
                         <th>Tipo</th>
                         <th>Status</th>
                         <th style="width:120px;">Ações</th>
@@ -1987,6 +2490,7 @@ function renderUsuarios(container) {
                         <tr>
                             <td class="cell-strong">${escapeHtml(u.nome)}</td>
                             <td class="cell-muted">${escapeHtml(u.username || '—')}</td>
+                            <td>${u.cargo ? escapeHtml(u.cargo) : '<span class="cell-muted">—</span>'}</td>
                             <td>${u.tipo === 'admin' ? 'Administrador' : 'Colaborador'}</td>
                             <td>${u.ativo !== false ? '<span class="tag" style="background:var(--success-bg); color:var(--success);">Ativo</span>' : '<span class="tag" style="background:var(--danger-bg); color:var(--danger);">Inativo</span>'}</td>
                             <td>
@@ -1999,10 +2503,41 @@ function renderUsuarios(container) {
                     `).join('')}
                 </tbody>
             </table>
-        `}
-    `;
+        `;
+    } else {
+        container.innerHTML = state.classifications.length === 0 ? `
+            <div class="empty-state">${ICONS.tags}<h3>Nenhuma classificação cadastrada</h3></div>
+        ` : `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Pré-visualização</th>
+                        <th style="width:120px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${state.classifications.map(c => `
+                        <tr>
+                            <td class="cell-strong">${escapeHtml(c.nome)}</td>
+                            <td><span class="tag ${c.cor}">${escapeHtml(c.nome)}</span></td>
+                            <td>
+                                <div class="cell-actions">
+                                    <button class="btn btn-xs btn-secondary" onclick="abrirModalClassificacao('${c.id}')">${ICONS.edit}</button>
+                                    <button class="btn btn-xs btn-danger" onclick="excluirClassificacao('${c.id}')">${ICONS.trash}</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
 }
 
+// ============================================================================
+// MODAL USUÁRIO
+// ============================================================================
 function abrirModalUsuario(userId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const user = userId ? state.users.find(u => u.id === userId) : null;
@@ -2022,13 +2557,20 @@ function abrirModalUsuario(userId) {
                         <label>Nome Completo <span class="required">*</span></label>
                         <input type="text" class="form-control" id="usuarioNome" value="${user ? escapeHtml(user.nome) : ''}" placeholder="Ex: João Silva">
                     </div>
-                    <div class="form-group">
-                        <label>Username <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="usuarioUsername" value="${user ? escapeHtml(user.username || '') : ''}" placeholder="Ex: joao.silva">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Username <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="usuarioUsername" value="${user ? escapeHtml(user.username || '') : ''}" placeholder="Ex: joao.silva">
+                        </div>
+                        <div class="form-group">
+                            <label>Cargo / Função</label>
+                            <input type="text" class="form-control" id="usuarioCargo" value="${user ? escapeHtml(user.cargo || '') : ''}" placeholder="Ex: Redator, Diretor de Arte">
+                            <div class="form-hint">Apenas título informativo, não afeta permissões</div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Tipo</label>
+                            <label>Tipo de Acesso</label>
                             <select class="form-control" id="usuarioTipo">
                                 <option value="colaborador" ${user && user.tipo === 'colaborador' ? 'selected' : ''}>Colaborador</option>
                                 <option value="admin" ${user && user.tipo === 'admin' ? 'selected' : ''}>Administrador</option>
@@ -2059,6 +2601,7 @@ function abrirModalUsuario(userId) {
 async function salvarUsuarioModal(userId) {
     const nome = document.getElementById('usuarioNome').value.trim();
     const username = document.getElementById('usuarioUsername').value.trim().toLowerCase();
+    const cargo = document.getElementById('usuarioCargo').value.trim();
     const tipo = document.getElementById('usuarioTipo').value;
     const ativo = document.getElementById('usuarioAtivo').value === 'true';
 
@@ -2066,7 +2609,7 @@ async function salvarUsuarioModal(userId) {
 
     const user = {
         id: userId || 'user_' + Date.now(),
-        nome, username, tipo, ativo,
+        nome, username, cargo, tipo, ativo,
         atualizadoEm: new Date().toISOString()
     };
     if (!userId) user.criadoEm = new Date().toISOString();
@@ -2103,51 +2646,8 @@ async function excluirUsuario(id) {
 }
 
 // ============================================================================
-// PÁGINA CLASSIFICAÇÕES
+// MODAL CLASSIFICAÇÃO
 // ============================================================================
-function renderClassificacoes(container) {
-    container.innerHTML = `
-        <div class="content-header">
-            <div>
-                <div class="page-title">Classificações</div>
-                <div class="page-subtitle">Etapas/processos pelos quais os jobs transitam</div>
-            </div>
-            <div class="header-actions">
-                <button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
-            </div>
-        </div>
-
-        ${state.classifications.length === 0 ? `
-            <div class="empty-state">${ICONS.tags}<h3>Nenhuma classificação cadastrada</h3></div>
-        ` : `
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Pré-visualização</th>
-                        <th style="width:120px;">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${state.classifications.map(c => `
-                        <tr>
-                            <td class="cell-strong">${escapeHtml(c.nome)}</td>
-                            <td><span class="tag ${c.cor}">${escapeHtml(c.nome)}</span></td>
-                            <td>
-                                <div class="cell-actions">
-                                    <button class="btn btn-xs btn-secondary" onclick="abrirModalClassificacao('${c.id}')">${ICONS.edit}</button>
-                                    <button class="btn btn-xs btn-danger" onclick="excluirClassificacao('${c.id}')">${ICONS.trash}</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `}
-    `;
-}
-
 function abrirModalClassificacao(classId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const classif = classId ? state.classifications.find(c => c.id === classId) : null;
