@@ -12,7 +12,6 @@
             --primary: #1e40af;
             --primary-dark: #1e3a8a;
             --primary-light: #3b82f6;
-            --bg-dark: #0f172a;
             --bg-sidebar: #1e293b;
             --bg-main: #f1f5f9;
             --bg-card: #ffffff;
@@ -41,7 +40,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ============ LAYOUT ============ */
         .app-container { display: flex; width: 100%; min-height: 100vh; }
 
         /* ============ SIDEBAR ============ */
@@ -78,20 +76,8 @@
             font-size: 16px;
         }
 
-        .brand-text h2 {
-            font-size: 15px;
-            font-weight: 700;
-            color: #f1f5f9;
-            letter-spacing: -0.3px;
-        }
-
-        .brand-text p {
-            font-size: 11px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
+        .brand-text h2 { font-size: 15px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }
+        .brand-text p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
 
         .sidebar-section {
             padding: 18px 16px 8px;
@@ -102,11 +88,7 @@
             letter-spacing: 0.8px;
         }
 
-        .sidebar-nav {
-            flex: 1;
-            padding: 4px 12px;
-            overflow-y: auto;
-        }
+        .sidebar-nav { flex: 1; padding: 4px 12px; overflow-y: auto; }
 
         .nav-item {
             display: flex;
@@ -122,35 +104,13 @@
             user-select: none;
         }
 
-        .nav-item:hover {
-            background: #334155;
-            color: #f1f5f9;
-        }
+        .nav-item:hover { background: #334155; color: #f1f5f9; }
+        .nav-item.active { background: var(--primary); color: #ffffff; }
+        .nav-item svg { margin-right: 10px; width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; }
 
-        .nav-item.active {
-            background: var(--primary);
-            color: #ffffff;
-        }
+        .sidebar-footer { padding: 16px; border-top: 1px solid #334155; }
 
-        .nav-item svg {
-            margin-right: 10px;
-            width: 16px;
-            height: 16px;
-            stroke-width: 2;
-            flex-shrink: 0;
-        }
-
-        .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid #334155;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
+        .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 
         .user-avatar {
             width: 34px;
@@ -167,29 +127,11 @@
         }
 
         .user-details { flex: 1; min-width: 0; }
-        .user-details .name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #f1f5f9;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .user-details .role {
-            font-size: 11px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+        .user-details .name { font-size: 13px; font-weight: 600; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-details .role { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; }
 
         /* ============ MAIN ============ */
-        .main-content {
-            flex: 1;
-            margin-left: 240px;
-            padding: 24px 28px;
-            min-height: 100vh;
-            min-width: 0;
-        }
+        .main-content { flex: 1; margin-left: 240px; padding: 24px 28px; min-height: 100vh; min-width: 0; }
 
         .content-header {
             display: flex;
@@ -200,19 +142,8 @@
             flex-wrap: wrap;
         }
 
-        .page-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.4px;
-        }
-
-        .page-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
+        .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.4px; }
+        .page-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
         .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
         /* ============ BUTTONS ============ */
@@ -233,45 +164,26 @@
         }
 
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn svg { width: 14px; height: 14px; stroke-width: 2.2; }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
+        .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
         .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
 
-        .btn-secondary {
-            background: white;
-            color: var(--text-primary);
-            border-color: var(--border);
-        }
+        .btn-secondary { background: white; color: var(--text-primary); border-color: var(--border); }
         .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
 
-        .btn-success {
-            background: var(--success);
-            color: white;
-            border-color: var(--success);
-        }
+        .btn-success { background: var(--success); color: white; border-color: var(--success); }
         .btn-success:hover { background: #047857; }
 
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-            border-color: var(--danger);
-        }
+        .btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
         .btn-danger:hover { background: #b91c1c; }
 
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-            border-color: transparent;
-            padding: 6px 8px;
-        }
+        .btn-ghost { background: transparent; color: var(--text-secondary); border-color: transparent; padding: 6px 8px; }
         .btn-ghost:hover { background: #f1f5f9; color: var(--text-primary); }
 
         .btn-sm { padding: 6px 10px; font-size: 12px; }
         .btn-xs { padding: 4px 7px; font-size: 11px; }
+        .btn-xs svg { width: 12px; height: 12px; }
         .btn-block { width: 100%; justify-content: center; }
 
         /* ============ FORMS ============ */
@@ -306,25 +218,12 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
-        .form-control:disabled {
-            background: #f8fafc;
-            color: var(--text-muted);
-            cursor: not-allowed;
-        }
-
+        .form-control:disabled { background: #f8fafc; color: var(--text-muted); cursor: not-allowed; }
         textarea.form-control { min-height: 80px; resize: vertical; }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-        .form-hint {
-            font-size: 11.5px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
+        .form-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
         /* ============ STATS ============ */
         .stats-grid {
@@ -342,17 +241,9 @@
             transition: all 0.15s;
         }
 
-        .stat-card:hover {
-            box-shadow: 0 4px 12px rgba(15,23,42,0.06);
-            border-color: #cbd5e1;
-        }
+        .stat-card:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.06); border-color: #cbd5e1; }
 
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+        .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
         .stat-label {
             font-size: 11.5px;
@@ -373,21 +264,10 @@
             color: var(--text-secondary);
         }
 
-        .stat-icon svg { width: 15px; height: 15px; }
+        .stat-icon svg { width: 15px; height: 15px; stroke-width: 2; }
 
-        .stat-number {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.8px;
-            line-height: 1.1;
-        }
-
-        .stat-footer {
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        .stat-number { font-size: 26px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.8px; line-height: 1.1; }
+        .stat-footer { margin-top: 8px; font-size: 12px; color: var(--text-muted); }
 
         /* ============ KANBAN ============ */
         .kanban-toolbar {
@@ -402,24 +282,10 @@
             border: 1px solid var(--border);
         }
 
-        .kanban-toolbar .form-control {
-            width: auto;
-            min-width: 150px;
-            padding: 7px 10px;
-            font-size: 13px;
-        }
+        .kanban-toolbar .form-control { width: auto; min-width: 150px; padding: 7px 10px; font-size: 13px; }
+        .kanban-toolbar label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-right: -6px; }
 
-        .kanban-toolbar label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-right: -6px;
-        }
-
-        .kanban-scroll {
-            overflow-x: auto;
-            padding-bottom: 12px;
-        }
+        .kanban-scroll { overflow-x: auto; padding-bottom: 12px; }
 
         .kanban-user-block {
             margin-bottom: 22px;
@@ -438,24 +304,9 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .kanban-user-header .user-avatar {
-            width: 30px;
-            height: 30px;
-            font-size: 12px;
-            border-radius: 6px;
-        }
-
-        .kanban-user-header .user-name {
-            font-weight: 600;
-            font-size: 13.5px;
-            color: var(--text-primary);
-        }
-
-        .kanban-user-header .user-count {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-left: auto;
-        }
+        .kanban-user-header .user-avatar { width: 30px; height: 30px; font-size: 12px; border-radius: 6px; }
+        .kanban-user-header .user-name { font-weight: 600; font-size: 13.5px; color: var(--text-primary); }
+        .kanban-user-header .user-count { font-size: 12px; color: var(--text-muted); margin-left: auto; }
 
         .kanban-grid {
             display: grid;
@@ -486,24 +337,12 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .kanban-col-header .day-abbr {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-        }
-
-        .kanban-col-header .day-num {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
+        .kanban-col-header .day-abbr { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; }
+        .kanban-col-header .day-num { font-size: 11px; color: var(--text-muted); font-weight: 500; }
         .kanban-col-header.today .day-abbr { color: var(--primary); }
         .kanban-col-header.today .day-num { color: var(--primary); font-weight: 700; }
 
-        /* ============ ACTIVITY CARD ============ */
+        /* ============ CARD ============ */
         .activity-card {
             background: white;
             border-radius: 6px;
@@ -516,35 +355,20 @@
             position: relative;
         }
 
-        .activity-card:hover {
-            box-shadow: 0 2px 8px rgba(15,23,42,0.08);
-            border-color: #cbd5e1;
-        }
-
+        .activity-card:hover { box-shadow: 0 2px 8px rgba(15,23,42,0.08); border-color: #cbd5e1; }
         .activity-card:active { cursor: grabbing; }
         .activity-card.dragging { opacity: 0.4; }
 
         .activity-card.status-pendente { border-left-color: var(--warning); }
         .activity-card.status-em_processo { border-left-color: var(--info); }
         .activity-card.status-concluido { border-left-color: var(--success); opacity: 0.75; }
-        .activity-card.status-concluido .activity-title {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
+        .activity-card.status-concluido .activity-title { text-decoration: line-through; color: var(--text-muted); }
 
-        .activity-title {
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.35;
-            margin-bottom: 5px;
-            word-break: break-word;
-        }
+        .activity-title { font-size: 12.5px; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-bottom: 5px; word-break: break-word; }
 
         .activity-job {
             font-size: 10.5px;
-            color: var(--primary);
-            font-weight: 500;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 3px;
@@ -552,12 +376,9 @@
             word-break: break-word;
         }
 
-        .activity-meta {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-top: 6px;
-        }
+        .activity-job svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+        .activity-meta { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
 
         .tag {
             font-size: 10px;
@@ -573,11 +394,7 @@
         .tag-design { background: var(--warning-bg); color: var(--warning); }
         .tag-outro { background: #f1f5f9; color: var(--text-secondary); }
 
-        .tag-status {
-            text-transform: uppercase;
-            font-size: 9.5px;
-            letter-spacing: 0.5px;
-        }
+        .tag-status { text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.5px; }
         .tag-status.pendente { background: var(--warning-bg); color: var(--warning); }
         .tag-status.em_processo { background: var(--info-bg); color: var(--info); }
         .tag-status.concluido { background: var(--success-bg); color: var(--success); }
@@ -601,17 +418,12 @@
             padding: 3px 5px;
             border-radius: 4px;
             color: var(--text-muted);
-            font-size: 11px;
             display: flex;
             align-items: center;
             transition: all 0.15s;
         }
 
-        .activity-actions button:hover {
-            background: #f1f5f9;
-            color: var(--text-primary);
-        }
-
+        .activity-actions button:hover { background: #f1f5f9; color: var(--text-primary); }
         .activity-actions svg { width: 12px; height: 12px; stroke-width: 2.2; }
 
         /* ============ TABLES ============ */
@@ -694,19 +506,8 @@
             background: #f8fafc;
         }
 
-        .modal-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.2px;
-        }
-
-        .modal-subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-            font-weight: 500;
-        }
+        .modal-title { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.2px; }
+        .modal-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
 
         .modal-close {
             background: transparent;
@@ -724,11 +525,7 @@
         .modal-close:hover { background: #e2e8f0; color: var(--text-primary); }
         .modal-close svg { width: 16px; height: 16px; stroke-width: 2.2; }
 
-        .modal-body {
-            padding: 22px 24px;
-            max-height: 65vh;
-            overflow-y: auto;
-        }
+        .modal-body { padding: 22px 24px; max-height: 65vh; overflow-y: auto; }
 
         .modal-footer {
             padding: 14px 24px;
@@ -739,7 +536,37 @@
             background: #f8fafc;
         }
 
-        /* ============ SECTION TITLE IN MODAL ============ */
+        /* ============ MODAL CONTEXT BANNER ============ */
+        .context-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .context-banner .icon-wrap {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .context-banner .icon-wrap svg { width: 16px; height: 16px; stroke-width: 2.2; }
+
+        .context-banner .text { flex: 1; min-width: 0; }
+        .context-banner .text strong { font-size: 13px; color: var(--primary-dark); display: block; }
+        .context-banner .text span { font-size: 12px; color: var(--text-secondary); }
+
+        /* ============ SECTION TITLE ============ */
         .section-title {
             font-size: 11.5px;
             font-weight: 700;
@@ -752,13 +579,7 @@
             gap: 8px;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .section-title:first-child { margin-top: 0; }
 
         /* ============ LOGIN ============ */
@@ -781,10 +602,7 @@
             max-width: 380px;
         }
 
-        .login-brand {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+        .login-brand { text-align: center; margin-bottom: 28px; }
 
         .login-brand .brand-logo {
             width: 48px;
@@ -794,18 +612,8 @@
             border-radius: 10px;
         }
 
-        .login-brand h1 {
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.4px;
-        }
-
-        .login-brand p {
-            color: var(--text-muted);
-            font-size: 12.5px;
-            margin-top: 4px;
-        }
+        .login-brand h1 { font-size: 19px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.4px; }
+        .login-brand p { color: var(--text-muted); font-size: 12.5px; margin-top: 4px; }
 
         .login-error {
             color: var(--danger);
@@ -825,12 +633,7 @@
             margin-top: 8px;
         }
 
-        .chart-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 18px 20px;
-        }
+        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
 
         .chart-title {
             font-size: 13.5px;
@@ -861,14 +664,7 @@
             text-overflow: ellipsis;
         }
 
-        .bar-track {
-            flex: 1;
-            height: 22px;
-            background: #f1f5f9;
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-        }
+        .bar-track { flex: 1; height: 22px; background: #f1f5f9; border-radius: 6px; overflow: hidden; position: relative; }
 
         .bar-fill {
             height: 100%;
@@ -883,24 +679,10 @@
             min-width: 28px;
         }
 
-        .bar-value {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-primary);
-            min-width: 30px;
-            text-align: right;
-        }
+        .bar-value { font-size: 12px; font-weight: 700; color: var(--text-primary); min-width: 30px; text-align: right; }
 
         /* ============ TOAST ============ */
-        .toast-container {
-            position: fixed;
-            top: 18px;
-            right: 18px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .toast-container { position: fixed; top: 18px; right: 18px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
 
         .toast {
             padding: 12px 16px;
@@ -945,22 +727,75 @@
             border-radius: 10px;
         }
 
-        .empty-state svg {
-            width: 40px;
-            height: 40px;
-            color: #cbd5e1;
-            margin-bottom: 12px;
-            stroke-width: 1.5;
+        .empty-state svg { width: 40px; height: 40px; color: #cbd5e1; margin-bottom: 12px; stroke-width: 1.5; }
+        .empty-state h3 { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; }
+        .empty-state p { font-size: 13px; }
+
+        /* ============ STAGE SELECTOR (status modal) ============ */
+        .stage-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
-        .empty-state h3 {
-            font-size: 15px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
+        .stage-option {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+            background: white;
+        }
+
+        .stage-option:hover { border-color: var(--primary-light); }
+
+        .stage-option.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .stage-option .stage-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .stage-option.pendente .stage-label { color: var(--warning); }
+        .stage-option.em_processo .stage-label { color: var(--info); }
+        .stage-option.concluido .stage-label { color: var(--success); }
+
+        .stage-option .stage-desc { font-size: 10.5px; color: var(--text-muted); }
+
+        /* ============ CLASSIFICATION SELECTOR ============ */
+        .classification-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+        }
+
+        .classification-option {
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+            background: white;
+            font-size: 12.5px;
             font-weight: 600;
         }
 
-        .empty-state p { font-size: 13px; }
+        .classification-option:hover { border-color: var(--primary-light); }
+        .classification-option.selected { border-color: var(--primary); background: #eff6ff; }
+
+        .classification-option.tag-direcao { color: var(--purple); }
+        .classification-option.tag-redacao { color: var(--success); }
+        .classification-option.tag-design { color: var(--warning); }
+        .classification-option.tag-outro { color: var(--text-secondary); }
 
         /* ============ UTILITIES ============ */
         .hidden { display: none !important; }
@@ -996,6 +831,7 @@
             .nav-item svg { margin: 0; }
             .main-content { margin-left: 60px; padding: 16px; }
             .form-row { grid-template-columns: 1fr; }
+            .stage-options { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
@@ -1004,7 +840,6 @@
             .kanban-grid { grid-template-columns: repeat(7, minmax(150px, 1fr)); }
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -1013,7 +848,6 @@
 </head>
 <body>
 
-<!-- ============ TOASTS ============ -->
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ============ LOGIN ============ -->
@@ -1022,7 +856,7 @@
         <div class="login-brand">
             <div class="brand-logo">GJ</div>
             <h1>GestJobs</h1>
-            <p>Sistema de Gerenciamento de Atividades</p>
+            <p>Sistema de Gerenciamento</p>
         </div>
         <div class="form-group">
             <label>Nome de Usuário</label>
@@ -1031,7 +865,7 @@
         <button class="btn btn-primary btn-block" onclick="fazerLogin()">Entrar no Sistema</button>
         <div class="login-error" id="loginError"></div>
         <p style="margin-top:18px; font-size:11.5px; color:var(--text-muted); text-align:center; line-height:1.5;">
-            Acesso inicial disponível com usuário <strong>admin</strong>
+            Acesso inicial com usuário <strong>admin</strong>
         </p>
     </div>
 </div>
@@ -1057,7 +891,7 @@
                 </div>
             </div>
             <button class="btn btn-secondary btn-sm btn-block" onclick="fazerLogout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                 Sair
             </button>
         </div>
@@ -1067,7 +901,7 @@
 
 <script>
 // ============================================================================
-// CONFIGURAÇÃO
+// CONFIG
 // ============================================================================
 const FIREBASE_URL = "https://kanban-7e762-default-rtdb.firebaseio.com";
 
@@ -1088,13 +922,12 @@ const STATUS_LABEL = {
 };
 
 // ============================================================================
-// ÍCONES SVG (Lucide-like)
+// ICONS
 // ============================================================================
 const ICONS = {
     dashboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
     kanban: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="18"/><rect x="10" y="3" width="6" height="12"/><rect x="17" y="3" width="4" height="8"/></svg>',
     jobs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
-    tasks: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
     users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
     tags: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
@@ -1107,22 +940,22 @@ const ICONS = {
     alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
     info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
     chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
-    filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>'
+    filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
+    arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
 };
 
 // ============================================================================
-// ESTADO
+// STATE
 // ============================================================================
 const state = {
     currentUser: null,
     users: [],
-    jobs: [],
-    activities: [],
+    jobs: [],          // Jobs = Atividades (unificados)
     classifications: [],
     currentPage: 'dashboard',
-    draggedActivity: null,
+    draggedJob: null,
     filters: {
-        job: 'all',
         classification: 'all',
         startDate: '',
         endDate: '',
@@ -1131,7 +964,7 @@ const state = {
 };
 
 // ============================================================================
-// INICIALIZAÇÃO
+// INIT
 // ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const savedUser = sessionStorage.getItem('gestjobs_user');
@@ -1216,7 +1049,6 @@ function fazerLogout() {
     state.currentUser = null;
     state.users = [];
     state.jobs = [];
-    state.activities = [];
     document.getElementById('appContainer').classList.add('hidden');
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginUsername').value = '';
@@ -1236,25 +1068,22 @@ async function iniciarApp() {
 }
 
 // ============================================================================
-// CARREGAMENTO DE DADOS
+// DATA
 // ============================================================================
 async function carregarDados() {
     try {
-        const [usersResp, jobsResp, actResp, classResp] = await Promise.all([
+        const [usersResp, jobsResp, classResp] = await Promise.all([
             fetch(`${FIREBASE_URL}/usuarios.json`),
             fetch(`${FIREBASE_URL}/jobs.json`),
-            fetch(`${FIREBASE_URL}/atividades.json`),
             fetch(`${FIREBASE_URL}/classificacoes.json`)
         ]);
 
         const usersData = await usersResp.json();
         const jobsData = await jobsResp.json();
-        const actData = await actResp.json();
         const classData = await classResp.json();
 
         state.users = usersData ? Object.values(usersData) : [];
         state.jobs = jobsData ? Object.values(jobsData) : [];
-        state.activities = actData ? Object.values(actData) : [];
         state.classifications = classData ? Object.values(classData) : [];
 
         if (!classData) {
@@ -1295,7 +1124,7 @@ async function salvarUsuarioFirebase(user) {
 }
 
 // ============================================================================
-// NAVEGAÇÃO
+// NAV
 // ============================================================================
 function navegarPara(page) {
     state.currentPage = page;
@@ -1315,7 +1144,6 @@ function atualizarSidebar() {
             { id: 'dashboard', icon: ICONS.dashboard, label: 'Dashboard' },
             { id: 'kanban', icon: ICONS.kanban, label: 'Kanban' },
             { id: 'jobs', icon: ICONS.jobs, label: 'Jobs' },
-            { id: 'atividades', icon: ICONS.tasks, label: 'Atividades' },
             { id: 'usuarios', icon: ICONS.users, label: 'Usuários' },
             { id: 'classificacoes', icon: ICONS.tags, label: 'Classificações' }
         ];
@@ -1342,7 +1170,7 @@ function atualizarSidebar() {
 }
 
 // ============================================================================
-// RENDER ROUTER
+// ROUTER
 // ============================================================================
 function renderizarPagina() {
     const main = document.getElementById('mainContent');
@@ -1352,7 +1180,6 @@ function renderizarPagina() {
         case 'dashboard': if (isAdmin) renderDashboard(main); else renderKanban(main); break;
         case 'kanban': renderKanban(main); break;
         case 'jobs': if (isAdmin) renderJobs(main); break;
-        case 'atividades': if (isAdmin) renderAtividades(main); break;
         case 'usuarios': if (isAdmin) renderUsuarios(main); break;
         case 'classificacoes': if (isAdmin) renderClassificacoes(main); break;
         default: renderKanban(main);
@@ -1364,14 +1191,13 @@ function renderizarPagina() {
 // ============================================================================
 function renderDashboard(container) {
     const totalJobs = state.jobs.length;
-    const totalAtividades = state.activities.length;
-    const pendentes = state.activities.filter(a => a.status === 'pendente').length;
-    const emProcesso = state.activities.filter(a => a.status === 'em_processo').length;
-    const concluidas = state.activities.filter(a => a.status === 'concluido').length;
+    const pendentes = state.jobs.filter(j => j.status === 'pendente').length;
+    const emProcesso = state.jobs.filter(j => j.status === 'em_processo').length;
+    const concluidas = state.jobs.filter(j => j.status === 'concluido').length;
     const totalUsuarios = state.users.filter(u => u.tipo !== 'admin').length;
 
     const hoje = new Date().toISOString().split('T')[0];
-    const jobsAtrasados = state.jobs.filter(j => j.prazo && j.prazo < hoje).length;
+    const jobsAtrasados = state.jobs.filter(j => j.prazo && j.prazo < hoje && j.status !== 'concluido').length;
 
     const statusData = [
         { label: 'Pendentes', value: pendentes, color: '#d97706' },
@@ -1380,16 +1206,16 @@ function renderDashboard(container) {
     ];
 
     const porUsuario = {};
-    state.activities.forEach(a => {
-        const u = state.users.find(u => u.id === a.usuarioId);
+    state.jobs.forEach(j => {
+        const u = state.users.find(u => u.id === j.usuarioId);
         const nome = u ? u.nome : 'Não atribuído';
         porUsuario[nome] = (porUsuario[nome] || 0) + 1;
     });
     const usuarioData = Object.entries(porUsuario).map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value);
 
     const porClass = {};
-    state.activities.forEach(a => {
-        const c = state.classifications.find(c => c.id === a.classificacaoId);
+    state.jobs.forEach(j => {
+        const c = state.classifications.find(c => c.id === j.classificacaoId);
         const nome = c ? c.nome : 'Sem classificação';
         porClass[nome] = (porClass[nome] || 0) + 1;
     });
@@ -1403,7 +1229,7 @@ function renderDashboard(container) {
         <div class="content-header">
             <div>
                 <div class="page-title">Dashboard</div>
-                <div class="page-subtitle">Visão geral do sistema de gerenciamento</div>
+                <div class="page-subtitle">Visão geral do sistema</div>
             </div>
             <div class="header-actions">
                 <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">
@@ -1423,19 +1249,19 @@ function renderDashboard(container) {
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-label">Atividades</div>
-                    <div class="stat-icon">${ICONS.tasks}</div>
+                    <div class="stat-label">Pendentes</div>
+                    <div class="stat-icon">${ICONS.chart}</div>
                 </div>
-                <div class="stat-number">${totalAtividades}</div>
-                <div class="stat-footer">Total cadastradas</div>
+                <div class="stat-number">${pendentes}</div>
+                <div class="stat-footer">Aguardando início</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-label">Em Andamento</div>
-                    <div class="stat-icon">${ICONS.chart}</div>
+                    <div class="stat-label">Em Processo</div>
+                    <div class="stat-icon">${ICONS.refresh}</div>
                 </div>
-                <div class="stat-number">${pendentes + emProcesso}</div>
-                <div class="stat-footer">${emProcesso} em processo</div>
+                <div class="stat-number">${emProcesso}</div>
+                <div class="stat-footer">Em execução</div>
             </div>
             <div class="stat-card">
                 <div class="stat-header">
@@ -1457,7 +1283,7 @@ function renderDashboard(container) {
 
         <div class="charts-grid">
             <div class="chart-card">
-                <div class="chart-title">${ICONS.chart} Atividades por Status</div>
+                <div class="chart-title">${ICONS.chart} Jobs por Status</div>
                 <div class="bar-chart">
                     ${statusData.map(d => `
                         <div class="bar-item">
@@ -1472,7 +1298,7 @@ function renderDashboard(container) {
             </div>
 
             <div class="chart-card">
-                <div class="chart-title">${ICONS.users} Atividades por Usuário</div>
+                <div class="chart-title">${ICONS.users} Jobs por Usuário</div>
                 <div class="bar-chart">
                     ${usuarioData.length ? usuarioData.map(d => `
                         <div class="bar-item">
@@ -1482,12 +1308,12 @@ function renderDashboard(container) {
                             </div>
                             <div class="bar-value">${d.value}</div>
                         </div>
-                    `).join('') : '<p class="text-muted text-center" style="font-size:12.5px;">Nenhuma atividade atribuída</p>'}
+                    `).join('') : '<p class="text-muted text-center" style="font-size:12.5px;">Nenhum job atribuído</p>'}
                 </div>
             </div>
 
             <div class="chart-card">
-                <div class="chart-title">${ICONS.tags} Atividades por Classificação</div>
+                <div class="chart-title">${ICONS.tags} Jobs por Classificação</div>
                 <div class="bar-chart">
                     ${classData.length ? classData.map(d => `
                         <div class="bar-item">
@@ -1539,7 +1365,6 @@ function renderKanban(container) {
         const d = new Date(inicioSemana);
         d.setDate(inicioSemana.getDate() + i);
         dias.push({
-            diaSemana: DIAS_SEMANA[d.getDay()],
             diaAbrev: DIAS_ABREV[d.getDay()],
             data: d.toISOString().split('T')[0],
             dataFormatada: d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
@@ -1547,25 +1372,23 @@ function renderKanban(container) {
         });
     }
 
-    let atividades = [...state.activities];
-    if (!isAdmin) atividades = atividades.filter(a => a.usuarioId === state.currentUser.id);
-    if (state.filters.job !== 'all') atividades = atividades.filter(a => a.jobId === state.filters.job);
-    if (state.filters.classification !== 'all') atividades = atividades.filter(a => a.classificacaoId === state.filters.classification);
-    if (state.filters.status !== 'all') atividades = atividades.filter(a => a.status === state.filters.status);
-    if (state.filters.startDate) atividades = atividades.filter(a => a.dataExecucao >= state.filters.startDate);
-    if (state.filters.endDate) atividades = atividades.filter(a => a.dataExecucao <= state.filters.endDate);
+    let jobs = [...state.jobs];
+    if (!isAdmin) jobs = jobs.filter(j => j.usuarioId === state.currentUser.id);
+    if (state.filters.classification !== 'all') jobs = jobs.filter(j => j.classificacaoId === state.filters.classification);
+    if (state.filters.status !== 'all') jobs = jobs.filter(j => j.status === state.filters.status);
+    if (state.filters.startDate) jobs = jobs.filter(j => j.dataExecucao >= state.filters.startDate);
+    if (state.filters.endDate) jobs = jobs.filter(j => j.dataExecucao <= state.filters.endDate);
 
-    const jobOptions = state.jobs.map(j => `<option value="${j.id}" ${state.filters.job === j.id ? 'selected' : ''}>${escapeHtml(j.titulo)}</option>`).join('');
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.filters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
 
     let html = `
         <div class="content-header">
             <div>
-                <div class="page-title">${isAdmin ? 'Kanban de Atividades' : 'Minhas Atividades'}</div>
+                <div class="page-title">${isAdmin ? 'Kanban de Jobs' : 'Minhas Atividades'}</div>
                 <div class="page-subtitle">${isAdmin ? 'Visualização por colaborador e dia da semana' : 'Arraste seus cards entre os dias'}</div>
             </div>
             <div class="header-actions">
-                ${isAdmin ? `<button class="btn btn-primary btn-sm" onclick="abrirModalAtividade()">${ICONS.plus} Nova Atividade</button>` : ''}
+                <button class="btn btn-primary btn-sm" onclick="abrirModalJob()">${ICONS.plus} Novo Job</button>
                 <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
             </div>
         </div>
@@ -1574,11 +1397,6 @@ function renderKanban(container) {
             <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">
                 ${ICONS.filter} Filtros
             </span>
-            <label>Job</label>
-            <select class="form-control" onchange="aplicarFiltro('job', this.value)">
-                <option value="all">Todos</option>
-                ${jobOptions}
-            </select>
             <label>Classificação</label>
             <select class="form-control" onchange="aplicarFiltro('classification', this.value)">
                 <option value="all">Todas</option>
@@ -1605,18 +1423,18 @@ function renderKanban(container) {
             html += `<div class="empty-state">${ICONS.users}<h3>Nenhum colaborador cadastrado</h3><p>Cadastre usuários para começar</p></div>`;
         } else {
             usuarios.forEach(user => {
-                const atividadesUser = atividades.filter(a => a.usuarioId === user.id);
+                const jobsUser = jobs.filter(j => j.usuarioId === user.id);
                 html += `
                     <div class="kanban-user-block">
                         <div class="kanban-user-header">
                             <div class="user-avatar">${(user.nome || 'U').charAt(0).toUpperCase()}</div>
                             <div class="user-name">${escapeHtml(user.nome)}</div>
-                            <div class="user-count">${atividadesUser.length} atividade(s)</div>
+                            <div class="user-count">${jobsUser.length} job(s)</div>
                         </div>
                         <div class="kanban-scroll">
                             <div class="kanban-grid">
                                 ${dias.map(dia => {
-                                    const cards = atividadesUser.filter(a => a.dataExecucao === dia.data);
+                                    const cards = jobsUser.filter(j => j.dataExecucao === dia.data);
                                     return renderKanbanCol(dia, cards, user.id);
                                 }).join('')}
                             </div>
@@ -1630,7 +1448,7 @@ function renderKanban(container) {
             <div class="kanban-scroll">
                 <div class="kanban-grid" style="grid-template-columns: repeat(7, minmax(200px, 1fr));">
                     ${dias.map(dia => {
-                        const cards = atividades.filter(a => a.dataExecucao === dia.data && a.usuarioId === state.currentUser.id);
+                        const cards = jobs.filter(j => j.dataExecucao === dia.data && j.usuarioId === state.currentUser.id);
                         return renderKanbanCol(dia, cards, state.currentUser.id);
                     }).join('')}
                 </div>
@@ -1647,45 +1465,42 @@ function renderKanbanCol(dia, cards, userId) {
              ondragover="permitirDrop(event)" 
              ondragenter="destacarColuna(event)"
              ondragleave="removerDestaque(event)"
-             ondrop="soltarAtividade(event, '${dia.data}', '${userId}')">
+             ondrop="soltarJob(event, '${dia.data}', '${userId}')">
             <div class="kanban-col-header ${dia.isToday ? 'today' : ''}">
                 <span class="day-abbr">${dia.diaAbrev}</span>
                 <span class="day-num">${dia.dataFormatada}</span>
             </div>
-            ${cards.map(a => renderCardAtividade(a)).join('')}
+            ${cards.map(j => renderCardJob(j)).join('')}
         </div>
     `;
 }
 
-function renderCardAtividade(atividade) {
-    const job = state.jobs.find(j => j.id === atividade.jobId);
-    const classificacao = state.classifications.find(c => c.id === atividade.classificacaoId);
+function renderCardJob(job) {
+    const classificacao = state.classifications.find(c => c.id === job.classificacaoId);
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
-    const canEdit = isAdmin || atividade.usuarioId === state.currentUser.id;
+    const canEdit = isAdmin || job.usuarioId === state.currentUser.id;
 
     const classTag = classificacao ? `<span class="tag ${classificacao.cor}">${escapeHtml(classificacao.nome)}</span>` : '';
-    const statusTag = `<span class="tag tag-status ${atividade.status}">${STATUS_LABEL[atividade.status] || atividade.status}</span>`;
+    const statusTag = `<span class="tag tag-status ${job.status}">${STATUS_LABEL[job.status] || job.status}</span>`;
 
     return `
-        <div class="activity-card status-${atividade.status}" 
+        <div class="activity-card status-${job.status}" 
              draggable="${canEdit}"
-             ondragstart="iniciarDrag(event, '${atividade.id}')"
+             ondragstart="iniciarDrag(event, '${job.id}')"
              ondragend="finalizarDrag(event)"
-             onclick="abrirModalAtividade('${atividade.id}')">
-            <div class="activity-title">${escapeHtml(atividade.nome)}</div>
-            ${job ? `<div class="activity-job">${escapeHtml(job.titulo)}</div>` : ''}
+             onclick="abrirModalMudancaStatus('${job.id}')">
+            <div class="activity-title">${escapeHtml(job.titulo)}</div>
+            ${job.descricao ? `<div class="activity-job" style="color:var(--text-muted);">${escapeHtml(job.descricao.substring(0, 60))}${job.descricao.length > 60 ? '...' : ''}</div>` : ''}
             <div class="activity-meta">
                 ${classTag}
                 ${statusTag}
             </div>
             ${canEdit ? `
                 <div class="activity-actions" onclick="event.stopPropagation()">
-                    ${atividade.status !== 'concluido' ? `
-                        <button title="Alterar status" onclick="ciclarStatus('${atividade.id}')">${ICONS.refresh}</button>
-                    ` : ''}
+                    <button title="Avançar etapa" onclick="abrirModalMudancaStatus('${job.id}')">${ICONS.arrowRight}</button>
                     ${isAdmin ? `
-                        <button title="Editar" onclick="abrirModalAtividade('${atividade.id}')">${ICONS.edit}</button>
-                        <button title="Excluir" onclick="excluirAtividade('${atividade.id}')">${ICONS.trash}</button>
+                        <button title="Editar" onclick="abrirModalJob('${job.id}')">${ICONS.edit}</button>
+                        <button title="Excluir" onclick="excluirJob('${job.id}')">${ICONS.trash}</button>
                     ` : ''}
                 </div>
             ` : ''}
@@ -1694,13 +1509,13 @@ function renderCardAtividade(atividade) {
 }
 
 // ============================================================================
-// DRAG AND DROP
+// DRAG & DROP
 // ============================================================================
-function iniciarDrag(event, atividadeId) {
-    state.draggedActivity = atividadeId;
+function iniciarDrag(event, jobId) {
+    state.draggedJob = jobId;
     event.target.classList.add('dragging');
     event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/plain', atividadeId);
+    event.dataTransfer.setData('text/plain', jobId);
     event.stopPropagation();
 }
 
@@ -1713,72 +1528,206 @@ function permitirDrop(event) { event.preventDefault(); event.dataTransfer.dropEf
 function destacarColuna(event) { event.currentTarget.classList.add('drag-over'); }
 function removerDestaque(event) { event.currentTarget.classList.remove('drag-over'); }
 
-async function soltarAtividade(event, novaData, userId) {
+async function soltarJob(event, novaData, userId) {
     event.preventDefault();
     event.currentTarget.classList.remove('drag-over');
 
-    const atividadeId = event.dataTransfer.getData('text/plain') || state.draggedActivity;
-    if (!atividadeId) return;
+    const jobId = event.dataTransfer.getData('text/plain') || state.draggedJob;
+    if (!jobId) return;
 
-    const atividade = state.activities.find(a => a.id === atividadeId);
-    if (!atividade) return;
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
 
     const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
-    if (!isAdmin && atividade.usuarioId !== state.currentUser.id) {
-        mostrarToast('Você só pode mover suas próprias atividades', 'warning');
+    if (!isAdmin && job.usuarioId !== state.currentUser.id) {
+        mostrarToast('Você só pode mover seus próprios jobs', 'warning');
         return;
     }
 
-    if (atividade.dataExecucao === novaData && atividade.usuarioId === userId) return;
+    if (job.dataExecucao === novaData && job.usuarioId === userId) return;
 
-    const dataAnterior = atividade.dataExecucao;
-    const userAnterior = atividade.usuarioId;
+    const dataAnterior = job.dataExecucao;
+    const userAnterior = job.usuarioId;
 
-    atividade.dataExecucao = novaData;
-    if (isAdmin && userId) atividade.usuarioId = userId;
+    job.dataExecucao = novaData;
+    if (isAdmin && userId) job.usuarioId = userId;
 
     try {
-        await fetch(`${FIREBASE_URL}/atividades/${atividadeId}.json`, {
+        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 dataExecucao: novaData,
-                usuarioId: atividade.usuarioId
+                usuarioId: job.usuarioId
             })
         });
-        mostrarToast('Atividade movida', 'success');
+        mostrarToast('Job movido', 'success');
         renderizarPagina();
     } catch (error) {
         console.error('Erro ao mover:', error);
-        atividade.dataExecucao = dataAnterior;
-        atividade.usuarioId = userAnterior;
-        mostrarToast('Erro ao mover atividade', 'error');
+        job.dataExecucao = dataAnterior;
+        job.usuarioId = userAnterior;
+        mostrarToast('Erro ao mover job', 'error');
     }
-    state.draggedActivity = null;
+    state.draggedJob = null;
 }
 
 // ============================================================================
-// AÇÕES
+// MODAL: MUDANÇA DE ETAPA (status + classificação + usuário)
 // ============================================================================
-async function ciclarStatus(atividadeId) {
-    const atividade = state.activities.find(a => a.id === atividadeId);
-    if (!atividade) return;
+function abrirModalMudancaStatus(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
 
-    const ciclo = ['pendente', 'em_processo', 'concluido'];
-    const idx = ciclo.indexOf(atividade.status);
-    const novo = ciclo[(idx + 1) % ciclo.length];
+    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
+    const canEdit = isAdmin || job.usuarioId === state.currentUser.id;
+    
+    if (!canEdit) {
+        mostrarToast('Você não pode alterar este job', 'warning');
+        return;
+    }
+
+    const classifAtual = state.classifications.find(c => c.id === job.classificacaoId);
+    const userAtual = state.users.find(u => u.id === job.usuarioId);
+
+    const classOptions = state.classifications.map(c => `
+        <div class="classification-option ${c.cor} ${job.classificacaoId === c.id ? 'selected' : ''}" 
+             data-class="${c.id}" onclick="selecionarClassificacao('${c.id}')">
+            ${escapeHtml(c.nome)}
+        </div>
+    `).join('');
+
+    const userOptions = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
+        `<option value="${u.id}" ${job.usuarioId === u.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
+    ).join('');
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalStatus">
+            <div class="modal modal-lg">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">${escapeHtml(job.titulo)}</div>
+                        <div class="modal-subtitle">Avançar etapa do processo</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalStatus')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    ${classifAtual ? `
+                        <div class="context-banner">
+                            <div class="icon-wrap">${ICONS.arrowRight}</div>
+                            <div class="text">
+                                <strong>Etapa atual: ${escapeHtml(classifAtual.nome)} — ${STATUS_LABEL[job.status]}</strong>
+                                <span>Responsável: ${userAtual ? escapeHtml(userAtual.nome) : 'Não atribuído'}</span>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="section-title">Novo Status</div>
+                    <div class="stage-options">
+                        <div class="stage-option pendente ${job.status === 'pendente' ? 'selected' : ''}" 
+                             data-status="pendente" onclick="selecionarStatus('pendente')">
+                            <div class="stage-label">Pendente</div>
+                            <div class="stage-desc">Aguardando início</div>
+                        </div>
+                        <div class="stage-option em_processo ${job.status === 'em_processo' ? 'selected' : ''}" 
+                             data-status="em_processo" onclick="selecionarStatus('em_processo')">
+                            <div class="stage-label">Em Processo</div>
+                            <div class="stage-desc">Em execução</div>
+                        </div>
+                        <div class="stage-option concluido ${job.status === 'concluido' ? 'selected' : ''}" 
+                             data-status="concluido" onclick="selecionarStatus('concluido')">
+                            <div class="stage-label">Concluído</div>
+                            <div class="stage-desc">Finalizado</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Nova Classificação</div>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                        Ao concluir uma etapa, você pode encaminhar o job para outro setor. Ex: Redação → Direção de Arte.
+                    </p>
+                    <div class="classification-options">
+                        <div class="classification-option tag-outro ${!job.classificacaoId ? 'selected' : ''}" 
+                             data-class="" onclick="selecionarClassificacao('')">
+                            Sem classificação
+                        </div>
+                        ${classOptions}
+                    </div>
+
+                    ${isAdmin ? `
+                        <div class="section-title">Reatribuir Responsável</div>
+                        <div class="form-group">
+                            <select class="form-control" id="mudancaUsuario">
+                                ${userOptions}
+                            </select>
+                            <div class="form-hint">O job passará a aparecer para o novo responsável no kanban.</div>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalStatus')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="salvarMudancaStatus('${job.id}')">
+                        ${ICONS.check} Confirmar Alteração
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    window._mudancaStatus = { status: job.status, classificacaoId: job.classificacaoId || '' };
+}
+
+function selecionarStatus(status) {
+    window._mudancaStatus.status = status;
+    document.querySelectorAll('.stage-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.status === status);
+    });
+}
+
+function selecionarClassificacao(classId) {
+    window._mudancaStatus.classificacaoId = classId;
+    document.querySelectorAll('.classification-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.class === classId);
+    });
+}
+
+async function salvarMudancaStatus(jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    const novoStatus = window._mudancaStatus.status;
+    const novaClassif = window._mudancaStatus.classificacaoId;
+    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
+
+    const updates = {
+        status: novoStatus,
+        classificacaoId: novaClassif || null,
+        atualizadoEm: new Date().toISOString()
+    };
+
+    if (isAdmin) {
+        const userSelect = document.getElementById('mudancaUsuario');
+        if (userSelect && userSelect.value) {
+            updates.usuarioId = userSelect.value;
+        }
+    }
 
     try {
-        await fetch(`${FIREBASE_URL}/atividades/${atividadeId}.json`, {
+        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: novo })
+            body: JSON.stringify(updates)
         });
-        atividade.status = novo;
-        mostrarToast(`Status: ${STATUS_LABEL[novo]}`, 'success');
+
+        Object.assign(job, updates);
+
+        fecharModal('modalStatus');
+        mostrarToast('Job atualizado com sucesso', 'success');
         renderizarPagina();
     } catch (error) {
-        mostrarToast('Erro ao alterar status', 'error');
+        console.error('Erro:', error);
+        mostrarToast('Erro ao atualizar job', 'error');
     }
 }
 
@@ -1790,7 +1739,7 @@ function renderJobs(container) {
         <div class="content-header">
             <div>
                 <div class="page-title">Jobs</div>
-                <div class="page-subtitle">Gerenciamento de jobs e seus prazos</div>
+                <div class="page-subtitle">Todos os jobs são também atividades atribuíveis a colaboradores</div>
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary btn-sm" onclick="abrirModalJob()">${ICONS.plus} Novo Job</button>
@@ -1809,28 +1758,32 @@ function renderJobs(container) {
                 <thead>
                     <tr>
                         <th>Título</th>
-                        <th>Descrição</th>
+                        <th>Classificação</th>
+                        <th>Responsável</th>
+                        <th>Execução</th>
                         <th>Prazo</th>
-                        <th>Atividades</th>
-                        <th style="width:200px;">Ações</th>
+                        <th>Status</th>
+                        <th style="width:180px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${state.jobs.map(job => {
-                        const atvs = state.activities.filter(a => a.jobId === job.id);
+                        const user = state.users.find(u => u.id === job.usuarioId);
+                        const classif = state.classifications.find(c => c.id === job.classificacaoId);
                         const hoje = new Date().toISOString().split('T')[0];
-                        const atrasado = job.prazo && job.prazo < hoje;
+                        const atrasado = job.prazo && job.prazo < hoje && job.status !== 'concluido';
                         return `
                             <tr>
                                 <td class="cell-strong">${escapeHtml(job.titulo)}</td>
-                                <td class="cell-muted">${escapeHtml(job.descricao || '—')}</td>
+                                <td>${classif ? `<span class="tag ${classif.cor}">${escapeHtml(classif.nome)}</span>` : '<span class="cell-muted">—</span>'}</td>
+                                <td>${user ? escapeHtml(user.nome) : '<span class="cell-muted">—</span>'}</td>
+                                <td>${job.dataExecucao || '—'}</td>
                                 <td>${job.prazo || '—'}${atrasado ? ' <span class="tag" style="background:var(--danger-bg); color:var(--danger);">Atrasado</span>' : ''}</td>
-                                <td>${atvs.length}</td>
+                                <td><span class="tag tag-status ${job.status}">${STATUS_LABEL[job.status]}</span></td>
                                 <td>
                                     <div class="cell-actions">
-                                        <button class="btn btn-xs btn-secondary" onclick="verJob('${job.id}')" title="Visualizar">${ICONS.eye}</button>
-                                        <button class="btn btn-xs btn-primary" onclick="novaAtividadeDoJob('${job.id}')" title="Nova atividade neste job">${ICONS.plus}</button>
-                                        <button class="btn btn-xs btn-secondary" onclick="abrirModalJob('${job.id}')" title="Editar">${ICONS.edit}</button>
+                                        <button class="btn btn-xs btn-secondary" onclick="abrirModalMudancaStatus('${job.id}')" title="Mudar etapa">${ICONS.arrowRight}</button>
+                                        <button class="btn btn-xs btn-primary" onclick="abrirModalJob('${job.id}')" title="Editar">${ICONS.edit}</button>
                                         <button class="btn btn-xs btn-danger" onclick="excluirJob('${job.id}')" title="Excluir">${ICONS.trash}</button>
                                     </div>
                                 </td>
@@ -1844,66 +1797,160 @@ function renderJobs(container) {
 }
 
 // ============================================================================
-// PÁGINA ATIVIDADES
+// MODAL JOB (criar/editar)
 // ============================================================================
-function renderAtividades(container) {
-    container.innerHTML = `
-        <div class="content-header">
-            <div>
-                <div class="page-title">Atividades</div>
-                <div class="page-subtitle">Todas as atividades cadastradas no sistema</div>
-            </div>
-            <div class="header-actions">
-                <button class="btn btn-primary btn-sm" onclick="abrirModalAtividade()">${ICONS.plus} Nova Atividade</button>
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
+function abrirModalJob(jobId) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    const job = jobId ? state.jobs.find(j => j.id === jobId) : null;
+    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
+
+    const userOptions = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false).map(u => 
+        `<option value="${u.id}" ${job && job.usuarioId === u.id ? 'selected' : ''} ${!job && u.id === state.currentUser.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
+    ).join('');
+
+    const classOptions = state.classifications.map(c => 
+        `<option value="${c.id}" ${job && job.classificacaoId === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`
+    ).join('');
+
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalJob">
+            <div class="modal modal-lg">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">${job ? 'Editar Job' : 'Novo Job'}</div>
+                        <div class="modal-subtitle">${job ? 'Atualize as informações' : 'Cadastre um novo job'}</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalJob')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    <div class="section-title">Informações Básicas</div>
+                    <div class="form-group">
+                        <label>Título <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="jobTitulo" value="${job ? escapeHtml(job.titulo) : ''}" placeholder="Ex: Criar banner para redes sociais">
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <textarea class="form-control" id="jobDescricao" placeholder="Descreva o job...">${job ? escapeHtml(job.descricao || '') : ''}</textarea>
+                    </div>
+
+                    <div class="section-title">Vínculos</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Classificação</label>
+                            <select class="form-control" id="jobClassificacao">
+                                <option value="">Sem classificação</option>
+                                ${classOptions}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Responsável <span class="required">*</span></label>
+                            <select class="form-control" id="jobUsuario" ${!isAdmin ? 'disabled' : ''}>
+                                <option value="">Selecione</option>
+                                ${userOptions}
+                            </select>
+                            ${!isAdmin ? '<div class="form-hint">Você está criando para si mesmo</div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="section-title">Prazos e Status</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Data de Execução <span class="required">*</span></label>
+                            <input type="date" class="form-control" id="jobData" value="${job ? job.dataExecucao : new Date().toISOString().split('T')[0]}">
+                            <div class="form-hint">Data em que será executado (alterável arrastando o card)</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Prazo (Deadline)</label>
+                            <input type="date" class="form-control" id="jobPrazo" value="${job ? (job.prazo || '') : ''}">
+                            <div class="form-hint">Prazo final (não muda ao arrastar o card)</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" id="jobStatus">
+                                <option value="pendente" ${job && job.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                                <option value="em_processo" ${job && job.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
+                                <option value="concluido" ${job && job.status === 'concluido' ? 'selected' : ''}>Concluído</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalJob')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="salvarJob('${job ? job.id : ''}')">
+                        ${ICONS.check} ${job ? 'Salvar Alterações' : 'Criar Job'}
+                    </button>
+                </div>
             </div>
         </div>
-
-        ${state.activities.length === 0 ? `
-            <div class="empty-state">
-                ${ICONS.tasks}
-                <h3>Nenhuma atividade cadastrada</h3>
-                <p>Clique em "Nova Atividade" para começar</p>
-            </div>
-        ` : `
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Job</th>
-                        <th>Responsável</th>
-                        <th>Classificação</th>
-                        <th>Execução</th>
-                        <th>Status</th>
-                        <th style="width:120px;">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${state.activities.map(a => {
-                        const job = state.jobs.find(j => j.id === a.jobId);
-                        const user = state.users.find(u => u.id === a.usuarioId);
-                        const classif = state.classifications.find(c => c.id === a.classificacaoId);
-                        return `
-                            <tr>
-                                <td class="cell-strong">${escapeHtml(a.nome)}</td>
-                                <td class="cell-muted">${job ? escapeHtml(job.titulo) : '—'}</td>
-                                <td>${user ? escapeHtml(user.nome) : '—'}</td>
-                                <td>${classif ? `<span class="tag ${classif.cor}">${escapeHtml(classif.nome)}</span>` : '—'}</td>
-                                <td>${a.dataExecucao || '—'}</td>
-                                <td><span class="tag tag-status ${a.status}">${STATUS_LABEL[a.status]}</span></td>
-                                <td>
-                                    <div class="cell-actions">
-                                        <button class="btn btn-xs btn-secondary" onclick="abrirModalAtividade('${a.id}')" title="Editar">${ICONS.edit}</button>
-                                        <button class="btn btn-xs btn-danger" onclick="excluirAtividade('${a.id}')" title="Excluir">${ICONS.trash}</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-        `}
     `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    setTimeout(() => document.getElementById('jobTitulo')?.focus(), 50);
+}
+
+async function salvarJob(jobId) {
+    const titulo = document.getElementById('jobTitulo').value.trim();
+    const descricao = document.getElementById('jobDescricao').value.trim();
+    const classificacaoId = document.getElementById('jobClassificacao').value;
+    const usuarioId = document.getElementById('jobUsuario').value;
+    const dataExecucao = document.getElementById('jobData').value;
+    const prazo = document.getElementById('jobPrazo').value;
+    const status = document.getElementById('jobStatus').value;
+
+    if (!titulo || !usuarioId || !dataExecucao) {
+        mostrarToast('Preencha os campos obrigatórios', 'warning');
+        return;
+    }
+
+    const job = {
+        id: jobId || 'job_' + Date.now(),
+        titulo,
+        descricao,
+        classificacaoId: classificacaoId || null,
+        usuarioId,
+        dataExecucao,
+        prazo: prazo || null,
+        status,
+        atualizadoEm: new Date().toISOString()
+    };
+
+    if (!jobId) {
+        job.criadoEm = new Date().toISOString();
+        job.criadoPor = state.currentUser.id;
+    }
+
+    try {
+        await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(job)
+        });
+
+        const idx = state.jobs.findIndex(j => j.id === job.id);
+        if (idx >= 0) state.jobs[idx] = job;
+        else state.jobs.push(job);
+
+        fecharModal('modalJob');
+        mostrarToast(jobId ? 'Job atualizado' : 'Job criado', 'success');
+        renderizarPagina();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarToast('Erro ao salvar job', 'error');
+    }
+}
+
+async function excluirJob(id) {
+    if (!confirm('Excluir este job?')) return;
+    try {
+        await fetch(`${FIREBASE_URL}/jobs/${id}.json`, { method: 'DELETE' });
+        state.jobs = state.jobs.filter(j => j.id !== id);
+        mostrarToast('Job excluído', 'success');
+        renderizarPagina();
+    } catch (error) {
+        mostrarToast('Erro ao excluir job', 'error');
+    }
 }
 
 // ============================================================================
@@ -1914,7 +1961,7 @@ function renderUsuarios(container) {
         <div class="content-header">
             <div>
                 <div class="page-title">Usuários</div>
-                <div class="page-subtitle">Gerenciamento de colaboradores e administradores</div>
+                <div class="page-subtitle">Gerenciamento de colaboradores</div>
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>
@@ -1923,10 +1970,7 @@ function renderUsuarios(container) {
         </div>
 
         ${state.users.length === 0 ? `
-            <div class="empty-state">
-                ${ICONS.users}
-                <h3>Nenhum usuário cadastrado</h3>
-            </div>
+            <div class="empty-state">${ICONS.users}<h3>Nenhum usuário cadastrado</h3></div>
         ` : `
             <table class="data-table">
                 <thead>
@@ -1959,412 +2003,6 @@ function renderUsuarios(container) {
     `;
 }
 
-// ============================================================================
-// PÁGINA CLASSIFICAÇÕES
-// ============================================================================
-function renderClassificacoes(container) {
-    container.innerHTML = `
-        <div class="content-header">
-            <div>
-                <div class="page-title">Classificações</div>
-                <div class="page-subtitle">Categorias de atividades disponíveis</div>
-            </div>
-            <div class="header-actions">
-                <button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
-            </div>
-        </div>
-
-        ${state.classifications.length === 0 ? `
-            <div class="empty-state">
-                ${ICONS.tags}
-                <h3>Nenhuma classificação cadastrada</h3>
-            </div>
-        ` : `
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Pré-visualização</th>
-                        <th style="width:120px;">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${state.classifications.map(c => `
-                        <tr>
-                            <td class="cell-strong">${escapeHtml(c.nome)}</td>
-                            <td><span class="tag ${c.cor}">${escapeHtml(c.nome)}</span></td>
-                            <td>
-                                <div class="cell-actions">
-                                    <button class="btn btn-xs btn-secondary" onclick="abrirModalClassificacao('${c.id}')">${ICONS.edit}</button>
-                                    <button class="btn btn-xs btn-danger" onclick="excluirClassificacao('${c.id}')">${ICONS.trash}</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `}
-    `;
-}
-
-// ============================================================================
-// MODAIS - ATIVIDADE
-// ============================================================================
-function abrirModalAtividade(atividadeId, jobIdPreSelecionado) {
-    // Fechar modais abertos
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-
-    const isAdmin = state.currentUser && state.currentUser.tipo === 'admin';
-    const atividade = atividadeId ? state.activities.find(a => a.id === atividadeId) : null;
-
-    // Se não tem job pré-selecionado e estamos editando, usa o da atividade
-    const jobIdInicial = atividade ? atividade.jobId : (jobIdPreSelecionado || '');
-
-    // Se não é admin e não tem jobs disponíveis, avisar
-    const jobsDisponiveis = state.jobs;
-    if (jobsDisponiveis.length === 0 && !atividade) {
-        mostrarToast('Cadastre um job antes de criar atividades', 'warning');
-        return;
-    }
-
-    const jobOptions = jobsDisponiveis.map(j => 
-        `<option value="${j.id}" ${jobIdInicial === j.id ? 'selected' : ''}>${escapeHtml(j.titulo)}</option>`
-    ).join('');
-
-    const userOptions = state.users.filter(u => u.tipo !== 'admin').map(u => 
-        `<option value="${u.id}" ${atividade && atividade.usuarioId === u.id ? 'selected' : ''} ${!atividade && u.id === state.currentUser.id ? 'selected' : ''}>${escapeHtml(u.nome)}</option>`
-    ).join('');
-
-    const classOptions = state.classifications.map(c => 
-        `<option value="${c.id}" ${atividade && atividade.classificacaoId === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`
-    ).join('');
-
-    const modalHtml = `
-        <div class="modal-overlay active" id="modalAtividade">
-            <div class="modal modal-lg">
-                <div class="modal-header">
-                    <div>
-                        <div class="modal-title">${atividade ? 'Editar Atividade' : 'Nova Atividade'}</div>
-                        <div class="modal-subtitle">${atividade ? 'Atualize os dados da atividade' : 'Preencha os dados para criar uma nova atividade'}</div>
-                    </div>
-                    <button class="modal-close" onclick="fecharModal('modalAtividade')">${ICONS.close}</button>
-                </div>
-                <div class="modal-body">
-                    <div class="section-title">Informações Básicas</div>
-                    <div class="form-group">
-                        <label>Nome da Atividade <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="atividadeNome" value="${atividade ? escapeHtml(atividade.nome) : ''}" placeholder="Ex: Criar banner para redes sociais">
-                    </div>
-                    <div class="form-group">
-                        <label>Descrição</label>
-                        <textarea class="form-control" id="atividadeDescricao" placeholder="Detalhes da atividade...">${atividade ? escapeHtml(atividade.descricao || '') : ''}</textarea>
-                    </div>
-
-                    <div class="section-title">Vínculos</div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Job <span class="required">*</span></label>
-                            <select class="form-control" id="atividadeJob">
-                                <option value="">Selecione um job</option>
-                                ${jobOptions}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Classificação</label>
-                            <select class="form-control" id="atividadeClassificacao">
-                                <option value="">Sem classificação</option>
-                                ${classOptions}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Responsável <span class="required">*</span></label>
-                            <select class="form-control" id="atividadeUsuario" ${!isAdmin ? 'disabled' : ''}>
-                                <option value="">Selecione</option>
-                                ${userOptions}
-                            </select>
-                            ${!isAdmin ? '<div class="form-hint">Você está criando uma atividade para si mesmo</div>' : ''}
-                        </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" id="atividadeStatus">
-                                <option value="pendente" ${atividade && atividade.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                                <option value="em_processo" ${atividade && atividade.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
-                                <option value="concluido" ${atividade && atividade.status === 'concluido' ? 'selected' : ''}>Concluído</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="section-title">Prazos</div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Data de Execução <span class="required">*</span></label>
-                            <input type="date" class="form-control" id="atividadeData" value="${atividade ? atividade.dataExecucao : new Date().toISOString().split('T')[0]}">
-                            <div class="form-hint">Data em que a atividade será realizada (pode ser alterada arrastando o card)</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Prazo (Deadline)</label>
-                            <input type="date" class="form-control" id="atividadePrazo" value="${atividade ? (atividade.prazo || '') : ''}">
-                            <div class="form-hint">Prazo final da atividade (não é alterado ao mover o card)</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="fecharModal('modalAtividade')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarAtividade('${atividade ? atividade.id : ''}')">
-                        ${ICONS.check} ${atividade ? 'Salvar Alterações' : 'Criar Atividade'}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-    setTimeout(() => document.getElementById('atividadeNome')?.focus(), 50);
-}
-
-// Criar nova atividade a partir de um job específico
-function novaAtividadeDoJob(jobId) {
-    abrirModalAtividade(null, jobId);
-}
-
-async function salvarAtividade(atividadeId) {
-    const nome = document.getElementById('atividadeNome').value.trim();
-    const descricao = document.getElementById('atividadeDescricao').value.trim();
-    const jobId = document.getElementById('atividadeJob').value;
-    const classificacaoId = document.getElementById('atividadeClassificacao').value;
-    const usuarioId = document.getElementById('atividadeUsuario').value;
-    const dataExecucao = document.getElementById('atividadeData').value;
-    const prazo = document.getElementById('atividadePrazo').value;
-    const status = document.getElementById('atividadeStatus').value;
-
-    if (!nome || !jobId || !usuarioId || !dataExecucao) {
-        mostrarToast('Preencha todos os campos obrigatórios', 'warning');
-        return;
-    }
-
-    const atividade = {
-        id: atividadeId || 'atv_' + Date.now(),
-        nome,
-        descricao,
-        jobId,
-        classificacaoId: classificacaoId || null,
-        usuarioId,
-        dataExecucao,
-        prazo: prazo || null,
-        status,
-        atualizadoEm: new Date().toISOString()
-    };
-
-    if (!atividadeId) atividade.criadoEm = new Date().toISOString();
-
-    try {
-        await fetch(`${FIREBASE_URL}/atividades/${atividade.id}.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(atividade)
-        });
-
-        const idx = state.activities.findIndex(a => a.id === atividade.id);
-        if (idx >= 0) state.activities[idx] = atividade;
-        else state.activities.push(atividade);
-
-        fecharModal('modalAtividade');
-        mostrarToast(atividadeId ? 'Atividade atualizada' : 'Atividade criada', 'success');
-        renderizarPagina();
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarToast('Erro ao salvar atividade', 'error');
-    }
-}
-
-async function excluirAtividade(id) {
-    if (!confirm('Excluir esta atividade?')) return;
-    try {
-        await fetch(`${FIREBASE_URL}/atividades/${id}.json`, { method: 'DELETE' });
-        state.activities = state.activities.filter(a => a.id !== id);
-        mostrarToast('Atividade excluída', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao excluir', 'error');
-    }
-}
-
-// ============================================================================
-// MODAIS - JOB
-// ============================================================================
-function abrirModalJob(jobId) {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    const job = jobId ? state.jobs.find(j => j.id === jobId) : null;
-
-    const modalHtml = `
-        <div class="modal-overlay active" id="modalJob">
-            <div class="modal">
-                <div class="modal-header">
-                    <div>
-                        <div class="modal-title">${job ? 'Editar Job' : 'Novo Job'}</div>
-                        <div class="modal-subtitle">${job ? 'Atualize as informações do job' : 'Cadastre um novo job'}</div>
-                    </div>
-                    <button class="modal-close" onclick="fecharModal('modalJob')">${ICONS.close}</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Título <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="jobTitulo" value="${job ? escapeHtml(job.titulo) : ''}" placeholder="Ex: Campanha de Marketing">
-                    </div>
-                    <div class="form-group">
-                        <label>Descrição</label>
-                        <textarea class="form-control" id="jobDescricao" placeholder="Descrição detalhada do job...">${job ? escapeHtml(job.descricao || '') : ''}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Prazo do Job</label>
-                        <input type="date" class="form-control" id="jobPrazo" value="${job ? (job.prazo || '') : ''}">
-                        <div class="form-hint">O prazo do job é independente das datas das atividades</div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="fecharModal('modalJob')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarJob('${job ? job.id : ''}')">
-                        ${ICONS.check} ${job ? 'Salvar' : 'Criar Job'}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-    setTimeout(() => document.getElementById('jobTitulo')?.focus(), 50);
-}
-
-async function salvarJob(jobId) {
-    const titulo = document.getElementById('jobTitulo').value.trim();
-    const descricao = document.getElementById('jobDescricao').value.trim();
-    const prazo = document.getElementById('jobPrazo').value;
-
-    if (!titulo) { mostrarToast('Digite o título do job', 'warning'); return; }
-
-    const job = {
-        id: jobId || 'job_' + Date.now(),
-        titulo,
-        descricao,
-        prazo: prazo || null,
-        atualizadoEm: new Date().toISOString()
-    };
-
-    if (!jobId) {
-        job.criadoEm = new Date().toISOString();
-        job.criadoPor = state.currentUser.id;
-    }
-
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(job)
-        });
-
-        const idx = state.jobs.findIndex(j => j.id === job.id);
-        if (idx >= 0) state.jobs[idx] = job;
-        else state.jobs.push(job);
-
-        fecharModal('modalJob');
-        mostrarToast(jobId ? 'Job atualizado' : 'Job criado', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao salvar job', 'error');
-    }
-}
-
-async function excluirJob(id) {
-    const atvs = state.activities.filter(a => a.jobId === id);
-    let msg = 'Excluir este job?';
-    if (atvs.length > 0) msg = `Este job possui ${atvs.length} atividade(s) vinculada(s). Excluir mesmo assim? As atividades também serão removidas.`;
-    if (!confirm(msg)) return;
-
-    try {
-        for (const a of atvs) {
-            await fetch(`${FIREBASE_URL}/atividades/${a.id}.json`, { method: 'DELETE' });
-        }
-        state.activities = state.activities.filter(a => a.jobId !== id);
-        await fetch(`${FIREBASE_URL}/jobs/${id}.json`, { method: 'DELETE' });
-        state.jobs = state.jobs.filter(j => j.id !== id);
-        mostrarToast('Job excluído', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao excluir job', 'error');
-    }
-}
-
-function verJob(jobId) {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    const job = state.jobs.find(j => j.id === jobId);
-    if (!job) return;
-
-    const atvs = state.activities.filter(a => a.jobId === jobId);
-    const membros = [...new Set(atvs.map(a => a.usuarioId))];
-
-    const modalHtml = `
-        <div class="modal-overlay active" id="modalVerJob">
-            <div class="modal modal-lg">
-                <div class="modal-header">
-                    <div>
-                        <div class="modal-title">${escapeHtml(job.titulo)}</div>
-                        <div class="modal-subtitle">Visualização do job e atividades vinculadas</div>
-                    </div>
-                    <button class="modal-close" onclick="fecharModal('modalVerJob')">${ICONS.close}</button>
-                </div>
-                <div class="modal-body">
-                    <div class="section-title">Descrição</div>
-                    <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:16px;">${escapeHtml(job.descricao || 'Sem descrição')}</p>
-
-                    <div class="section-title">Prazo</div>
-                    <p style="font-size:13.5px; color:var(--text-secondary); margin-bottom:16px;">${job.prazo || 'Sem prazo definido'}</p>
-
-                    <div class="section-title">Membros Responsáveis (${membros.length})</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
-                        ${membros.length === 0 ? '<p class="text-muted" style="font-size:12.5px;">Nenhum membro atribuído</p>' : 
-                            membros.map(m => {
-                                const u = state.users.find(u => u.id === m);
-                                return `<span class="chip">${escapeHtml(u ? u.nome : 'Desconhecido')}</span>`;
-                            }).join('')}
-                    </div>
-
-                    <div class="section-title">Atividades (${atvs.length})</div>
-                    ${atvs.length === 0 ? '<p class="text-muted" style="font-size:12.5px;">Nenhuma atividade vinculada</p>' : `
-                        <table class="data-table">
-                            <thead>
-                                <tr><th>Nome</th><th>Responsável</th><th>Execução</th><th>Status</th></tr>
-                            </thead>
-                            <tbody>
-                                ${atvs.map(a => {
-                                    const u = state.users.find(u => u.id === a.usuarioId);
-                                    return `<tr>
-                                        <td>${escapeHtml(a.nome)}</td>
-                                        <td>${u ? escapeHtml(u.nome) : '—'}</td>
-                                        <td>${a.dataExecucao}</td>
-                                        <td><span class="tag tag-status ${a.status}">${STATUS_LABEL[a.status]}</span></td>
-                                    </tr>`;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    `}
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="fecharModal('modalVerJob')">Fechar</button>
-                    <button class="btn btn-primary" onclick="fecharModal('modalVerJob'); novaAtividadeDoJob('${job.id}')">
-                        ${ICONS.plus} Nova Atividade neste Job
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-}
-
-// ============================================================================
-// MODAIS - USUÁRIO
-// ============================================================================
 function abrirModalUsuario(userId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const user = userId ? state.users.find(u => u.id === userId) : null;
@@ -2375,7 +2013,7 @@ function abrirModalUsuario(userId) {
                 <div class="modal-header">
                     <div>
                         <div class="modal-title">${user ? 'Editar Usuário' : 'Novo Usuário'}</div>
-                        <div class="modal-subtitle">${user ? 'Atualize as informações do usuário' : 'Cadastre um novo colaborador'}</div>
+                        <div class="modal-subtitle">${user ? 'Atualize os dados' : 'Cadastre um colaborador'}</div>
                     </div>
                     <button class="modal-close" onclick="fecharModal('modalUsuario')">${ICONS.close}</button>
                 </div>
@@ -2385,9 +2023,8 @@ function abrirModalUsuario(userId) {
                         <input type="text" class="form-control" id="usuarioNome" value="${user ? escapeHtml(user.nome) : ''}" placeholder="Ex: João Silva">
                     </div>
                     <div class="form-group">
-                        <label>Username (para login) <span class="required">*</span></label>
+                        <label>Username <span class="required">*</span></label>
                         <input type="text" class="form-control" id="usuarioUsername" value="${user ? escapeHtml(user.username || '') : ''}" placeholder="Ex: joao.silva">
-                        <div class="form-hint">Use letras minúsculas sem espaços</div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
@@ -2409,7 +2046,7 @@ function abrirModalUsuario(userId) {
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalUsuario')">Cancelar</button>
                     <button class="btn btn-primary" onclick="salvarUsuarioModal('${user ? user.id : ''}')">
-                        ${ICONS.check} ${user ? 'Salvar' : 'Criar Usuário'}
+                        ${ICONS.check} Salvar
                     </button>
                 </div>
             </div>
@@ -2429,10 +2066,7 @@ async function salvarUsuarioModal(userId) {
 
     const user = {
         id: userId || 'user_' + Date.now(),
-        nome,
-        username,
-        tipo,
-        ativo,
+        nome, username, tipo, ativo,
         atualizadoEm: new Date().toISOString()
     };
     if (!userId) user.criadoEm = new Date().toISOString();
@@ -2464,13 +2098,56 @@ async function excluirUsuario(id) {
         mostrarToast('Usuário excluído', 'success');
         renderizarPagina();
     } catch (error) {
-        mostrarToast('Erro ao excluir usuário', 'error');
+        mostrarToast('Erro ao excluir', 'error');
     }
 }
 
 // ============================================================================
-// MODAIS - CLASSIFICAÇÃO
+// PÁGINA CLASSIFICAÇÕES
 // ============================================================================
+function renderClassificacoes(container) {
+    container.innerHTML = `
+        <div class="content-header">
+            <div>
+                <div class="page-title">Classificações</div>
+                <div class="page-subtitle">Etapas/processos pelos quais os jobs transitam</div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>
+                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
+            </div>
+        </div>
+
+        ${state.classifications.length === 0 ? `
+            <div class="empty-state">${ICONS.tags}<h3>Nenhuma classificação cadastrada</h3></div>
+        ` : `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Pré-visualização</th>
+                        <th style="width:120px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${state.classifications.map(c => `
+                        <tr>
+                            <td class="cell-strong">${escapeHtml(c.nome)}</td>
+                            <td><span class="tag ${c.cor}">${escapeHtml(c.nome)}</span></td>
+                            <td>
+                                <div class="cell-actions">
+                                    <button class="btn btn-xs btn-secondary" onclick="abrirModalClassificacao('${c.id}')">${ICONS.edit}</button>
+                                    <button class="btn btn-xs btn-danger" onclick="excluirClassificacao('${c.id}')">${ICONS.trash}</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `}
+    `;
+}
+
 function abrirModalClassificacao(classId) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const classif = classId ? state.classifications.find(c => c.id === classId) : null;
@@ -2481,7 +2158,7 @@ function abrirModalClassificacao(classId) {
                 <div class="modal-header">
                     <div>
                         <div class="modal-title">${classif ? 'Editar Classificação' : 'Nova Classificação'}</div>
-                        <div class="modal-subtitle">Defina o nome e a cor de identificação</div>
+                        <div class="modal-subtitle">Defina o nome e a cor</div>
                     </div>
                     <button class="modal-close" onclick="fecharModal('modalClassificacao')">${ICONS.close}</button>
                 </div>
@@ -2502,9 +2179,7 @@ function abrirModalClassificacao(classId) {
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalClassificacao')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarClassificacao('${classif ? classif.id : ''}')">
-                        ${ICONS.check} ${classif ? 'Salvar' : 'Criar'}
-                    </button>
+                    <button class="btn btn-primary" onclick="salvarClassificacao('${classif ? classif.id : ''}')">${ICONS.check} Salvar</button>
                 </div>
             </div>
         </div>
@@ -2552,7 +2227,7 @@ async function excluirClassificacao(id) {
 }
 
 // ============================================================================
-// FILTROS
+// FILTERS
 // ============================================================================
 function aplicarFiltro(tipo, valor) {
     state.filters[tipo] = valor;
@@ -2560,12 +2235,12 @@ function aplicarFiltro(tipo, valor) {
 }
 
 function limparFiltros() {
-    state.filters = { job: 'all', classification: 'all', startDate: '', endDate: '', status: 'all' };
+    state.filters = { classification: 'all', startDate: '', endDate: '', status: 'all' };
     renderizarPagina();
 }
 
 // ============================================================================
-// UTILITÁRIOS
+// UTILS
 // ============================================================================
 function fecharModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -2596,7 +2271,6 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Fechar modais clicando fora e com ESC
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-overlay')) e.target.remove();
 });
