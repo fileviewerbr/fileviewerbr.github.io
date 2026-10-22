@@ -28,7 +28,6 @@
             --info-bg: #e0f2fe;
             --purple: #7c3aed;
             --purple-bg: #ede9fe;
-            
             --cal-free: #10b981;
             --cal-partial: #f59e0b;
             --cal-full: #ef4444;
@@ -57,182 +56,70 @@
             z-index: 100;
             border-right: 1px solid #334155;
         }
-
-        .sidebar-brand {
-            padding: 22px 20px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .sidebar-brand { padding: 18px 20px; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: center; }
         .brand-logo {
-            width: 36px;
-            height: 36px;
-            background: var(--primary);
+            width: 140px;
+            height: 50px;
             border-radius: 8px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
+            background: #0f172a;
+            flex-shrink: 0;
         }
-
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
         .brand-text h2 { font-size: 15px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }
         .brand-text p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
-
-        .sidebar-section {
-            padding: 18px 16px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
+        .sidebar-section { padding: 18px 16px 8px; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; }
         .sidebar-nav { flex: 1; padding: 4px 12px; overflow-y: auto; }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 12px;
-            cursor: pointer;
-            transition: all 0.15s;
-            border-radius: 6px;
-            color: #cbd5e1;
-            font-size: 13.5px;
-            font-weight: 500;
-            margin-bottom: 2px;
-            user-select: none;
-        }
-
+        .nav-item { display: flex; align-items: center; padding: 10px 12px; cursor: pointer; transition: all 0.15s; border-radius: 6px; color: #cbd5e1; font-size: 13.5px; font-weight: 500; margin-bottom: 2px; user-select: none; }
         .nav-item:hover { background: #334155; color: #f1f5f9; }
         .nav-item.active { background: var(--primary); color: #ffffff; }
         .nav-item svg { margin-right: 10px; width: 16px; height: 16px; stroke-width: 2; flex-shrink: 0; }
-
         .nav-item.has-sub { justify-content: flex-start; }
-        .nav-item .nav-caret {
-            margin-left: auto;
-            transition: transform 0.2s;
-            width: 12px !important;
-            height: 12px !important;
-        }
+        .nav-item .nav-caret { margin-left: auto; transition: transform 0.2s; width: 12px !important; height: 12px !important; }
         .nav-item .nav-caret.open { transform: rotate(90deg); }
-
-        .sub-nav {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.25s ease;
-            padding-left: 12px;
-        }
-
+        .sub-nav { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding-left: 12px; }
         .sub-nav.open { max-height: 200px; }
-
-        .sub-nav-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 12px 8px 40px;
-            cursor: pointer;
-            transition: all 0.15s;
-            border-radius: 6px;
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 2px;
-            user-select: none;
-            position: relative;
-        }
-
-        .sub-nav-item::before {
-            content: '';
-            position: absolute;
-            left: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #475569;
-        }
-
+        .sub-nav-item { display: flex; align-items: center; padding: 8px 12px 8px 40px; cursor: pointer; transition: all 0.15s; border-radius: 6px; color: #94a3b8; font-size: 13px; font-weight: 500; margin-bottom: 2px; user-select: none; position: relative; }
+        .sub-nav-item::before { content: ''; position: absolute; left: 22px; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; border-radius: 50%; background: #475569; }
         .sub-nav-item:hover { background: #334155; color: #f1f5f9; }
         .sub-nav-item.active { background: #334155; color: #ffffff; }
         .sub-nav-item.active::before { background: var(--primary-light); }
-
         .sidebar-footer { padding: 16px; border-top: 1px solid #334155; }
-
         .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: white;
-            flex-shrink: 0;
-        }
-
+        .user-avatar { width: 34px; height: 34px; border-radius: 8px; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
         .user-details { flex: 1; min-width: 0; }
         .user-details .name { font-size: 13px; font-weight: 600; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-details .role { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; }
 
         /* MAIN */
         .main-content { flex: 1; margin-left: 240px; padding: 24px 28px; min-height: 100vh; min-width: 0; }
-
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
+        .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
         .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.4px; }
         .page-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
         .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
         /* BUTTONS */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            font-family: inherit;
-            transition: all 0.15s;
-            white-space: nowrap;
-            text-decoration: none;
-        }
-
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: inherit; transition: all 0.15s; white-space: nowrap; text-decoration: none; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn svg { width: 14px; height: 14px; stroke-width: 2.2; }
-
         .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
         .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
-
         .btn-secondary { background: white; color: var(--text-primary); border-color: var(--border); }
         .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
-
         .btn-success { background: var(--success); color: white; border-color: var(--success); }
         .btn-success:hover { background: #047857; }
-
         .btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
         .btn-danger:hover { background: #b91c1c; }
-
         .btn-ghost { background: transparent; color: var(--text-secondary); border-color: transparent; padding: 6px 8px; }
         .btn-ghost:hover { background: #f1f5f9; color: var(--text-primary); }
-
         .btn-sm { padding: 6px 10px; font-size: 12px; }
         .btn-xs { padding: 4px 7px; font-size: 11px; }
         .btn-xs svg { width: 12px; height: 12px; }
@@ -240,85 +127,19 @@
 
         /* FORMS */
         .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: 0.1px;
-        }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.1px; }
         .form-group label .required { color: var(--danger); margin-left: 2px; }
-
-        .form-control {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-family: inherit;
-            color: var(--text-primary);
-            background: white;
-            transition: all 0.15s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-
+        .form-control { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13.5px; font-family: inherit; color: var(--text-primary); background: white; transition: all 0.15s; }
+        .form-control:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
         .form-control:disabled { background: #f8fafc; color: var(--text-muted); cursor: not-allowed; }
         textarea.form-control { min-height: 80px; resize: vertical; }
-
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
-        /* STATS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            padding: 18px 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            transition: all 0.15s;
-        }
-        .stat-card:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.06); border-color: #cbd5e1; }
-
         /* TABLES */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            font-size: 13px;
-        }
-        .data-table thead th {
-            background: #f8fafc;
-            padding: 11px 14px;
-            text-align: left;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        .data-table tbody td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #f1f5f9;
-            color: var(--text-primary);
-            vertical-align: middle;
-        }
+        .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); font-size: 13px; }
+        .data-table thead th { background: #f8fafc; padding: 11px 14px; text-align: left; font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        .data-table tbody td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; color: var(--text-primary); vertical-align: middle; }
         .data-table tbody tr:last-child td { border-bottom: none; }
         .data-table tbody tr:hover td { background: #fafbfc; }
         .data-table .cell-strong { font-weight: 600; }
@@ -326,96 +147,31 @@
         .data-table .cell-actions { display: flex; gap: 4px; }
 
         /* MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(15,23,42,0.55);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px 16px;
-            overflow-y: auto;
-        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.55); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: flex-start; padding: 40px 16px; overflow-y: auto; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 640px;
-            box-shadow: 0 20px 60px rgba(15,23,42,0.3);
-            animation: modalIn 0.2s ease;
-            overflow: hidden;
-        }
+        .modal { background: white; border-radius: 12px; width: 100%; max-width: 640px; box-shadow: 0 20px 60px rgba(15,23,42,0.3); animation: modalIn 0.2s ease; overflow: hidden; }
         .modal.modal-lg { max-width: 900px; }
         .modal.modal-xl { max-width: 1200px; }
-        @keyframes modalIn {
-            from { opacity: 0; transform: translateY(-12px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .modal-header {
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f8fafc;
-        }
+        @keyframes modalIn { from { opacity: 0; transform: translateY(-12px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; }
         .modal-title { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.2px; }
         .modal-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
-        .modal-close {
-            background: transparent; border: none; cursor: pointer;
-            color: var(--text-muted); padding: 6px; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.15s;
-        }
+        .modal-close { background: transparent; border: none; cursor: pointer; color: var(--text-muted); padding: 6px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
         .modal-close:hover { background: #e2e8f0; color: var(--text-primary); }
         .modal-close svg { width: 16px; height: 16px; stroke-width: 2.2; }
         .modal-body { padding: 22px 24px; max-height: 70vh; overflow-y: auto; }
-        .modal-footer {
-            padding: 14px 24px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            background: #f8fafc;
-        }
+        .modal-footer { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: #f8fafc; }
 
-        .section-title {
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            margin: 20px 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .section-title { font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.7px; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
         .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .section-title:first-child { margin-top: 0; }
 
         /* CONTEXT BANNER */
-        .context-banner {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .context-banner { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
         .context-banner.warn { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #fcd34d; }
         .context-banner.success { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-color: #6ee7b7; }
         .context-banner.danger { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-color: #fca5a5; }
-        .context-banner .icon-wrap {
-            width: 32px; height: 32px; border-radius: 8px;
-            background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
+        .context-banner .icon-wrap { width: 32px; height: 32px; border-radius: 8px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .context-banner.warn .icon-wrap { background: var(--warning); }
         .context-banner.success .icon-wrap { background: var(--success); }
         .context-banner.danger .icon-wrap { background: var(--danger); }
@@ -428,52 +184,18 @@
         .context-banner .text span { font-size: 12px; color: var(--text-secondary); }
 
         /* LOGIN */
-        .login-screen {
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; width: 100%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            padding: 20px;
-        }
-        .login-box {
-            background: white;
-            padding: 36px 32px;
-            border-radius: 14px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-            width: 100%;
-            max-width: 380px;
-        }
+        .login-screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100%; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 20px; }
+        .login-box { background: white; padding: 36px 32px; border-radius: 14px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); width: 100%; max-width: 380px; }
         .login-brand { text-align: center; margin-bottom: 28px; }
-        .login-brand .brand-logo { width: 48px; height: 48px; margin: 0 auto 14px; font-size: 18px; border-radius: 10px; }
+        .login-brand .brand-logo { width: 160px; height: 60px; margin: 0 auto 14px; background: #0f172a; }
         .login-brand h1 { font-size: 19px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.4px; }
         .login-brand p { color: var(--text-muted); font-size: 12.5px; margin-top: 4px; }
-        .login-error {
-            color: var(--danger); font-size: 12.5px; margin-top: 10px;
-            padding: 8px 12px; background: var(--danger-bg); border-radius: 6px;
-            display: none;
-        }
+        .login-error { color: var(--danger); font-size: 12.5px; margin-top: 10px; padding: 8px 12px; background: var(--danger-bg); border-radius: 6px; display: none; }
 
         /* TOAST */
         .toast-container { position: fixed; top: 18px; right: 18px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
-        .toast {
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            box-shadow: 0 8px 24px rgba(15,23,42,0.15);
-            animation: toastIn 0.25s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 260px;
-            max-width: 380px;
-            background: white;
-            border-left: 4px solid var(--info);
-            color: var(--text-primary);
-        }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+        .toast { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 24px rgba(15,23,42,0.15); animation: toastIn 0.25s ease; display: flex; align-items: center; gap: 10px; min-width: 260px; max-width: 380px; background: white; border-left: 4px solid var(--info); color: var(--text-primary); }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
         .toast.toast-success { border-left-color: var(--success); }
         .toast.toast-error { border-left-color: var(--danger); }
         .toast.toast-warning { border-left-color: var(--warning); }
@@ -485,186 +207,60 @@
         .toast.toast-info svg { color: var(--info); }
 
         /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-            background: white;
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); background: white; border: 1px dashed var(--border); border-radius: 10px; }
         .empty-state svg { width: 40px; height: 40px; color: #cbd5e1; margin-bottom: 12px; stroke-width: 1.5; }
         .empty-state h3 { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; }
         .empty-state p { font-size: 13px; }
 
         /* TAGS */
-        .tag {
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-weight: 600;
-            letter-spacing: 0.2px;
-            white-space: nowrap;
-        }
+        .tag { font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.2px; white-space: nowrap; }
         .tag-direcao { background: var(--purple-bg); color: var(--purple); }
         .tag-redacao { background: var(--success-bg); color: var(--success); }
         .tag-design { background: var(--warning-bg); color: var(--warning); }
         .tag-outro { background: #f1f5f9; color: var(--text-secondary); }
-
         .tag-status { text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.5px; }
         .tag-status.pendente { background: var(--warning-bg); color: var(--warning); }
-        .tag-status.em_processo { background: var(--info-bg); color: var(--info); }
-        .tag-status.aguardando_aprovacao { background: var(--purple-bg); color: var(--purple); }
         .tag-status.concluido { background: var(--success-bg); color: var(--success); }
 
-        /* ============ CALENDÁRIO ============ */
-        .calendar-toolbar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 18px;
-            padding: 12px 16px;
-            background: var(--bg-card);
-            border-radius: 10px;
-            border: 1px solid var(--border);
-        }
+        /* CALENDÁRIO */
+        .calendar-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; padding: 12px 16px; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border); }
         .calendar-toolbar .form-control { width: auto; min-width: 150px; padding: 7px 10px; font-size: 13px; }
         .calendar-toolbar label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-right: -6px; }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding: 14px 20px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-        }
-        .calendar-month-label {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-            text-transform: capitalize;
-            min-width: 200px;
-            text-align: center;
-        }
-        .calendar-legend {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 14px 20px; background: white; border: 1px solid var(--border); border-radius: 10px; }
+        .calendar-month-label { font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; text-transform: capitalize; min-width: 200px; text-align: center; }
+        .calendar-legend { display: flex; gap: 16px; align-items: center; font-size: 12px; color: var(--text-secondary); }
         .legend-item { display: flex; align-items: center; gap: 6px; }
         .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
         .legend-dot.free { background: var(--cal-free); }
         .legend-dot.partial { background: var(--cal-partial); }
         .legend-dot.full { background: var(--cal-full); }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-        }
-        .calendar-weekday {
-            text-align: center;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 8px 0;
-        }
-
-        .calendar-day {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            min-height: 110px;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        .calendar-day:hover {
-            box-shadow: 0 6px 16px rgba(15,23,42,0.1);
-            transform: translateY(-2px);
-            border-color: #cbd5e1;
-        }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+        .calendar-weekday { text-align: center; font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 0; }
+        .calendar-day { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-height: 130px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .calendar-day:hover { box-shadow: 0 6px 16px rgba(15,23,42,0.1); transform: translateY(-2px); border-color: #cbd5e1; }
         .calendar-day.other-month { background: #fafbfc; opacity: 0.5; }
         .calendar-day.today { border-color: var(--primary); border-width: 2px; padding: 11px; }
-
-        .calendar-day .day-number {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
+        .calendar-day .day-number { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
         .calendar-day.other-month .day-number { color: var(--text-muted); }
-
-        .calendar-day .day-hours {
-            font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-        .calendar-day .day-hours .hours-value {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .calendar-day .day-status-bar {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 5px;
-        }
+        .calendar-day .day-hours { font-size: 11px; color: var(--text-secondary); font-weight: 600; margin-top: auto; display: flex; flex-direction: column; gap: 3px; }
+        .calendar-day .day-hours .hours-value { font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
+        .calendar-day .day-hours .hours-line { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 2px 0; }
+        .calendar-day .day-hours .hours-line .label { font-size: 10.5px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .calendar-day .day-hours .hours-line .value { font-size: 11.5px; font-weight: 700; }
+        .calendar-day .day-hours .hours-line.redacao .value { color: var(--success); }
+        .calendar-day .day-hours .hours-line.direcao .value { color: var(--purple); }
+        .calendar-day .day-status-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; }
         .calendar-day.status-free .day-status-bar { background: var(--cal-free); }
         .calendar-day.status-partial .day-status-bar { background: var(--cal-partial); }
         .calendar-day.status-full .day-status-bar { background: var(--cal-full); }
-
-        .calendar-day .day-jobs-count {
-            display: inline-block;
-            font-size: 10.5px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #f1f5f9;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            align-self: flex-start;
-        }
+        .calendar-day .day-jobs-count { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; color: var(--text-secondary); margin-bottom: 4px; align-self: flex-start; }
         .calendar-day.status-free .day-jobs-count { background: var(--success-bg); color: var(--success); }
         .calendar-day.status-partial .day-jobs-count { background: var(--warning-bg); color: var(--warning); }
         .calendar-day.status-full .day-jobs-count { background: var(--danger-bg); color: var(--danger); }
 
-        /* Grade do dia */
-        .day-schedule {
-            display: grid;
-            grid-template-columns: 90px repeat(var(--pros-count, 1), minmax(140px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            font-size: 12px;
-        }
-        .day-schedule-cell {
-            background: white;
-            padding: 8px 10px;
-            min-height: 42px;
-            position: relative;
-        }
+        /* GRADE DO DIA */
+        .day-schedule { display: grid; grid-template-columns: 80px repeat(var(--pros-count, 1), minmax(130px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 12px; }
+        .day-schedule-cell { background: white; padding: 8px 10px; min-height: 42px; position: relative; }
         .day-schedule-header {
             background: #f8fafc;
             font-weight: 700;
@@ -678,114 +274,28 @@
             text-align: center;
             padding: 10px 6px;
         }
-        .day-schedule-time {
-            background: #f8fafc;
-            font-weight: 700;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11.5px;
-            letter-spacing: 0.3px;
-        }
-        .day-schedule-time.lunch {
-            background: #fef3c7;
-            color: #92400e;
-            font-style: italic;
-        }
-
-        .schedule-job {
-            background: #eff6ff;
-            border-left: 3px solid var(--primary);
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            cursor: pointer;
-            line-height: 1.3;
-            transition: all 0.15s;
-            position: relative;
-        }
+        .day-schedule-header.cargo-group-0 { background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%); color: var(--text-secondary); }
+        .day-schedule-header.cargo-group-1 { background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%); color: var(--text-primary); }
+        .day-schedule-header.cargo-divider-left { border-left: 2px solid #64748b; }
+        .day-schedule-time { background: #f8fafc; font-weight: 700; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-size: 11.5px; letter-spacing: 0.3px; }
+        .day-schedule-time.lunch { background: #fef3c7; color: #92400e; font-style: italic; }
+        .schedule-job { background: #eff6ff; border-left: 3px solid var(--primary); padding: 5px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: var(--primary-dark); cursor: pointer; line-height: 1.3; transition: all 0.15s; position: relative; }
         .schedule-job:hover { background: #dbeafe; }
-
         .schedule-job.status-pendente { background: var(--warning-bg); border-left-color: var(--warning); color: #92400e; }
-        .schedule-job.status-em_processo { background: var(--info-bg); border-left-color: var(--info); color: #075985; }
-        .schedule-job.status-aguardando_aprovacao { background: var(--purple-bg); border-left-color: var(--purple); color: #5b21b6; }
         .schedule-job.status-concluido { background: var(--success-bg); border-left-color: var(--success); color: #065f46; }
+        .schedule-job.is-copy::after { content: 'CÓPIA'; position: absolute; top: 4px; right: 4px; background: rgba(124,58,237,0.15); color: var(--purple); font-size: 8px; font-weight: 800; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.5px; }
+        .schedule-job-title { font-size: 11px; font-weight: 700; display: block; }
+        .schedule-job-numero { font-size: 9.5px; opacity: 0.75; font-weight: 600; display: block; margin-bottom: 2px; }
+        .schedule-job-hours { font-size: 10px; opacity: 0.8; font-weight: 600; display: block; margin-top: 2px; }
 
-        .schedule-job.is-copy::after {
-            content: 'CÓPIA';
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            background: rgba(124,58,237,0.15);
-            color: var(--purple);
-            font-size: 8px;
-            font-weight: 800;
-            padding: 1px 5px;
-            border-radius: 3px;
-            letter-spacing: 0.5px;
-        }
-
-        .schedule-job-title {
-            font-size: 11px;
-            font-weight: 700;
-            display: block;
-        }
-        .schedule-job-numero {
-            font-size: 9.5px;
-            opacity: 0.75;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 2px;
-        }
-        .schedule-job-hours {
-            font-size: 10px;
-            opacity: 0.8;
-            font-weight: 600;
-            display: block;
-            margin-top: 2px;
-        }
-
-        /* Job picker (modal alocar existente) */
-        .job-picker-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 320px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px;
-            background: #fafbfc;
-        }
-        .job-picker-item {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 10px 12px;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        /* JOB PICKER */
+        .job-picker-list { display: flex; flex-direction: column; gap: 6px; max-height: 320px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px; background: #fafbfc; }
+        .job-picker-item { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 12px; }
         .job-picker-item:hover { border-color: var(--primary-light); box-shadow: 0 2px 6px rgba(59,130,246,0.1); }
         .job-picker-item.selected { border-color: var(--primary); background: #eff6ff; }
         .job-picker-item .job-info { flex: 1; min-width: 0; }
         .job-picker-item .job-titulo { font-weight: 700; font-size: 13px; color: var(--text-primary); }
         .job-picker-item .job-meta { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
-        .job-picker-item .job-copy-badge {
-            display: inline-block;
-            background: var(--purple-bg);
-            color: var(--purple);
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
-        }
 
         /* UTILITIES */
         .hidden { display: none !important; }
@@ -799,23 +309,39 @@
         .items-center { align-items: center; }
         .gap-1 { gap: 8px; }
         .gap-2 { gap: 16px; }
+        .chip { display: inline-flex; align-items: center; gap: 4px; background: #f1f5f9; padding: 3px 10px; border-radius: 20px; font-size: 12px; color: var(--text-secondary); font-weight: 500; }
 
-        .chip {
-            display: inline-flex;
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 3000;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 4px;
-            background: #f1f5f9;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
+            flex-direction: column;
+            gap: 16px;
+            color: white;
         }
+        .loading-overlay.hidden { display: none !important; }
+        .loading-spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { font-size: 14px; font-weight: 500; letter-spacing: 0.3px; }
 
         /* RESPONSIVE */
         @media (max-width: 900px) {
             .sidebar { width: 60px; }
             .sidebar-brand { padding: 16px 10px; justify-content: center; }
+            .brand-logo { width: 44px; height: 44px; }
             .brand-text, .sidebar-section, .sidebar-footer .user-info .user-details, .nav-item span:not(.nav-icon) { display: none; }
             .nav-item { justify-content: center; padding: 12px; }
             .nav-item svg { margin: 0; }
@@ -825,7 +351,7 @@
         @media (max-width: 640px) {
             .content-header { flex-direction: column; align-items: flex-start; }
             .calendar-grid { gap: 4px; }
-            .calendar-day { min-height: 90px; padding: 8px; }
+            .calendar-day { min-height: 100px; padding: 8px; }
         }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -838,12 +364,17 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay hidden" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando...</div>
+</div>
+
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-box">
         <div class="login-brand">
-            <div class="brand-logo">GJ</div>
-            <h1>GestJobs</h1>
+            <div class="brand-logo"><img src="logotrade.png" alt="Logo"></div>
             <p>Sistema de Gerenciamento</p>
         </div>
         <div class="form-group">
@@ -862,11 +393,7 @@
 <div class="app-container hidden" id="appContainer">
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-logo">GJ</div>
-            <div class="brand-text">
-                <h2>GestJobs</h2>
-                <p>Gerenciamento</p>
-            </div>
+            <div class="brand-logo"><img src="logotrade.png" alt="Logo"></div>
         </div>
         <div class="sidebar-section" id="sidebarSectionLabel">Navegação</div>
         <nav class="sidebar-nav" id="sidebarNav"></nav>
@@ -895,22 +422,25 @@ const FIREBASE_URL = "https://kanban-7e762-default-rtdb.firebaseio.com";
 
 const WORK_HOURS_MORNING_START = 9;
 const WORK_HOURS_MORNING_END = 12;
-const WORK_HOURS_AFTERNOON_START = 13;
+const WORK_HOURS_AFTERNOON_START = 13.5;
 const WORK_HOURS_AFTERNOON_END = 18.5;
 
 const HOURS_MORNING = WORK_HOURS_MORNING_END - WORK_HOURS_MORNING_START;
 const HOURS_AFTERNOON = WORK_HOURS_AFTERNOON_END - WORK_HOURS_AFTERNOON_START;
-const TOTAL_DAY_HOURS = HOURS_MORNING + HOURS_AFTERNOON;
+const HOURS_PER_DAY = HOURS_MORNING + HOURS_AFTERNOON; // 8h
+
+// Classificação de referência para contagem de horas
+const CLASSIF_DIRECAO = 'Direção de Arte';
+const CLASSIF_REDACAO = 'Redação';
 
 const TIME_SLOTS = [];
 for (let h = WORK_HOURS_MORNING_START; h < WORK_HOURS_MORNING_END; h += 0.5) TIME_SLOTS.push(h);
 TIME_SLOTS.push(12);
+TIME_SLOTS.push(13);
 for (let h = WORK_HOURS_AFTERNOON_START; h < WORK_HOURS_AFTERNOON_END; h += 0.5) TIME_SLOTS.push(h);
 
 const STATUS_LABEL = {
     'pendente': 'Pendente',
-    'em_processo': 'Em Processo',
-    'aguardando_aprovacao': 'Aguardando Aprovação',
     'concluido': 'Concluído'
 };
 
@@ -941,12 +471,11 @@ const ICONS = {
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
     info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
     filter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
     arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    redo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>'
 };
 
 // ============================================================================
@@ -961,43 +490,111 @@ const state = {
     cadastrosExpanded: false,
     cadastrosTab: 'usuarios',
     calendarMonth: new Date(),
-    filters: {
-        classification: 'all',
-        status: 'all',
-        myJobs: false
-    },
-    jobsFilters: {
-        classification: 'all',
-        status: 'all',
-        myJobs: false
-    }
+    filters: { classification: 'all', status: 'all', gestor: 'all' },
+    jobsFilters: { classification: 'all', status: 'all', gestor: 'all' }
 };
 
 // ============================================================================
-// DATE HELPERS
+// LOADING / TRAVA 2s
+// ============================================================================
+let _loadingActive = false;
+function mostrarLoading() {
+    _loadingActive = true;
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) overlay.classList.remove('hidden');
+}
+function esconderLoading() {
+    _loadingActive = false;
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) overlay.classList.add('hidden');
+}
+
+// Executa ação bloqueando a UI por no mínimo 2s
+async function comLoading(fn) {
+    if (_loadingActive) return;
+    mostrarLoading();
+    const inicio = Date.now();
+    let resultado;
+    try {
+        resultado = await fn();
+    } catch (err) {
+        console.error('Erro durante ação com loading:', err);
+        mostrarToast('Erro na operação', 'error');
+    } finally {
+        const decorrido = Date.now() - inicio;
+        const restante = Math.max(0, 2000 - decorrido);
+        setTimeout(() => {
+            esconderLoading();
+        }, restante);
+    }
+    return resultado;
+}
+
+// ============================================================================
+// HELPERS
 // ============================================================================
 function formatISODate(date) {
     const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 function parseISODate(str) {
     if (!str) return null;
-    const parts = str.split('-');
-    if (parts.length !== 3) return null;
-    const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    const p = str.split('-');
+    if (p.length !== 3) return null;
+    const d = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
     d.setHours(0,0,0,0);
     return d;
 }
-function isSameDay(a, b) {
-    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-}
+function isSameDay(a, b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
 function formatHour(h) {
     const hour = Math.floor(h);
     const min = Math.round((h - hour) * 60);
-    return `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+    return `${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+}
+function isAdmin() { return state.currentUser && state.currentUser.tipo === 'admin'; }
+
+function isAlocavel(user) {
+    if (!user) return false;
+    if (user.tipo === 'admin') return false;
+    if (user.tipo === 'atendimento') return false;
+    if (user.ativo === false) return false;
+    return true;
+}
+function getProfissionaisAlocaveis() { return state.users.filter(isAlocavel); }
+function getGestores() { return state.users.filter(u => u.tipo === 'admin' && u.ativo !== false); }
+
+function isDirecaoArte(usuario) {
+    const c = (usuario && usuario.cargo || '').toLowerCase();
+    return c.includes('direção') || c.includes('direcao');
+}
+function isRedacao(usuario) {
+    const c = (usuario && usuario.cargo || '').toLowerCase();
+    return c.includes('redação') || c.includes('redacao');
+}
+
+// Total de horas disponíveis no dia por cargo
+function getHorasDisponiveisPorCargo() {
+    const profissionais = getProfissionaisAlocaveis();
+    const countDirecao = profissionais.filter(isDirecaoArte).length;
+    const countRedacao = profissionais.filter(isRedacao).length;
+    return {
+        direcao: countDirecao * HOURS_PER_DAY,
+        redacao: countRedacao * HOURS_PER_DAY,
+        total: (countDirecao + countRedacao) * HOURS_PER_DAY
+    };
+}
+
+// Horas alocadas no dia por cargo (classificação da job)
+function getHorasAlocadasPorCargo(jobs) {
+    let direcao = 0, redacao = 0;
+    jobs.forEach(j => {
+        const dur = parseFloat(j.duracaoHoras) || 0;
+        const classif = state.classifications.find(c => c.id === j.classificacaoId);
+        const nome = (classif && classif.nome || '').toLowerCase();
+        if (nome.includes('direção') || nome.includes('direcao')) direcao += dur;
+        else if (nome.includes('redação') || nome.includes('redacao')) redacao += dur;
+    });
+    return { direcao, redacao };
 }
 
 // ============================================================================
@@ -1021,61 +618,58 @@ async function fazerLogin() {
     const username = document.getElementById('loginUsername').value.trim().toLowerCase();
     const errEl = document.getElementById('loginError');
     errEl.style.display = 'none';
+    if (!username) { errEl.textContent = 'Digite um nome de usuário.'; errEl.style.display = 'block'; return; }
 
-    if (!username) {
-        errEl.textContent = 'Digite um nome de usuário.';
-        errEl.style.display = 'block';
-        return;
-    }
+    await comLoading(async () => {
+        try {
+            const response = await fetch(`${FIREBASE_URL}/usuarios.json`);
+            const data = await response.json();
 
-    try {
-        const response = await fetch(`${FIREBASE_URL}/usuarios.json`);
-        const data = await response.json();
-
-        if (!data) {
-            if (username === 'admin') {
-                const adminUser = {
-                    id: 'user_admin', nome: 'Administrador', username: 'admin',
-                    tipo: 'admin', cargo: 'Administrador', ativo: true,
-                    criadoEm: new Date().toISOString()
-                };
-                await salvarUsuarioFirebase(adminUser);
-                state.currentUser = adminUser;
-                state.users = [adminUser];
-                sessionStorage.setItem('gestjobs_user', JSON.stringify(adminUser));
-                iniciarApp();
-                mostrarToast('Bem-vindo, Administrador', 'success');
-                return;
-            }
-            errEl.textContent = 'Nenhum usuário cadastrado. Utilize "admin" para criar o administrador.';
-            errEl.style.display = 'block';
-            return;
-        }
-
-        const users = Object.values(data);
-        let foundUser = users.find(u => u.username && u.username.toLowerCase() === username);
-        if (!foundUser) foundUser = users.find(u => u.nome && u.nome.toLowerCase() === username);
-
-        if (foundUser) {
-            if (foundUser.ativo === false) {
-                errEl.textContent = 'Usuário inativo. Contate o administrador.';
+            if (!data) {
+                if (username === 'admin') {
+                    const adminUser = {
+                        id: 'user_admin', nome: 'Administrador', username: 'admin',
+                        tipo: 'admin', cargo: 'Administrador', ativo: true,
+                        criadoEm: new Date().toISOString()
+                    };
+                    await salvarUsuarioFirebase(adminUser);
+                    state.currentUser = adminUser;
+                    state.users = [adminUser];
+                    sessionStorage.setItem('gestjobs_user', JSON.stringify(adminUser));
+                    await iniciarApp();
+                    mostrarToast('Bem-vindo, Administrador', 'success');
+                    return;
+                }
+                errEl.textContent = 'Nenhum usuário cadastrado. Utilize "admin" para criar o administrador.';
                 errEl.style.display = 'block';
                 return;
             }
-            state.currentUser = foundUser;
-            state.users = users;
-            sessionStorage.setItem('gestjobs_user', JSON.stringify(foundUser));
-            iniciarApp();
-            mostrarToast(`Bem-vindo, ${foundUser.nome}`, 'success');
-        } else {
-            errEl.textContent = 'Usuário não encontrado.';
+
+            const users = Object.values(data);
+            let foundUser = users.find(u => u.username && u.username.toLowerCase() === username);
+            if (!foundUser) foundUser = users.find(u => u.nome && u.nome.toLowerCase() === username);
+
+            if (foundUser) {
+                if (foundUser.ativo === false) {
+                    errEl.textContent = 'Usuário inativo. Contate o administrador.';
+                    errEl.style.display = 'block';
+                    return;
+                }
+                state.currentUser = foundUser;
+                state.users = users;
+                sessionStorage.setItem('gestjobs_user', JSON.stringify(foundUser));
+                await iniciarApp();
+                mostrarToast(`Bem-vindo, ${foundUser.nome}`, 'success');
+            } else {
+                errEl.textContent = 'Usuário não encontrado.';
+                errEl.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Erro no login:', error);
+            errEl.textContent = 'Erro ao conectar com o servidor.';
             errEl.style.display = 'block';
         }
-    } catch (error) {
-        console.error('Erro no login:', error);
-        errEl.textContent = 'Erro ao conectar com o servidor.';
-        errEl.style.display = 'block';
-    }
+    });
 }
 
 function fazerLogout() {
@@ -1124,7 +718,6 @@ async function carregarDados() {
             }
             state.classifications = [...CLASSIFICACOES_PADRAO];
         }
-
         if (!state.users.find(u => u.tipo === 'admin')) {
             const adminUser = {
                 id: 'user_admin', nome: 'Administrador', username: 'admin',
@@ -1167,7 +760,6 @@ function toggleCadastrosMenu() {
     state.cadastrosExpanded = !state.cadastrosExpanded;
     atualizarSidebar();
 }
-function isAdmin() { return state.currentUser && state.currentUser.tipo === 'admin'; }
 
 function atualizarSidebar() {
     const nav = document.getElementById('sidebarNav');
@@ -1176,12 +768,8 @@ function atualizarSidebar() {
     if (isAdmin()) {
         label.textContent = 'Administração';
         html += `
-            <div class="nav-item ${state.currentPage === 'calendar' ? 'active' : ''}" onclick="navegarPara('calendar')">
-                ${ICONS.calendar}<span>Calendário</span>
-            </div>
-            <div class="nav-item ${state.currentPage === 'jobs' ? 'active' : ''}" onclick="navegarPara('jobs')">
-                ${ICONS.jobs}<span>Jobs</span>
-            </div>
+            <div class="nav-item ${state.currentPage === 'calendar' ? 'active' : ''}" onclick="navegarPara('calendar')">${ICONS.calendar}<span>Calendário</span></div>
+            <div class="nav-item ${state.currentPage === 'jobs' ? 'active' : ''}" onclick="navegarPara('jobs')">${ICONS.jobs}<span>Jobs</span></div>
             <div class="nav-item has-sub ${state.currentPage === 'cadastros' ? 'active' : ''}" onclick="toggleCadastrosMenu()">
                 ${ICONS.folder}<span>Cadastros</span>
                 <span class="nav-caret ${state.cadastrosExpanded ? 'open' : ''}">${ICONS.chevronRight}</span>
@@ -1193,11 +781,7 @@ function atualizarSidebar() {
         `;
     } else {
         label.textContent = 'Visualização';
-        html += `
-            <div class="nav-item ${state.currentPage === 'calendar' ? 'active' : ''}" onclick="navegarPara('calendar')">
-                ${ICONS.calendar}<span>Calendário</span>
-            </div>
-        `;
+        html += `<div class="nav-item ${state.currentPage === 'calendar' ? 'active' : ''}" onclick="navegarPara('calendar')">${ICONS.calendar}<span>Calendário</span></div>`;
     }
     nav.innerHTML = html;
     if (state.currentUser) {
@@ -1252,23 +836,23 @@ function renderCalendar(container) {
     const monthLabel = `${monthNames[monthIndex]} de ${year}`;
 
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.filters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
+    const gestores = getGestores();
+    const gestorOptions = gestores.map(g => `<option value="${g.id}" ${state.filters.gestor === g.id ? 'selected' : ''}>${escapeHtml(g.nome)}</option>`).join('');
 
     container.innerHTML = `
         <div class="content-header">
             <div>
                 <div class="page-title">Calendário</div>
-                <div class="page-subtitle">Visão geral · Horário comercial 09:00 - 12:00 · 13:00 - 18:30</div>
+                <div class="page-subtitle">Horário comercial 09:00-12:00 · 13:30-18:30</div>
             </div>
             <div class="header-actions">
                 ${isAdmin() ? `<button class="btn btn-primary btn-sm" onclick="abrirModalJobFromCalendar('${formatISODate(new Date())}')">${ICONS.plus} Novo Job</button>` : ''}
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
+                <button class="btn btn-secondary btn-sm" onclick="recarregar()">${ICONS.refresh} Atualizar</button>
             </div>
         </div>
 
         <div class="calendar-toolbar">
-            <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">
-                ${ICONS.filter} Filtros
-            </span>
+            <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">${ICONS.filter} Filtros</span>
             <label>Classificação</label>
             <select class="form-control" onchange="aplicarFiltroCalendar('classification', this.value)">
                 <option value="all">Todas</option>
@@ -1278,16 +862,13 @@ function renderCalendar(container) {
             <select class="form-control" onchange="aplicarFiltroCalendar('status', this.value)">
                 <option value="all" ${state.filters.status === 'all' ? 'selected' : ''}>Todos</option>
                 <option value="pendente" ${state.filters.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                <option value="em_processo" ${state.filters.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
-                <option value="aguardando_aprovacao" ${state.filters.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
                 <option value="concluido" ${state.filters.status === 'concluido' ? 'selected' : ''}>Concluído</option>
             </select>
-            ${isAdmin() ? `
-                <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-left:4px;">
-                    <input type="checkbox" ${state.filters.myJobs ? 'checked' : ''} onchange="aplicarFiltroCalendar('myJobs', this.checked)">
-                    Minhas Jobs (como gestor)
-                </label>
-            ` : ''}
+            <label>Gestor</label>
+            <select class="form-control" onchange="aplicarFiltroCalendar('gestor', this.value)">
+                <option value="all">Todos</option>
+                ${gestorOptions}
+            </select>
             <button class="btn btn-ghost btn-sm" onclick="limparFiltrosCalendar()">Limpar</button>
         </div>
 
@@ -1320,7 +901,7 @@ function filterJobsForCalendar(jobs) {
     let result = [...jobs];
     if (state.filters.classification !== 'all') result = result.filter(j => j.classificacaoId === state.filters.classification);
     if (state.filters.status !== 'all') result = result.filter(j => j.status === state.filters.status);
-    if (state.filters.myJobs && state.currentUser) result = result.filter(j => j.gestorId === state.currentUser.id);
+    if (state.filters.gestor !== 'all') result = result.filter(j => j.gestorId === state.filters.gestor);
     return result;
 }
 
@@ -1331,12 +912,22 @@ function renderCalendarDay(date, currentMonthIndex, jobsByDay) {
 
     const jobs = jobsByDay[iso] || [];
     const jobsCount = jobs.length;
-    const horasAlocadas = jobs.reduce((sum, j) => sum + (parseFloat(j.duracaoHoras) || 0), 0);
-    const horasRestantes = Math.max(0, TOTAL_DAY_HOURS - horasAlocadas);
+
+    // Cálculo por cargo
+    const disp = getHorasDisponiveisPorCargo();
+    const aloc = getHorasAlocadasPorCargo(jobs);
+    const livreDirecao = Math.max(0, disp.direcao - aloc.direcao);
+    const livreRedacao = Math.max(0, disp.redacao - aloc.redacao);
+
+    const totalHorasDisponiveis = disp.total;
+    const totalHorasAlocadas = aloc.direcao + aloc.redacao;
+    const totalLivre = livreDirecao + livreRedacao;
 
     let statusClass = 'status-free';
-    if (horasRestantes <= 0 && jobsCount > 0) statusClass = 'status-full';
-    else if (jobsCount > 0) statusClass = 'status-partial';
+    if (jobsCount > 0) {
+        if (totalHorasDisponiveis > 0 && totalLivre <= 0) statusClass = 'status-full';
+        else statusClass = 'status-partial';
+    }
 
     return `
         <div class="calendar-day ${isOtherMonth ? 'other-month' : ''} ${isToday ? 'today' : ''} ${statusClass}"
@@ -1344,8 +935,14 @@ function renderCalendarDay(date, currentMonthIndex, jobsByDay) {
             <div class="day-number">${date.getDate()}</div>
             ${jobsCount > 0 ? `<span class="day-jobs-count">${jobsCount} job${jobsCount > 1 ? 's' : ''}</span>` : ''}
             <div class="day-hours">
-                <span class="hours-value">${horasRestantes.toFixed(1)}h livres</span>
-                <span>${horasAlocadas.toFixed(1)}h alocadas</span>
+                <div class="hours-line redacao">
+                    <span class="label">Redação</span>
+                    <span class="value">${livreRedacao.toFixed(1)}h</span>
+                </div>
+                <div class="hours-line direcao">
+                    <span class="label">Dir. Arte</span>
+                    <span class="value">${livreDirecao.toFixed(1)}h</span>
+                </div>
             </div>
             <div class="day-status-bar"></div>
         </div>
@@ -1358,17 +955,16 @@ function mudarMes(delta) {
     state.calendarMonth = novo;
     renderizarPagina();
 }
-function irParaMesAtual() {
-    state.calendarMonth = new Date();
-    renderizarPagina();
-}
-function aplicarFiltroCalendar(tipo, valor) {
-    state.filters[tipo] = valor;
-    renderizarPagina();
-}
-function limparFiltrosCalendar() {
-    state.filters = { classification: 'all', status: 'all', myJobs: false };
-    renderizarPagina();
+function irParaMesAtual() { state.calendarMonth = new Date(); renderizarPagina(); }
+function aplicarFiltroCalendar(tipo, valor) { state.filters[tipo] = valor; renderizarPagina(); }
+function limparFiltrosCalendar() { state.filters = { classification: 'all', status: 'all', gestor: 'all' }; renderizarPagina(); }
+
+async function recarregar() {
+    await comLoading(async () => {
+        await carregarDados();
+        renderizarPagina();
+        mostrarToast('Dados atualizados', 'success');
+    });
 }
 
 // ============================================================================
@@ -1379,10 +975,13 @@ function abrirDiaModal(isoDate) {
 
     const dateObj = parseISODate(isoDate);
     const dateLabel = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
-    const profissionais = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false);
-    const jobsDoDia = filterJobsForCalendar(state.jobs).filter(j => j.dataExecucao === isoDate);
-    const horasAlocadas = jobsDoDia.reduce((sum, j) => sum + (parseFloat(j.duracaoHoras) || 0), 0);
-    const horasRestantes = Math.max(0, TOTAL_DAY_HOURS - horasAlocadas);
+    const profissionais = getProfissionaisAlocaveis();
+    const todosJobsDoDia = filterJobsForCalendar(state.jobs).filter(j => j.dataExecucao === isoDate);
+
+    const disp = getHorasDisponiveisPorCargo();
+    const aloc = getHorasAlocadasPorCargo(todosJobsDoDia);
+    const livreDirecao = Math.max(0, disp.direcao - aloc.direcao);
+    const livreRedacao = Math.max(0, disp.redacao - aloc.redacao);
 
     const modalHtml = `
         <div class="modal-overlay active" id="modalDia">
@@ -1390,27 +989,24 @@ function abrirDiaModal(isoDate) {
                 <div class="modal-header">
                     <div>
                         <div class="modal-title">${dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1)}</div>
-                        <div class="modal-subtitle">${jobsDoDia.length} job(s) · ${horasAlocadas.toFixed(1)}h alocadas · ${horasRestantes.toFixed(1)}h livres</div>
+                        <div class="modal-subtitle">${todosJobsDoDia.length} job(s) · Redação: ${livreRedacao.toFixed(1)}h livres · Dir. Arte: ${livreDirecao.toFixed(1)}h livres</div>
                     </div>
                     <button class="modal-close" onclick="fecharModal('modalDia')">${ICONS.close}</button>
                 </div>
                 <div class="modal-body">
                     ${isAdmin() ? `
-                        <div class="flex gap-1 mb-2" style="justify-content:flex-end;">
-                            <button class="btn btn-secondary btn-sm" onclick="abrirModalAlocarExistente('${isoDate}')">
-                                ${ICONS.copy} Alocar job existente
-                            </button>
-                            <button class="btn btn-primary btn-sm" onclick="abrirModalJobFromCalendar('${isoDate}')">
-                                ${ICONS.plus} Novo Job neste dia
-                            </button>
+                        <div class="flex gap-1 mb-2" style="justify-content:flex-end; flex-wrap:wrap;">
+                            <button class="btn btn-secondary btn-sm" onclick="abrirModalAlocarExistente('${isoDate}')">${ICONS.copy} Alocar job pendente</button>
+                            <button class="btn btn-secondary btn-sm" onclick="abrirModalReabrirJob('${isoDate}')">${ICONS.redo} Reabrir job concluída</button>
+                            <button class="btn btn-primary btn-sm" onclick="abrirModalJobFromCalendar('${isoDate}')">${ICONS.plus} Novo Job neste dia</button>
                         </div>
                     ` : ''}
 
                     <div class="section-title">Grade do dia · Profissionais × Horários</div>
-                    ${renderDiaGrid(profissionais, isoDate, jobsDoDia)}
+                    ${renderDiaGrid(profissionais, isoDate, todosJobsDoDia)}
 
                     <div class="section-title">Detalhes do dia</div>
-                    ${renderDiaDetalhes(isoDate, jobsDoDia)}
+                    ${renderDiaDetalhes(isoDate, todosJobsDoDia)}
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalDia')">Fechar</button>
@@ -1422,19 +1018,46 @@ function abrirDiaModal(isoDate) {
 }
 
 function renderDiaGrid(profissionais, isoDate, jobsDoDia) {
-    if (profissionais.length === 0) return `<div class="empty-state">${ICONS.users}<h3>Nenhum profissional cadastrado</h3></div>`;
+    if (profissionais.length === 0) return `<div class="empty-state">${ICONS.users}<h3>Nenhum profissional alocável cadastrado</h3><p>Cadastre usuários do tipo Direção de Arte, Redação, Design ou Outro</p></div>`;
 
-    let html = `<div class="day-schedule" style="--pros-count:${profissionais.length};">
+    const getOrder = (c) => {
+        if (!c) return 5;
+        const k = c.toLowerCase();
+        if (k.includes('direção') || k.includes('direcao')) return 1;
+        if (k.includes('redação') || k.includes('redacao')) return 2;
+        if (k.includes('design')) return 3;
+        return 4;
+    };
+    const profissionaisOrdenados = [...profissionais].sort((a, b) => {
+        const oa = getOrder(a.cargo);
+        const ob = getOrder(b.cargo);
+        if (oa !== ob) return oa - ob;
+        return (a.nome || '').localeCompare(b.nome || '');
+    });
+
+    let cargoAnterior = null;
+    let grupoIdx = 0;
+    const headerCells = profissionaisOrdenados.map(p => {
+        const cargoKey = (p.cargo || 'outro').toLowerCase();
+        const isNewGroup = cargoAnterior !== null && cargoAnterior !== cargoKey;
+        if (isNewGroup) grupoIdx = (grupoIdx + 1) % 2;
+        cargoAnterior = cargoKey;
+        const groupClass = `cargo-group-${grupoIdx}`;
+        const dividerClass = isNewGroup ? 'cargo-divider-left' : '';
+        return `<div class="day-schedule-header ${groupClass} ${dividerClass}">${escapeHtml(p.nome.split(' ')[0])}${p.cargo ? '<br><span style="font-weight:500; font-size:9.5px; opacity:0.8;">' + escapeHtml(p.cargo) + '</span>' : ''}</div>`;
+    }).join('');
+
+    let html = `<div class="day-schedule" style="--pros-count:${profissionaisOrdenados.length};">
         <div class="day-schedule-header">Horário</div>
-        ${profissionais.map(p => `<div class="day-schedule-header">${escapeHtml(p.nome.split(' ')[0])}${p.cargo ? '<br><span style="font-weight:500; font-size:10px; color:var(--text-muted);">' + escapeHtml(p.cargo) + '</span>' : ''}</div>`).join('')}
+        ${headerCells}
     `;
 
     TIME_SLOTS.forEach(slot => {
-        const isLunch = slot === 12;
-        const timeLabel = isLunch ? '12:00' : formatHour(slot);
-        html += `<div class="day-schedule-time ${isLunch ? 'lunch' : ''}">${timeLabel}${isLunch ? ' 🍽' : ''}</div>`;
+        const isLunch = slot === 12 || slot === 13;
+        const timeLabel = slot === 12 ? '12:00' : slot === 13 ? '13:00' : formatHour(slot);
+        html += `<div class="day-schedule-time ${isLunch ? 'lunch' : ''}">${timeLabel}${slot === 12 ? ' 🍽' : ''}</div>`;
 
-        profissionais.forEach(prof => {
+        profissionaisOrdenados.forEach(prof => {
             if (isLunch) { html += `<div class="day-schedule-cell" style="background:#fef3c7;"></div>`; return; }
 
             const jobsNoSlot = jobsDoDia.filter(j => {
@@ -1479,6 +1102,7 @@ function renderDiaDetalhes(isoDate, jobsDoDia) {
                     <th>Nº</th>
                     <th>Título</th>
                     <th>Profissional</th>
+                    <th>Gestor</th>
                     <th>Horário</th>
                     <th>Duração</th>
                     <th>Classificação</th>
@@ -1489,6 +1113,7 @@ function renderDiaDetalhes(isoDate, jobsDoDia) {
             <tbody>
                 ${jobsDoDia.map(j => {
                     const prof = state.users.find(u => u.id === j.usuarioId);
+                    const gestor = state.users.find(u => u.id === j.gestorId);
                     const classif = state.classifications.find(c => c.id === j.classificacaoId);
                     const dur = parseFloat(j.duracaoHoras) || 0;
                     const fim = (parseFloat(j.horaInicio) || 0) + dur;
@@ -1500,6 +1125,7 @@ function renderDiaDetalhes(isoDate, jobsDoDia) {
                                 ${j.isCopy ? '<span class="tag tag-outro" style="margin-left:6px;">Cópia</span>' : ''}
                             </td>
                             <td>${prof ? escapeHtml(prof.nome) : '—'}</td>
+                            <td class="cell-muted">${gestor ? escapeHtml(gestor.nome) : '—'}</td>
                             <td>${formatHour(j.horaInicio)} - ${formatHour(fim)}</td>
                             <td>${dur}h</td>
                             <td>${classif ? `<span class="tag ${classif.cor}">${escapeHtml(classif.nome)}</span>` : '<span class="cell-muted">—</span>'}</td>
@@ -1520,27 +1146,23 @@ function renderDiaDetalhes(isoDate, jobsDoDia) {
 }
 
 // ============================================================================
-// =============== ALOCAR JOB EXISTENTE ===============
+// ALOCAR JOB PENDENTE
 // ============================================================================
 function abrirModalAlocarExistente(isoDate) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    if (!isAdmin()) return;
 
-    if (!isAdmin()) { mostrarToast('Apenas administradores podem alocar jobs', 'warning'); return; }
-
-    if (state.jobs.length === 0) {
-        mostrarToast('Nenhum job cadastrado para alocar', 'warning');
+    const jobsPendentes = state.jobs.filter(j => j.status === 'pendente');
+    if (jobsPendentes.length === 0) {
+        mostrarToast('Nenhum job pendente para alocar', 'warning');
         return;
     }
 
     const dateObj = parseISODate(isoDate);
     const dateLabel = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    const profissionais = getProfissionaisAlocaveis();
+    const jobsOrdenados = [...jobsPendentes].sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''));
 
-    const profissionais = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false);
-
-    // Ordena jobs por data de criação (mais recentes primeiro)
-    const jobsOrdenados = [...state.jobs].sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''));
-
-    // Horários disponíveis
     const horariosOptions = (() => {
         const opts = [];
         for (let h = WORK_HOURS_MORNING_START; h < WORK_HOURS_MORNING_END; h += 0.5) opts.push(h);
@@ -1553,7 +1175,7 @@ function abrirModalAlocarExistente(isoDate) {
             <div class="modal modal-lg">
                 <div class="modal-header">
                     <div>
-                        <div class="modal-title">Alocar job existente</div>
+                        <div class="modal-title">Alocar job pendente</div>
                         <div class="modal-subtitle">${dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1)}</div>
                     </div>
                     <button class="modal-close" onclick="fecharModal('modalAlocar')">${ICONS.close}</button>
@@ -1562,12 +1184,12 @@ function abrirModalAlocarExistente(isoDate) {
                     <div class="context-banner">
                         <div class="icon-wrap">${ICONS.copy}</div>
                         <div class="text">
-                            <strong>Criar uma cópia do job</strong>
-                            <span>Será gerada uma nova alocação (cópia) neste dia, mantendo o job original intacto. Você poderá concluir cada cópia em datas diferentes.</span>
+                            <strong>Criar cópia de job pendente</strong>
+                            <span>Uma nova alocação será gerada. O job original continua pendente no dia dele.</span>
                         </div>
                     </div>
 
-                    <div class="section-title">1. Selecione o job</div>
+                    <div class="section-title">1. Selecione o job pendente</div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="alocarSearch" placeholder="Buscar por título ou número..." oninput="filtrarJobsAlocar(this.value)">
                     </div>
@@ -1581,13 +1203,8 @@ function abrirModalAlocarExistente(isoDate) {
                                      data-numero="${escapeHtml((j.numero || '').toLowerCase())}"
                                      onclick="selecionarJobAlocar('${j.id}')">
                                     <div class="job-info">
-                                        <div class="job-titulo">
-                                            ${j.numero ? '#' + escapeHtml(j.numero) + ' · ' : ''}${escapeHtml(j.titulo)}
-                                            ${j.isCopy ? '<span class="job-copy-badge">CÓPIA</span>' : ''}
-                                        </div>
-                                        <div class="job-meta">
-                                            Original em ${j.dataExecucao} · ${formatHour(j.horaInicio)} (${j.duracaoHoras}h) · Prof: ${prof ? escapeHtml(prof.nome) : '—'}${gestor ? ' · Gestor: ' + escapeHtml(gestor.nome) : ''}
-                                        </div>
+                                        <div class="job-titulo">${j.numero ? '#' + escapeHtml(j.numero) + ' · ' : ''}${escapeHtml(j.titulo)}</div>
+                                        <div class="job-meta">Original em ${j.dataExecucao} · ${formatHour(j.horaInicio)} (${j.duracaoHoras}h) · Prof: ${prof ? escapeHtml(prof.nome) : '—'}${gestor ? ' · Gestor: ' + escapeHtml(gestor.nome) : ''}</div>
                                     </div>
                                 </div>
                             `;
@@ -1618,7 +1235,7 @@ function abrirModalAlocarExistente(isoDate) {
                             <div class="form-group">
                                 <label>Duração (horas) <span class="required">*</span></label>
                                 <select class="form-control" id="alocarDuracao">
-                                    ${[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5].map(d => `<option value="${d}">${d}h</option>`).join('')}
+                                    ${[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8].map(d => `<option value="${d}">${d}h</option>`).join('')}
                                 </select>
                             </div>
                         </div>
@@ -1626,9 +1243,7 @@ function abrirModalAlocarExistente(isoDate) {
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalAlocar')">Cancelar</button>
-                    <button class="btn btn-primary" id="btnAlocar" disabled onclick="confirmarAlocarJob()">
-                        ${ICONS.copy} Criar cópia do job
-                    </button>
+                    <button class="btn btn-primary" id="btnAlocar" disabled onclick="confirmarAlocarJob()">${ICONS.copy} Criar cópia do job</button>
                 </div>
             </div>
         </div>
@@ -1642,8 +1257,7 @@ function filtrarJobsAlocar(termo) {
     document.querySelectorAll('#jobPickerList .job-picker-item').forEach(el => {
         const titulo = el.dataset.titulo || '';
         const numero = el.dataset.numero || '';
-        const matches = !t || titulo.includes(t) || numero.includes(t);
-        el.style.display = matches ? '' : 'none';
+        el.style.display = (!t || titulo.includes(t) || numero.includes(t)) ? '' : 'none';
     });
 }
 
@@ -1652,11 +1266,8 @@ function selecionarJobAlocar(jobId) {
         el.classList.toggle('selected', el.dataset.id === jobId);
     });
     window._alocarState.jobId = jobId;
-
     const job = state.jobs.find(j => j.id === jobId);
     if (!job) return;
-
-    // Pré-preenche campos com dados do job original
     document.getElementById('alocarUsuario').value = job.usuarioId || '';
     document.getElementById('alocarHoraInicio').value = job.horaInicio || 9;
     document.getElementById('alocarDuracao').value = job.duracaoHoras || 1;
@@ -1666,8 +1277,7 @@ function selecionarJobAlocar(jobId) {
 
 async function confirmarAlocarJob() {
     const jobId = window._alocarState.jobId;
-    if (!jobId) { mostrarToast('Selecione um job primeiro', 'warning'); return; }
-
+    if (!jobId) return;
     const jobOriginal = state.jobs.find(j => j.id === jobId);
     if (!jobOriginal) return;
 
@@ -1677,84 +1287,291 @@ async function confirmarAlocarJob() {
     const novaDuracao = parseFloat(document.getElementById('alocarDuracao').value);
 
     if (!novaData || !novoUsuarioId || isNaN(novaHoraInicio) || isNaN(novaDuracao)) {
-        mostrarToast('Preencha todos os campos', 'warning');
-        return;
+        mostrarToast('Preencha todos os campos', 'warning'); return;
     }
 
-    // Validação: fim dentro do horário comercial
     const fim = novaHoraInicio + novaDuracao;
-    if (fim > WORK_HOURS_MORNING_END && novaHoraInicio < WORK_HOURS_AFTERNOON_START && novaHoraInicio >= WORK_HOURS_MORNING_START) {
-        mostrarToast('A alocação ultrapassa o horário de almoço (12:00 - 13:00)', 'warning');
-        return;
+    if (novaHoraInicio < WORK_HOURS_MORNING_END && fim > WORK_HOURS_MORNING_END) {
+        mostrarToast('O job não pode atravessar o almoço (12:00 - 13:30)', 'warning'); return;
+    }
+    if (novaHoraInicio >= 12 && novaHoraInicio < 13.5) {
+        mostrarToast('Não é possível alocar durante o almoço (12:00 - 13:30)', 'warning'); return;
     }
     if (fim > WORK_HOURS_AFTERNOON_END) {
-        mostrarToast('A alocação ultrapassa o horário de encerramento (18:30)', 'warning');
-        return;
+        mostrarToast('O job ultrapassa o horário de encerramento (18:30)', 'warning'); return;
     }
 
-    // Validação: conflito
     const conflitos = state.jobs.filter(j => 
-        j.usuarioId === novoUsuarioId &&
-        j.dataExecucao === novaData &&
-        j.status !== 'concluido'
+        j.usuarioId === novoUsuarioId && j.dataExecucao === novaData && j.status !== 'concluido'
     ).filter(j => {
         const inicioEx = parseFloat(j.horaInicio);
         const fimEx = inicioEx + (parseFloat(j.duracaoHoras) || 0);
         return (novaHoraInicio < fimEx && fim > inicioEx);
     });
-
     if (conflitos.length > 0) {
-        mostrarToast(`Conflito de horário com "${conflitos[0].titulo}"`, 'warning');
+        mostrarToast(`Conflito com "${conflitos[0].titulo}"`, 'warning'); return;
+    }
+
+    await comLoading(async () => {
+        const agora = new Date().toISOString();
+        const novoJob = {
+            id: 'job_' + Date.now(),
+            numero: jobOriginal.numero || null,
+            titulo: jobOriginal.titulo,
+            descricao: jobOriginal.descricao,
+            dataExecucao: novaData,
+            usuarioId: novoUsuarioId,
+            horaInicio: novaHoraInicio,
+            duracaoHoras: novaDuracao,
+            classificacaoId: jobOriginal.classificacaoId || null,
+            prazo: jobOriginal.prazo || null,
+            status: 'pendente',
+            gestorId: state.currentUser.id,
+            gestorNome: state.currentUser.nome,
+            parentJobId: jobOriginal.id,
+            isCopy: true,
+            criadoEm: agora,
+            atualizadoEm: agora,
+            historico: [{
+                tipo: 'criacao',
+                usuarioId: state.currentUser.id,
+                usuarioNome: state.currentUser.nome,
+                observacao: `Cópia alocada a partir do job ${jobOriginal.numero || jobOriginal.id}`,
+                data: agora, status: 'pendente'
+            }]
+        };
+
+        try {
+            await fetch(`${FIREBASE_URL}/jobs/${novoJob.id}.json`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoJob)
+            });
+            state.jobs.push(novoJob);
+            fecharModal('modalAlocar');
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Cópia do job pendente alocada', 'success');
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarToast('Erro ao alocar job', 'error');
+        }
+    });
+}
+
+// ============================================================================
+// REABRIR JOB CONCLUÍDO
+// ============================================================================
+function abrirModalReabrirJob(isoDate) {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    if (!isAdmin()) return;
+
+    const jobsConcluidos = state.jobs.filter(j => j.status === 'concluido');
+    if (jobsConcluidos.length === 0) {
+        mostrarToast('Nenhum job concluído para reabrir', 'warning');
         return;
     }
 
-    const agora = new Date().toISOString();
+    const dateObj = parseISODate(isoDate);
+    const dateLabel = dateObj.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    const profissionais = getProfissionaisAlocaveis();
+    const jobsOrdenados = [...jobsConcluidos].sort((a, b) => (b.concluidoEm || b.atualizadoEm || '').localeCompare(a.concluidoEm || a.atualizadoEm || ''));
 
-    // Cria uma CÓPIA do job original com nova data/horário
-    const novoJob = {
-        id: 'job_' + Date.now(),
-        numero: jobOriginal.numero || null,
-        titulo: jobOriginal.titulo,
-        descricao: jobOriginal.descricao,
-        dataExecucao: novaData,
-        usuarioId: novoUsuarioId,
-        horaInicio: novaHoraInicio,
-        duracaoHoras: novaDuracao,
-        classificacaoId: jobOriginal.classificacaoId || null,
-        prazo: jobOriginal.prazo || null,
-        status: 'pendente', // Sempre começa como pendente na nova alocação
-        gestorId: state.currentUser.id,
-        gestorNome: state.currentUser.nome,
-        parentJobId: jobOriginal.id, // rastreia qual job foi copiado
-        isCopy: true,
-        criadoEm: agora,
-        atualizadoEm: agora,
-        historico: [{
-            tipo: 'criacao',
-            usuarioId: state.currentUser.id,
-            usuarioNome: state.currentUser.nome,
-            observacao: `Cópia alocada a partir do job ${jobOriginal.numero || jobOriginal.id} (original em ${jobOriginal.dataExecucao})`,
-            data: agora,
-            status: 'pendente'
-        }]
-    };
+    const horariosOptions = (() => {
+        const opts = [];
+        for (let h = WORK_HOURS_MORNING_START; h < WORK_HOURS_MORNING_END; h += 0.5) opts.push(h);
+        for (let h = WORK_HOURS_AFTERNOON_START; h < WORK_HOURS_AFTERNOON_END; h += 0.5) opts.push(h);
+        return opts;
+    })();
 
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${novoJob.id}.json`, {
-            method: 'PUT', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(novoJob)
-        });
+    const modalHtml = `
+        <div class="modal-overlay active" id="modalReabrir">
+            <div class="modal modal-lg">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">Reabrir job concluído</div>
+                        <div class="modal-subtitle">${dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1)}</div>
+                    </div>
+                    <button class="modal-close" onclick="fecharModal('modalReabrir')">${ICONS.close}</button>
+                </div>
+                <div class="modal-body">
+                    <div class="context-banner warn">
+                        <div class="icon-wrap">${ICONS.redo}</div>
+                        <div class="text">
+                            <strong>Criar cópia de job concluído</strong>
+                            <span>Uma cópia do job concluído será alocada neste dia com status "pendente". O job original continua concluído no histórico.</span>
+                        </div>
+                    </div>
 
-        state.jobs.push(novoJob);
+                    <div class="section-title">1. Selecione o job concluído</div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="reabrirSearch" placeholder="Buscar por título ou número..." oninput="filtrarJobsReabrir(this.value)">
+                    </div>
+                    <div class="job-picker-list" id="reabrirPickerList">
+                        ${jobsOrdenados.map(j => {
+                            const prof = state.users.find(u => u.id === j.usuarioId);
+                            const gestor = state.users.find(u => u.id === j.gestorId);
+                            return `
+                                <div class="job-picker-item" data-id="${j.id}"
+                                     data-titulo="${escapeHtml(j.titulo.toLowerCase())}"
+                                     data-numero="${escapeHtml((j.numero || '').toLowerCase())}"
+                                     onclick="selecionarJobReabrir('${j.id}')">
+                                    <div class="job-info">
+                                        <div class="job-titulo">${j.numero ? '#' + escapeHtml(j.numero) + ' · ' : ''}${escapeHtml(j.titulo)}</div>
+                                        <div class="job-meta">Concluído em ${j.dataExecucao} · ${formatHour(j.horaInicio)} (${j.duracaoHoras}h) · Prof: ${prof ? escapeHtml(prof.nome) : '—'}${gestor ? ' · Gestor: ' + escapeHtml(gestor.nome) : ''}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
 
-        fecharModal('modalAlocar');
-        fecharModal('modalDia');
-        mostrarToast('Cópia do job alocada com sucesso', 'success');
-        renderizarPagina();
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarToast('Erro ao alocar job', 'error');
+                    <div id="reabrirConfig" class="hidden">
+                        <div class="section-title">2. Configure a nova alocação</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Data de execução <span class="required">*</span></label>
+                                <input type="date" class="form-control" id="reabrirData" value="${isoDate}">
+                            </div>
+                            <div class="form-group">
+                                <label>Profissional responsável <span class="required">*</span></label>
+                                <select class="form-control" id="reabrirUsuario">
+                                    ${profissionais.map(u => `<option value="${u.id}">${escapeHtml(u.nome)}${u.cargo ? ' · ' + escapeHtml(u.cargo) : ''}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Horário de início <span class="required">*</span></label>
+                                <select class="form-control" id="reabrirHoraInicio">
+                                    ${horariosOptions.map(h => `<option value="${h}">${formatHour(h)}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Duração (horas) <span class="required">*</span></label>
+                                <select class="form-control" id="reabrirDuracao">
+                                    ${[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8].map(d => `<option value="${d}">${d}h</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="fecharModal('modalReabrir')">Cancelar</button>
+                    <button class="btn btn-primary" id="btnReabrir" disabled onclick="confirmarReabrirJob()">${ICONS.redo} Reabrir como nova alocação</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    window._reabrirState = { jobId: null };
+}
+
+function filtrarJobsReabrir(termo) {
+    const t = termo.toLowerCase().trim();
+    document.querySelectorAll('#reabrirPickerList .job-picker-item').forEach(el => {
+        const titulo = el.dataset.titulo || '';
+        const numero = el.dataset.numero || '';
+        el.style.display = (!t || titulo.includes(t) || numero.includes(t)) ? '' : 'none';
+    });
+}
+
+function selecionarJobReabrir(jobId) {
+    document.querySelectorAll('#reabrirPickerList .job-picker-item').forEach(el => {
+        el.classList.toggle('selected', el.dataset.id === jobId);
+    });
+    window._reabrirState.jobId = jobId;
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+    document.getElementById('reabrirUsuario').value = job.usuarioId || '';
+    document.getElementById('reabrirHoraInicio').value = job.horaInicio || 9;
+    document.getElementById('reabrirDuracao').value = job.duracaoHoras || 1;
+    document.getElementById('reabrirConfig').classList.remove('hidden');
+    document.getElementById('btnReabrir').disabled = false;
+}
+
+async function confirmarReabrirJob() {
+    const jobId = window._reabrirState.jobId;
+    if (!jobId) return;
+    const jobOriginal = state.jobs.find(j => j.id === jobId);
+    if (!jobOriginal) return;
+
+    const novaData = document.getElementById('reabrirData').value;
+    const novoUsuarioId = document.getElementById('reabrirUsuario').value;
+    const novaHoraInicio = parseFloat(document.getElementById('reabrirHoraInicio').value);
+    const novaDuracao = parseFloat(document.getElementById('reabrirDuracao').value);
+
+    if (!novaData || !novoUsuarioId || isNaN(novaHoraInicio) || isNaN(novaDuracao)) {
+        mostrarToast('Preencha todos os campos', 'warning'); return;
     }
+
+    const fim = novaHoraInicio + novaDuracao;
+    if (novaHoraInicio < WORK_HOURS_MORNING_END && fim > WORK_HOURS_MORNING_END) {
+        mostrarToast('O job não pode atravessar o almoço (12:00 - 13:30)', 'warning'); return;
+    }
+    if (novaHoraInicio >= 12 && novaHoraInicio < 13.5) {
+        mostrarToast('Não é possível alocar durante o almoço', 'warning'); return;
+    }
+    if (fim > WORK_HOURS_AFTERNOON_END) {
+        mostrarToast('Ultrapassa o horário de encerramento (18:30)', 'warning'); return;
+    }
+
+    const conflitos = state.jobs.filter(j => 
+        j.usuarioId === novoUsuarioId && j.dataExecucao === novaData && j.status !== 'concluido'
+    ).filter(j => {
+        const inicioEx = parseFloat(j.horaInicio);
+        const fimEx = inicioEx + (parseFloat(j.duracaoHoras) || 0);
+        return (novaHoraInicio < fimEx && fim > inicioEx);
+    });
+    if (conflitos.length > 0) {
+        mostrarToast(`Conflito com "${conflitos[0].titulo}"`, 'warning'); return;
+    }
+
+    await comLoading(async () => {
+        const agora = new Date().toISOString();
+        const novoJob = {
+            id: 'job_' + Date.now(),
+            numero: jobOriginal.numero || null,
+            titulo: jobOriginal.titulo,
+            descricao: jobOriginal.descricao,
+            dataExecucao: novaData,
+            usuarioId: novoUsuarioId,
+            horaInicio: novaHoraInicio,
+            duracaoHoras: novaDuracao,
+            classificacaoId: jobOriginal.classificacaoId || null,
+            prazo: jobOriginal.prazo || null,
+            status: 'pendente',
+            gestorId: state.currentUser.id,
+            gestorNome: state.currentUser.nome,
+            parentJobId: jobOriginal.id,
+            isCopy: true,
+            isReopen: true,
+            criadoEm: agora,
+            atualizadoEm: agora,
+            historico: [{
+                tipo: 'criacao',
+                usuarioId: state.currentUser.id,
+                usuarioNome: state.currentUser.nome,
+                observacao: `Reaberto a partir do job concluído ${jobOriginal.numero || jobOriginal.id}`,
+                data: agora, status: 'pendente'
+            }]
+        };
+
+        try {
+            await fetch(`${FIREBASE_URL}/jobs/${novoJob.id}.json`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoJob)
+            });
+            state.jobs.push(novoJob);
+            fecharModal('modalReabrir');
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Job reaberto como nova alocação', 'success');
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarToast('Erro ao reabrir job', 'error');
+        }
+    });
 }
 
 // ============================================================================
@@ -1765,9 +1582,14 @@ function abrirModalJobFromCalendar(isoDate) { abrirModalJob(null, isoDate); }
 function abrirModalJob(jobId, isoDatePreSelected) {
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     const job = jobId ? state.jobs.find(j => j.id === jobId) : null;
-    if (!isAdmin()) { mostrarToast('Você não tem permissão para criar/editar jobs', 'warning'); return; }
+    if (!isAdmin()) { mostrarToast('Sem permissão', 'warning'); return; }
 
-    const profissionais = state.users.filter(u => u.tipo !== 'admin' && u.ativo !== false);
+    const profissionais = getProfissionaisAlocaveis();
+    if (profissionais.length === 0) {
+        mostrarToast('Nenhum profissional alocável cadastrado', 'warning');
+        return;
+    }
+
     const userOptions = profissionais.map(u => 
         `<option value="${u.id}" ${job && job.usuarioId === u.id ? 'selected' : ''}>${escapeHtml(u.nome)}${u.cargo ? ' · ' + escapeHtml(u.cargo) : ''}</option>`
     ).join('');
@@ -1833,7 +1655,7 @@ function abrirModalJob(jobId, isoDatePreSelected) {
                         <div class="form-group">
                             <label>Duração (horas) <span class="required">*</span></label>
                             <select class="form-control" id="jobDuracao">
-                                ${[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5].map(d => 
+                                ${[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8].map(d => 
                                     `<option value="${d}" ${job && parseFloat(job.duracaoHoras) === d ? 'selected' : ''}>${d}h</option>`
                                 ).join('')}
                             </select>
@@ -1843,9 +1665,9 @@ function abrirModalJob(jobId, isoDatePreSelected) {
                     <div class="section-title">Classificação e Prazo</div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Classificação</label>
+                            <label>Classificação <span class="required">*</span></label>
                             <select class="form-control" id="jobClassificacao">
-                                <option value="">Sem classificação</option>
+                                <option value="">Selecione uma classificação</option>
                                 ${classOptions}
                             </select>
                         </div>
@@ -1858,18 +1680,14 @@ function abrirModalJob(jobId, isoDatePreSelected) {
                     <div class="section-title">Status</div>
                     <div class="form-group">
                         <select class="form-control" id="jobStatus">
-                            <option value="pendente" ${job && job.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                            <option value="em_processo" ${job && job.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
-                            <option value="aguardando_aprovacao" ${job && job.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
+                            <option value="pendente" ${!job || job.status === 'pendente' ? 'selected' : ''}>Pendente</option>
                             <option value="concluido" ${job && job.status === 'concluido' ? 'selected' : ''}>Concluído</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalJob')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarJob('${job ? job.id : ''}')">
-                        ${ICONS.check} ${job ? 'Salvar Alterações' : 'Criar Job'}
-                    </button>
+                    <button class="btn btn-primary" onclick="salvarJob('${job ? job.id : ''}')">${ICONS.check} ${job ? 'Salvar Alterações' : 'Criar Job'}</button>
                 </div>
             </div>
         </div>
@@ -1890,16 +1708,24 @@ async function salvarJob(jobId) {
     const prazo = document.getElementById('jobPrazo').value;
     const status = document.getElementById('jobStatus').value;
 
-    if (!titulo || !dataExecucao || !usuarioId || isNaN(horaInicio) || isNaN(duracaoHoras)) {
-        mostrarToast('Preencha os campos obrigatórios', 'warning'); return;
+    if (!titulo || !dataExecucao || !usuarioId || isNaN(horaInicio) || isNaN(duracaoHoras) || !classificacaoId) {
+        mostrarToast('Preencha os campos obrigatórios (incluindo classificação)', 'warning'); return;
+    }
+
+    const userAlocado = state.users.find(u => u.id === usuarioId);
+    if (!userAlocado || !isAlocavel(userAlocado)) {
+        mostrarToast('Usuário selecionado não pode ser alocado em jobs', 'warning'); return;
     }
 
     const fim = horaInicio + duracaoHoras;
-    if (fim > WORK_HOURS_MORNING_END && horaInicio < WORK_HOURS_AFTERNOON_START && horaInicio >= WORK_HOURS_MORNING_START) {
-        mostrarToast('O job ultrapassa o horário de almoço', 'warning'); return;
+    if (horaInicio < WORK_HOURS_MORNING_END && fim > WORK_HOURS_MORNING_END) {
+        mostrarToast('O job não pode atravessar o almoço (12:00 - 13:30)', 'warning'); return;
+    }
+    if (horaInicio >= 12 && horaInicio < 13.5) {
+        mostrarToast('Não é possível alocar durante o almoço (12:00 - 13:30)', 'warning'); return;
     }
     if (fim > WORK_HOURS_AFTERNOON_END) {
-        mostrarToast('O job ultrapassa o horário de encerramento (18:30)', 'warning'); return;
+        mostrarToast('Ultrapassa o horário de encerramento (18:30)', 'warning'); return;
     }
 
     const conflitos = state.jobs.filter(j => 
@@ -1909,58 +1735,65 @@ async function salvarJob(jobId) {
         const fimEx = inicioEx + (parseFloat(j.duracaoHoras) || 0);
         return (horaInicio < fimEx && fim > inicioEx);
     });
-
     if (conflitos.length > 0) {
-        mostrarToast(`Conflito de horário com "${conflitos[0].titulo}"`, 'warning'); return;
+        mostrarToast(`Conflito com "${conflitos[0].titulo}"`, 'warning'); return;
     }
 
-    const jobExistente = jobId ? state.jobs.find(j => j.id === jobId) : null;
-    const job = {
-        id: jobId || 'job_' + Date.now(),
-        numero: numero || null, titulo, descricao,
-        dataExecucao, usuarioId, horaInicio, duracaoHoras,
-        classificacaoId: classificacaoId || null,
-        prazo: prazo || null, status,
-        gestorId: jobExistente ? jobExistente.gestorId : state.currentUser.id,
-        gestorNome: jobExistente ? jobExistente.gestorNome : state.currentUser.nome,
-        atualizadoEm: new Date().toISOString()
-    };
-    if (!jobId) job.criadoEm = new Date().toISOString();
-    else if (jobExistente) {
-        if (jobExistente.historico) job.historico = jobExistente.historico;
-        if (jobExistente.isCopy) job.isCopy = true;
-        if (jobExistente.parentJobId) job.parentJobId = jobExistente.parentJobId;
-    }
+    await comLoading(async () => {
+        const jobExistente = jobId ? state.jobs.find(j => j.id === jobId) : null;
+        const job = {
+            id: jobId || 'job_' + Date.now(),
+            numero: numero || null, titulo, descricao,
+            dataExecucao, usuarioId, horaInicio, duracaoHoras,
+            classificacaoId,
+            prazo: prazo || null, status,
+            gestorId: jobExistente ? jobExistente.gestorId : state.currentUser.id,
+            gestorNome: jobExistente ? jobExistente.gestorNome : state.currentUser.nome,
+            atualizadoEm: new Date().toISOString()
+        };
+        if (!jobId) job.criadoEm = new Date().toISOString();
+        else if (jobExistente) {
+            if (jobExistente.historico) job.historico = jobExistente.historico;
+            if (jobExistente.isCopy) job.isCopy = true;
+            if (jobExistente.parentJobId) job.parentJobId = jobExistente.parentJobId;
+            if (jobExistente.isReopen) job.isReopen = true;
+            if (jobExistente.concluidoEm) job.concluidoEm = jobExistente.concluidoEm;
+        }
 
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
-            method: 'PUT', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(job)
-        });
-        const idx = state.jobs.findIndex(j => j.id === job.id);
-        if (idx >= 0) state.jobs[idx] = job;
-        else state.jobs.push(job);
-
-        fecharModal('modalJob');
-        fecharModal('modalDia');
-        mostrarToast(jobId ? 'Job atualizado' : 'Job criado', 'success');
-        renderizarPagina();
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarToast('Erro ao salvar job', 'error');
-    }
+        try {
+            await fetch(`${FIREBASE_URL}/jobs/${job.id}.json`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(job)
+            });
+            const idx = state.jobs.findIndex(j => j.id === job.id);
+            if (idx >= 0) state.jobs[idx] = job;
+            else state.jobs.push(job);
+            fecharModal('modalJob');
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast(jobId ? 'Job atualizado' : 'Job criado', 'success');
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarToast('Erro ao salvar job', 'error');
+        }
+    });
 }
 
 async function excluirJob(id) {
     if (!confirm('Excluir este job?')) return;
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${id}.json`, { method: 'DELETE' });
-        state.jobs = state.jobs.filter(j => j.id !== id);
-        mostrarToast('Job excluído', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao excluir job', 'error');
-    }
+    await comLoading(async () => {
+        try {
+            await fetch(`${FIREBASE_URL}/jobs/${id}.json`, { method: 'DELETE' });
+            state.jobs = state.jobs.filter(j => j.id !== id);
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Job excluído', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao excluir', 'error');
+        }
+    });
 }
 
 // ============================================================================
@@ -1993,8 +1826,8 @@ function abrirAcaoJob(jobId) {
                         <div class="context-banner">
                             <div class="icon-wrap">${ICONS.copy}</div>
                             <div class="text">
-                                <strong>Cópia de job</strong>
-                                <span>Esta é uma cópia alocada. Job original: ${job.parentJobId ? '#' + (state.jobs.find(x => x.id === job.parentJobId)?.numero || job.parentJobId) : '—'}</span>
+                                <strong>${job.isReopen ? 'Job reaberto' : 'Cópia de job'}</strong>
+                                <span>Original: ${job.parentJobId ? '#' + (state.jobs.find(x => x.id === job.parentJobId)?.numero || job.parentJobId) : '—'}</span>
                             </div>
                         </div>
                     ` : ''}
@@ -2019,7 +1852,7 @@ function abrirAcaoJob(jobId) {
                             ${job.historico.map(h => `
                                 <div style="padding:8px 12px; border-left:2px solid var(--border); margin-bottom:6px;">
                                     <div style="font-size:11px; color:var(--text-muted); margin-bottom:3px;">
-                                        ${h.tipo === 'entrega' ? 'Entrega' : 'Evento'} · ${escapeHtml(h.usuarioNome || '')} · ${new Date(h.data).toLocaleString('pt-BR')}
+                                        ${escapeHtml(h.usuarioNome || '')} · ${new Date(h.data).toLocaleString('pt-BR')}
                                     </div>
                                     ${h.observacao ? `<div style="font-size:12.5px; color:var(--text-secondary); white-space:pre-wrap;">${escapeHtml(h.observacao)}</div>` : ''}
                                 </div>
@@ -2031,23 +1864,13 @@ function abrirAcaoJob(jobId) {
                         <div class="section-title">Ações</div>
                         <div style="display:flex; flex-direction:column; gap:8px;">
                             ${job.status === 'pendente' ? `
-                                <button class="btn btn-primary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); mudarStatusSimples('${job.id}', 'em_processo')">
-                                    ${ICONS.arrowRight} Iniciar (Em Processo)
-                                </button>
-                            ` : ''}
-                            ${job.status === 'em_processo' ? `
-                                <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); abrirModalConcluir('${job.id}')">
-                                    ${ICONS.check} Finalizar com observação
-                                </button>
-                            ` : ''}
-                            ${job.status === 'aguardando_aprovacao' ? `
-                                <button class="btn btn-primary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); mudarStatusSimples('${job.id}', 'concluido')">
-                                    ${ICONS.check} Aprovar e concluir
+                                <button class="btn btn-success" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); concluirJob('${job.id}')">
+                                    ${ICONS.check} Concluir job
                                 </button>
                             ` : ''}
                             ${job.status === 'concluido' ? `
-                                <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); mudarStatusSimples('${job.id}', 'em_processo')">
-                                    ${ICONS.refresh} Reabrir
+                                <button class="btn btn-secondary" style="justify-content:flex-start;" onclick="fecharModal('modalAcao'); reabrirJobSimples('${job.id}')">
+                                    ${ICONS.refresh} Reabrir job
                                 </button>
                             ` : ''}
                         </div>
@@ -2062,87 +1885,65 @@ function abrirAcaoJob(jobId) {
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 }
 
-async function mudarStatusSimples(jobId, novoStatus) {
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
-            method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: novoStatus, atualizadoEm: new Date().toISOString() })
+async function concluirJob(jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    await comLoading(async () => {
+        const historico = job.historico || [];
+        historico.push({
+            tipo: 'conclusao',
+            usuarioId: state.currentUser.id,
+            usuarioNome: state.currentUser.nome,
+            observacao: 'Job concluído',
+            data: new Date().toISOString(),
+            status: 'concluido'
         });
-        const job = state.jobs.find(j => j.id === jobId);
-        if (job) job.status = novoStatus;
-        mostrarToast(`Status: ${STATUS_LABEL[novoStatus]}`, 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao alterar status', 'error');
-    }
-}
 
-function abrirModalConcluir(jobId) {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    const job = state.jobs.find(j => j.id === jobId);
-    if (!job) return;
-
-    const modalHtml = `
-        <div class="modal-overlay active" id="modalConcluir">
-            <div class="modal">
-                <div class="modal-header">
-                    <div>
-                        <div class="modal-title">Finalizar Job</div>
-                        <div class="modal-subtitle">${job.numero ? '#' + escapeHtml(job.numero) + ' · ' : ''}${escapeHtml(job.titulo)}</div>
-                    </div>
-                    <button class="modal-close" onclick="fecharModal('modalConcluir')">${ICONS.close}</button>
-                </div>
-                <div class="modal-body">
-                    <div class="context-banner warn">
-                        <div class="icon-wrap">${ICONS.alert}</div>
-                        <div class="text">
-                            <strong>Enviar para aprovação</strong>
-                            <span>O job ficará no status "Aguardando Aprovação" até revisão.</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Observação <span class="required">*</span></label>
-                        <textarea class="form-control" id="concluirObservacao" placeholder="Descreva o que foi entregue..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="fecharModal('modalConcluir')">Cancelar</button>
-                    <button class="btn btn-success" onclick="confirmarConcluir('${job.id}')">
-                        ${ICONS.check} Enviar para Aprovação
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
-    setTimeout(() => document.getElementById('concluirObservacao')?.focus(), 50);
-}
-
-async function confirmarConcluir(jobId) {
-    const observacao = document.getElementById('concluirObservacao').value.trim();
-    if (!observacao) { mostrarToast('Escreva uma observação antes de finalizar', 'warning'); return; }
-    const job = state.jobs.find(j => j.id === jobId);
-    if (!job) return;
-
-    const historico = job.historico || [];
-    historico.push({
-        tipo: 'entrega', usuarioId: state.currentUser.id, usuarioNome: state.currentUser.nome,
-        observacao, data: new Date().toISOString(), status: 'aguardando_aprovacao'
+        try {
+            const agora = new Date().toISOString();
+            await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
+                method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'concluido', historico, atualizadoEm: agora, concluidoEm: agora })
+            });
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Job concluído', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao concluir job', 'error');
+        }
     });
+}
 
-    try {
-        await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
-            method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: 'aguardando_aprovacao', historico, atualizadoEm: new Date().toISOString() })
+async function reabrirJobSimples(jobId) {
+    const job = state.jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    await comLoading(async () => {
+        const historico = job.historico || [];
+        historico.push({
+            tipo: 'reabertura',
+            usuarioId: state.currentUser.id,
+            usuarioNome: state.currentUser.nome,
+            observacao: 'Job reaberto',
+            data: new Date().toISOString(),
+            status: 'pendente'
         });
-        job.status = 'aguardando_aprovacao';
-        job.historico = historico;
-        fecharModal('modalConcluir');
-        mostrarToast('Job enviado para aprovação', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao enviar para aprovação', 'error');
-    }
+
+        try {
+            await fetch(`${FIREBASE_URL}/jobs/${jobId}.json`, {
+                method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'pendente', historico, atualizadoEm: new Date().toISOString(), concluidoEm: null })
+            });
+            fecharModal('modalDia');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Job reaberto', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao reabrir job', 'error');
+        }
+    });
 }
 
 // ============================================================================
@@ -2152,10 +1953,12 @@ function renderJobs(container) {
     let jobsFiltrados = [...state.jobs];
     if (state.jobsFilters.classification !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.classificacaoId === state.jobsFilters.classification);
     if (state.jobsFilters.status !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.status === state.jobsFilters.status);
-    if (state.jobsFilters.myJobs && state.currentUser) jobsFiltrados = jobsFiltrados.filter(j => j.gestorId === state.currentUser.id);
+    if (state.jobsFilters.gestor !== 'all') jobsFiltrados = jobsFiltrados.filter(j => j.gestorId === state.jobsFilters.gestor);
     jobsFiltrados.sort((a, b) => (b.dataExecucao || '').localeCompare(a.dataExecucao || ''));
 
     const classOptions = state.classifications.map(c => `<option value="${c.id}" ${state.jobsFilters.classification === c.id ? 'selected' : ''}>${escapeHtml(c.nome)}</option>`).join('');
+    const gestores = getGestores();
+    const gestorOptions = gestores.map(g => `<option value="${g.id}" ${state.jobsFilters.gestor === g.id ? 'selected' : ''}>${escapeHtml(g.nome)}</option>`).join('');
 
     container.innerHTML = `
         <div class="content-header">
@@ -2165,14 +1968,12 @@ function renderJobs(container) {
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary btn-sm" onclick="abrirModalJobFromCalendar('${formatISODate(new Date())}')">${ICONS.plus} Novo Job</button>
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
+                <button class="btn btn-secondary btn-sm" onclick="recarregar()">${ICONS.refresh} Atualizar</button>
             </div>
         </div>
 
         <div class="calendar-toolbar">
-            <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">
-                ${ICONS.filter} Filtros
-            </span>
+            <span style="display:flex; align-items:center; gap:6px; color:var(--text-muted); font-size:12px; font-weight:600;">${ICONS.filter} Filtros</span>
             <label>Classificação</label>
             <select class="form-control" onchange="aplicarFiltroJobs('classification', this.value)">
                 <option value="all">Todas</option>
@@ -2182,14 +1983,13 @@ function renderJobs(container) {
             <select class="form-control" onchange="aplicarFiltroJobs('status', this.value)">
                 <option value="all" ${state.jobsFilters.status === 'all' ? 'selected' : ''}>Todos</option>
                 <option value="pendente" ${state.jobsFilters.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                <option value="em_processo" ${state.jobsFilters.status === 'em_processo' ? 'selected' : ''}>Em Processo</option>
-                <option value="aguardando_aprovacao" ${state.jobsFilters.status === 'aguardando_aprovacao' ? 'selected' : ''}>Aguardando Aprovação</option>
                 <option value="concluido" ${state.jobsFilters.status === 'concluido' ? 'selected' : ''}>Concluído</option>
             </select>
-            <label style="display:flex; align-items:center; gap:6px; cursor:pointer; margin-left:4px;">
-                <input type="checkbox" ${state.jobsFilters.myJobs ? 'checked' : ''} onchange="aplicarFiltroJobs('myJobs', this.checked)">
-                Minhas Jobs (como gestor)
-            </label>
+            <label>Gestor</label>
+            <select class="form-control" onchange="aplicarFiltroJobs('gestor', this.value)">
+                <option value="all">Todos</option>
+                ${gestorOptions}
+            </select>
             <button class="btn btn-ghost btn-sm" onclick="limparFiltrosJobs()">Limpar</button>
         </div>
 
@@ -2222,7 +2022,7 @@ function renderJobs(container) {
                                 <td class="cell-muted">${job.numero ? '#' + escapeHtml(job.numero) : '—'}</td>
                                 <td class="cell-strong">
                                     ${escapeHtml(job.titulo)}
-                                    ${job.isCopy ? '<span class="tag tag-outro" style="margin-left:6px;">Cópia</span>' : ''}
+                                    ${job.isCopy ? `<span class="tag tag-outro" style="margin-left:6px;">${job.isReopen ? 'Reaberto' : 'Cópia'}</span>` : ''}
                                 </td>
                                 <td>${job.dataExecucao || '—'}</td>
                                 <td>${formatHour(job.horaInicio)} - ${formatHour(fim)}</td>
@@ -2246,14 +2046,8 @@ function renderJobs(container) {
     `;
 }
 
-function aplicarFiltroJobs(tipo, valor) {
-    state.jobsFilters[tipo] = valor;
-    renderizarPagina();
-}
-function limparFiltrosJobs() {
-    state.jobsFilters = { classification: 'all', status: 'all', myJobs: false };
-    renderizarPagina();
-}
+function aplicarFiltroJobs(tipo, valor) { state.jobsFilters[tipo] = valor; renderizarPagina(); }
+function limparFiltrosJobs() { state.jobsFilters = { classification: 'all', status: 'all', gestor: 'all' }; renderizarPagina(); }
 
 // ============================================================================
 // CADASTROS
@@ -2267,11 +2061,9 @@ function renderCadastros(container) {
                 <div class="page-subtitle">Gerencie os cadastros do sistema</div>
             </div>
             <div class="header-actions">
-                ${tab === 'usuarios' ? 
-                    `<button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>` :
-                    `<button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>`
-                }
-                <button class="btn btn-secondary btn-sm" onclick="carregarDados().then(renderizarPagina)">${ICONS.refresh} Atualizar</button>
+                ${tab === 'usuarios' ? `<button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()">${ICONS.plus} Novo Usuário</button>` :
+                    `<button class="btn btn-primary btn-sm" onclick="abrirModalClassificacao()">${ICONS.plus} Nova Classificação</button>`}
+                <button class="btn btn-secondary btn-sm" onclick="recarregar()">${ICONS.refresh} Atualizar</button>
             </div>
         </div>
         <div id="cadastrosContent"></div>
@@ -2294,6 +2086,7 @@ function renderizarTabCadastros() {
                         <th>Username</th>
                         <th>Cargo</th>
                         <th>Tipo</th>
+                        <th>Alocável</th>
                         <th>Status</th>
                         <th style="width:120px;">Ações</th>
                     </tr>
@@ -2304,7 +2097,8 @@ function renderizarTabCadastros() {
                             <td class="cell-strong">${escapeHtml(u.nome)}</td>
                             <td class="cell-muted">${escapeHtml(u.username || '—')}</td>
                             <td>${u.cargo ? escapeHtml(u.cargo) : '<span class="cell-muted">—</span>'}</td>
-                            <td>${u.tipo === 'admin' ? 'Administrador' : 'Atendimento'}</td>
+                            <td>${u.tipo === 'admin' ? 'Administrador' : u.tipo === 'atendimento' ? 'Atendimento' : 'Colaborador'}</td>
+                            <td>${isAlocavel(u) ? '<span class="tag" style="background:var(--success-bg); color:var(--success);">Sim</span>' : '<span class="tag" style="background:#f1f5f9; color:var(--text-muted);">Não</span>'}</td>
                             <td>${u.ativo !== false ? '<span class="tag" style="background:var(--success-bg); color:var(--success);">Ativo</span>' : '<span class="tag" style="background:var(--danger-bg); color:var(--danger);">Inativo</span>'}</td>
                             <td>
                                 <div class="cell-actions">
@@ -2376,33 +2170,38 @@ function abrirModalUsuario(userId) {
                             <input type="text" class="form-control" id="usuarioUsername" value="${user ? escapeHtml(user.username || '') : ''}" placeholder="Ex: joao.silva">
                         </div>
                         <div class="form-group">
-                            <label>Cargo / Função</label>
-                            <input type="text" class="form-control" id="usuarioCargo" value="${user ? escapeHtml(user.cargo || '') : ''}" placeholder="Ex: Redator, Atendente">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
                             <label>Tipo de Acesso</label>
                             <select class="form-control" id="usuarioTipo">
-                                <option value="atendimento" ${user && user.tipo === 'atendimento' ? 'selected' : ''}>Atendimento</option>
+                                <option value="atendimento" ${user && user.tipo === 'atendimento' ? 'selected' : ''}>Atendimento (não alocável)</option>
+                                <option value="colaborador" ${user && user.tipo === 'colaborador' ? 'selected' : ''}>Colaborador (alocável)</option>
                                 <option value="admin" ${user && user.tipo === 'admin' ? 'selected' : ''}>Administrador</option>
                             </select>
-                            <div class="form-hint">Atendimento: visualiza apenas o calendário</div>
                         </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" id="usuarioAtivo">
-                                <option value="true" ${!user || user.ativo !== false ? 'selected' : ''}>Ativo</option>
-                                <option value="false" ${user && user.ativo === false ? 'selected' : ''}>Inativo</option>
-                            </select>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cargo / Função</label>
+                        <select class="form-control" id="usuarioCargo">
+                            <option value="">Selecione um cargo</option>
+                            <option value="Direção de Arte" ${user && user.cargo === 'Direção de Arte' ? 'selected' : ''}>Direção de Arte</option>
+                            <option value="Redação" ${user && user.cargo === 'Redação' ? 'selected' : ''}>Redação</option>
+                            <option value="Design" ${user && user.cargo === 'Design' ? 'selected' : ''}>Design</option>
+                            <option value="Outro" ${user && user.cargo === 'Outro' ? 'selected' : ''}>Outro</option>
+                            <option value="Atendimento" ${user && user.cargo === 'Atendimento' ? 'selected' : ''}>Atendimento</option>
+                            <option value="Administrador" ${user && user.cargo === 'Administrador' ? 'selected' : ''}>Administrador</option>
+                        </select>
+                        <div class="form-hint">Cargos Direção de Arte, Redação, Design e Outro podem ser alocados em jobs</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control" id="usuarioAtivo">
+                            <option value="true" ${!user || user.ativo !== false ? 'selected' : ''}>Ativo</option>
+                            <option value="false" ${user && user.ativo === false ? 'selected' : ''}>Inativo</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="fecharModal('modalUsuario')">Cancelar</button>
-                    <button class="btn btn-primary" onclick="salvarUsuarioModal('${user ? user.id : ''}')">
-                        ${ICONS.check} Salvar
-                    </button>
+                    <button class="btn btn-primary" onclick="salvarUsuarioModal('${user ? user.id : ''}')">${ICONS.check} Salvar</button>
                 </div>
             </div>
         </div>
@@ -2414,45 +2213,47 @@ function abrirModalUsuario(userId) {
 async function salvarUsuarioModal(userId) {
     const nome = document.getElementById('usuarioNome').value.trim();
     const username = document.getElementById('usuarioUsername').value.trim().toLowerCase();
-    const cargo = document.getElementById('usuarioCargo').value.trim();
     const tipo = document.getElementById('usuarioTipo').value;
+    const cargo = document.getElementById('usuarioCargo').value.trim();
     const ativo = document.getElementById('usuarioAtivo').value === 'true';
 
     if (!nome || !username) { mostrarToast('Preencha os campos obrigatórios', 'warning'); return; }
 
-    const user = {
-        id: userId || 'user_' + Date.now(),
-        nome, username, cargo, tipo, ativo,
-        atualizadoEm: new Date().toISOString()
-    };
-    if (!userId) user.criadoEm = new Date().toISOString();
+    await comLoading(async () => {
+        const user = {
+            id: userId || 'user_' + Date.now(),
+            nome, username, cargo, tipo, ativo,
+            atualizadoEm: new Date().toISOString()
+        };
+        if (!userId) user.criadoEm = new Date().toISOString();
 
-    try {
-        await fetch(`${FIREBASE_URL}/usuarios/${user.id}.json`, {
-            method: 'PUT', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
-        });
-        const idx = state.users.findIndex(u => u.id === user.id);
-        if (idx >= 0) state.users[idx] = user;
-        else state.users.push(user);
-        fecharModal('modalUsuario');
-        mostrarToast(userId ? 'Usuário atualizado' : 'Usuário criado', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao salvar usuário', 'error');
-    }
+        try {
+            await fetch(`${FIREBASE_URL}/usuarios/${user.id}.json`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+            });
+            fecharModal('modalUsuario');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast(userId ? 'Usuário atualizado' : 'Usuário criado', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao salvar usuário', 'error');
+        }
+    });
 }
 
 async function excluirUsuario(id) {
     if (!confirm('Excluir este usuário?')) return;
-    try {
-        await fetch(`${FIREBASE_URL}/usuarios/${id}.json`, { method: 'DELETE' });
-        state.users = state.users.filter(u => u.id !== id);
-        mostrarToast('Usuário excluído', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao excluir', 'error');
-    }
+    await comLoading(async () => {
+        try {
+            await fetch(`${FIREBASE_URL}/usuarios/${id}.json`, { method: 'DELETE' });
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Usuário excluído', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao excluir', 'error');
+        }
+    });
 }
 
 // ============================================================================
@@ -2503,33 +2304,35 @@ async function salvarClassificacao(classId) {
     const cor = document.getElementById('classCor').value;
     if (!nome) { mostrarToast('Digite o nome', 'warning'); return; }
 
-    const classif = { id: classId || 'class_' + Date.now(), nome, cor };
-    try {
-        await fetch(`${FIREBASE_URL}/classificacoes/${classif.id}.json`, {
-            method: 'PUT', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(classif)
-        });
-        const idx = state.classifications.findIndex(c => c.id === classif.id);
-        if (idx >= 0) state.classifications[idx] = classif;
-        else state.classifications.push(classif);
-        fecharModal('modalClassificacao');
-        mostrarToast(classId ? 'Classificação atualizada' : 'Classificação criada', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao salvar', 'error');
-    }
+    await comLoading(async () => {
+        const classif = { id: classId || 'class_' + Date.now(), nome, cor };
+        try {
+            await fetch(`${FIREBASE_URL}/classificacoes/${classif.id}.json`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(classif)
+            });
+            fecharModal('modalClassificacao');
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast(classId ? 'Classificação atualizada' : 'Classificação criada', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao salvar', 'error');
+        }
+    });
 }
 
 async function excluirClassificacao(id) {
     if (!confirm('Excluir esta classificação?')) return;
-    try {
-        await fetch(`${FIREBASE_URL}/classificacoes/${id}.json`, { method: 'DELETE' });
-        state.classifications = state.classifications.filter(c => c.id !== id);
-        mostrarToast('Classificação excluída', 'success');
-        renderizarPagina();
-    } catch (error) {
-        mostrarToast('Erro ao excluir', 'error');
-    }
+    await comLoading(async () => {
+        try {
+            await fetch(`${FIREBASE_URL}/classificacoes/${id}.json`, { method: 'DELETE' });
+            await carregarDados();
+            renderizarPagina();
+            mostrarToast('Classificação excluída', 'success');
+        } catch (error) {
+            mostrarToast('Erro ao excluir', 'error');
+        }
+    });
 }
 
 // ============================================================================
