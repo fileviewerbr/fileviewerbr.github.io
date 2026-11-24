@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Progresso Logomarcas</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -228,6 +230,14 @@
         
         .btn-secondary:hover {
             background: #cbd5e0;
+        }
+        
+        .btn-pdf {
+            background: #e53e3e;
+        }
+        
+        .btn-pdf:hover {
+            background: #c53030;
         }
         
         /* Completed List Section */
@@ -482,6 +492,7 @@
             
             <button class="btn" onclick="applyFilters()">🔍 Filtrar</button>
             <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Limpar</button>
+            <button class="btn btn-pdf" onclick="exportarPDF()">📄 Relatório PDF</button>
         </div>
         
         <!-- Completed Logos List -->
@@ -517,13 +528,9 @@
         const dateEnd = document.getElementById('dateEnd');
         
         // ============= EVENT LISTENERS =============
-        // Carregar dados ao iniciar
         document.addEventListener('DOMContentLoaded', loadData);
-        
-        // Atualizar a cada 5 minutos
         setInterval(loadData, 300000);
         
-        // Permitir pressionar Enter para buscar
         searchBox.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 applyFilters();
@@ -543,15 +550,12 @@
                     return;
                 }
                 
-                // Processar clientes
                 allClients = Object.values(data).sort((a, b) => {
-                    // Ordenar por data de conclusão (mais recentes primeiro)
                     const dateA = a.logoUploadDate ? new Date(a.logoUploadDate) : new Date(0);
                     const dateB = b.logoUploadDate ? new Date(b.logoUploadDate) : new Date(0);
                     return dateB - dateA;
                 });
                 
-                // Extrair origens únicas
                 availableOrigins = new Set();
                 allClients.forEach(client => {
                     if (client.origem) {
@@ -604,7 +608,6 @@
         }
         
         function updateCharts() {
-            // Gráfico de Progresso
             const completed = allClients.filter(c => c.feito).length;
             const pending = allClients.filter(c => !c.feito).length;
             
@@ -645,7 +648,6 @@
                 }
             });
             
-            // Gráfico Mensal
             const monthlyData = getMonthlyData();
             
             if (monthlyChart) {
@@ -703,7 +705,6 @@
             const months = {};
             const last6Months = [];
             
-            // Gerar últimos 6 meses
             for (let i = 5; i >= 0; i--) {
                 const date = new Date();
                 date.setMonth(date.getMonth() - i);
@@ -713,7 +714,6 @@
                 months[monthKey] = { completed: 0, total: 0 };
             }
             
-            // Contar clientes por mês
             allClients.forEach(client => {
                 if (client.timestampImportacao) {
                     const date = new Date(client.timestampImportacao);
@@ -752,10 +752,8 @@
         }
         
         function applyFilters() {
-            // Filtrar apenas clientes concluídos
             let filtered = allClients.filter(c => c.feito);
             
-            // Filtro de busca
             const searchTerm = searchBox.value.toLowerCase();
             if (searchTerm) {
                 filtered = filtered.filter(client => 
@@ -765,13 +763,11 @@
                 );
             }
             
-            // Filtro de origem
             const selectedOrigin = originFilter.value;
             if (selectedOrigin !== 'all') {
                 filtered = filtered.filter(client => client.origem === selectedOrigin);
             }
             
-            // Filtro de data
             const startDate = dateStart.value ? new Date(dateStart.value) : null;
             const endDate = dateEnd.value ? new Date(dateEnd.value) : null;
             if (endDate) {
@@ -871,6 +867,107 @@
             `;
             updateStats();
             updateLastUpdate();
+        }
+        
+        // ============= EXPORTAÇÃO PDF =============
+        function formatarDataBR(dataISO) {
+            if (!dataISO) return '';
+            const [ano, mes, dia] = dataISO.split('-');
+            return `${dia}/${mes}/${ano}`;
+        }
+        
+        function exportarPDF() {
+            if (filteredCompletedClients.length === 0) {
+                alert('⚠️ Nenhum dado para exportar.\n\nAjuste os filtros ou aguarde a conclusão de logos.');
+                return;
+            }
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+                
+                // ===== Cabeçalho =====
+                doc.setFontSize(16);
+                doc.setTextColor(45, 55, 72);
+                doc.text('Relatório de Logomarcas Concluídas', 14, 15);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(113, 128, 150);
+                
+                // Filtros aplicados
+                const filtrosTexto = [];
+                if (searchBox.value) filtrosTexto.push(`Busca: "${searchBox.value}"`);
+                if (originFilter.value !== 'all') filtrosTexto.push(`Origem: ${originFilter.value}`);
+                if (dateStart.value) filtrosTexto.push(`De: ${formatarDataBR(dateStart.value)}`);
+                if (dateEnd.value) filtrosTexto.push(`Até: ${formatarDataBR(dateEnd.value)}`);
+                
+                const filtroResumo = filtrosTexto.length > 0
+                    ? `Filtros aplicados: ${filtrosTexto.join('  |  ')}`
+                    : 'Filtros aplicados: Nenhum (todos os registros)';
+                
+                doc.text(filtroResumo, 14, 22);
+                
+                const geradoEm = new Date().toLocaleString('pt-BR');
+                doc.text(`Gerado em: ${geradoEm}`, 14, 28);
+                
+                // ===== Totais =====
+                doc.setFontSize(11);
+                doc.setTextColor(45, 55, 72);
+                doc.text(`Total de logos no relatório: ${filteredCompletedClients.length}`, 14, 36);
+                
+                // ===== Tabela =====
+                const rows = filteredCompletedClients.map(client => {
+                    const completionDate = client.logoUploadDate
+                        ? new Date(client.logoUploadDate).toLocaleDateString('pt-BR')
+                        : 'Não registrada';
+                    
+                    const logoUrl = client.logoUrl || client.logoBase64 || 'Sem logo';
+                    
+                    return [
+                        client.nome || 'N/A',
+                        client.empresaNome || client.nomeFantasia || 'N/A',
+                        client.cidade || 'N/A',
+                        client.origem || 'N/A',
+                        completionDate,
+                        'Concluído',
+                        logoUrl
+                    ];
+                });
+                
+                doc.autoTable({
+                    startY: 42,
+                    head: [['Cliente', 'Empresa', 'Cidade', 'Origem', 'Data Conclusão', 'Status', 'Link da Logo']],
+                    body: rows,
+                    styles: { fontSize: 8, cellPadding: 2, overflow: 'linebreak', valign: 'middle' },
+                    headStyles: { fillColor: [102, 126, 234], textColor: 255, fontStyle: 'bold' },
+                    alternateRowStyles: { fillColor: [245, 247, 250] },
+                    columnStyles: {
+                        6: { cellWidth: 60, textColor: [66, 153, 225] }
+                    },
+                    didDrawCell: function (data) {
+                        if (data.section === 'body' && data.column.index === 6) {
+                            const url = data.cell.raw;
+                            if (url && url !== 'Sem logo' && typeof url === 'string' && url.startsWith('http')) {
+                                doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url });
+                            }
+                        }
+                    }
+                });
+                
+                // ===== Rodapé =====
+                const finalY = doc.lastAutoTable.finalY + 10;
+                doc.setFontSize(10);
+                doc.setTextColor(45, 55, 72);
+                doc.text(`Total: ${filteredCompletedClients.length} logo(s) listada(s)`, 14, finalY);
+                
+                // ===== Salvar =====
+                const dataArquivo = new Date().toISOString().slice(0, 10);
+                doc.save(`relatorio-logos-${dataArquivo}.pdf`);
+                
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('❌ Erro ao gerar o PDF. Verifique o console para mais detalhes.');
+            }
         }
     </script>
 </body>
